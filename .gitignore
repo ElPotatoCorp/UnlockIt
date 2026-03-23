@@ -30,7 +30,8 @@ dist-ssr
 *.cert
 
 # UnlockIt
-.env
+.env*
+!.env*example
 local_host.url
 config.tsx
 backend/public
