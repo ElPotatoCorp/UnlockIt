@@ -2,7 +2,7 @@ services:
   db: 
     image: postgres:17
     env_file:
-      - .env.dev
+      - .env.development
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
@@ -11,6 +11,7 @@ services:
       - "${DB_PORT}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d:Z
     networks:
       - unlockit_network
   
@@ -36,7 +37,7 @@ services:
     ports:
       - "5001:3000"
     env_file:
-      - .env.dev
+      - .env.development
     environment:
       DB_HOST: db
       DB_PORT: ${DB_PORT}
@@ -59,7 +60,7 @@ services:
     ports:
       - "5000:5173"
     env_file:
-      - .env.dev
+      - .env.development
     environment:
       VITE_API_BASE_URL: backend:3000
     volumes:
