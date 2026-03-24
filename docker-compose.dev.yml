@@ -66,8 +66,8 @@ services:
       - ./src/frontend:/srv/frontend:cached,z
       - /srv/frontend/node_modules
 
-      - ./dev.key:/srv/dev.key:ro,z
-      - ./dev.crt:/srv/dev.crt:ro,z
+      #- ./dev.key:/srv/dev.key:ro,z
+      #- ./dev.crt:/srv/dev.crt:ro,z
     depends_on:
       - backend
     networks:
