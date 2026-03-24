@@ -1,0 +1,83 @@
+services:
+  db: 
+    image: postgres:17
+    env_file:
+      - .env.dev
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - unlockit_network
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5003:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - unlockit_network
+
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "5001:3000"
+    env_file:
+      - .env.dev
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+    volumes:
+      - ./src/backend:/srv/backend:cached,z
+      - /srv/backend/node_modules
+    depends_on:
+      - db
+    networks:
+      - unlockit_network
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "5000:5173"
+    env_file:
+      - .env.dev
+    environment:
+      VITE_API_BASE_URL: backend:3000
+    volumes:
+      - ./src/frontend:/srv/frontend:cached,z
+      - /srv/frontend/node_modules
+
+      - ./dev.key:/srv/dev.key:ro,z
+      - ./dev.crt:/srv/dev.crt:ro,z
+    depends_on:
+      - backend
+    networks:
+      - unlockit_network
+
+volumes:
+  db_data:
+  pgadmin_data:
+
+networks:
+  unlockit_network:
+    name: unlockit_network
+    driver: bridge
