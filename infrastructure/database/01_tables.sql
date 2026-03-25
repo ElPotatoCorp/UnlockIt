@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "games"(
 
    CONSTRAINT price_non_negative CHECK ("price" >= 0),
    CONSTRAINT quantity_non_negative CHECK ("quantity" >= 0),
-   CONSTRAINT metacritic_valid CHECK ("metacritic" BETWEEN 0 AND 100 OR "metacritic" IS NULL),
+   CONSTRAINT metacritic_valid CHECK ("metacritic" BETWEEN 0 AND 100 OR "metacritic" IS NULL)
 );
 
 CREATE TABLE IF NOT EXISTS "games_related_games"(
