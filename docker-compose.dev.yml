@@ -39,8 +39,9 @@ services:
     env_file:
       - .env.development
     environment:
+      NODE_ENV: development
       DB_HOST: db
-      DB_PORT: ${DB_PORT}
+      DB_PORT: 5432
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
@@ -62,6 +63,7 @@ services:
     env_file:
       - .env.development
     environment:
+      NODE_ENV: development
       VITE_API_BASE_URL: backend:3000
     volumes:
       - ./src/frontend:/srv/frontend:cached,z
