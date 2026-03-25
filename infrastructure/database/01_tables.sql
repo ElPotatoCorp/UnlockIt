@@ -213,6 +213,7 @@ CREATE TABLE IF NOT EXISTS "carts_games"(
    FOREIGN KEY("game_id") REFERENCES "games"("id") ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS "users" CASCADE;
 CREATE TABLE IF NOT EXISTS "users"(
    "id" UUID DEFAULT gen_random_uuid(),
    "username" VARCHAR(50) NOT NULL,
