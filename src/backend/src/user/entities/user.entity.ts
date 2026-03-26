@@ -60,8 +60,11 @@ export class User {
 	billingAddress: string | null;
 
 	@Column({ name: 'newsletter_subscription', default: false })
-	newsletterSubscription: boolean;
+	newsletterSubscribed: boolean;
 
 	@Column('date', { name: 'birthday_date', nullable: true })
 	birthdayDate: string | null;
+
+	@Column('uuid', { name: 'cart_id', nullable: true })
+	cartId: string | null;
 }

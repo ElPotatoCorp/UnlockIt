@@ -1,6 +1,9 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 import { diskStorage } from 'multer';
 
+// This values are in megabytes (MB)
+export const MAX_AVATAR_SIZE = 5;
+
 export const uploadUserAvatar = {
   multerOptions: {
     storage: diskStorage({
@@ -13,7 +16,7 @@ export const uploadUserAvatar = {
       },
     }),
     limits: {
-      fileSize: 5 * 1024 * 1024, // 5MB
+      fileSize: MAX_AVATAR_SIZE * 1024 * 1024,
     },
     fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
       // Validate MIME type
