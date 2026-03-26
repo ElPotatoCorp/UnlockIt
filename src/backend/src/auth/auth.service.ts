@@ -21,7 +21,7 @@ export class AuthService {
     
     const user = isEmail
       ? await this.usersService.findOne({ email: identifier }, true) as User
-      : null;
+      : await this.usersService.findOne({ username: identifier }, true) as User;
     
     if (user && compareSync(pass, user.password)) {
       const { password, ...result } = user;
