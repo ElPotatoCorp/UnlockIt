@@ -35,6 +35,7 @@ dist-ssr
 !.env*example
 local_host.url
 config.tsx
-backend/public
 sandbox.*
 *.service
+
+src/backend/uploads
