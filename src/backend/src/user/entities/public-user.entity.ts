@@ -1,5 +1,12 @@
-import { OmitType } from "@nestjs/mapped-types";
+import { PickType } from "@nestjs/mapped-types";
 import { User } from "./user.entity";
 
-export class PublicUser extends OmitType(User, ['password', 'email', 'phoneWzc', 'phoneNumber', 'wallet', 'firstName', 'lastName', 'country', 'billingAddress', 'newsletterSubscribed', 'birthdayDate'] as const) {
+const PUBLIC_USER_FIELDS = ['id', 'username', 'bio', 'avatar', 'creationDate'] as const;
+
+export class PublicUser extends PickType(User, PUBLIC_USER_FIELDS) {
+  public static fromUser(user: User): PublicUser {
+    return Object.assign(new PublicUser(), Object.fromEntries(
+      PUBLIC_USER_FIELDS.map(key => [key, user[key]])
+    ));
+  }
 }

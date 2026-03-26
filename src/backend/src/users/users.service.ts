@@ -17,7 +17,7 @@ export class UsersService {
     );
 
     return {
-      users: result.map(user => user as PublicUser),
+      users: result.map(user => PublicUser.fromUser(user)),
       count: total,
       offset: offset,
       limit: limit
@@ -32,7 +32,7 @@ export class UsersService {
       if (includeSensitive) {
         return user;
       }
-      return user as PublicUser;
+      return PublicUser.fromUser(user);
     });
   }
 }
