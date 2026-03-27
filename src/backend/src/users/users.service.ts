@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
@@ -25,7 +25,7 @@ export class UsersService {
   findOne(where: FindOptionsWhere<User>, includeSensitive = false) {
     return this.userRepository.findOneBy(where).then(user => {
       if (!user) {
-        return null;
+        throw new NotFoundException(`User not found with criteria: ${JSON.stringify(where)}`);
       }
       if (includeSensitive) {
         return user;
