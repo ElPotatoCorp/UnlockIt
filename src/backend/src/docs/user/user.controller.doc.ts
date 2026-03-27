@@ -1,11 +1,8 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags, IntersectionType } from "@nestjs/swagger";
 import { ApiAuth } from "../auth/decorators/api-auth.decorator";
-import { UpdateUserDto } from "src/user/dto/update-user.dto";
-import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { MAX_AVATAR_SIZE } from "src/upload/upload.constants";
-
-class User extends IntersectionType(CreateUserDto, UpdateUserDto) {}
+import { User } from "src/user/entities/user.entity";
 
 export const UserControllerDoc = {
   Controller: () => applyDecorators(

@@ -1,32 +1,32 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import { UpdateUserDtoDoc } from 'src/docs/user/dto/update-user.dto.doc';
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-    @UpdateUserDtoDoc.PhoneWzc()
+    @UserEntityDoc.PhoneWzc()
     phoneWzc?: string;
 
-    @UpdateUserDtoDoc.PhoneNumber()
+    @UserEntityDoc.PhoneNumber()
     phoneNumber?: string;
 
-    @UpdateUserDtoDoc.Bio()
+    @UserEntityDoc.Bio()
     bio?: string;
 
-    @UpdateUserDtoDoc.FirstName()
+    @UserEntityDoc.FirstName()
     firstName?: string;
 
-    @UpdateUserDtoDoc.LastName()
+    @UserEntityDoc.LastName()
     lastName?: string;
 
-    @UpdateUserDtoDoc.Country()
+    @UserEntityDoc.Country()
     country?: string;
 
-    @UpdateUserDtoDoc.BillingAddress()
+    @UserEntityDoc.BillingAddress()
     billingAddress?: string;
 
-    @UpdateUserDtoDoc.NewsletterSubscribed()
+    @UserEntityDoc.NewsletterSubscribed()
     newsletterSubscribed?: boolean;
 
-    @UpdateUserDtoDoc.BirthdayDate()
+    @UserEntityDoc.BirthdayDate()
     birthdayDate?: string;
 }

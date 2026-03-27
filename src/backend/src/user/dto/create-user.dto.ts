@@ -1,12 +1,12 @@
-import { CreateUserDtoDoc } from "src/docs/user/dto/create-user.dto.doc";
+import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
 
 export class CreateUserDto {
-    @CreateUserDtoDoc.Username()
+    @UserEntityDoc.Username()
     username: string;
 
-    @CreateUserDtoDoc.Password()
+    @UserEntityDoc.Password()
     password: string;
 
-    @CreateUserDtoDoc.Email()
+    @UserEntityDoc.Email()
     email: string;
 }

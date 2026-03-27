@@ -1,4 +1,4 @@
-import { PickType } from "@nestjs/mapped-types";
+import { PickType } from "@nestjs/swagger";
 import { User } from "./user.entity";
 
 const PUBLIC_USER_FIELDS = ['id', 'username', 'bio', 'avatar', 'creationDate'] as const;

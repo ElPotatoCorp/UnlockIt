@@ -391,32 +391,6 @@ FOR EACH ROW
 EXECUTE FUNCTION "update_session_validity"();
 
 
--- Create User's Cart Trigger
-CREATE OR REPLACE FUNCTION "create_user_cart"()
-   RETURNS TRIGGER
-   LANGUAGE plpgsql
-AS
-$trigger$
-DECLARE
-   newCartId UUID;
-BEGIN
-   -- Create a cart for the new user and capture the generated UUID
-   INSERT INTO "carts" DEFAULT VALUES RETURNING "id" INTO newCartId;
-
-   NEW."cart_id" := newCartId;
-
-   RETURN NEW;
-END;
-$trigger$;
-
--- Trigger for INSERT operations
-CREATE OR REPLACE TRIGGER "trigger_create_cart_on_customer_insert"
-BEFORE INSERT
-ON "users"
-FOR EACH ROW
-EXECUTE FUNCTION "create_user_cart"();
-
-
 -- Discount Scope Trigger
 CREATE OR REPLACE FUNCTION "check_discount_scope"()
    RETURNS TRIGGER
