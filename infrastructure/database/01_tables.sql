@@ -217,7 +217,7 @@ DROP TABLE IF EXISTS "users" CASCADE;
 CREATE TABLE IF NOT EXISTS "users"(
    "id" UUID DEFAULT gen_random_uuid(),
    "username" VARCHAR(50) NOT NULL,
-   "password" CHAR(60) NOT NULL,
+   "password" VARCHAR(255) NOT NULL,
    "email" VARCHAR(255) UNIQUE,
    "phone_wzc" VARCHAR(3),
    "phone_number" VARCHAR(15),
