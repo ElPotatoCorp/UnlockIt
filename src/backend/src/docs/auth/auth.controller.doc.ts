@@ -1,5 +1,5 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { ApiAuth } from "./decorators/api-auth.decorator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 
@@ -8,8 +8,7 @@ export const AuthControllerDoc = {
 
   Me: () => applyDecorators(
     ApiOperation({ summary: 'Get the currently authenticated user' }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Returns the current authenticated user. By that, it means to return the content of the JWT token.',
       schema: {
         example: {
@@ -34,15 +33,14 @@ export const AuthControllerDoc = {
         },
       },
     }),
-    ApiResponse({
-      status: 201,
+    ApiCreatedResponse({
       description: 'User registered successfully.',
       schema: {
         example: { id: 'a3f1c2d4-...', username: 'johndoe', email: 'john.doe@example.com' },
       },
     }),
-    ApiResponse({ status: 400, description: 'Bad request. Validation failed.' }),
-    ApiResponse({ status: 409, description: 'Conflict. Email or username already taken.' })
+    ApiBadRequestResponse({ description: 'Bad request. Validation failed.' }),
+    ApiConflictResponse({ description: 'Conflict. Email or username already taken.' })
   ),
 
   Login: () => applyDecorators(
@@ -71,8 +69,7 @@ export const AuthControllerDoc = {
         required: ['password']
       }
     }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Login successful. A `jwt` httpOnly cookie is set.',
       headers: {
         'Set-Cookie': {
@@ -84,7 +81,7 @@ export const AuthControllerDoc = {
         example: { access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
       },
     }),
-    ApiResponse({ status: 401, description: 'Unauthorized. Invalid credentials.' })
+    ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid credentials.' })
   ),
 
   Logout: () => applyDecorators(
@@ -92,8 +89,7 @@ export const AuthControllerDoc = {
       summary: 'Logout the current user',
       description: 'Clears the `jwt` cookie, effectively ending the session.',
     }),
-    ApiResponse({
-      status: 204,
+    ApiNoContentResponse({
       description: 'Logged out. The `jwt` cookie has been cleared.',
       headers: {
         'Set-Cookie': {

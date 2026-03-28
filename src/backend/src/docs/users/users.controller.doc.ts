@@ -1,6 +1,6 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { PaginatedDtoOf } from "src/common/dto/paginated.dto";
+import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags, getSchemaPath } from "@nestjs/swagger";
+import { PaginatedDto } from "src/common/dto/paginated.dto";
 import { PublicUser } from "src/user/entities/public-user.entity";
 
 export const UsersControllerDoc = {
@@ -9,6 +9,7 @@ export const UsersControllerDoc = {
   ),
 
   Index: () => applyDecorators(
+    ApiExtraModels(PaginatedDto, PublicUser),
     ApiOperation({
       summary: 'Get a paginated list of users',
       description: 'Returns a paginated list of public user profiles. Use `page` and `limit` to control pagination.',
@@ -27,13 +28,23 @@ export const UsersControllerDoc = {
       description: 'Number of users per page (default: 10, max: 100)',
       example: 10,
     }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Paginated list of users successfully retrieved.',
-      type: PaginatedDtoOf(PublicUser),
+      schema: {
+        allOf: [
+          { $ref: getSchemaPath(PaginatedDto) },
+          {
+            properties: {
+              data: {
+                type: 'array',
+                items: { $ref: getSchemaPath(PublicUser) },
+              },
+            },
+          },
+        ],
+      },
     }),
-    ApiResponse({
-      status: 400,
+    ApiBadRequestResponse({
       description: 'Invalid pagination parameters (e.g. page or limit is not a number).',
     }),
   ),
@@ -50,17 +61,14 @@ export const UsersControllerDoc = {
       description: 'UUID of the user to retrieve',
       example: 'a3bb189e-8bf9-3888-9912-ace4e6543002',
     }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'User successfully retrieved.',
       type: PublicUser,
     }),
-    ApiResponse({
-      status: 400,
+    ApiBadRequestResponse({
       description: 'Invalid UUID format.',
     }),
-    ApiResponse({
-      status: 404,
+    ApiNotFoundResponse({
       description: 'No user found with the specified ID.',
     }),
   ),

@@ -1,8 +1,13 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags, IntersectionType } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, IntersectionType } from "@nestjs/swagger";
 import { ApiAuth } from "../auth/decorators/api-auth.decorator";
 import { MAX_AVATAR_SIZE } from "src/upload/upload.constants";
 import { User } from "src/user/entities/user.entity";
+import { UpdateUserDto as PartialUpdateUserDto } from "src/user/dto/update-user.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
+
+// This is just for documentation purposes to show all possible fields in the update endpoint, even though in practice we use PartialType to allow partial updates.
+class UpdateUserDto extends IntersectionType(CreateUserDto, PartialUpdateUserDto) {}
 
 export const UserControllerDoc = {
   Controller: () => applyDecorators(
@@ -12,8 +17,7 @@ export const UserControllerDoc = {
 
   Index: () => applyDecorators(
     ApiOperation({ summary: 'Get the current user\'s profile' }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Returns the profile of the currently authenticated user (password excluded).',
       type: User,
       example: {
@@ -34,8 +38,7 @@ export const UserControllerDoc = {
         creationDate: '2024-01-01'
       },
     }),
-    ApiResponse({
-      status: 404,
+    ApiNotFoundResponse({
       description: 'User not found.',
     }),
   ),
@@ -44,7 +47,7 @@ export const UserControllerDoc = {
     ApiOperation({ summary: 'Update the current user\'s profile' }),
     ApiBody({
       description: 'Fields to update in the user profile. All fields are optional, but at least one must be provided.',
-      type: User,
+      type: UpdateUserDto,
       examples: {
         example1: {
           summary: 'Update bio and country',
@@ -56,12 +59,10 @@ export const UserControllerDoc = {
         },
       },
     }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Profile updated successfully.',
     }),
-    ApiResponse({
-      status: 400,
+    ApiBadRequestResponse({
       description: 'Bad request. Validation failed.',
     }),
   ),
@@ -81,28 +82,24 @@ export const UserControllerDoc = {
         },
       },
     }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'Avatar updated successfully.',
       example: {
         message: 'Avatar updated successfully',
         avatar: 'avatar-12345.jpg',
       },
     }),
-    ApiResponse({
-      status: 400,
+    ApiBadRequestResponse({
       description: `Bad request. Invalid file format or file size exceeds limit of ${MAX_AVATAR_SIZE}MB.`,
     }),
-    ApiResponse({
-      status: 404,
+    ApiNotFoundResponse({
       description: 'User not found.',
     }),
   ),
 
   Delete: () => applyDecorators(
     ApiOperation({ summary: 'Delete the current user\'s account' }),
-    ApiResponse({
-      status: 200,
+    ApiOkResponse({
       description: 'User account deleted successfully. JWT cookie is cleared.',
       headers: {
         'Set-Cookie': {

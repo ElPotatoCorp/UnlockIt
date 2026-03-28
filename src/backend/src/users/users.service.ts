@@ -19,7 +19,7 @@ export class UsersService {
       take: limit,
     });
 
-    return new PaginatedDto(users.map(user => PublicUser.fromUser(user)), total, page, limit);
+    return new PaginatedDto(total, page, limit, users.map(user => PublicUser.fromUser(user)));
   }
 
   findOne(where: FindOptionsWhere<User>, includeSensitive = false): Promise<User | PublicUser | null> {
