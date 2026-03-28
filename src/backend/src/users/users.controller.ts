@@ -1,6 +1,7 @@
 import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
+import { PublicUserDto } from 'src/user/dto/public-user.dto';
 
 @UsersControllerDoc.Controller()
 @Controller('users')
@@ -20,7 +21,7 @@ export class UsersController {
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
-      return user;
+      return PublicUserDto.fromUser(user);
     });
   }
 }
