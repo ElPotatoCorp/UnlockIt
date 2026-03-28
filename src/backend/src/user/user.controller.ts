@@ -5,6 +5,7 @@ import { uploadUserAvatar } from 'src/upload/upload.constants';
 import { User } from './decorators/user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserControllerDoc } from 'src/docs/user/user.controller.doc';
+import { UserDto } from './dto/user.dto';
 
 @UserControllerDoc.Controller()
 @Controller('user')
@@ -15,9 +16,8 @@ export class UserController {
 
   @UserControllerDoc.Index()
   @Get()
-  index(@User('sub') userId: string) {
-    console.log(`Fetching profile for user ID: ${userId}`);
-    return this.userService.index(userId);
+  async index(@User('sub') userId: string) {
+    return UserDto.fromUser(await this.userService.index(userId));
   }
 
   @UserControllerDoc.Patch()

@@ -1,7 +1,7 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags, getSchemaPath } from "@nestjs/swagger";
 import { PaginatedDto } from "src/common/dto/paginated.dto";
-import { PublicUser } from "src/user/entities/public-user.entity";
+import { PublicUserDto } from "src/user/dto/public-user.dto";
 
 export const UsersControllerDoc = {
   Controller: () => applyDecorators(
@@ -9,7 +9,7 @@ export const UsersControllerDoc = {
   ),
 
   Index: () => applyDecorators(
-    ApiExtraModels(PaginatedDto, PublicUser),
+    ApiExtraModels(PaginatedDto),
     ApiOperation({
       summary: 'Get a paginated list of users',
       description: 'Returns a paginated list of public user profiles. Use `page` and `limit` to control pagination.',
@@ -37,7 +37,7 @@ export const UsersControllerDoc = {
             properties: {
               data: {
                 type: 'array',
-                items: { $ref: getSchemaPath(PublicUser) },
+                items: { $ref: getSchemaPath(PublicUserDto) },
               },
             },
           },
@@ -63,7 +63,7 @@ export const UsersControllerDoc = {
     }),
     ApiOkResponse({
       description: 'User successfully retrieved.',
-      type: PublicUser,
+      type: PublicUserDto,
     }),
     ApiBadRequestResponse({
       description: 'Invalid UUID format.',

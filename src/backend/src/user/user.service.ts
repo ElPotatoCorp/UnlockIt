@@ -10,7 +10,6 @@ import { Repository } from 'typeorm';
 export class UserService {
   constructor(
     private readonly uploadService: UploadService,
-    
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
 
@@ -21,15 +20,11 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found.`);
     }
 
-    user.email = user.email?.replace(/(.{2}).+(@.+)/, '$1***$2') ?? null; // Mask email for privacy
-    const { password, ...rest } = user; // Exclude password
-
-    return rest;
+    return user;
   }
 
   create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    return this.userRepository.save(createUserDto);
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

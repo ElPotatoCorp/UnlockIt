@@ -5,8 +5,8 @@ import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
-import type { JwtPayload } from './interfaces/jwt-payload.interface';
-import { User as UserEntity} from 'src/user/entities/user.entity';
+import { JwtPayloadDto } from './dto/jwt-payload.interface';
+import { User as UserEntity } from 'src/user/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +14,7 @@ export class AuthController {
 
   @AuthControllerDoc.Me()
   @Get('me')
-  me(@User() user: JwtPayload) {
+  me(@User() user: JwtPayloadDto) {
     return user;
   }
 

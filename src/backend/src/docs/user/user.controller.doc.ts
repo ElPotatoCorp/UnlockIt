@@ -2,9 +2,9 @@ import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, IntersectionType } from "@nestjs/swagger";
 import { ApiAuth } from "../auth/decorators/api-auth.decorator";
 import { MAX_AVATAR_SIZE } from "src/upload/upload.constants";
-import { User } from "src/user/entities/user.entity";
 import { UpdateUserDto as PartialUpdateUserDto } from "src/user/dto/update-user.dto";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
+import { UserDto } from "src/user/dto/user.dto";
 
 // This is just for documentation purposes to show all possible fields in the update endpoint, even though in practice we use PartialType to allow partial updates.
 class UpdateUserDto extends IntersectionType(CreateUserDto, PartialUpdateUserDto) {}
@@ -19,7 +19,7 @@ export const UserControllerDoc = {
     ApiOperation({ summary: 'Get the current user\'s profile' }),
     ApiOkResponse({
       description: 'Returns the profile of the currently authenticated user (password excluded).',
-      type: User,
+      type: UserDto,
       example: {
         id: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
         username: 'johndoe',

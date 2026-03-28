@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { PublicUser } from '../user/entities/public-user.entity';
+import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginatedDto } from 'src/common/dto/paginated.dto';
 
 @Injectable()
@@ -19,10 +19,10 @@ export class UsersService {
       take: limit,
     });
 
-    return new PaginatedDto(total, page, limit, users.map(user => PublicUser.fromUser(user)));
+    return new PaginatedDto(total, page, limit, users.map(user => PublicUserDto.fromUser(user)));
   }
 
-  findOne(where: FindOptionsWhere<User>, includeSensitive = false): Promise<User | PublicUser | null> {
+  findOne(where: FindOptionsWhere<User>, includeSensitive = false) {
     return this.userRepository.findOneBy(where).then(user => {
       if (!user) {
         return null;
@@ -30,7 +30,7 @@ export class UsersService {
       if (includeSensitive) {
         return user;
       }
-      return PublicUser.fromUser(user);
+      return user;
     });
   }
 }

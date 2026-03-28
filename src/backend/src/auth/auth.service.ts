@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcrypt-ts';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { UserDto } from 'src/user/dto/user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { UsersService } from 'src/users/users.service';
@@ -14,18 +15,20 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(identifier: string, pass: string): Promise<any> {
+  async validateUser(identifier: string, pass: string): Promise<UserDto | null> {
     // Validate if identifier is a proper email format
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const isEmail = emailRegex.test(identifier);
     
-    const user: User | null = isEmail
-      ? await this.usersService.findOne({ email: identifier }, true) as User
-      : await this.usersService.findOne({ username: identifier }, true) as User;
+    const user = (
+      isEmail
+        ? await this.usersService.findOne({ email: identifier }, true)
+        : await this.usersService.findOne({ username: identifier }, true)
+    ) as User | null;
     
     if (user && compareSync(pass, user.password)) {
       const { password, ...result } = user;
-      return result;
+      return result as UserDto;
     }
     return null;
   }

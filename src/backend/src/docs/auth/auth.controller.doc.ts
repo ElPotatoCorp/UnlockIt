@@ -2,23 +2,26 @@ import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { ApiAuth } from "./decorators/api-auth.decorator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
+import { JwtPayloadDto } from "src/auth/dto/jwt-payload.interface";
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
 
   Me: () => applyDecorators(
+    ApiAuth(),
     ApiOperation({ summary: 'Get the currently authenticated user' }),
     ApiOkResponse({
       description: 'Returns the current authenticated user. By that, it means to return the content of the JWT token.',
+      type: JwtPayloadDto,
       schema: {
         example: {
-          id: 'a3f1c2d4-...',
-          username: 'johndoe',
-          // email: 'john@example.com', // Maybe later, but for now we keep it private
+          sub: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
+          sid: 'session-12345',
+          iat: 1609459200,
+          exp: 1609545600
         },
       },
-    }),
-    ApiAuth()
+    })
   ),
 
   Register: () => applyDecorators(
