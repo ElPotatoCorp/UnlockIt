@@ -4,16 +4,16 @@ import { PaginatedDtoDoc } from "src/docs/common/dto/paginated.dto.doc";
 export function PaginatedDtoOf<T>(itemType: Type<T>): Type<PaginatedDto<T>> {
   class PaginatedDtoClass implements PaginatedDto<T> {
     @PaginatedDtoDoc.Data(itemType)
-    declare data: T[];
+    data: T[];
 
     @PaginatedDtoDoc.Total()
-    declare total: number;
+    total: number;
 
     @PaginatedDtoDoc.Page()
-    declare page: number;
+    page: number;
 
     @PaginatedDtoDoc.Limit()
-    declare limit: number;
+    limit: number;
   }
 
   Object.defineProperty(PaginatedDtoClass, 'name', {
