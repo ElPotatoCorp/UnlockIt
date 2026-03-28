@@ -1,10 +1,12 @@
-import { Controller, Post, UseGuards, Response, Body, Get, HttpCode, Request } from '@nestjs/common';
+import { Controller, Post, UseGuards, Response, Body, Get, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
+import type { JwtPayload } from './interfaces/jwt-payload.interface';
+import { User as UserEntity} from 'src/user/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +14,7 @@ export class AuthController {
 
   @AuthControllerDoc.Me()
   @Get('me')
-  me(@User() user) {
+  me(@User() user: JwtPayload) {
     return user;
   }
 
@@ -27,14 +29,14 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@User() user, @Response({ passthrough: true }) res) {
+  login(@User() user: UserEntity, @Response({ passthrough: true }) res) {
     const token = this.authService.login(user);
 
     res.cookie('jwt', token.access_token, {
       httpOnly: true,
       secure: process.env.HTTPS === 'true',
       sameSite: 'strict',
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     })
 
     return token;
@@ -44,7 +46,7 @@ export class AuthController {
   @Public()
   @Post('logout')
   @HttpCode(204)
-  logout(@Request() req, @Response({ passthrough: true }) res) {
+  logout(@Response({ passthrough: true }) res) {
     res.clearCookie('jwt');
   }
 }

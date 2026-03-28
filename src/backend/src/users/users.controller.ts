@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 
@@ -16,6 +16,11 @@ export class UsersController {
   @UsersControllerDoc.GetOne()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne({ id });
+    return this.usersService.findOne({ id }).then(user => {
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+      return user;
+    });
   }
 }

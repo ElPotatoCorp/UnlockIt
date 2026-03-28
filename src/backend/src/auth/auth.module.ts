@@ -16,7 +16,7 @@ import { UserModule } from 'src/user/user.module';
     PassportModule.register({ defaultStrategy: 'local' }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '15m' },
     }),
   ],
   controllers: [AuthController],

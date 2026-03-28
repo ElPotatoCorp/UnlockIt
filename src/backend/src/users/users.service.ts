@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
@@ -22,10 +22,10 @@ export class UsersService {
     return new PaginatedDto(users.map(user => PublicUser.fromUser(user)), total, page, limit);
   }
 
-  findOne(where: FindOptionsWhere<User>, includeSensitive = false) {
+  findOne(where: FindOptionsWhere<User>, includeSensitive = false): Promise<User | PublicUser | null> {
     return this.userRepository.findOneBy(where).then(user => {
       if (!user) {
-        throw new NotFoundException(`User not found with criteria: ${JSON.stringify(where)}`);
+        return null;
       }
       if (includeSensitive) {
         return user;

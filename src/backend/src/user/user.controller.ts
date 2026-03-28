@@ -15,7 +15,7 @@ export class UserController {
 
   @UserControllerDoc.Index()
   @Get()
-  index(@User('id') userId: string) {
+  index(@User('sub') userId: string) {
     console.log(`Fetching profile for user ID: ${userId}`);
     return this.userService.index(userId);
   }
@@ -23,17 +23,17 @@ export class UserController {
   @UserControllerDoc.Patch()
   @Patch()
   update(
-    @User('id') userId: string,
-    @Body() partialUpdateUserDto?: Omit<UpdateUserDto, 'avatar'>, // Exclude avatar from DTO since it's handled separately
+    @User('sub') userId: string,
+    @Body() updateUserDto: UpdateUserDto,
   ) {    
-    return this.userService.update(userId, partialUpdateUserDto as UpdateUserDto);
+    return this.userService.update(userId, updateUserDto);
   }
 
   @UserControllerDoc.UpdateAvatar()
   @Patch('avatar')
   @UseInterceptors(FileInterceptor('avatar', uploadUserAvatar.multerOptions))
   updateAvatar(
-    @User('id') userId: string,
+    @User('sub') userId: string,
     @UploadedFile() avatarFile: Express.Multer.File,
   ) {
     return this.userService.updateAvatar(userId, avatarFile);
@@ -41,7 +41,7 @@ export class UserController {
 
   @UserControllerDoc.Delete()
   @Delete()
-  delete(@User('id') userId: string, @Response({ passthrough: true }) res) {
+  delete(@User('sub') userId: string, @Response({ passthrough: true }) res) {
     res.clearCookie('jwt');
     return this.userService.delete(userId);
   }

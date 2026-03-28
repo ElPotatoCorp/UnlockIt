@@ -19,7 +19,7 @@ export class AuthService {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const isEmail = emailRegex.test(identifier);
     
-    const user = isEmail
+    const user: User | null = isEmail
       ? await this.usersService.findOne({ email: identifier }, true) as User
       : await this.usersService.findOne({ username: identifier }, true) as User;
     
@@ -34,8 +34,8 @@ export class AuthService {
     return this.userService.create(createUserDto);
   }
 
-  login(user: any) {
-    const payload = { username: user.username, sub: user.id };
+  login(user: User) {
+    const payload = { sub: user.id, sid: null }; // TODO: Add session management for sid
     return {
       access_token: this.jwtService.sign(payload),
     };
