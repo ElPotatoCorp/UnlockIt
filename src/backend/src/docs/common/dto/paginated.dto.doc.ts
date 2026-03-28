@@ -1,16 +1,7 @@
-import { Type, applyDecorators } from "@nestjs/common";
+import { applyDecorators } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
 
 export const PaginatedDtoDoc = {
-  Data: (itemType: Type<any>) => applyDecorators(
-    ApiProperty({
-      title: 'Data',
-      description: 'List of items for the current page.',
-      isArray: true,
-      type: () => itemType,
-    })
-  ),
-
   Total: () => applyDecorators(
     ApiProperty({
       title: 'Total',
@@ -38,6 +29,17 @@ export const PaginatedDtoDoc = {
       type: Number,
       example: 10,
       minimum: 1,
+    })
+  ),
+
+  Data: () => applyDecorators(
+    ApiProperty({
+      title: 'Data',
+      description: 'List of items for the current page.',
+      type: 'array',
+      items: {
+        type: 'object',
+      },
     })
   ),
 };

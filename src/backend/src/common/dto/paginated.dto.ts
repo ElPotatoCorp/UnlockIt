@@ -7,7 +7,7 @@ export class PaginatedDto<T> {
   page: number;
   @PaginatedDtoDoc.Limit()
   limit: number;
-  
+  @PaginatedDtoDoc.Data()
   data: T[];
 
   constructor(total: number, page: number, limit: number, data: T[]) {
