@@ -21,7 +21,7 @@ export class UserDto {
   }
 
   @UserEntityDoc.Id()
-  @IsUUID()
+  @IsUUID(4)
   id: string;
 
   @UserEntityDoc.Username()

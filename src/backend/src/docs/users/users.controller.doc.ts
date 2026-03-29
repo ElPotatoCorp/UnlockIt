@@ -46,7 +46,7 @@ export const UsersControllerDoc = {
       required: true,
       type: String,
       description: 'UUID of the user to retrieve',
-      example: 'a3bb189e-8bf9-3888-9912-ace4e6543002',
+      example: '08dbd076-c3d8-46d4-bb0d-ebedc8bebd1f',
     }),
     ApiOkResponse({
       description: 'User successfully retrieved.',

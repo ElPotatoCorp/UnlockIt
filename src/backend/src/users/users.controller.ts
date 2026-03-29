@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 import { PublicUserDto } from 'src/user/dto/public-user.dto';
@@ -19,7 +19,7 @@ export class UsersController {
 
   @UsersControllerDoc.GetOne()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.usersService.findOne({ id }).then(user => {
       if (!user) {
         throw new NotFoundException(`User with ID "${id}"not found`);
