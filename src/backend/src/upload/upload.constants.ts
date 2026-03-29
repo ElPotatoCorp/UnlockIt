@@ -20,8 +20,8 @@ export const uploadUserAvatar = {
     },
     fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
       // Validate MIME type
-      if (!/^image\/(jpeg|png|gif)$/.test(file.mimetype)) {
-        return cb(new UnprocessableEntityException('Only JPEG, PNG, and GIF images are allowed'), false);
+      if (!/^image\/(jpeg|png|gif|webp)$/.test(file.mimetype)) {
+        return cb(new UnprocessableEntityException('Only JPEG, PNG, GIF, and WebP images are allowed'), false);
       }
       cb(null, true);
     },
