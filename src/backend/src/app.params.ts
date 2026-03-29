@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
 
@@ -27,6 +27,12 @@ export default function applyAppParams(app: INestApplication<any>): void {
   app.setGlobalPrefix('api');
 
   app.use(cookieParser());
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,            // strips unknown fields
+    forbidNonWhitelisted: true, // throws if unknown fields sent
+    transform: true,            // auto-transforms payloads to DTO class instances
+  }));
 
   applyAppDocumentation(app);
 }

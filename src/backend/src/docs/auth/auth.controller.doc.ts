@@ -32,7 +32,7 @@ export const AuthControllerDoc = {
       examples: {
         example1: {
           summary: 'Standard registration',
-          value: { username: 'johndoe', email: 'john.doe@example.com', password: 'strongpassword' },
+          value: { username: 'johndoe', email: 'john.doe@example.com', password: 'Str0ng!Pass' },
         },
       },
     }),
@@ -55,11 +55,11 @@ export const AuthControllerDoc = {
       examples: {
         usernameExample: {
           summary: 'Login with username',
-          value: { identifier: 'johndoe', password: 'strongpassword' },
+          value: { identifier: 'johndoe', password: 'Str0ng!Pass' },
         },
         emailExample: {
           summary: 'Login with email',
-          value: { identifier: 'john.doe@example.com', password: 'strongpassword' },
+          value: { identifier: 'john.doe@example.com', password: 'Str0ng!Pass' },
         },
       },
       description: 'Provide either `username` or `email` as the `identifier` along with the `password` to authenticate.',
@@ -67,7 +67,7 @@ export const AuthControllerDoc = {
         type: 'object',
         properties: {
           identifier: { type: 'string', example: 'johndoe' },
-          password: { type: 'string', format: 'password', example: 'strongpassword' }
+          password: { type: 'string', format: 'password', example: 'Str0ng!Pass' }
         },
         required: ['password']
       }

@@ -4,8 +4,7 @@ CREATE TABLE users(
    username           VARCHAR(50)   UNIQUE NOT NULL,
    password           VARCHAR(255)  NOT NULL,
    email              VARCHAR(255)  UNIQUE NOT NULL,
-   phone_country_code VARCHAR(3),
-   phone_number       VARCHAR(15),
+   phone_number       VARCHAR(20)   UNIQUE,
    bio                TEXT,
    avatar             VARCHAR(255),
    wallet             NUMERIC(10,2) DEFAULT 0,
@@ -14,7 +13,7 @@ CREATE TABLE users(
    PRIMARY KEY(id),
 
    CONSTRAINT email_format        CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' OR email IS NULL),
-   CONSTRAINT phone_format        CHECK ((phone_country_code ~ '^\d{1,3}$' AND phone_number ~ '^\d{7,15}$') OR (phone_country_code IS NULL AND phone_number IS NULL)),
+   CONSTRAINT phone_format        CHECK (phone_number ~ '^\+?[1-9]\d{1,14}$' OR phone_number IS NULL),
    CONSTRAINT username_length     CHECK (LENGTH(TRIM(username)) >= 3),
    CONSTRAINT bio_length          CHECK (LENGTH(bio) <= 500 OR bio IS NULL),
    CONSTRAINT wallet_non_negative CHECK (wallet >= 0)

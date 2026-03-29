@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 import { PublicUserDto } from 'src/user/dto/public-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @UsersControllerDoc.Controller()
 @Public()
@@ -12,7 +13,7 @@ export class UsersController {
 
   @UsersControllerDoc.Index()
   @Get()
-  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+  findAll(@Query() { page, limit }: PaginationQueryDto) {
     return this.usersService.findAll(page, limit);
   }
 

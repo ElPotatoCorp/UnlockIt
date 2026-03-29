@@ -28,6 +28,7 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @HttpCode(200)
   login(@User('sub') userId: string, @Response({ passthrough: true }) res) {
     const token = this.authService.login(userId);
 

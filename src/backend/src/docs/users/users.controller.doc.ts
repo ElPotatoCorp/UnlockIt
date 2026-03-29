@@ -1,6 +1,7 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags, getSchemaPath } from "@nestjs/swagger";
 import { PaginatedDto } from "src/common/dto/paginated.dto";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { PublicUserDto } from "src/user/dto/public-user.dto";
 
 export const UsersControllerDoc = {
@@ -13,20 +14,6 @@ export const UsersControllerDoc = {
     ApiOperation({
       summary: 'Get a paginated list of users',
       description: 'Returns a paginated list of public user profiles. Use `page` and `limit` to control pagination.',
-    }),
-    ApiQuery({
-      name: 'page',
-      required: false,
-      type: Number,
-      description: 'Page number (default: 1)',
-      example: 1,
-    }),
-    ApiQuery({
-      name: 'limit',
-      required: false,
-      type: Number,
-      description: 'Number of users per page (default: 10, max: 100)',
-      example: 10,
     }),
     ApiOkResponse({
       description: 'Paginated list of users successfully retrieved.',

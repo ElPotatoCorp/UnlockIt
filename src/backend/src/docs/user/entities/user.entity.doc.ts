@@ -54,29 +54,17 @@ export const UserEntityDoc = {
       format: 'email',
       example: 'john@example.com',
       required: required,
-      nullable: true,
-    }),
-  ),
-
-  PhoneCountryCode: () => applyDecorators(
-    ApiProperty({
-      title: 'Phone country code',
-      description: 'Calling code without the + prefix. 1–3 digits. Example: 33 for France, 1 for USA.',
-      type: String,
-      pattern: '^\\d{1,3}$',
-      example: '33',
-      required: false,
-      nullable: true,
+      nullable: false,
     }),
   ),
 
   PhoneNumber: () => applyDecorators(
     ApiProperty({
       title: 'Phone number',
-      description: 'Local number without country code. 7–15 digits. Must be provided together with phoneCountryCode.',
+      description: 'Must be unique in combination with country code. E.164 format recommended.',
       type: String,
-      pattern: '^\\d{7,15}$',
-      example: '612345678',
+      pattern: '^\\+?[1-9]\\d{1,14}$',
+      example: '+33612345678',
       required: false,
       nullable: true,
     }),

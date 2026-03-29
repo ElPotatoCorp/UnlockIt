@@ -48,10 +48,6 @@ import { UserModule } from './user/user.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
     AppService
   ],
 })

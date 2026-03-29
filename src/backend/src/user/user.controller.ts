@@ -21,7 +21,9 @@ export class UserController {
   @UserControllerDoc.Index()
   @Get()
   async index(@User('sub') userId: string) {
-    return UserDto.fromEntity(await this.userService.index(userId));
+    const user = await this.userService.index(userId);
+    console.log('User entity:', user);
+    return UserDto.fromEntity(user);
   }
 
   @UserControllerDoc.GetProfile()
