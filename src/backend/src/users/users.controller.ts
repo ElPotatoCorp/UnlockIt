@@ -2,8 +2,10 @@ import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 import { PublicUserDto } from 'src/user/dto/public-user.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @UsersControllerDoc.Controller()
+@Public()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -19,9 +21,9 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne({ id }).then(user => {
       if (!user) {
-        throw new NotFoundException(`User with ID ${id} not found`);
+        throw new NotFoundException(`User with ID "${id}"not found`);
       }
-      return PublicUserDto.fromUser(user);
+      return PublicUserDto.fromEntity(user);
     });
   }
 }

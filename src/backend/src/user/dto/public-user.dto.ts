@@ -1,12 +1,14 @@
 import { PickType } from "@nestjs/swagger";
 import { User } from "../entities/user.entity";
 
-const PUBLIC_USER_FIELDS = ['id', 'username', 'bio', 'avatar', 'creationDate'] as const;
+const PUBLIC_FIELDS = ['id', 'username', 'bio', 'avatar', 'createdAt'] as const;
 
-export class PublicUserDto extends PickType(User, PUBLIC_USER_FIELDS) {
-  public static fromUser(user: User): PublicUserDto {
-    return Object.assign(new PublicUserDto(), Object.fromEntries(
-      PUBLIC_USER_FIELDS.map(key => [key, user[key]])
-    ));
+export class PublicUserDto extends PickType(User, PUBLIC_FIELDS) {
+  static fromEntity(user: User): PublicUserDto {
+    const dto = new PublicUserDto();
+    for (const key of PUBLIC_FIELDS) {
+      (dto as any)[key] = user[key];
+    }
+    return dto;
   }
 }

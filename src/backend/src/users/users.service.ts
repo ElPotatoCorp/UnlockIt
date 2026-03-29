@@ -9,6 +9,16 @@ import { PaginatedDto } from 'src/common/dto/paginated.dto';
 export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
 
+  findPassword(identifier: string): Promise<{ id: string; password: string } | null> {
+    return this.userRepository.findOne({
+      where: [
+        { email: identifier },
+        { username: identifier },
+      ],
+      select: ['id', 'password'],
+    })
+  }
+
   async findAll(page: number, limit: number) {
     if (page < 1) page = 1;
     if (limit < 1) limit = 1;
@@ -19,7 +29,7 @@ export class UsersService {
       take: limit,
     });
 
-    return new PaginatedDto(total, page, limit, users.map(user => PublicUserDto.fromUser(user)));
+    return new PaginatedDto(total, page, limit, users.map(user => PublicUserDto.fromEntity(user)));
   }
 
   findOne(where: FindOptionsWhere<User>, includeSensitive = false) {

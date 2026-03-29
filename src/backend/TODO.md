@@ -98,10 +98,7 @@ All of the following triggers from `tmp/02_triggers.sql` should be kept as-is (t
 
 | Status | Method | Path | Description |
 |--------|--------|------|-------------|
-| ✅ done | GET | `/api/user` | Get own full profile |
-| ✅ done | PATCH | `/api/user` | Update own profile (username, bio, country, billing address, etc.) |
-| ✅ done | PATCH | `/api/user/avatar` | Upload/change avatar image |
-| ✅ done | DELETE | `/api/user` | Delete own account |
+| [ ] todo | PATCH | `/api/user` | Update own profile (username, bio, country, billing address, etc.) |
 | [ ] todo | GET | `/api/user/sessions` | List own active sessions |
 | [ ] todo | DELETE | `/api/user/sessions/:sessionId` | Revoke a specific session |
 | [ ] todo | DELETE | `/api/user/sessions` | Revoke all sessions |
@@ -122,6 +119,7 @@ All of the following triggers from `tmp/02_triggers.sql` should be kept as-is (t
 | [ ] todo | GET | `/api/user/reviews` | Get own reviews |
 | [ ] todo | GET | `/api/user/tickets` | Get own support tickets |
 
+also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DELETE /user/avatar
 ---
 
 ### Users (public) — `/api/users` ✅ (partial)

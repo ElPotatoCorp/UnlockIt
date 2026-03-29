@@ -6,6 +6,10 @@ import { User } from './decorators/user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserControllerDoc } from 'src/docs/user/user.controller.doc';
 import { UserDto } from './dto/user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateBillingDto } from './dto/update-billing.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
+import { UserBillingDto } from './dto/user-billing.dto';
 
 @UserControllerDoc.Controller()
 @Controller('user')
@@ -17,7 +21,19 @@ export class UserController {
   @UserControllerDoc.Index()
   @Get()
   async index(@User('sub') userId: string) {
-    return UserDto.fromUser(await this.userService.index(userId));
+    return UserDto.fromEntity(await this.userService.index(userId));
+  }
+
+  @UserControllerDoc.GetProfile()
+  @Get('profile')
+  async getProfile(@User('sub') userId: string) {
+    return UserProfileDto.fromEntity(await this.userService.getProfile(userId));
+  }
+
+  @UserControllerDoc.GetBilling()
+  @Get('billing')
+  async getBilling(@User('sub') userId: string) {
+    return UserBillingDto.fromEntity(await this.userService.getBilling(userId));
   }
 
   @UserControllerDoc.Patch()
@@ -29,6 +45,25 @@ export class UserController {
     return this.userService.update(userId, updateUserDto);
   }
 
+  @UserControllerDoc.UpsertProfile()
+  @Patch('profile')
+  upsertProfile(
+    @User('sub') userId: string,
+    @Body() profile: UpdateProfileDto,
+  ) {
+    return this.userService.upsertProfile(userId, profile);
+  }
+
+  @UserControllerDoc.UpsertBilling()
+  @Patch('billing')
+  upsertBilling(
+    @User('sub') userId: string,
+    @Body() billing: UpdateBillingDto,
+  ) {
+    return this.userService.upsertBilling(userId, billing);
+  }
+
+
   @UserControllerDoc.UpdateAvatar()
   @Patch('avatar')
   @UseInterceptors(FileInterceptor('avatar', uploadUserAvatar.multerOptions))
@@ -37,6 +72,12 @@ export class UserController {
     @UploadedFile() avatarFile: Express.Multer.File,
   ) {
     return this.userService.updateAvatar(userId, avatarFile);
+  }
+
+  @UserControllerDoc.DeleteAvatar()
+  @Delete('avatar')
+  deleteAvatar(@User('sub') userId: string) {
+    return this.userService.deleteAvatar(userId);
   }
 
   @UserControllerDoc.Delete()

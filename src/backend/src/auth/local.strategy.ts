@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local";
 import { AuthService } from "./auth.service";
-import { UserDto } from "src/user/dto/user.dto";
+import { JwtPayloadDto } from "./dto/jwt-payload.dto";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -10,11 +10,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         super({ usernameField: 'identifier', passwordField: 'password' });
     }
 
-    async validate(identifier: string, password: string): Promise<UserDto> {
-        const user = await this.authService.validateUser(identifier, password);
-        if (!user) {
+    async validate(identifier: string, password: string): Promise<Pick<JwtPayloadDto, 'sub'>> {
+        const userId = await this.authService.validateUser(identifier, password);
+        if (!userId) {
             throw new UnauthorizedException("Invalid credentials");
         }
-        return user;
+        return { sub: userId }; // Return an object with a 'sub' property for JWT payload
     }
 }

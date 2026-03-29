@@ -2,7 +2,7 @@ import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { ApiAuth } from "./decorators/api-auth.decorator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
-import { JwtPayloadDto } from "src/auth/dto/jwt-payload.interface";
+import { JwtPayloadDto } from "src/auth/dto/jwt-payload.dto";
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),

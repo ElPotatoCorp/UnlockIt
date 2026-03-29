@@ -1,113 +1,152 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, IntersectionType } from "@nestjs/swagger";
-import { ApiAuth } from "../auth/decorators/api-auth.decorator";
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiConsumes,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
+import { ApiAuth } from "src/docs/auth/decorators/api-auth.decorator";
 import { MAX_AVATAR_SIZE } from "src/upload/upload.constants";
-import { UpdateUserDto as PartialUpdateUserDto } from "src/user/dto/update-user.dto";
-import { CreateUserDto } from "src/user/dto/create-user.dto";
+import { UpdateUserDto } from "src/user/dto/update-user.dto";
+import { UpdateBillingDto } from "src/user/dto/update-billing.dto";
 import { UserDto } from "src/user/dto/user.dto";
-
-// This is just for documentation purposes to show all possible fields in the update endpoint, even though in practice we use PartialType to allow partial updates.
-class UpdateUserDto extends IntersectionType(CreateUserDto, PartialUpdateUserDto) {}
+import { UpdateProfileDto } from "src/user/dto/update-profile.dto";
+import { UserProfileDto } from "src/user/dto/user-profile.dto";
+import { UserBillingDto } from "src/user/dto/user-billing.dto";
 
 export const UserControllerDoc = {
+
   Controller: () => applyDecorators(
     ApiTags('User'),
-    ApiAuth() // All routes in this controller require authentication
+    ApiAuth(),
   ),
 
   Index: () => applyDecorators(
-    ApiOperation({ summary: 'Get the current user\'s profile' }),
+    ApiOperation({ summary: 'Get own profile' }),
     ApiOkResponse({
-      description: 'Returns the profile of the currently authenticated user (password excluded).',
+      description: 'Core user fields. Email is partially masked. Profile and billing are not included — use their respective endpoints.',
       type: UserDto,
       example: {
         id: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
         username: 'johndoe',
         email: 'jo***@example.com',
-        phoneWzc: '33',
-        phoneNumber: '123****90',
-        bio: 'Just a regular user.',
-        avatar: 'avatar-12345.jpg',
-        wallet: 150.50,
-        firstName: 'John',
-        lastName: 'Doe',
-        country: 'USA',
-        billingAddress: '123 Main St, Anytown, USA',
-        newsletterSubscribed: false,
-        birthdayDate: '1990-01-01',
-        creationDate: '2024-01-01'
+        phoneCountryCode: '33',
+        phoneNumber: '612345678',
+        bio: 'I love gaming.',
+        avatar: 'avatar-3f2a1c.jpg',
+        wallet: 49.99,
+        createdAt: '2024-01-15T10:23:00Z',
       },
     }),
-    ApiNotFoundResponse({
-      description: 'User not found.',
+    ApiNotFoundResponse({ description: 'User not found.' }),
+  ),
+
+  GetProfile: () => applyDecorators(
+    ApiOperation({ summary: 'Get own profile details' }),
+    ApiOkResponse({
+      description: 'Returns the UserProfile row. Null fields mean the user has not filled them in yet.',
+      type: UserProfileDto,
+      example: {
+        firstName: 'John',
+        lastName: 'Doe',
+        birthdate: '1990-05-15',
+        country: 'FR',
+        newsletter: false,
+      },
     }),
+    ApiNotFoundResponse({ description: 'Profile not found (not yet created).' }),
+  ),
+
+  GetBilling: () => applyDecorators(
+    ApiOperation({ summary: 'Get own billing address' }),
+    ApiOkResponse({
+      description: 'Returns the UserBilling row if it exists.',
+      type: UserBillingDto,
+      example: {
+        firstName: 'John',
+        lastName: 'Doe',
+        country: 'FR',
+        city: 'Paris',
+        postalCode: '75001',
+        addressLine1: '12 Rue de Rivoli',
+        addressLine2: null,
+      },
+    }),
+    ApiNotFoundResponse({ description: 'No billing address on file.' }),
   ),
 
   Patch: () => applyDecorators(
-    ApiOperation({ summary: 'Update the current user\'s profile' }),
-    ApiBody({
-      description: 'Fields to update in the user profile. All fields are optional, but at least one must be provided.',
-      type: UpdateUserDto,
-      examples: {
-        example1: {
-          summary: 'Update bio and country',
-          value: { bio: 'Updated bio', country: 'Canada' },
-        },
-        example2: {
-          summary: 'Update phone number',
-          value: { phoneNumber: '9876543210' },
-        },
-      },
+    ApiOperation({
+      summary: 'Update own profile',
+      description: 'Updates core user fields and/or profile fields. All fields are optional. Billing info is managed separately via PUT /user/billing.',
     }),
-    ApiOkResponse({
-      description: 'Profile updated successfully.',
+    ApiBody({ type: UpdateUserDto }),
+    ApiOkResponse({ description: 'Profile updated successfully.' }),
+    ApiBadRequestResponse({ description: 'Validation failed.' }),
+  ),
+
+  UpsertProfile: () => applyDecorators(
+    ApiOperation({
+      summary: 'Create or replace profile details',
+      description: 'Full upsert — all fields required. Replaces the existing profile row if one exists.',
     }),
-    ApiBadRequestResponse({
-      description: 'Bad request. Validation failed.',
+    ApiBody({ type: UpdateProfileDto }),
+    ApiOkResponse({ description: 'Profile saved.' }),
+    ApiBadRequestResponse({ description: 'Validation failed.' }),
+  ),
+
+  UpsertBilling: () => applyDecorators(
+    ApiOperation({
+      summary: 'Create or replace billing address',
+      description: 'Full upsert — all fields required. Replaces the existing billing row if one exists.',
     }),
+    ApiBody({ type: UpdateBillingDto }),
+    ApiOkResponse({ description: 'Billing address saved.' }),
+    ApiBadRequestResponse({ description: 'Validation failed.' }),
   ),
 
   UpdateAvatar: () => applyDecorators(
-    ApiOperation({ summary: 'Update the current user\'s avatar' }),
+    ApiOperation({ summary: 'Update own avatar' }),
     ApiConsumes('multipart/form-data'),
     ApiBody({
-      description: `Avatar image file. Must be a valid image format (e.g., JPEG, PNG) and not exceed ${MAX_AVATAR_SIZE}MB in size.`,
+      description: `JPEG, PNG, GIF, or WebP. Max ${MAX_AVATAR_SIZE}MB. Replaces any existing avatar.`,
       schema: {
         type: 'object',
         properties: {
-          avatar: {
-            type: 'string',
-            format: 'binary',
-          },
+          avatar: { type: 'string', format: 'binary' },
         },
       },
     }),
     ApiOkResponse({
-      description: 'Avatar updated successfully.',
-      example: {
-        message: 'Avatar updated successfully',
-        avatar: 'avatar-12345.jpg',
-      },
+      description: 'Avatar updated. Returns the new filename.',
+      example: { avatar: 'avatar-3f2a1c.jpg' },
     }),
-    ApiBadRequestResponse({
-      description: `Bad request. Invalid file format or file size exceeds limit of ${MAX_AVATAR_SIZE}MB.`,
-    }),
-    ApiNotFoundResponse({
-      description: 'User not found.',
-    }),
+    ApiBadRequestResponse({ description: 'Invalid file type or size exceeded.' }),
+    ApiNotFoundResponse({ description: 'User not found.' }),
+  ),
+
+  DeleteAvatar: () => applyDecorators(
+    ApiOperation({ summary: 'Remove own avatar' }),
+    ApiOkResponse({ description: 'Avatar removed. The avatar field is set to null.' }),
+    ApiNotFoundResponse({ description: 'User not found.' }),
   ),
 
   Delete: () => applyDecorators(
-    ApiOperation({ summary: 'Delete the current user\'s account' }),
+    ApiOperation({
+      summary: 'Delete own account',
+      description: 'Permanently deletes the account and all associated data. Clears auth cookies.',
+    }),
     ApiOkResponse({
-      description: 'User account deleted successfully. JWT cookie is cleared.',
+      description: 'Account deleted. Auth cookies cleared.',
       headers: {
         'Set-Cookie': {
-          description: 'Clears the JWT cookie.',
-          schema: { type: 'string', example: 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT' },
+          description: 'Expires access and refresh token cookies.',
+          schema: { type: 'string' },
         },
       },
     }),
-  )
-
-}
+  ),
+};

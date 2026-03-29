@@ -4,13 +4,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UploadService } from 'src/upload/upload.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UserProfile } from './entities/user-profile.entity';
+import { UserBilling } from './entities/user-billing.entity';
+import { UpdateBillingDto } from './dto/update-billing.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly uploadService: UploadService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(UserProfile) private readonly userProfileRepository: Repository<UserProfile>,
+    @InjectRepository(UserBilling) private readonly userBillingRepository: Repository<UserBilling>,
   ) { }
 
   async index(id: string) {
@@ -23,6 +29,24 @@ export class UserService {
     return user;
   }
 
+  async getProfile(id: string) {
+    return await (
+        await this.userRepository.findOne({
+        where: { id },
+        select: ['profile'],
+      })
+    )?.profile ?? null;
+  }
+
+  async getBilling(id: string) {
+    return await (
+        await this.userRepository.findOne({
+        where: { id },
+        select: ['billing'],
+      })
+    )?.billing ?? null;
+  }
+
   create(createUserDto: CreateUserDto) {
     return this.userRepository.save(createUserDto);
   }
@@ -31,14 +55,31 @@ export class UserService {
     return this.userRepository.update(id, updateUserDto);
   }
 
+  upsertProfile(id: string, profile: UpdateProfileDto) {
+    return this.userProfileRepository.upsert(
+      { userId: id, ...profile },
+      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true }
+    );
+  }
+
+  upsertBilling(id: string, billing: UpdateBillingDto) {
+    return this.userBillingRepository.upsert(
+      { userId: id, ...billing },
+      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true }
+    );
+  }
+
   async updateAvatar(id: string, avatarFile: Express.Multer.File) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: ['id', 'avatar'],
+    });
     
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found.`);
     }
     else {
-      user?.avatar && this.uploadService.removeObsoleteFile(user?.avatar); // Remove old avatar if it exists
+      user.avatar && this.uploadService.removeObsoleteFile(user.avatar); // Remove old avatar if it exists
     }
     
     this.userRepository.update(id, { avatar: avatarFile.filename });
@@ -46,6 +87,22 @@ export class UserService {
     return {
       message: 'Avatar updated successfully',
       avatar: avatarFile.filename,
+    };
+  }
+
+  async deleteAvatar(id: string) {
+    const avatar = (
+      await this.userRepository.findOne({
+        where: { id },
+        select: ['avatar'],
+      })
+    )?.avatar ?? null;
+
+    this.uploadService.removeObsoleteFile(avatar); // Remove old avatar if it exists
+    avatar && this.userRepository.update(id, { avatar: null });
+
+    return {
+      message: 'Avatar removed successfully',
     };
   }
 

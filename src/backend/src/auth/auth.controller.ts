@@ -5,8 +5,7 @@ import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
-import { JwtPayloadDto } from './dto/jwt-payload.interface';
-import { User as UserEntity } from 'src/user/entities/user.entity';
+import { JwtPayloadDto } from './dto/jwt-payload.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -29,8 +28,8 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@User() user: UserEntity, @Response({ passthrough: true }) res) {
-    const token = this.authService.login(user);
+  login(@User('sub') userId: string, @Response({ passthrough: true }) res) {
+    const token = this.authService.login(userId);
 
     res.cookie('jwt', token.access_token, {
       httpOnly: true,
