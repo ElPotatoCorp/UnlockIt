@@ -10,6 +10,7 @@ import { UserAgent } from './decorators/user-agent.decorator';
 import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
+import { JWT_ACCESS_TOKEN_COOKIE_NAME, JWT_REFRESH_TOKEN_COOKIE_NAME } from 'src/globals';
 
 @Controller('auth')
 export class AuthController {
@@ -50,11 +51,9 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @HttpCode(200)
   async login(@User('sub') userId: string, @Ip() ip: string, @UserAgent() userAgent: string, @Response({ passthrough: true }) res) {
     const tokens = await this.authService.login(userId, ip, userAgent);
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
-    return tokens;
   }
 
   // @AuthControllerDoc.Refresh() // TODO: Add documentation for this endpoint
@@ -64,7 +63,6 @@ export class AuthController {
   async refresh(@User() session: JwtPayloadDto, @Ip() ip: string, @UserAgent() userAgent: string, @Response({ passthrough: true }) res) {
     const tokens = await this.authService.login(session.sub, ip, userAgent, session.sid);
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
-    return tokens;
   }
   
   @AuthControllerDoc.Logout()

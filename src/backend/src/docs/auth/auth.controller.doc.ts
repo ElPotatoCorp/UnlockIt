@@ -3,6 +3,7 @@ import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse
 import { ApiAuth } from "./decorators/api-auth.decorator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { JwtPayloadDto } from "src/auth/dto/jwt-payload.dto";
+import { JWT_ACCESS_TOKEN_COOKIE_NAME, JWT_REFRESH_TOKEN_COOKIE_NAME } from "src/globals";
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -72,16 +73,16 @@ export const AuthControllerDoc = {
         required: ['password']
       }
     }),
-    ApiOkResponse({
-      description: 'Login successful. A `jwt` httpOnly cookie is set.',
+    ApiCreatedResponse({
+      description: `Login successful. The \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookies are set.`,
       headers: {
         'Set-Cookie': {
           description: 'httpOnly JWT cookie. Automatically sent on subsequent requests.',
-          schema: { type: 'string', example: 'jwt=eyJhbG...; Path=/; HttpOnly; SameSite=Strict' },
+          schema: {
+            type: 'string',
+            example: `${JWT_ACCESS_TOKEN_COOKIE_NAME}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Strict; Max-Age=900000, ${JWT_REFRESH_TOKEN_COOKIE_NAME}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Strict; Max-Age=2592000000`
+          }
         },
-      },
-      schema: {
-        example: { access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
       },
     }),
     ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid credentials.' })
@@ -90,14 +91,17 @@ export const AuthControllerDoc = {
   Logout: () => applyDecorators(
     ApiOperation({
       summary: 'Logout the current user',
-      description: 'Clears the `jwt` cookie, effectively ending the session.',
+      description: `Clears the \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` cookies, effectively ending the session.`,
     }),
     ApiNoContentResponse({
-      description: 'Logged out. The `jwt` cookie has been cleared.',
+      description: `Logged out. The \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` cookies have been cleared.`,
       headers: {
         'Set-Cookie': {
-          description: 'Clears the JWT cookie.',
-          schema: { type: 'string', example: 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT' },
+          description: 'Clears the JWT cookies.',
+          schema: {
+            type: 'string',
+            example: `${JWT_ACCESS_TOKEN_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0, ${JWT_REFRESH_TOKEN_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0`
+          },
         },
       },
     })

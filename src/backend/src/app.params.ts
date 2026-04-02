@@ -14,8 +14,7 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       status: 500,
       description: 'Internal server error. It could be an unexpected error or simply a unhandled specific case.',
     })
-    .addCookieAuth('jwt')
-    .addBearerAuth()
+    .addCookieAuth(process.env.JWT_ACCESS_TOKEN_COOKIE_NAME || 'unlockit-access-token')
     .setVersion('1.0')
     .build();
 

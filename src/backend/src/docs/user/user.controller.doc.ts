@@ -16,6 +16,7 @@ import { UserDto } from "src/user/dto/user.dto";
 import { UpdateProfileDto } from "src/user/dto/update-profile.dto";
 import { UserProfileDto } from "src/user/dto/user-profile.dto";
 import { UserBillingDto } from "src/user/dto/user-billing.dto";
+import { JWT_ACCESS_TOKEN_COOKIE_NAME, JWT_REFRESH_TOKEN_COOKIE_NAME } from "src/globals";
 
 export const UserControllerDoc = {
 
@@ -142,8 +143,11 @@ export const UserControllerDoc = {
       description: 'Account deleted. Auth cookies cleared.',
       headers: {
         'Set-Cookie': {
-          description: 'Expires access and refresh token cookies.',
-          schema: { type: 'string' },
+          description: 'Clears the JWT cookies.',
+          schema: {
+            type: 'string',
+            example: `${JWT_ACCESS_TOKEN_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0, ${JWT_REFRESH_TOKEN_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0`
+          },
         },
       },
     }),
