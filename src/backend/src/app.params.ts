@@ -19,7 +19,7 @@ function applyAppDocumentation(app: INestApplication<any>): void {
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('', app, documentFactory);
 }
 
 export default function applyAppParams(app: INestApplication<any>): void {
