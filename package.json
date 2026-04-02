@@ -5,8 +5,10 @@
     "src/*"
   ],
   "scripts": {
-    "install:frontend": "npm install --workspace=frontend",
-    "install:backend": "npm install --workspace=backend",
+    "setup": "npm run install:frontend && npm run install:backend",
+    "setup:frontend": "npm install --workspace=frontend",
+    "setup:backend": "npm install --workspace=backend",
+    "dev": "NODE_ENV=development concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "npm run dev --workspace=frontend",
     "dev:backend": "NODE_ENV=development npm run start:dev --workspace=backend",
     "build": "npm run build:frontend && npm run build:backend",
@@ -14,11 +16,7 @@
     "build:backend": "npm run build --workspace=backend",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "npm run start --workspace=frontend",
-    "start:backend": "npm run start --workspace=backend",
-    "dev": "NODE_ENV=development concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "build": "npm run build:frontend && npm run build:backend",
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "install": "npm run install:frontend && npm run install:backend"
+    "start:backend": "npm run start --workspace=backend"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
