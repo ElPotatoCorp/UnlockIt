@@ -7,18 +7,18 @@ import {
   Check,
   CreateDateColumn,
   OneToOne,
+  OneToMany,
 } from "typeorm";
 import { UserProfile } from "./user-profile.entity";
 import { UserBilling } from "./user-billing.entity";
 import { DecimalColumnTransformer } from "src/common/transformers/decimal-column.transformer";
+import { Session } from "src/sessions/entities/session.entity";
 
 @Entity('users')
 @Unique(['username'])
 @Unique(['email'])
 @Unique(['phoneNumber'])
-@Check(`("email" IS NOT NULL) OR ("phone_country_code" IS NOT NULL AND "phone_number" IS NOT NULL)`)
-@Check(`"email" ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$' OR "email" IS NULL`)
-@Check(`("phone_country_code" ~ '^\\d{1,3}$' AND "phone_number" ~ '^\\d{7,15}$') OR ("phone_country_code" IS NULL AND "phone_number" IS NULL)`)
+@Check(`"email" ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'`)
 @Check(`LENGTH(TRIM("username")) >= 3`)
 @Check(`"wallet" >= 0`)
 export class User {
@@ -75,4 +75,10 @@ export class User {
     nullable: true,
   })
   billing: Promise<UserBilling | null>;
+
+  @OneToMany(() => Session, (session) => session.user, {
+    lazy: true,
+    cascade: ['remove'],
+  })
+  sessions: Promise<Session[]>;
 }

@@ -12,7 +12,7 @@ CREATE TABLE users(
 
    PRIMARY KEY(id),
 
-   CONSTRAINT email_format        CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' OR email IS NULL),
+   CONSTRAINT email_format        CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
    CONSTRAINT phone_format        CHECK (phone_number ~ '^\+?[1-9]\d{1,14}$' OR phone_number IS NULL),
    CONSTRAINT username_length     CHECK (LENGTH(TRIM(username)) >= 3),
    CONSTRAINT bio_length          CHECK (LENGTH(bio) <= 500 OR bio IS NULL),
@@ -73,19 +73,16 @@ CREATE TABLE sessions(
    id                 UUID          DEFAULT gen_random_uuid(),
    user_id            UUID          NOT NULL,
    refresh_token_hash CHAR(64)      NOT NULL,
-   created_at         TIMESTAMPTZ   DEFAULT NOW(),
-   last_seen_at       TIMESTAMPTZ   DEFAULT NOW(),
-   expires_at         TIMESTAMPTZ   NOT NULL DEFAULT NOW() + INTERVAL '30 days',
    ip_address         INET          NOT NULL,
    user_agent         VARCHAR(512)  NOT NULL,
-   country            CHAR(2)       NOT NULL,
-   device_name        VARCHAR(100),
+   created_at         TIMESTAMPTZ   DEFAULT NOW(),
+   expires_at         TIMESTAMPTZ   NOT NULL DEFAULT NOW() + INTERVAL '30 days',
+   last_seen_at       TIMESTAMPTZ   DEFAULT NOW(),
    flagged            BOOLEAN       DEFAULT FALSE,
 
    PRIMARY KEY(id),
    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
 
-   CONSTRAINT country_format            CHECK (country ~ '^[A-Z]{2}$'),
    CONSTRAINT refresh_token_hash_length CHECK (LENGTH(refresh_token_hash) = 64)
 );
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id    ON sessions(user_id);

@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Patch, Delete, Response, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Delete, Response, UseInterceptors, UploadedFile, Inject } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { uploadUserAvatar } from 'src/upload/upload.constants';
@@ -10,20 +10,21 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { UserBillingDto } from './dto/user-billing.dto';
+import jwtConfig from 'src/config/jwt.config';
+import { type ConfigType } from '@nestjs/config';
 
 @UserControllerDoc.Controller()
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
 
   @UserControllerDoc.Index()
   @Get()
   async index(@User('sub') userId: string) {
-    const user = await this.userService.index(userId);
-    console.log('User entity:', user);
-    return UserDto.fromEntity(user);
+    return UserDto.fromEntity(await this.userService.index(userId));
   }
 
   @UserControllerDoc.GetProfile()
@@ -85,7 +86,9 @@ export class UserController {
   @UserControllerDoc.Delete()
   @Delete()
   delete(@User('sub') userId: string, @Response({ passthrough: true }) res) {
-    res.clearCookie('jwt');
+    res.clearCookie(this.jwt.accessTokenCookieName);
+    res.clearCookie(this.jwt.refreshTokenCookieName);
+
     return this.userService.delete(userId);
   }
 }

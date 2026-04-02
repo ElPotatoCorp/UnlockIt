@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
