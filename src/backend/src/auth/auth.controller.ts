@@ -56,7 +56,7 @@ export class AuthController {
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 
-  // @AuthControllerDoc.Refresh() // TODO: Add documentation for this endpoint
+  @AuthControllerDoc.Refresh()
   @Public()
   @UseGuards(JwtRefreshAuthGuard)
   @Post('refresh')

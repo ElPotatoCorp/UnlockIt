@@ -1,6 +1,7 @@
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
+import { JWT_ACCESS_TOKEN_COOKIE_NAME } from "./globals";
 
 function applyAppDocumentation(app: INestApplication<any>): void {
   const config = new DocumentBuilder()
@@ -14,7 +15,7 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       status: 500,
       description: 'Internal server error. It could be an unexpected error or simply a unhandled specific case.',
     })
-    .addCookieAuth(process.env.JWT_ACCESS_TOKEN_COOKIE_NAME || 'unlockit-access-token')
+    .addCookieAuth(JWT_ACCESS_TOKEN_COOKIE_NAME)
     .setVersion('1.0')
     .build();
 

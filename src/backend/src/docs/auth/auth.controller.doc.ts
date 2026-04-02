@@ -88,6 +88,27 @@ export const AuthControllerDoc = {
     ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid credentials.' })
   ),
 
+  Refresh: () => applyDecorators(
+    ApiAuth(),
+    ApiOperation({
+      summary: 'Refresh the access token using the refresh token',
+      description: `Requires a valid \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookie. If valid, it issues a new access token and refresh token, updating the cookies accordingly.`,
+    }),
+    ApiNoContentResponse({
+      description: `Token refreshed successfully. The \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookies are updated with new tokens.`,
+      headers: {
+        'Set-Cookie': {
+          description: 'Updated httpOnly JWT cookies.',
+          schema: {
+            type: 'string',
+            example: `${JWT_ACCESS_TOKEN_COOKIE_NAME}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Strict; Max-Age=900000, ${JWT_REFRESH_TOKEN_COOKIE_NAME}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Strict; Max-Age=2592000000`
+          }
+        },
+      },
+    }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid or expired refresh token.' })
+  ),
+
   Logout: () => applyDecorators(
     ApiOperation({
       summary: 'Logout the current user',
