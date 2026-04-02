@@ -1,0 +1,101 @@
+.profile img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: var(--cursor-pointer);
+  transition: transform 0.2s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.05);
+}
+
+.profileMenu {
+  position: fixed;
+  top: 53px;
+  right: -20px;
+  background: var(--color-tar);
+  border-radius: 10px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  border: 1px solid #333;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  animation: fadeInUp 0.3s ease forwards;
+  overflow: hidden;
+  z-index: 999;
+}
+
+/* Effet hover global */
+.profileMenu:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+.logOutLink {
+  display: inline-block;
+  color: var(--color-error);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: var(--cursor-pointer);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.logOutLink:hover {
+  transform: translateX(4px);
+}
+
+.logOutLink:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+.logInLink {
+  display: inline-block;
+  color: var(--color-green);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: var(--cursor-pointer);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.logInLink:hover {
+  transform: translateX(4px);
+}
+
+.logInLink:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+.menuLink {
+  display: inline-block;
+  color: var(--color-white);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: var(--cursor-pointer);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.menuLink:hover {
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.menuLink:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,50 @@
+@import "./fonts.css";
+@import "./hooks.css";
+
+:root {
+  /* === Couleurs === */
+  --color-white: #ffffff;
+  --color-void: #111;
+  --color-tar: #1a1a1a;
+  --color-smoke: #2a2a2a;
+  --color-onyx: #2f2f2f;
+  --color-carbon: #444;
+  --color-mist: #aaa;
+  --color-blue: #1F6FEB;
+  --color-green: #00FF9F;
+  --color-blue-shadow: #1f71ebaa;
+  --color-green-shadow: #00ff9d88;
+
+  --color-hover-light: rgba(255, 255, 255, 0.15);
+  --color-hover-dark: rgba(0, 0, 0, 0.15);
+
+  --color-error: #ff4d4d;
+  --color-success: #0cd34e;
+  --color-info: #ffd966;
+
+  /* === Curseurs === */
+  --cursor-default: url('/media/cur/cur_default.png'), auto;
+  --cursor-pointer: url('/media/cur/cur_pointer.png') 6 0, pointer;
+  --cursor-text: url('/media/cur/cur_text.png') 13 13, text;
+  --cursor-move: url('/media/cur/cur_move.png') 13 13, move;
+  --cursor-help: url('/media/cur/cur_help.png') 0 0, help;
+  --cursor-ew-resize: url('/media/cur/cur_ew_resize.png') 13 13, ew-resize;
+  --cursor-ns-resize: url('/media/cur/cur_ns_resize.png') 13 13, ns-resize;
+  --cursor-nwse-resize: url('/media/cur/cur_nwse_resize.png') 13 13, nwse-resize;
+  --cursor-nesw-resize: url('/media/cur/cur_nesw_resize.png') 13 13, nesw-resize;
+  --cursor-crosshair: url('/media/cur/cur_crosshair.png') 13 13, crosshair;
+  --cursor-not-allowed: url('/media/cur/cur_forbidden.png') 13 13, not-allowed;
+  --cursor-zoom-in: url('/media/cur/cur_zoom_in.png') 13 13, zoom-in;
+  --cursor-zoom-out: url('/media/cur/cur_zoom_out.png') 13 13, zoom-out;
+  --cursor-grab: url('/media/cur/cur_grab.png') 13 13, grab;
+  --cursor-grabbing: url('/media/cur/cur_grabbing.png') 13 13, grabbing;
+}
+
+body {
+  background-color: var(--color-onyx);
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: var(--cursor-default);
+  height: 100%;
+}

@@ -39,3 +39,4 @@ sandbox.*
 *.service
 
 src/backend/uploads
+start-dev.vbs

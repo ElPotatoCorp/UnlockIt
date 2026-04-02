@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'Orbitron';
+  src: url('/fonts/Orbitron/Orbitron-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Audiowide';
+  src: url('/fonts/Audiowide/Audiowide-Regular.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}

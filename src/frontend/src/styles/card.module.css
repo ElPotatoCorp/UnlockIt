@@ -1,0 +1,226 @@
+/* === Card Layout === */
+.card {
+  background: var(--color-tar);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* === Typography === */
+.cardTitle {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 26px;
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cardSubtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  color: #ccc;
+}
+
+.cardText {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* === Col List === */
+.colList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.colList li {
+  background: var(--color-tar);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  color: #ccc;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.colList li:hover {
+  background: #222;
+  transform: translateX(4px);
+}
+
+/* === Row List === */
+.rowList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.rowList li {
+  background: var(--color-tar);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  color: #ccc;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.rowList li span {
+  color: var(--color-green);
+}
+
+.rowList li:hover {
+  background: #222;
+  transform: translateY(-4px);
+}
+
+/* === Form Elements === */
+.cardForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.cardLabel {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+  text-align: left;
+}
+
+.cardInput {
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #111;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+.cardInput::placeholder {
+  color: #666;
+}
+
+.cardInput:focus {
+  outline: none;
+  border-color: var(--color-blue);
+}
+
+/* === Boxes === */
+.cardBox {
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.boxLabel {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: var(--color-mist);
+}
+
+.boxValue {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* === Buttons === */
+.cardButton {
+  background: linear-gradient(90deg, #1F6FEB, #3a8efc);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  cursor: var(--cursor-pointer);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.cardButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px var(--color-blue);
+}
+
+.cardButton:disabled {
+  opacity: 0.5;
+  cursor: var(--cursor-not-allowed);
+}
+
+.cardButton:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* === Link Style === */
+.cardLink {
+  display: inline-block;
+  color: var(--color-green);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: var(--cursor-pointer);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cardLink:hover {
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+/* === Feedback Messages === */
+.cardSuccess {
+  color: var(--color-success);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.cardError {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* === Utility === */
+.cardMessage {
+  opacity: 0;
+  transform: translateY(-5px);
+  animation: fadeInUp 0.4s ease forwards;
+  text-align: center;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,167 @@
+.pageHeader {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 1rem;
+}
+
+.left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  transform: scale(1.2);
+  margin-left: 1rem;
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  transform: scale(1.2);
+  margin-right: 2rem;
+}
+
+.bottomRow {
+  display: none;
+}
+
+.centerMobile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .topRow {
+    height: 60px;
+    padding: 0 0.6rem;
+  }
+
+  .left {
+    transform: scale(0.9);
+    margin-left: 1rem;
+  }
+
+  .right {
+    transform: scale(1);
+    gap: 1.8rem;
+    margin-right: 1.5rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .topRow {
+    height: 48px;
+    padding: 0 0.3rem;
+  }
+
+  .left {
+    transform: scale(0.6);
+    padding-top: 20px;
+    margin-left: 2rem;
+    transform: scale(1);
+  }
+
+  .right {
+    transform: scale(0.9);
+    gap: 1.4rem;
+    margin-right: 0.4rem;
+  }
+
+  .bottomRow {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+
+  .center {
+    display: none !important;
+    position: static;
+    transform: none;
+    width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .topRow {
+    height: 56px;
+    padding: 0 0.4rem;
+  }
+
+  .left {
+    transform: scale(1);
+    margin-left: 0.8rem;
+  }
+
+  .right {
+    transform: scale(0.9);
+    gap: 1.5rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .left {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 360px) {
+  .topRow {
+    height: 46px;
+    padding: 0 0.2rem;
+  }
+
+  .left {
+    transform: scale(0.8);
+    padding-top: 20px;
+    margin-left: 0.3rem;
+  }
+
+  .right {
+    transform: scale(0.8);
+    gap: 1.4rem;
+    margin-right: 0.3rem;
+  }
+
+  .bottomRow {
+    display: flex;
+  }
+}
+
+/* Fix desktop */
+@media (min-width: 429px) {
+  .center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .topRow {
+    position: relative;
+  }
+}
