@@ -1,0 +1,62 @@
+{
+  "name": "Beat Saber",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2019-05-21",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Compétitif",
+    "Relaxant",
+    "Futuriste",
+    "Stylisé",
+    "3D",
+    "VR"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Beat Games"
+  ],
+  "developers": [
+    "Beat Games"
+  ],
+  "shortDescription": "Beat Saber est un jeu de rythme en VR où vous devez trancher les notes d'une musique entraînante qui arrivent vers vous, au sein d'un univers futuriste.",
+  "detailedDescription": "Beat Saber est une expérience rythmique immersive sans précédent ! Découvrez des tonnes de niveaux conçus à la main et laissez-vous happer par une musique électronique entraînante, le tout dans un environnement futuriste. Utilisez vos sabres pour trancher les notes à mesure qu'elles arrivent vers vous. Chaque cube indique quel sabre vous devez utiliser et dans quelle direction vous devez trancher. <h2 class=\"bb_tag\" >Caractéristiques</h2> <ul class=\"bb_ul\"> <li>Le rythme dans la peau : Plongez dans une atmosphère unique combinant musique et effets visuels avec le gameplay unique de Beat Saber.<br> </li><li>Musiques et niveaux originaux : Contrairement aux autres jeux de rythme dont le contenu est généré aléatoirement, la musique et les niveaux de Beat Saber sont créés à la main pour vous offrir une expérience musicale unique.<br> </li><li>Gardez le rythme en multijoueur : Affrontez vos amis ou des inconnus du monde entier.<br> </li><li>Une campagne stimulante : Améliorez-vous au quotidien en remplissant des objectifs et en surmontant des défis dans la campagne.<br> </li><li>Grimpez les échelons au classement : Affrontez d'autres joueuses et joueurs du monde entier dans différents modes de difficulté.<br> </li><li>Facile à prendre en main, amusant à maîtriser : Tout le monde comprendra les mécaniques de base du jeu. Il est simple à prendre en main et accessible à tous.<br> </li><li>Parfait pour garder la forme : Dansez et tranchez les notes, Beat Saber va vous faire bouger. </li></ul>",
+  "website": "http://beatsaber.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/header.jpg?t=1749135147",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/dddad91299b1b422677f8f4b44cb601cd9f14a35/capsule_231x87.jpg?t=1749135147",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/620980?t=1749135147",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_7df971fd7781d69dc455b15a400a6973ed7d3f36.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_e1b161014deff483fa6bd8147a102b83b053e201.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_b39d40cd4c53c9fd737ffde535cfdffc17662862.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_1881ae4f153faf0d1ccecca60fbdac5b43ad57eb.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_114dc9a9f27666b2d56801ba49a1db8fa202b6ee.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_b65444cc4513f34bd41fa6b0fe96cf11d94fea8d.1920x1080.jpg?t=1749135147",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/620980/ss_542d092f42c779c866167bec05c1da488bcd91f8.1920x1080.jpg?t=1749135147"
+  ],
+  "price": 29.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows 7/8.1/10 (64bit)<br></li><li><strong>Processeur :</strong> Intel Core i5 Sandy Bridge or equivalent<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> Nvidia GTX 960 or equivalent<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 200 MB d'espace disque disponible<br></li><li><strong>Prise en charge VR:</strong> SteamVR</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "es",
+    "ja",
+    "ko",
+    "es-419"
+  ],
+  "metacriticScore": 93
+}

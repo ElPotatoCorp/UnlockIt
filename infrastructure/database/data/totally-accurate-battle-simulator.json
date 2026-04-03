@@ -1,0 +1,68 @@
+{
+  "name": "Totally Accurate Battle Simulator",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2021-04-01",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Compétitif",
+    "Stratégie",
+    "Simulation",
+    "Humoristique",
+    "Sandbox",
+    "Historique",
+    "Cartoon",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": true,
+    "android": true,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Landfall"
+  ],
+  "developers": [
+    "Landfall"
+  ],
+  "shortDescription": "Dirigez des personnages flageolants bleus et rouges venant de terres anciennes, de lieux effrayants et de mondes fantastiques. Admirez-les se battre dans des simulations où la physique est totalement bancale.",
+  "detailedDescription": "Dirigez des personnages flageolants bleus et rouges venant de terres anciennes, de lieux effrayants et de mondes fantastiques. Admirez-les se battre dans des simulations où la physique est totalement bancale.<br><br>Si vous finissez par en avoir marre des plus de 100 personnages à votre disposition, vous pouvez toujours en créer des nouveaux dans le créateur d'unité.<br><br>Vous pouvez également envoyer vos personnages se battre contre vos amis ou des inconnus dans le mode multijoueur en ligne!<h2 class=\"bb_tag\" >Features</h2><ul class=\"bb_ul\"><li>Des campagnes<br></li><li>Un mode multijoueur<br></li><li>Un atelier<br></li><li>Un créateur d'unité et de faction<br></li><li>Un créateur de campagne et de bataille<br></li><li>Un mode Sandbox<br></li><li>De la possession d'unité<br></li><li>Un tas d'unités idiotes</li></ul>",
+  "website": "http://landfall.se",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/header.jpg?t=1730715415",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/capsule_231x87.jpg?t=1730715415",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/508440?t=1730715415",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_e502c3d72a454d8792fced42d241158d964af359.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_585351cc5907cb0549a86b47edde9b7925d3e89f.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_6b5c293eb66949679ab2698b05859fb932306849.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_202aea2c755d22cdf0f5a26788391de803b1737d.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_88a52984d16de594b2ba49fd70a244517b8d15ad.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_7002d323c3c9d6b554217c2ae610911c5f62b00e.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_f74f827e83eff5e9762711c42ccb3bdd4bc59af9.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_29d297f97600a9608dc1a1720beecd2473de49f7.1920x1080.jpg?t=1730715415",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/ss_ee3b56ddd900962ac4eec1fb10d4c277fc0d03ec.1920x1080.jpg?t=1730715415"
+  ],
+  "price": 18.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation  *:</strong> Windows 7<br></li><li><strong>Processeur :</strong> Intel Core i5-2400 @ 3.1 GHz or AMD FX-6300 @ 3.5 GHz or equivalent<br></li><li><strong>Mémoire vive :</strong> 8 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce GTX 670 or AMD R9 270 (2GB VRAM with Shader Model 5.0 or better)<br></li><li><strong>DirectX :</strong> Version 10<br></li><li><strong>Espace disque :</strong> 4 GB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> Only runs on 64 bit systems</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ja",
+    "zh-Hans",
+    "pt-PT",
+    "ru"
+  ],
+  "metacriticScore": null
+}

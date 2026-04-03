@@ -1,0 +1,73 @@
+{
+  "name": "The Sims 4",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2020-06-18",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Simulation",
+    "Gestion",
+    "Construction",
+    "Sandbox",
+    "Relaxant",
+    "Familial",
+    "Contemporain",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Electronic Arts"
+  ],
+  "developers": [
+    "Maxis"
+  ],
+  "shortDescription": "Profitez du pouvoir de créer et de contrôler des personnages dans un monde virtuel où il n'y a aucune règle. Soyez puissant et libre, amusez-vous et jouez avec la vie !",
+  "detailedDescription": "<h1>Les Sims est sur Discord !</h1><p></p><br><h1>À propos du jeu</h1>Libérez votre imagination et créez un monde de Sims unique qui vous ressemble. Téléchargez gratuitement le jeu et personnalisez les moindres détails, des Sims à leurs maisons, et bien plus encore. Choisissez l'apparence, le comportement et le look de vos Sims, puis décidez de la manière dont ils vivront au quotidien. Concevez et construisez des maisons incroyables pour chaque famille, puis décorez-les avec vos meubles et objets préférés. Visitez différents quartiers où vous pouvez rencontrer d'autres Sims et en savoir plus à leur sujet. Découvrez de magnifiques endroits aux environnements uniques et vivez des aventures spontanées. Gérez les hauts et les bas du quotidien de vos Sims, et découvrez ce qu'il se passe lorsque vous recréez des scénarios de votre propre vie réelle. Racontez vos histoires à votre manière en développant des relations, en menant des carrières et en réalisant des aspirations à long terme, et plongez dans ce jeu extraordinaire où les possibilités sont infinies.<br><br><strong>Téléchargez gratuitement le jeu</strong> — Le jeu de base Les Sims™ 4 est disponible en téléchargement gratuit. Obtenez une multitude d’options pour construire des maisons, habiller et coiffer des Sims et personnaliser leur caractère. Créez leurs histoires en explorant des mondes animés et en découvrant de nouvelles façons d’être vous.<br><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/285113ada9fd8819b19090da269517bb.poster.avif?t=1763056950\" width=610 height=342 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/285113ada9fd8819b19090da269517bb.webm?t=1763056950\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/285113ada9fd8819b19090da269517bb.mp4?t=1763056950\" type=\"video/mp4\"></video></span><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/24decc84414b333acf4f6dc7c48d084c.poster.avif?t=1763056950\" width=610 height=342 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/24decc84414b333acf4f6dc7c48d084c.webm?t=1763056950\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/24decc84414b333acf4f6dc7c48d084c.mp4?t=1763056950\" type=\"video/mp4\"></video></span><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/f3eea6f2775e9fa7c846cb11a4108877.poster.avif?t=1763056950\" width=610 height=342 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/f3eea6f2775e9fa7c846cb11a4108877.webm?t=1763056950\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/f3eea6f2775e9fa7c846cb11a4108877.mp4?t=1763056950\" type=\"video/mp4\"></video></span><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/792cbcc5d8991c389a45910bca64ee99.poster.avif?t=1763056950\" width=610 height=342 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/792cbcc5d8991c389a45910bca64ee99.webm?t=1763056950\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/792cbcc5d8991c389a45910bca64ee99.mp4?t=1763056950\" type=\"video/mp4\"></video></span><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/cd086cc839b5f173522fd4202c377571.poster.avif?t=1763056950\" width=610 height=342 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/cd086cc839b5f173522fd4202c377571.webm?t=1763056950\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/extras/cd086cc839b5f173522fd4202c377571.mp4?t=1763056950\" type=\"video/mp4\"></video></span><br><br><strong>Profitez davantage avec EA Play</strong> – Les membres d’EA Play peuvent élargir leurs possibilités de carrière avec le pack d’extension Les Sims 4 Au Travail.",
+  "website": "https://www.ea.com/games/the-sims/the-sims-4",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/header.jpg?t=1763056950",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/capsule_231x87_french.jpg?t=1763056950",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1222670?t=1763056950",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/ss_537683e5e29c2d6d02c64aa7321dcb26166f7d82.1920x1080.jpg?t=1763056950",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/ss_2fc938d99a1e87893852cb2d2113478190607941.1920x1080.jpg?t=1763056950",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/ss_b447d6436d2d00cd5e7c170e509b2246dfc879e8.1920x1080.jpg?t=1763056950",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/ss_e1f0ce3ca2c9a538e382cc8b040944fe05af4bb2.1920x1080.jpg?t=1763056950",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/ss_7d9baea1aedeeb41cb197a9e45a30f0b91b4baf9.1920x1080.jpg?t=1763056950"
+  ],
+  "price": 0.0,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> 64 bits requis. Windows 10<br></li><li><strong>Processeur :</strong> 3,3 GHz Intel Core i3-3220 (2 cœurs, 4 threads), 3,1 GHz AMD Ryzen 3 1200 (4 cœurs) ou supérieur<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> 128 Mo de RAM vidéo et compatibilité avec Pixel Shader 3.0. Cartes graphiques compatibles : NVIDIA GeForce 6600 ou supérieure, ATI Radeon X1300 ou supérieure, Intel GMA X4500 ou supérieure<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 26 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "da",
+    "nl",
+    "ja",
+    "no",
+    "pl",
+    "pt-BR",
+    "ru",
+    "sv",
+    "fi",
+    "zh-Hant",
+    "zh-Hans",
+    "ko"
+  ],
+  "metacriticScore": null
+}

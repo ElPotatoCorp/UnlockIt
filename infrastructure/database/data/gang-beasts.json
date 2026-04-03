@@ -1,0 +1,81 @@
+{
+  "name": "Gang Beasts",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2017-12-12",
+  "comingSoon": false,
+  "tags": [
+    "Multijoueur",
+    "Compétitif",
+    "Combat",
+    "Humoristique",
+    "Familial",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Boneloaf"
+  ],
+  "developers": [
+    "Boneloaf",
+    "Rocket Science"
+  ],
+  "shortDescription": "Gang Beasts est un jeu multijoueur loufoque avec des personnages gélatineux hargneux, des combats brutalo-comiques, et des lieux absurdement dangereux situés dans la cité de Ville-bœuf.",
+  "detailedDescription": "Gang Beasts est un jeu multijoueur loufoque avec des personnages gélatineux hargneux, des combats brutalo-comiques, et des lieux absurdement dangereux situés dans la cité de Ville-bœuf.<br />\r\n <br />\r\nPersonnalisez votre personnage pour combattre des ennemis en local ou en ligne dans le mode corps à corps, ou bien combattez avec des amis contre les gangs de Ville-bœuf dans le mode gang.<br />\r\n <br />\r\nGang Beasts est créé par Boneloaf, un petit studio de jeux indépendant qui a conçu une série de jeux multijoueur expérimentaux.",
+  "website": "http://gangbeasts.game",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/header.jpg?t=1732109683",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/capsule_231x87.jpg?t=1732109683",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/285900?t=1732109683",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_0476d6b0403313cb4fa727fd99146762eb80f611.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_0e7190e5cee562fa851f23bfeb65b336550a6d18.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_1778496dc8675159f7cb7ded7f6806ad4c1e2ccf.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_d10fe0c8d1bcf4f69317121e2ba3dc23f052e352.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_0717d70ae0ad852c0a17bd8eabb00c9d0159c6bc.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_c43fe05124ca430efa50929b242cd72add692106.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_04a8554f363fa2187a4f4f19c54482d7c47c954b.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_d7cb23c9e752a2f1b34b3733193965c214358073.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_07e13a7d410b506ef6f7b2eb722ffe67aa1f517a.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_04e5a41dc1601b5168fcc920272145963b4bace5.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_81fea7ccc50b69e4354df15a5d54498a74711034.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_5dc633bde7915a67540f3df88de10199cd5398a2.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_687d0ef3648215ac0393ae677ad94c66da34641a.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_52c4c67835237f3c567fc427f3a949b5d5c961b4.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_557d93c7759f2890ed537f2fdef4728152087460.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_75cb7400df9e365e90681b61a734214ec3d689d1.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_cf4d0172b79711c71595093830d5d0140023141f.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_cdd3b5db4d06d7c47b9d73477e654da6e56954b2.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_1068af1d8246faa40d3cd38f3bb20c29958507c4.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_ceccbb3d3a558b6e5a4bc41df7f0b941fb9386d5.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_aac307d0031d00214d3f33954481a3950d13f71e.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_e1fa9f5c9e2e4f71d34beb2e1e62e8f84b877e24.1920x1080.jpg?t=1732109683",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/285900/ss_1f186584d22f6458abcadadeeb61602ce78607e7.1920x1080.jpg?t=1732109683"
+  ],
+  "price": 18.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows 7<br></li><li><strong>Processeur :</strong> 2nd generation Core i3, AMD A6, or higher<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> Nvidia 8800 GT, AMD 5670, Intel HD 3000<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 2 GB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> DirectX 10 or higher</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "pt-BR",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "metacriticScore": null
+}

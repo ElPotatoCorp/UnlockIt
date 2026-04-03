@@ -1,0 +1,67 @@
+{
+  "name": "Rocket League®",
+  "type": "game",
+  "ageRating": 3,
+  "releaseDate": "2015-07-06",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Compétitif",
+    "Sport",
+    "Course",
+    "Familial",
+    "Futuriste",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Psyonix LLC"
+  ],
+  "developers": [
+    "Psyonix LLC"
+  ],
+  "shortDescription": "Football et voitures font bon ménage dans cette suite basée sur les lois de la physique du grand classique tant apprécié, Supersonic Acrobatic Rocket-Powered Battle-Cars !",
+  "detailedDescription": "Football et voitures font bon ménage dans cette suite basée sur les lois de la physique du grand classique tant apprécié, <i>Supersonic Acrobatic Rocket-Powered Battle-Cars</i> !<br><br>Jeu d'action et de sport futuriste, <strong>Rocket League®</strong> met le joueur aux commandes de véhicules dotés de turbos permettant de foncer dans des ballons pour marquer d'incroyables buts ou de faire des arrêts d'anthologie dans des arènes variées et riches en détails. Grâce à un moteur physique avancé capable de simuler des mouvements réalistes, <strong>Rocket League®</strong> utilise masse et vitesse pour rendre les commandes intuitives dans cette refonte explosive du football traditionnel.<br><br>Quelques-unes des caractéristiques :<br><br><ul class=\"bb_ul\"><li>Mode saison inédit permettant de profiter de l'expérience en solo<br></li><li>Battle-Cars hautement configurables, avec près de 10 milliards de combinaisons différentes<br></li><li>Objets et véhicules à débloquer, suivi des statistiques, classements et plus encore<br></li><li>Jeu en ligne à 8 joueurs avec plusieurs tailles et configurations d'équipe<br></li><li>Jeu à 2, 3 ou 4 joueurs en écran partagé en local ou en ligne contre d'autres joueurs<br></li><li>Replays de haute qualité vous permettant d'accélérer, de revenir en arrière et de voir l'action sous tous les angles<br></li><li>Jeu multiplateforme compétitif entre utilisateurs PlayStation®4, Xbox One et Nintendo Switch</li></ul><br><br><i>REMARQUE : en raison d'accords avec notre fournisseur d'accès, certaines régions n'ont pas la possibilité de se connecter à la partie multijoueur de Rocket League®. De ce fait, l'accès au serveur est impossible en Chine, en Crimée, à Cuba, en Iran, en Corée du Nord, au Soudan et en Syrie. Toutes nos excuses aux utilisateurs affectés.</i><br><br><strong>Versions bêta SteamOS et Mac</strong><br>Avec l'ajout continu de nouvelles technologies comme DirectX 11 et le client 64 bits, la prise en charge de macOS et de Linux (SteamOS) n'est plus viable pour nous. Par conséquent, la dernière mise à jour de Rocket League pour ces plateformes a eu lieu le 10 mars 2020. Elle a désactivé les fonctionnalités en ligne (comme les listes de lecture occasionnelles et compétitives), mais les fonctionnalités hors ligne telles que les parties en local et le jeu en écran partagé restent accessibles.<br><br>Pensez à consulter les notes de mise à jour pour les versions bêta SteamOS et Mac. Vous trouverez ci-dessous la liste des erreurs du jeu connues pour les deux versions à compter du 1er juin 2017 :<br><br>Le logiciel et les fonctionnalités en ligne sont soumises à la licence, aux conditions d'utilisation et à la politique de confidentialité de Rocket League  ,  et .",
+  "website": "http://www.rocketleague.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/fdbbfa1aa74c0c52df114e5a4b50253d4bedc761/header_alt_assets_13.jpg?t=1758121340",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/e04ec12dec3a1bc5c6958860173a80c7c2075211/capsule_231x87_alt_assets_13.jpg?t=1758121340",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/252950?t=1758121340",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/b2d4dfd5916afbfbe21c3248516aecd415229bb5/ss_b2d4dfd5916afbfbe21c3248516aecd415229bb5.1920x1080.jpg?t=1758121340",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/9ac7d83cb7e89ee546bfdba7c8da5c49e44fbd50/ss_9ac7d83cb7e89ee546bfdba7c8da5c49e44fbd50.1920x1080.jpg?t=1758121340",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/061ddac5c83f4455f52502a7c49219e0978e29d1/ss_061ddac5c83f4455f52502a7c49219e0978e29d1.1920x1080.jpg?t=1758121340",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/f2ae5b0ae34f2ee65c091282cf692e5857e26720/ss_f2ae5b0ae34f2ee65c091282cf692e5857e26720.1920x1080.jpg?t=1758121340",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/35eeb47ae6c182ae396ddce259b942567c44d355/ss_35eeb47ae6c182ae396ddce259b942567c44d355.1920x1080.jpg?t=1758121340",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/a6043ad2b821ede72ddb9fe35ad75d99833aa61a/ss_a6043ad2b821ede72ddb9fe35ad75d99833aa61a.1920x1080.jpg?t=1758121340"
+  ],
+  "price": 0.0,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows 7 (64 bit) or Newer (64 bit) Windows OS<br></li><li><strong>Processeur :</strong> 2.5 GHz Dual core<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce 760, AMD Radeon R7 270X, or better<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 20 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "nl",
+    "pt-PT",
+    "ja",
+    "ko",
+    "ru",
+    "tr",
+    "pl"
+  ],
+  "metacriticScore": 86
+}

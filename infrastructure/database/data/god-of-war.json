@@ -1,0 +1,80 @@
+{
+  "name": "God of War",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2022-01-14",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Action",
+    "Aventure",
+    "RPG / Jeu de rôle",
+    "Mythologique",
+    "Épique",
+    "Sombre",
+    "Intense",
+    "Narratif",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "PlayStation Publishing LLC"
+  ],
+  "developers": [
+    "Santa Monica Studio",
+    "Jetpack Interactive"
+  ],
+  "shortDescription": "Sa vengeance contre les dieux de l'Olympe étant bien derrière lui, Kratos vit désormais comme un simple habitant du royaume des dieux (et des monstres) nordiques. C'est dans ce monde inhospitalier et cruel qu'il doit combattre pour sa survie... et apprendre à son fils à en faire de même.",
+  "detailedDescription": "<strong>Pénétrez dans le royaume du nord</strong><br>Sa vengeance contre les dieux de l'Olympe étant bien derrière lui, Kratos vit désormais comme un simple habitant du royaume des dieux (et des monstres) nordiques. C'est dans ce monde inhospitalier et cruel qu'il doit combattre pour sa survie... et apprendre à son fils à en faire de même. <br><br><strong>Profitez de votre deuxième chance </strong><br>Kratos est à nouveau père. En tant que mentor et protecteur d'Atreus, un fils prêt à tout pour gagner son respect, Kratos se retrouve contraint de dominer la rage qui l'a défini pendant si longtemps alors qu'il explore avec son fils un monde rempli de dangers. <br><br><strong>Voyagez dans un monde sombre peuplé de terribles créatures</strong><br>Du marbre et des colonnes d'une Olympe resplendissante aux environnements bruts des forêts, montagnes et cavernes de la mythologie nordique pré-viking, ce nouveau royaume possède un panthéon de créatures, monstres et dieux qui lui sont propres. <br><br><strong>Prenez part à des combats physiques et viscéraux </strong><br>Grâce à une caméra libre à la troisième personne qui plonge le joueur encore plus au cœur de l'action, les combats de God of War™ sont à l'image du panthéon de créatures nordiques que Kratos affronte : grandioses, brutaux et ardus. La nouvelle arme principale et les capacités inédites de Kratos conservent l'esprit de la série God of War, tout en proposant une vision inédite des conflits qui redéfinit le genre.<h2 class=\"bb_tag\" >CARACTÉRISTIQUES PC</h2><br><strong>Graphismes haute-fidélité</strong><br>Des visuels saisissants améliorés sur PC. Profitez d'une véritable résolution 4K sur les appareils compatibles, [MU1] avec des fréquences d'image déverrouillées pour une performance inégalée. Gérez vos paramètres avec une vaste sélection d'options et de réglages graphiques prédéfinis, dont des ombres à haute résolution, des reflets d'espace-écran améliorés, l'ajout des technologies de GTAO et SSDO, et bien plus encore !<br><br><strong>Compatibilité avec NVIDIA® DLSS et NVIDIA® Reflex</strong><br>Quand la qualité rencontre la performance. Mettez à profit la puissance de l'IA du super-échantillonnage par Deep Learning (Deep Learning Super Sampling, DLSS) de NVIDIA, qui améliore la fréquence d'images et génère des images aussi belles que nettes sur les cartes graphiques NVIDIA compatibles. Utilisez la technologie NVIDIA Reflex de faible latence, qui vous permet de réagir plus rapidement et d'enchaîner des combos plus dévastateurs grâce au temps de réponse inégalé des cartes graphiques GeForce.<br><br><strong>Personnalisation des commandes</strong><br>Jouez à votre façon. Grâce à une compatibilité avec les manettes sans fil DUALSHOCK®4 et DUALSENSE® et bien d'autres périphériques de jeu, ainsi que des commandes souris et clavier entièrement personnalisables, vous avez la possibilité d'ajuster la moindre de vos actions à votre style de jeu.<br><br><strong>Compatibilité avec les écrans ultra-larges</strong><br>Profitez d'un niveau d'immersion inédit. Voyagez à travers les royaumes du nord et leurs paysages époustouflants en vue panoramique. Grâce à une compatibilité avec les écrans ultra-larges en 21:9, God of War™ offre une expérience de qualité cinématographique qui améliore encore davantage les visuels théâtraux et fluides du jeu.",
+  "website": "https://www.playstation.com/god-of-war/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/header.jpg?t=1763059412",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/capsule_231x87.jpg?t=1763059412",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1593500?t=1763059412",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_6eccc970b5de2943546d93d319be1b5c0618f21b.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_f1bff24d3967a21d303d95e11ed892e3d9113057.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_3670ba72c7e3e9c3c3225547ef2c1053504e62b8.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_93a3ca63aa2cd8c675bbb6430324ee3f2d44b845.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_1bd99270dcbd4ff9fe9c94b0d9c8ffc50ebb42c7.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_0858b868ea51d53f73bd805ba7382f027dd33dca.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_1351cb512d008f7e47fc50b74197f4f8eb6f3419.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_8db3de5b5d611e50945268848de2889e1ed4ba84.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_190a972a5bd3144d8944dcdfd7759bb1149017c0.1920x1080.jpg?t=1763059412",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/ss_e0edce62c590bc063a90a1296184392d0a9521da.1920x1080.jpg?t=1763059412"
+  ],
+  "price": 49.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10<br></li><li><strong>Processeur :</strong> Intel i5-2500k (4 core 3.3 GHz) or AMD Ryzen 3 1200 (4 core 3.1 GHz)<br></li><li><strong>Mémoire vive :</strong> 8 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GTX 960 (4 GB) or AMD R9 290X (4 GB)<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 70 GB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> DirectX feature level 11_1 required</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "nl",
+    "ja",
+    "ko",
+    "pl",
+    "pt-PT",
+    "pt-BR",
+    "ru",
+    "es-419",
+    "tr",
+    "zh-Hant",
+    "cs",
+    "hu",
+    "el"
+  ],
+  "metacriticScore": 93
+}

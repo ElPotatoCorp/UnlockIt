@@ -1,0 +1,68 @@
+{
+  "name": "Assassin's Creed Unity",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2014-11-12",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "Action",
+    "Aventure",
+    "Infiltration",
+    "Monde ouvert",
+    "Historique",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Ubisoft"
+  ],
+  "developers": [
+    "Ubisoft"
+  ],
+  "shortDescription": "Paris, 1789 Dans ce jeu d'action-aventure, vivez la Révolution française à travers les yeux d'Arno Dorian. Devenez un Assassin, révélez les véritables forces qui se cachent derrière la Révolution et façonnez le destin d'une nation.",
+  "detailedDescription": "<h2 class=\"bb_tag\" >UN NOUVEAU HÉROS SANS PITIÉ POUR UN MONDE SANS MERCI</h2><p class=\"bb_paragraph\" >Incarnez Arno, un nouveau genre d'Assassins, plus mortel que ses prédécesseurs. Terrassez vos proies avec un arsenal d'armes inédites comme la Lame fantôme, une lame secrète avec une arbalète intégrée.</p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/4a1fae13143b814108062fa5bd618003.poster.avif?t=1754525874\" width=600 height=338 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/4a1fae13143b814108062fa5bd618003.webm?t=1754525874\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/4a1fae13143b814108062fa5bd618003.mp4?t=1754525874\" type=\"video/mp4\"></video></span></p><h2 class=\"bb_tag\" >UN GAMEPLAY FLUIDE MÊLANT PARKOUR, COMBAT ET INFILTRATION</h2><p class=\"bb_paragraph\" >Profitez d'une grande liberté et d'un contrôle total sur votre Assassin, avec des mécaniques de parkour fluides, un système de combat repensé et un gameplay de furtivité amélioré.</p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/0fc50968572ac193611e66d23e8c39b3.poster.avif?t=1754525874\" width=600 height=338 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/0fc50968572ac193611e66d23e8c39b3.webm?t=1754525874\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/0fc50968572ac193611e66d23e8c39b3.mp4?t=1754525874\" type=\"video/mp4\"></video></span></p><h2 class=\"bb_tag\" >DÉCOUVREZ LE PARIS RÉVOLUTIONNAIRE</h2><p class=\"bb_paragraph\" >La Révolution française transforme une ville autrefois magnifique en un lieu de terreur et de chaos. Explorez une ville en monde ouvert à échelle 1:1 et regardez l'Histoire se dérouler sous vos yeux. Revivez les événements clés, de la prise de la Bastille à l'exécution du roi Louis XVI, alors que le destin de la France se joue dans les rues d'une ville en pleine transformation.</p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/e9e06d81088adff9aa05e8837c768939.poster.avif?t=1754525874\" width=600 height=338 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/e9e06d81088adff9aa05e8837c768939.webm?t=1754525874\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/extras/e9e06d81088adff9aa05e8837c768939.mp4?t=1754525874\" type=\"video/mp4\"></video></span></p>",
+  "website": "http://www.assassinscreed.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/header.jpg?t=1754525874",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/capsule_231x87.jpg?t=1754525874",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/289650?t=1754525874",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_19c1c8d52d714fe8d0a0277c36832b4e0ad5def3.1920x1080.jpg?t=1754525874",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_d825c8fd7c5472d17732bf3480760dd88924e551.1920x1080.jpg?t=1754525874",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_42c6e1765549541d5576ec5bdb01cbc45f376444.1920x1080.jpg?t=1754525874",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_facd76eb6789402e9caea63d0d0b18b84abdabae.1920x1080.jpg?t=1754525874",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_adc858ddceb956fa7e653e6190957a4712f6c05e.1920x1080.jpg?t=1754525874",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/ss_74122312de60a4f3e951e25f41dcd8f5f779a523.1920x1080.jpg?t=1754525874"
+  ],
+  "price": 29.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation :</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processeur :</strong> Intel Core i5-2500K @ 3.3 GHz or AMD FX-8350 @ 4.0 GHz<br></li><li><strong>Mémoire vive :</strong> 6 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce GTX 680 or AMD Radeon HD 7970 (2 GB VRAM)<br></li><li><strong>Espace disque :</strong> 50 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> DirectX 9.0c compatible sound card with latest drivers<br></li><li><strong>Notes supplémentaires :</strong> Windows-compatible keyboard and mouse required, optional controller</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hant",
+    "nl"
+  ],
+  "metacriticScore": null
+}

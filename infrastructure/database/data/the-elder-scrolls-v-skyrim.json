@@ -1,0 +1,74 @@
+{
+  "name": "The Elder Scrolls V: Skyrim",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2011-11-10",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "RPG / Jeu de rôle",
+    "Monde ouvert",
+    "Aventure",
+    "Exploration",
+    "Fantastique",
+    "Médiéval",
+    "Épique",
+    "Immersif",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Bethesda Softworks"
+  ],
+  "developers": [
+    "Bethesda Game Studios"
+  ],
+  "shortDescription": "LA RENAISSANCE DU FANTASTIQUELe nouveau chapitre très attendu de la saga Elder Scrolls nous arrive des créateurs du jeu de l'année 2006 et 2008, Bethesda Game Studios. Skyrim réinvente et révolutionne le monde ouvert, ramenant à la vie un monde complet que vous pourrez librement explorer.",
+  "detailedDescription": "<h1>The Game of a Generation</h1><p>Voted 'The Best Game of the Generation' by amazon.co.uk users, and</p><br><h1>À propos du jeu</h1><strong>LA RENAISSANCE DU FANTASTIQUE</strong><br>Le nouveau chapitre très attendu de la saga Elder Scrolls nous arrive des créateurs du jeu de l'année 2006 et 2008, Bethesda Game Studios. Skyrim réinvente et révolutionne le monde ouvert, ramenant à la vie un monde complet que vous pourrez librement explorer. <br><br><strong>UNE AUTRE VIE DANS UN AUTRE MONDE</strong><br>Incarnez le personnage de votre choix et faites ce qui vous plaît. La liberté d'action est totale et l'aventure est sans pareil dans The Elder Scrolls.<br><br><strong>NOUVEAUX GRAPHISMES ET MOTEUR</strong><br>Le nouveau moteur apporte à Skyrim un nouveau monde virtuel avec le mouvement des nuages, des montagnes escarpées, des villes, des champs et des donjons.<br><br><strong>VOTRE TYPE DE JEU VOUS REFLÈTE</strong><br>Choisissez parmi des centaines d'armes, de sorts et de capacités. Le nouveau système de personnage vous permet de jouer selon vos choix et vous définit à travers vos actions.<br><br><strong>LE RETOUR DU DRAGON</strong><br>Combattez d'anciens dragons comme vous n'en avez jamais vus. En tant que Enfant De Dragon, apprenez leurs secrets et utilisez leurs pouvoirs.",
+  "website": "http://elderscrolls.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/header.jpg?t=1721923139",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/capsule_231x87.jpg?t=1721923139",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/72850?t=1721923139",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_4e95fbcf72ce2a9f86075738fa9930ef2bed1ac7.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_b16a3740e032afe1c4b0477174eae7af8444b85d.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_b3c5c70421af0c6a48dab2fbac88814a8827c057.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_b29aa0a2503547a15e9e210551b9c3eed42cba78.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_8aad65240099ed6f44953d051d1fca5d4f16e174.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_c1dce7ea799bebeecc085bbe4879b27e6e05a33c.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_5ad7ed4bb147a59ced32257a80008285f0722822.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_59ceb8acb69485f50f236d6a10a5e5c47856681b.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_8015ccd40a8cdf6ad62913e61493e4f094b4f0e3.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_674d80f91cb32c6e0fdd2dd826596823b4d65bfe.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_038abb71457edf636529dd7b5f898a7311dea359.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_e05468513634d03e4cc99d5b13436fe4ee653d6f.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_07bc094ab6223d680c809735bbbadfc7ff733905.1920x1080.jpg?t=1721923139",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/72850/ss_5dfdc21d3fa4ffff7081f0933748b95f23c9b181.1920x1080.jpg?t=1721923139"
+  ],
+  "price": 14.99,
+  "pcRequirements": "<strong>Minimum :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation :</strong> Windows 7 / Vista / XP PC (32 ou 64 bit)<br></li><li><strong>Processeur :</strong> Double cœur 2.0 GHz ou équivalent<br></li><li><strong>Mémoire vive :</strong> 2 Go de RAM<br></li><li><strong>Disque dur :</strong> 6 Go d'espace disque disponible<br></li><li><strong>Carte graphique :</strong> Carte compatible Direct X 9.0c comportant 512 Mo de mémoire vidéo<br></li><li><strong>Son :</strong> Carte son compatible DirectX</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "it",
+    "es",
+    "ja",
+    "cs",
+    "pl",
+    "ru"
+  ],
+  "metacriticScore": 94
+}

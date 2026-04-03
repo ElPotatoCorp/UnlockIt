@@ -1,0 +1,74 @@
+{
+  "name": "Assassin's Creed IV: Black Flag",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2013-11-19",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Action",
+    "Aventure",
+    "Infiltration",
+    "Monde ouvert",
+    "Historique",
+    "Nautique",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps3": false,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Ubisoft"
+  ],
+  "developers": [
+    "Ubisoft Montreal"
+  ],
+  "shortDescription": "1715, les Pirates règnent sur les Caraïbes et viennent de fonder leur propre République où la corruption, l’avarice et la cruauté sont désormais monnaie courante. Parmi ces hors-la-loi, un jeune capitaine impétueux du nom d’Edward Kenway commence à se forger une flatteuse réputation.",
+  "detailedDescription": "1715, les Pirates règnent sur les Caraïbes et viennent de fonder leur propre République où la corruption, l’avarice et la cruauté sont désormais monnaie courante.  <br><br>Parmi ces hors-la-loi, un jeune capitaine impétueux du nom d’Edward Kenway commence à se forger une flatteuse réputation. Mais si son combat pour la gloire et la fortune lui fait gagner le respect de pirates légendaires tels que Barbe Noire, il se retrouve aussi plongé au cœur de la guerre millénaire que se livrent Assassins et Templiers, une guerre qui pourrait détruire tout ce que les pirates ont construit…<br><br>Bienvenue dans l’Âge d’Or de la Piraterie !<h2 class=\"bb_tag\" >Caractéristiques</h2><br><br><ul class=\"bb_ul\"><li><strong>UN ASSASSIN REBELLE ET IMPÉTUEUX</strong> Incarnez Edward Kenway, un capitaine Pirate charismatique, brutal, formé par l’Ordre des Assassins. Edward passe sans peine de la Lame Secrète des Assassins à un tout nouvel arsenal incluant 4 pistolets Flintlock et 2 sabres d’abordage. </li></ul><br><ul class=\"bb_ul\"><li><strong>EXPLOREZ UN MONDE REMPLI D’OPPORTUNITÉS</strong> Découvrez le monde le plus grand et varié jamais créé pour un jeu Assassin’s Creed. De Kingston à Nassau, explorez plus de 75 lieux uniques où vous vivrez la vie d’un véritable pirate : </li></ul><ul class=\"bb_ul\"><ul class=\"bb_ul\"><li>Fouillez des épaves dans les profondeurs sous-marines <br></li><li>Assassinez des Templiers dans les villes côtières en plein essor économique<br></li><li>Chassez des animaux rares dans les jungles sauvages <br></li><li>Partez à la recherche de trésors dans les ruines oubliées <br></li><li>Echappez-vous des troupes continentales en vous dissimulant dans les criques cachées</li></ul></ul><br><ul class=\"bb_ul\"><li><strong>DEVENEZ LE PIRATE LE PLUS CRAINT DES CARAÏBES</strong> Dirigez votre bateau, le Jackdaw, et instiguez la peur dans les yeux de tous. Pillez des navires ennemis pour améliorer votre galion avec les armes et équipements nécessaires pour triompher lors de batailles navales mémorables. Recrutez des marins pour composer votre équipage, partez à l’abordage de galions gigantesques, et  sillonnez les mers sans aucun temps de chargement   pour y vivre une aventure sombre et épique ! </li></ul><br><br><ul class=\"bb_ul\"><li><strong>DÉCOUVREZ LA SOMBRE RÉALITÉ DERRIÈRE LA VIE DES PIRATES</strong> Fondez une République anarchique dans les Bahamas, côtoyez les pirates les plus légendaires tels que Barbe Noire, Calico Jack ou Benjamin Hornigold, et revivez les évènements marquants de l’Âge d’Or de la Piraterie. </li></ul><br><ul class=\"bb_ul\"><li><strong>LA MEILLEURE EXPÉRIENCE MULTIJOUEUR À CE JOUR DANS UN JEU ASSASSIN’S CREED</strong> Mettez à contribution votre savoir et vos compétences en tant qu’Assassin et lancez-vous dans une aventure en ligne au cœur des Caraïbes. Découvrez de nouveaux personnages et explorez des lieux paradisiaques. Créez également votre propre expérience de jeu avec la toute nouvelle fonctionnalité du Game Lab - Inventez votre propre mode multijoueur en choisissant les capacités, les règles et les bonus. Jouez et partagez vos créations avec vos amis.</li></ul>",
+  "website": "http://www.assassinscreed.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/header.jpg?t=1752168657",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/capsule_231x87.jpg?t=1752168657",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/242050?t=1752168657",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_82453694854272967e6f7c2147ff86f62a2b1408.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_afb6f91bc96b51d0684bb4cbec4389b49dcb96db.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_c2ad7f22e27b8ffab2a896e543a82fc8f6e9a1a7.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_7aa79ce41e1233ff22701281af51b5f0ab51245e.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_1731a6467ede27fa624caa1b23332307b2149257.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_a7b90773770ff884387199491885c12a57bdfc5d.1920x1080.jpg?t=1752168657",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242050/ss_60b905d803c94cd1a1e02bd62eeb6f9e4ca2b3ec.1920x1080.jpg?t=1752168657"
+  ],
+  "price": 39.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows Vista SP2<br></li><li><strong>Processeur :</strong> Intel Core2Quad Q8400 @ 2.6 GHz or AMD Athlon II X4 620 @ 2.6 GHz<br></li><li><strong>Mémoire vive :</strong> 2 GB de mémoire<br></li><li><strong>Graphiques :</strong> Nvidia Geforce GTX 260 or AMD Radeon HD 4870 (512MB VRAM with shader Model 4.0 or higher)<br></li><li><strong>Espace disque :</strong> 30 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> DirectX Compatible Sound Card with latest drivers<br></li><li><strong>Notes supplémentaires :</strong> Windows-Compatible keyboard and mouse required, controller optional.</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "da",
+    "nl",
+    "fi",
+    "no",
+    "pl",
+    "pt-PT",
+    "pt-BR",
+    "ru",
+    "sv",
+    "zh-Hans"
+  ],
+  "metacriticScore": null
+}

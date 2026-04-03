@@ -1,0 +1,83 @@
+{
+  "name": "Valheim",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2021-02-02",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "Survie",
+    "Crafting",
+    "Construction",
+    "Exploration",
+    "Mythologique",
+    "Épique",
+    "Sombre",
+    "Low poly",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Coffee Stain Publishing"
+  ],
+  "developers": [
+    "Iron Gate AB"
+  ],
+  "shortDescription": "Un jeu multijoueur brutal d'exploration et de survie pour 1 à 10 joueurs, prenant place dans un purgatoire en génération procédurale inspiré par la culture viking. Combattez, bâtissez et accomplissez des exploits à la gloire d'Odin!",
+  "detailedDescription": "Guerrier tombé au combat, les Valkyries ont emporté votre âme à Valheim, le dixième monde de la mythologie nordique. Vous êtes le nouveau gardien de ce purgatoire primordial, assiégé de toute part par les créatures du chaos et les ennemis jurés des dieux. Odin compte sur vous pour reconquérir Valheim. <br><br>Vos épreuves commencent au centre étrangement paisible de ce monde, mais la faveur des dieux récompenses les braves. Aventurez-vous dans d'impénétrables forêts, hissez-vous au sommet d'imposantes montagnes, collectez des matériaux pour forger des armes mortelles et des armures plus résistantes, ainsi que pour bâtir des camps et des fortifications. Construisez un puissant langskip et parcourez les vastes océans à la recherche de terres exotiques... mais prenez garde de ne pas naviguer trop loin...<br><br><strong>Caractéristiques</strong><br><ul class=\"bb_ul\"><li>Gigantesque monde en génération procédurale - Explorez et établissez-vous dans des contrées mystiques, de mystérieuses forêts et d'imposantes montagnes, tout en affrontant les créatures de légendes et les animaux sauvages qui y habitent.<br></li><li>Multijoueur coopératif (2-10 joueurs) - Que vous préfériez partir en expédition seul ou avec vos alliés, Valheim est doté de serveurs indépendants et hébergés par les joueurs, et de possibilités de création de monde illimitées. Nous vous recommandons de jouer en coopération avec 3 à 5 joueurs.<br></li><li>Combats exigeants basés sur un système d'esquives et de parades, et proposant un vaste éventail d'armes.<br></li><li>Construisez des navires et prenez la mer - De radeaux sommaires jusqu'aux plus imposants des navires de guerre, construisez les embarcations qui vous permettront de conquérir les océans et de découvrir de nouvelles terres.<br></li><li>Invoquez et triomphez de monstres primordiaux issus des légendes, et collectez des trophées pour progresser et forger de redoutables objets.<br></li><li>Système de construction de maisons et de bases - Érigez maisons longues, fermes, campements, fortifications, et bien plus.<br></li><li>Artisanat intuitif - Forgez des armes et armures dignes des sagas, brassez votre propre hydromel et cuisinez de délicieux plats. <br></li><li>Serveurs dédiés - Pour les joueurs qui souhaitent leur propre serveur persistant. </li></ul>",
+  "website": "http://www.valheim.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/de0bdcf6c008c508a79d8e75eb91fc67f4bebd5d/header.jpg?t=1762784724",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/3b25991b8a19244cfd979a2766e7490cc7894e09/capsule_231x87.jpg?t=1762784724",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/892970?t=1762784724",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_a600a7d4ca954543e22f571a9629521a13f82143.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_cd0262c5abf8a90ee5e1059acafc5a92b6be0e73.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_3db385fc1223914dadb199ac8682683a8c59454e.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_6032c9336c6cf9c1ebc914cedf022b38e97fd271.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_f6cbfeea728d557fa9f483685fea3205f08f5d9e.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_551f06a43b72609d7ca3cd63e93c58e949d58384.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_f4ea4f0f93cc8b38042f6d5916413da185ec221c.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_553301e2432883e9f026fe1dd0e91d7a8886d6f1.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_9b4abc60696de192c40064364a1395ad5074e5c3.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_15a86a1c4175f9392127265735c177a91535de65.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_ad81cc7ced8585ad344ba50e9d0b4bf9c597e62e.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_4ba939a383dc363c14e6cb7995322f39a5a26b07.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_988d92f03856895ef73a636ad20c2951086b865c.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_8db2e5f40b64e105c7174b3d3679fce6d7a04d20.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_b3c171e257dd1a3173254b1b61a7995dec204df4.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_64ae63dcfde6612266cf72884132fa144908b777.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_0c218f8040f1d7850baff4ff4e3109942388ac98.1920x1080.jpg?t=1762784724",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/ss_e79d3106549c1269a14888f2095e4c667643c3ad.1920x1080.jpg?t=1762784724"
+  ],
+  "price": 19.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10 or later<br></li><li><strong>Processeur :</strong> 2.6 GHz Quad Core or similar<br></li><li><strong>Mémoire vive :</strong> 8 GB de mémoire<br></li><li><strong>Graphiques :</strong> GeForce GTX 950 or Radeon HD 7970<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 1 GB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> The following languages have been partially translated by the community: Svenska, Italiano, Romanian, български, македонски, Suomi, Dansk, íslenska, Lietuvių kalba, čeština, Magyar nyelv, Português europeu, 한국어 (불완전한), Norsk, ภาษาไทย, ქართული ენა, Abenaki, Slovenčina</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "es",
+    "ru",
+    "zh-Hans",
+    "tr",
+    "ja",
+    "pt-BR",
+    "pl",
+    "uk",
+    "it",
+    "ko",
+    "zh-Hant"
+  ],
+  "metacriticScore": null
+}

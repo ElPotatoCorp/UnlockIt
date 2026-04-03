@@ -1,0 +1,75 @@
+{
+  "name": "ELDEN RING NIGHTREIGN",
+  "type": "game",
+  "ageRating": 16,
+  "releaseDate": "2025-05-29",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "RPG / Jeu de rôle",
+    "Action",
+    "Roguelike / Roguelite",
+    "Fantastique",
+    "Sombre",
+    "Intense",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "FromSoftware, Inc.",
+    "Bandai Namco Entertainment"
+  ],
+  "developers": [
+    "FromSoftware, Inc."
+  ],
+  "shortDescription": "ELDEN RING NIGHTREIGN est une aventure indépendante se déroulant dans l'univers d'ELDEN RING, conçue pour offrir aux joueurs une nouvelle expérience en réimaginant la structure même du jeu.",
+  "detailedDescription": "<h1>Édition Deluxe</h1><p><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/a204ce9ff4e5aad641d9608eda383e5d.avif?t=1763058693\" width=616 height=346 /></span><br>L'Édition Deluxe comprend :<br>• ELDEN RING NIGHTREIGN<br>• ELDEN RING NIGHTREIGN The Forsaken Hollows<br>- 2 Nocturnes supplémentaires<br>- 1 terrain rare supplémentaire<br>- Et bien plus !<br>• Artbook et mini bande-son numériques<br><br>*Une Édition Standard est également disponible. Veillez à ne pas acheter le même contenu deux fois.<br>*Le DLC additionnel sera disponible en décembre 2025.</p><br><h1>À propos du jeu</h1>ELDEN RING NIGHTREIGN est une aventure indépendante se déroulant dans l'univers d'ELDEN RING, conçue pour offrir aux joueurs une nouvelle expérience en réimaginant la structure même du jeu.<br><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/972bf4802f054dcecfdd9122f1c9ce41.poster.avif?t=1763058693\" width=616 height=250 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/972bf4802f054dcecfdd9122f1c9ce41.webm?t=1763058693\" type=\"video/webm; codecs=vp9\"></video></span><h2 class=\"bb_tag\" >ENSEMBLE, LEVEZ-VOUS</h2>Faites équipe avec 2 autres joueurs afin d'affronter ensemble la nuit et les dangers qu'elle recèle.<br><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/8e034953452e672d3d8578e8f7c4463c.poster.avif?t=1763058693\" width=616 height=250 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/8e034953452e672d3d8578e8f7c4463c.webm?t=1763058693\" type=\"video/webm; codecs=vp9\"></video></span><h2 class=\"bb_tag\" >DEVENEZ UN HÉROS</h2>Incarnez des héros dotés de compétences uniques, chacun possédant ses propres capacités et son propre style. Chaque héros est puissant individuellement, mais en unissant vos forces, vous pourrez tirer parti de synergies de compétences et ainsi former une équipe implacable.<br><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/a8373c3a9b62c78a30d63c0bc8b77708.poster.avif?t=1763058693\" width=616 height=250 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/extras/a8373c3a9b62c78a30d63c0bc8b77708.webm?t=1763058693\" type=\"video/webm; codecs=vp9\"></video></span><h2 class=\"bb_tag\" >DÉFIEZ LA NUIT</h2>Affrontez la menace impitoyable qui ravage la contrée. Adaptez-vous à un environnement qui évolue au fil des parties et terrassez le terrible boss nocturne !",
+  "website": null,
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/header.jpg?t=1763058693",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/8ebc4260af27bc55ba8b88982fd7eb7f970d43c9/capsule_231x87.jpg?t=1763058693",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/2622380?t=1763058693",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_0b9594934db8a1457c915e200f9d0d9b447a3df4.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_1deefb0b7ea597f4227777239910b4990aa0cc77.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_802cd66236d951fba204fb9980e2c0c9213a264c.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_b3ed8ab522f5965e46bc7c090cad9d018f937ae2.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_edfd360b92d6f9b983b759fd837e664b86cd9563.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_7a6e385e299b4848943daf2c6bc8218c16cd9497.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_592648ca7867f7efc92c14166b254bb01ddab65a.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_123c13ef085accee034632b6ce5d67e017dabc73.1920x1080.jpg?t=1763058693",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/ss_4a88be86fecee192e41ed84607ce255e933cee3b.1920x1080.jpg?t=1763058693"
+  ],
+  "price": 39.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10<br></li><li><strong>Processeur :</strong> Intel Core i5-10600 / AMD RYZEN 5 5500<br></li><li><strong>Mémoire vive :</strong> 12 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce GTX 1060 3GB / AMD Radeon RX 580 4GB<br></li><li><strong>DirectX :</strong> Version 12<br></li><li><strong>Espace disque :</strong> 30 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> Windows compatible audio device</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "ja",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ar",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hans",
+    "es-419",
+    "th",
+    "zh-Hant"
+  ],
+  "metacriticScore": null
+}

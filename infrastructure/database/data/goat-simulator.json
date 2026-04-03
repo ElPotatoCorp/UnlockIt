@@ -1,0 +1,68 @@
+{
+  "name": "Goat Simulator",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2014-04-01",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Sandbox",
+    "Humoristique",
+    "Simulation",
+    "Contemporain",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": true,
+    "android": true,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Coffee Stain Publishing"
+  ],
+  "developers": [
+    "Coffee Stain Studios"
+  ],
+  "shortDescription": "Goat Simulator is the latest in high-tech Goat Simulation technology.",
+  "detailedDescription": "Goat Simulator est la toute dernière technologie de simulation de chèvre, en proposant la dernière génération de simulation de chèvre pour VOUS. Vous n'avez plus à rêver d'être une chèvre, vos rêves sont enfin devenus réalités ! utilisez les ZQSD de votre clavier pour ré-écrire l'histoire. <br><br>Concernant le gameplay, Goat Simulator a pour seul but de causer autant de dégâts que possible en étant une chèvre. Il a été comparé à un vieux jeu de skateboard, <br>excepté qu'à la place d'être un skater, vous êtes une chèvre, et à la place de faire des figures, vous cassez des trucs. Détruisez des trucs avec du style, par exemple en faisant un salto arrière tout en donnant un coup de boule à un seau à travers une fenêtre, et vous gagnerez encore plus de points! Ou vous pourriez juste jeter un œil au Steam Workshop et créer vos propres chèvres, niveaux, missions, et plus encore ! Quand il s'agit de chèvres, le ciel n'est plus une limite, puisque vous pourrez probablement le dépasser et faire planter le jeu.<h2 class=\"bb_tag\" >Avertissement</h2>Goat Simulator est un jeu complètement stupide et, pour être honnête, vous devriez probablement dépenser votre argent dans quelque chose d'autre, comme un cerceau, une pile de briques, ou peut-être mettre votre argent en commun avec un ami et acheter une véritable chèvre.<h2 class=\"bb_tag\" >Principales caractéristiques</h2><ul class=\"bb_ul\"><li>Vous pouvez être une chèvre <br></li><li>Obtenez des points en démolissant des trucs - vantez-vous devant vos amis d'être la Chèvre Suprême <br></li><li>Supporte le Steam Workshop - créez vos propres chèvres, niveaux, missions, modes de jeu, et plus encore ! <br></li><li>DES MILLIONS DE BUGS ! Nous éliminons seulement les bugs qui font planter le jeu, tout le reste est hilarant et nous le gardons <br></li><li>Les lois de la physique du jeu se modifient de manière imprévisible <br></li><li>Sérieusement regardez le cou de cette chèvre <br></li><li>Vous pouvez être une chèvre</li></ul>",
+  "website": "http://goat-simulator.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/header.jpg?t=1728895842",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/capsule_231x87.jpg?t=1728895842",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/265930?t=1728895842",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_0f0e9008ba21b5eed106147cdc355d3c7bad683a.1920x1080.jpg?t=1728895842",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_fc153d970f4f166c08699555b9cc70a2dbaedf2f.1920x1080.jpg?t=1728895842",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_fa0673c4bf6e43a4092ea351a726d913d81b5953.1920x1080.jpg?t=1728895842",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_53d83ce2f7857ddc27af1e07980c602642892a87.1920x1080.jpg?t=1728895842",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_f25cd182b8ffdb058b940c401835da2b88292632.1920x1080.jpg?t=1728895842",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/265930/ss_25b9da1037082d6a7c3c12e2f3a7707c5c2e721e.1920x1080.jpg?t=1728895842"
+  ],
+  "price": 9.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows Vista<br></li><li><strong>Processeur :</strong> 2.0 GHz Dual Core Processor<br></li><li><strong>Mémoire vive :</strong> 2 GB de mémoire<br></li><li><strong>Graphiques :</strong> Shader Model 3.0, 256 MB VRAM<br></li><li><strong>DirectX :</strong> Version 9.0c<br></li><li><strong>Espace disque :</strong> 2 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> DirectX 9.0c-compatible, 16-bit</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ar",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hans",
+    "zh-Hant",
+    "tr"
+  ],
+  "metacriticScore": 62
+}

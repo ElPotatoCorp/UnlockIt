@@ -1,0 +1,79 @@
+{
+  "name": "Sons Of The Forest",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2024-02-22",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "Survie",
+    "Horreur",
+    "Crafting",
+    "Construction",
+    "Exploration",
+    "Contemporain",
+    "Sombre",
+    "Intense",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Newnight "
+  ],
+  "developers": [
+    "Endnight Games Ltd"
+  ],
+  "shortDescription": "En mission sur une île isolée pour retrouver un milliardaire porté disparu, vous découvrez un monde de cauchemar infesté de cannibales. Par vous-même ou avec l'aide d'amis, fabriquez, construisez et luttez pour votre survie dans ce jeu de simulation de survie horrifique.",
+  "detailedDescription": "Une toute nouvelle expérience de jeu, par les créateurs de The Forest<br><br><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/extras/706b5528da34cd496ac07e50b8b11e7d.poster.avif?t=1708624856\" width=600 height=240 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/extras/706b5528da34cd496ac07e50b8b11e7d.webm?t=1708624856\" type=\"video/webm; codecs=vp9\"><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/extras/706b5528da34cd496ac07e50b8b11e7d.mp4?t=1708624856\" type=\"video/mp4\"></video></span><br><br>En mission sur une île isolée pour retrouver un milliardaire porté disparu, vous découvrez un monde de cauchemar infesté de cannibales. Par vous-même ou avec l'aide d'amis, fabriquez, construisez et luttez pour votre survie dans ce jeu de simulation de survie horrifique.<h2 class=\"bb_tag\" ><strong> Un jeu de simulation de survie horrifique </strong></h2><br>Évoluez dans le monde selon vos règles, avec une liberté totale. C'est vous qui décidez de quoi faire, d'où aller et des manières de survivre. Aucun PNJ ne vous aboiera des ordres, aucune mission ne vous sera imposée. C'est vous qui commandez et qui décidez de la marche à suivre.<h2 class=\"bb_tag\" ><strong> Combattez des démons </strong></h2><br>Entrez dans un monde où vous ne serez en sécurité nulle part. Affrontez une multitude de créatures mutantes, certaines à l'apparence quasi humaine et d'autres ne ressemblant à rien que vous ayez jamais vu. Armez-vous de pistolets, de haches, de matraques électriques et d'objets en tous genres pour assurer votre protection et celle de vos proches.<h2 class=\"bb_tag\" ><strong> Construisez et fabriquez </strong></h2><br>Ressentez chaque interaction. Cassez des branches pour allumer un feu. Taillez fenêtres et planchers à la hache. De la petite cabane au complexe balnéaire, le choix vous appartient.<h2 class=\"bb_tag\" ><strong> Cycles de saisons</strong></h2><br>Pêchez du saumon frais dans les ruisseaux durant le printemps et l'été, puis chassez et stockez de la viande pour l'hiver. Mais l'île abrite des créatures qui chercheront aussi à manger durant la période hivernale, lorsque les ressources se font rares.<h2 class=\"bb_tag\" ><strong> Gameplay coopératif </strong></h2><br>Survivez par vos propres moyens ou avec l'aide de vos amis. Partagez les objets et collaborez pour construire vos défenses. Appelez des renforts pour partir en exploration, en surface comme sous terre.",
+  "website": null,
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/header.jpg?t=1708624856",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/capsule_231x87.jpg?t=1708624856",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1326470?t=1708624856",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_e6e3ab1badfb287a77fb6eef7b1589a35371496b.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_4fa5d260318f0aa37754b00c5dc10d1b7b9b9b1d.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_2b67491ca913adea6953429e1a567824aaa0ed54.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_ba2c1f6e69c6c7d69f7965cbd4b78da59ec59d55.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_2c537a8c689dd6b21643b8054a64646334ef7391.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_b05310f659a67129e9089fbb22e445b0998d6d1d.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_80a67c430a5f5e2e2f9a243aac4c63d990079252.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_6f0f7bfcdbc556142b42c9b1411dd28a64d45623.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_b55ee5728556d1b52135af967ff5f6c58f64daf6.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_9d1b215bc41b2fc152e68c045c7b9a4d288d2464.1920x1080.jpg?t=1708624856",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/ss_91907210b074b66131d5dd556206f8be7715302b.1920x1080.jpg?t=1708624856"
+  ],
+  "price": 28.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> 64-bit Windows 10<br></li><li><strong>Processeur :</strong> INTEL CORE I5-8400 or AMD RYZEN 3 3300X<br></li><li><strong>Mémoire vive :</strong> 12 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce GTX 1060 3GB or AMD Radeon RX 570 4GB<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 20 GB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> SSD (Preferred)</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "fi",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hans",
+    "sv",
+    "zh-Hant",
+    "tr"
+  ],
+  "metacriticScore": null
+}

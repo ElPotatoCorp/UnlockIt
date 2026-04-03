@@ -1,0 +1,78 @@
+{
+  "name": "Subnautica: Below Zero",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2021-05-13",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Survie",
+    "Exploration",
+    "Crafting",
+    "Construction",
+    "Science-fiction",
+    "Immersif",
+    "Sombre",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Unknown Worlds Entertainment"
+  ],
+  "developers": [
+    "Unknown Worlds Entertainment"
+  ],
+  "shortDescription": "Vivez une aventure sous-marine glaciale sur une planète extraterrestre. Below Zero se déroule deux ans après le premier Subnautica. Bravez les intempéries en construisant des habitats, en fabriquant des outils et en sondant les mystères de Subnautica.",
+  "detailedDescription": "Below Zero est une aventure sous-marine qui se déroule dans un monde océanique extraterrestre. Il constitue un nouveau chapitre de l’univers Subnautica développé par Unknown Worlds.<h2 class=\"bb_tag\" >Retour sur la planète 4546B</h2><br>Cette aventure inédite vous plongera dans une région de la planète 4546B où règne un froid glacial. Armée de vos neurones et d’un matériel de survie rudimentaire au début de votre voyage, vous êtes bien décidée à découvrir ce qui est arrivé à votre sœur...<h2 class=\"bb_tag\" >Découvrez la vérité</h2><br>Alterra quitte les lieux précipitamment après un mystérieux incident. De nombreuses stations de recherche abandonnées parsèment la région. Qu’est-il arrivé aux scientifiques qui y étaient assignés ? Les registres, les objets et les bases de données au milieu des débris apportent un nouvel éclairage sur les événements passés. Avec des ressources limitées, misez sur l’improvisation pour survivre.<h2 class=\"bb_tag\" >Découvrez des biomes inexplorés</h2><br>Nagez dans le dédale aquatique aux reflets bleutés des Ponts Tortueux. Laissez-vous captiver par le scintillement des cristaux titanesques des Cavernes de Cristaux. Escaladez les pics enneigés et pénétrez dans les grottes gelées du bassin glaciaire. Naviguez entre les conduits thermiques en éruption pour découvrir d’anciens artéfacts extraterrestres. Below Zero vous propose des environnements flambant neufs à observer, à explorer et auxquels il vous faudra survivre.<h2 class=\"bb_tag\" >Construisez des habitats et des véhicules</h2><br>Construisez des habitats sophistiqués, récupérez des ressources et fabriquez du matériel pour survivre à la rudesse du climat. Filez à travers la toundra enneigée sur un cryoglisseur Snowfox. Explorez des biomes aussi captivants que périlleux dans votre aquatracteur modulable.<h2 class=\"bb_tag\" >Rencontrez des formes de vie extraterrestre</h2><br>Chaque recoin inexploré vous apporte son lot de surprises. Nagez à travers un holefish géant, affrontez le redoutable léviathan ténébreux et rendez visite aux adorables manchouailes. La prudence est de mise. Dans ce monde étrange, la faune n’est pas toujours bienveillante.<h2 class=\"bb_tag\" >Survivez aux températures polaires</h2><br>Plongez dans l’eau pour vous réchauffer ! Le froid mordant de la région constitue une nouvelle menace. En raison des conditions météorologiques inédites, les habitats à la surface sont recouverts de neige. Blottissez-vous dans une combinaison polaire fabriquée par vos soins, savourez un café encore fumant et restez à proximité des lys thermiques pour vous protéger du froid.<h2 class=\"bb_tag\" >Un océan d’intrigues</h2><br>Qu’est-il véritablement arrivé à votre sœur ? Qui étaient les extraterrestres qui vous ont précédé sur cette planète et pourquoi s’y sont-ils installés ? La vérité peut-elle apaiser votre âme en peine ? Below Zero étoffe l’univers de Subnautica en sondant les mystères introduits dans le jeu d’origine.<h2 class=\"bb_tag\" >À propos de l’équipe de développement</h2><br>Below Zero est développé par le petit studio Unknown Worlds, dont les origines remontent au mod Natural Selection de Half-Life en 2002. C’est également le créateur du premier Subnautica. L’équipe est répartie aux quatre coins du globe : aux États-Unis, au Royaume-Uni, en France, en Russie, en Autriche, en Australie, au Canada et dans bien d’autres pays encore.<h2 class=\"bb_tag\" >Mise en garde</h2><br>En raison de ses lumières clignotantes, ce jeu peut ne pas convenir aux personnes atteintes d’épilepsie photosensible ou photosensibles. Il est conseillé au joueur de faire preuve de vigilance.",
+  "website": "https://unknownworlds.com/subnautica",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/header.jpg?t=1751944927",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/capsule_231x87.jpg?t=1751944927",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/848450?t=1751944927",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_5011daad83f8494eda0826e4bbc91181239ad5d7.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_69bdcf6ce29ba61650f0b2551a3494af67be09ac.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_3c3403337b972d4913e3a6b4f34e0f47e484c042.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_5bc21362aa200d08fe25203cbe50debedd8f11a3.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_9e3d6ab0db5442f7bcbeb923da47d3a80023f50f.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_e5c0f0272552f4aff9129ce3683131bdabd5983c.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_4175a9e5b1533698856493140038643f2f4669b5.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_a0686edd0106fa67746037a29a9846b8448dff0c.1920x1080.jpg?t=1751944927",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/ss_633db996460f37a755b4e03ad9c9804907ab2478.1920x1080.jpg?t=1751944927"
+  ],
+  "price": 29.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation  *:</strong> Windows 7 64-bit<br></li><li><strong>Processeur :</strong> Intel Core i3 4XXX series / AMD Ryzen 3 2.6ghz+<br></li><li><strong>Mémoire vive :</strong> 8 GB de mémoire<br></li><li><strong>Graphiques :</strong> Intel HD 530 or better<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 15 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ja",
+    "ko",
+    "pt-BR",
+    "es-419",
+    "ru",
+    "zh-Hans",
+    "tr",
+    "uk",
+    "cs",
+    "fi",
+    "hu",
+    "pl",
+    "zh-Hant",
+    "sk"
+  ],
+  "metacriticScore": null
+}

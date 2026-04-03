@@ -1,0 +1,69 @@
+{
+  "name": "Assassin's Creed II",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2010-03-04",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Action",
+    "Aventure",
+    "Infiltration",
+    "Monde ouvert",
+    "Historique",
+    "Narratif",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps3": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Ubisoft"
+  ],
+  "developers": [
+    "Ubisoft Montreal"
+  ],
+  "shortDescription": "Une épopée familiale dans l'Italie de la renaissance sur fond de conspirations et de vengeance. Nouveau prix bas!",
+  "detailedDescription": "Assassin’s Creed® 2 est la suite du jeu qui devint la nouvelle licence la plus rapidement vendue de l'histoire du jeu vidéo. Le nouvel héros de la série est Ezio Auditore da Firenze, un jeune noble Italien, évoluant dans une nouvelle époque, la Renaissance.<br><br>Assassin’s Creed 2 reprend les éléments qui firent le succès du premier opus, et contient de nouvelles expériences qui sauront surprendre et défier le joueur.<br><br>Assassin’s Creed 2 est l'épopée d'une famille, d'une vengeance et d'une conspiration dans les temps radieux et cruels de la Renaissance italienne. Ezio se lie d'amitié avec Leonardo da Vinci, affronte les plus puissantes familles de Florence et s'aventure jusque dans les canaux de Venise, où il deviendra un Maître Assassin.<br><br><br><ul class=\"bb_ul\"><li><strong>EZIO, NOUVEL ASSASSIN D'UNE NOUVELLE ÉPOQUE </strong> Ezio Auditore da Firenze est un jeune noble Italien qui apprendra l'art des assassins pour venger sa famille, trahie. C'est un homme à femmes, un esprit libre et fier, mais également rempli d'humanité. Avec lui, vous deviendrez un Maître Assassin.<br></li><li><strong>L'ITALIE DE LA RENAISSANCE</strong> Au XVème siècle, l'Italie était morcelée en Cités-États, comme Venise et Florence, où de grandes familles, puissantes à la fois sur les plans politiques et économiques, commençaient à diriger par elles-mêmes ces régions. Ce voyage, passant par quelques unes des plus belles cités du monde, se déroule à une époque de l'Histoire où la culture et l'art se développèrent parmi la corruption, le meurtre et l'avarice.<br></li><li><strong>UNE LIBERTÉ RETROUVÉE</strong> <br>Vous pourrez remplir vos missions où et quand vous le souhaiterez, dans un univers ouvert qui encourage l'exploration et vous permettra de vous déplacer de nouvelles manières, en nageant et même en volant. La multiplicité des manières de jouer vous permettra de poursuivre la voie que vous souhaiterez emprunter sans aucune restriction.<br></li><li><strong><br>UNE GESTION DYNAMIQUE DE LA FOULE</strong> Découvrez un mode vivant et actif, où chaque personnage peut interagir avec le joueur. Vous fondre dans la foule est encore plus facile, accepter les offres et marchés qu'on vous proposera pourra vous récompenser grandement, mais également conduire à des conséquences inattendues.<br></li><li><strong><br>DEVENEZ UN MAÎTRE ASSASSIN</strong> <br>Perfectionnez vos talents de Maître Assassin pour manier de nouvelles armes, apprendre à désarmer vos ennemis pour retourner leurs armes contre eux, et les assassiner avec vos doubles lames cachées.</li></ul><br>Merci de noter qu'à partir du 19/11/2018, les fonctions en ligne de ce jeu ne seront plus supportées. Le mode Multijoueur et Coopération ne seront plus disponibles.",
+  "website": "http://www.assassinscreed.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/header.jpg?t=1682004272",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/capsule_231x87.jpg?t=1682004272",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/33230?t=1682004272",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_dd6a4d319cda32c24a4e16a0a62908e82673f458.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_ef44b9f703f71acfdeb728a497390d397084ee35.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_d3967a58038cc5e59332bb0043ab1ca343112bc6.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_627e52a3466b4932ca3d331db6922d165002edaa.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_cd8d91454014900f3360f2818d94e3aa0c22ffd3.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_2683f7aa974a6f569ec0f8a2fa0447259aed6b80.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_c4eab0b3aa24357e97cda4afa2c10605ff94602c.1920x1080.jpg?t=1682004272",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/33230/ss_5f558da23f7a18f176c15bd0a6c87b5086b2cda4.1920x1080.jpg?t=1682004272"
+  ],
+  "price": 9.99,
+  "pcRequirements": "<strong>Minimum :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation :</strong> Windows® XP (32-64 bits) /Windows Vista®(32-64 bits)/Windows 7® (32-64 bits) <strong>*</strong><br></li><li><strong>Processeur :</strong> Intel Core® 2 Duo 1.8 GHZ ou AMD Athlon X2 64 2.4GHZ<br></li><li><strong>Mémoire vive :</strong> 1.5 Go Windows® XP / 2 Go Windows Vista® - Windows 7® <br></li><li><strong>Affichage :</strong> Carte compatible 256 Mo DirectX® 9.0 avec Shader Model 3.0 ou supérieur (Voir liste)<br></li><li><strong>DirectX® :</strong> DirectX 9.0<br></li><li><strong>Disque dur :</strong> 8 Go d'espace disque disponible<br></li><li><strong>Son :</strong> Carte compatible DirectX 9.0 <br></li><li><strong>Périphériques supportés :</strong> Clavier, souris, contrôleur optionnel</li></ul><strong>*</strong>Ce produit n'est pas supporté sur Windows® 98/ME/2000/NT<br><strong>Carte supportée au moment de la sortie : </strong> ATI® RADEON® X1950, HD 2000/3000/4000/5000 et NVIDIA GeForce® 7/8/9/100/200",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "it",
+    "es",
+    "zh-Hans",
+    "zh-Hant",
+    "da",
+    "nl",
+    "ko",
+    "sv"
+  ],
+  "metacriticScore": 86
+}

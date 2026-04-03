@@ -1,0 +1,70 @@
+{
+  "name": "Vampire Survivors",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2022-10-20",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "Roguelike / Roguelite",
+    "Action",
+    "Survie",
+    "Progression non linéaire",
+    "Horreur",
+    "Humoristique",
+    "Pixel art",
+    "2D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": true,
+    "android": true,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "poncle"
+  ],
+  "developers": [
+    "poncle"
+  ],
+  "shortDescription": "Réduisez des milliers de créatures de la nuit en bouillie pour survivre jusqu'à l'aurore ! Vampire Survivors est un jeu d'horreur gothique teinté d'éléments de roguelite, dans lequel vos choix vous permettent de lutter contre des hordes de monstres qui vous assaillent de toute part.",
+  "detailedDescription": "Réduisez des milliers de créatures de la nuit en bouillie pour survivre jusqu'à l'aurore !<br><ul class=\"bb_ul\"><li> </li></ul>Vampire Survivors est un jeu d'horreur gothique teinté d'éléments de roguelite, dans lequel vos choix vous permettent de lutter contre des hordes de monstres qui vous assaillent de toute part.<br><br><br>Vampire Survivors est un jeu de survie dans lequel chaque seconde compte, qui s'appuie sur un gameplay minimaliste semé d'éléments de roguelite.<br>Ces jours-ci, l'enfer est plutôt calme... parce que tous ses occupants sont ici ! Vous ne pouvez ni fuir ni vous cacher. Il ne vous reste plus qu'à survivre aussi longtemps que possible, jusqu'à ce que la Faucheuse vienne inexorablement mettre un terme à vos souffrances. En récupérant de l'or à chaque partie, vous pourrez acheter des améliorations qui faciliteront la tâche au prochain survivant.<br><br><i>Le phénomène indé dans lequel vous ne faites plus qu'un avec le genre bullet hell !</i><br><br><br><ul class=\"bb_ul\"><li>Les souris, claviers, manettes et écrans tactiles sont pris en charge.</li></ul><h2 class=\"bb_tag\" >Astuces de base</h2><ul class=\"bb_ul\"><li>Les gemmes et les objets ne disparaissent pas ; vous pouvez prendre votre temps pour les récupérer.<br></li><li>Commencez par obtenir deux ou trois armes offensives, puis améliorez-les une par une.<br></li><li>Si vous ne savez pas quels bonus améliorer, l'armure et la chance sont de bons investissements au début du jeu.<br></li><li>Le remboursement des bonus est gratuit. N'hésitez pas à y recourir régulièrement pour tester de nouvelles combinaisons.</li></ul>",
+  "website": null,
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/header.jpg?t=1763675244",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/capsule_231x87.jpg?t=1763675244",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1794680?t=1763675244",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_6c55afe36be2a7784bf18cb9b3218321ae2d10e5.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_6105ad3d6af52593c31d915bf39e91512611ea8e.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_054159adc52856d066d48bda02866da524c43439.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_01ec75b8055dbaa6895a0be127508ff569917a1e.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_bf22b444801d96026863fcf284f9f93441354035.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_bea7831ae00c044d9cd31c3f8e0fee766b4fe1c6.1920x1080.jpg?t=1763675244",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1794680/ss_3e82b3bdc06e40b15252490c25a9afe09a086fdf.1920x1080.jpg?t=1763675244"
+  ],
+  "price": 4.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10 64bit<br></li><li><strong>Processeur :</strong> x64 architecture with SSE2 instruction set support<br></li><li><strong>Mémoire vive :</strong> 1 GB de mémoire<br></li><li><strong>Graphiques :</strong> DX11, DX12 capable<br></li><li><strong>Espace disque :</strong> 2500 MB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hans",
+    "tr",
+    "uk"
+  ],
+  "metacriticScore": 86
+}

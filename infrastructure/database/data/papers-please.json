@@ -1,0 +1,80 @@
+{
+  "name": "Papers, Please",
+  "type": "game",
+  "ageRating": 16,
+  "releaseDate": "2013-08-08",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Simulation",
+    "Puzzle / Réflexion",
+    "Narratif",
+    "Sombre",
+    "Mature",
+    "Immersif",
+    "Post-apocalyptique",
+    "Pixel art",
+    "2D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": true,
+    "android": true,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "3909"
+  ],
+  "developers": [
+    "Lucas Pope"
+  ],
+  "shortDescription": "Félicitations !Votre nom a été sélectionné lors de la loterie du Ministère du Travail du mois d'octobre.Pour prendre vos fonctions, présentez-vous immédiatement au Ministère des Admissions du poste-frontière de Grestin.Un appartement de classe 8 vous a été affecté à Grestin Est. Vous pourrez vous y installer avec votre famille.",
+  "detailedDescription": "<h1>The Short Film</h1><p><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/extras/4be0478c7947f583b8ecb50c2dd32183.avif?t=1678266428\" width=620 height=314 /></span><br>Watch the official short film based on the game.<br>By KINODOM PRODUCTIONS. Starring Igor Savochkin.</p><br><h1>À propos du jeu</h1><i><strong>Félicitations !</strong><br>Votre nom a été sélectionné lors de la loterie du Ministère du Travail du mois d'octobre.<br>Pour prendre vos fonctions, présentez-vous immédiatement au Ministère des Admissions du poste-frontière de Grestin.<br>Un appartement de classe 8 vous a été affecté à Grestin Est. Vous pourrez vous y installer avec votre famille.<br><strong>Gloire à l'Arstotzka.</strong></i><br><br><br>L'État communiste d'Arstotzka vient de mettre fin à 6 années de guerre contre son voisin, la Koléchie, récupérant ainsi le secteur de la ville frontière de Grestin qui lui revient de manière légitime.<br><br>Votre tâche, en tant qu'Inspecteur du service de l'Immigration, est de contrôler le flux de personnes désirant pénétrer sur le territoire arstotzke depuis la Koléchie. Parmi la multitude d'immigrants et de visiteurs à la recherche de travail, se cachent contrebandiers, espions et terroristes.<br><br>Muni uniquement des documents présentés par les voyageurs et de l'équipement rudimentaire d'inspection, de fouille et de vérification des empreintes digitales fourni par le Ministère des Admissions, c'est à vous de décider qui recevra l'autorisation d'entrer en Arstotzka et qui sera refoulé, voire mis en état d'arrestation.",
+  "website": "http://papersplea.se",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/header.jpg?t=1678266428",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/capsule_231x87.jpg?t=1678266428",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/239030?t=1678266428",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_4cd77e3ef5b147b011a5cf8f96b8bcbcd79b3e15.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_a1d08145ac2d3e85e8db440ccfeb7f7ad3c8247a.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_4b50458fbc4afe2917803b59a35afb3e5d61c960.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_958285f31774906eb4def9d98a83e7926ceb3be2.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_d24155eecb65aaff7367b791bc7d4910fe59b303.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_6c095a8ff86f9ebf8f796d23b1186c176fd21991.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_4a533fbcd53d15778d477d8417fb28f814e27210.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_cbff6dd781b30221f0a2308abf7f5bc16a63e3aa.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_a9547568ea97e748880dd731ca5299fa7114578c.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_9a3659d39c5099e2e1689a83d90adb0c985bf7a0.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_c133e1bf1da17a3f3719c74696c61da23e38eefe.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_2fad27ddf9865e5b8e0a11a2f2cf3158fe65fed7.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_d8920af7ca2fcd90251b0bf1d35b66c715e0c5e6.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_77938668e8c0740ccb6f4010732c1549b46e69de.1920x1080.jpg?t=1678266428",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239030/ss_258b2748953e547c5dbde6362a80ae6246fd2b60.1920x1080.jpg?t=1678266428"
+  ],
+  "price": 9.75,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation  *:</strong> Windows XP or later<br></li><li><strong>Processeur :</strong> 1.5 GHz Core2Duo<br></li><li><strong>Mémoire vive :</strong> 2 GB de mémoire<br></li><li><strong>Graphiques :</strong> OpenGL 1.4 or better<br></li><li><strong>Espace disque :</strong> 100 MB d'espace disque disponible<br></li><li><strong>Notes supplémentaires :</strong> Minimum 1280x720 screen resolution</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "es",
+    "pt-BR",
+    "ru",
+    "it",
+    "ja",
+    "pl",
+    "uk",
+    "cs",
+    "zh-Hans",
+    "tr",
+    "eu",
+    "ko"
+  ],
+  "metacriticScore": 85
+}

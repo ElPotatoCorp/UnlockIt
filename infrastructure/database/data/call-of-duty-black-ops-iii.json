@@ -1,0 +1,79 @@
+{
+  "name": "Call of Duty®: Black Ops III",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2015-11-05",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Multijoueur",
+    "Coopératif",
+    "Compétitif",
+    "Tir / Shooter",
+    "Science-fiction",
+    "Sombre",
+    "Intense",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps3": true,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Activision",
+    "Aspyr (Mac)"
+  ],
+  "developers": [
+    "Treyarch",
+    "Aspyr (Mac)"
+  ],
+  "shortDescription": "Call of Duty®: Black Ops III Zombies Chronicles Edition inclut le jeu de base complet et l'extension Zombies Chronicles.",
+  "detailedDescription": "<h1>Zombies Chronicles Deluxe Edition</h1><p><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/extras/d647594e5dce18b07ab78a58778d2acd.avif?t=1748022663\" width=628 height=230 /></span><br><br>Avec encore plus de contenu.<br><br> Call of Duty®: Black Ops III  Zombies Chronicles Deluxe inclut le jeu de base complet, le Season Pass, l'extension Zombies Chronicles et du contenu bonus supplémentaire, dont:<br><br>L'accès à la carte Zombies bonus &quot;The Giant&quot;. Revivez le chaos de la carte Zombies classique de Treyarch, &quot;Der Riese&quot;, qui reprend l'histoire Zombies de Dempsey, Nikolai, Richtofen et Takeo, là où Origins s'est arrêté.<br><br>3 packs de personnalisation : les fameux Cyborg et Weaponized 115, ainsi qu'un nouveau pack propre à Black Ops 3. Chaque pack inclut un camouflage d'arme, un réticule et une carte de visite.<br><br> L'extension Zombies Chronicles inclut 8 cartes Zombies classiques remasterisées de Call of Duty®: World at War, Call of Duty®: Black Ops et Call of Duty®: Black Ops II.</p><br><h1>Mod Tools Open Beta Now Live</h1><p><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/extras/43909ae147018c7736b8081addfb4b36.avif?t=1748022663\" width=616 height=232 /></span><br><br>The Black Ops 3 Mod Tools Open Beta has arrived!  Full version Black Ops 3 owners can install the Mod Tools under the Tool Section via the Steam Library titled <strong><i>Call of Duty: Black Ops III - Mod Tools</i></strong>.<h2 class=\"bb_tag\" >Mod Tools Include:</h2><ul class=\"bb_ul\"><li>Black Ops 3 Steam Workshop*<br></li><li>Unranked Server Browser*<br></li><li>Radiant Level Editor<br></li><li>APE, Asset Property Editor<br></li><li>Mod Tools Launcher<br></li><li>Optional additional level building assets from a variety of official Black Ops 3 maps can be installed under the DLC section of Call of Duty: Black Ops III - Mod Tools<br></li><li>Full examples of the multiplayer map Combine and the Zombies map The Giant<br></li><li>New Server Settings Menu in Multiplayer Custom Games and Zombies Private Game where you can set how your server will display in the Unranked Server Browser*<br></li><li>New Mods Menu where you can load and unload your subscribed mods*</li></ul><br>*<i>Downloading the mod tools is not required for these items or to play Black Ops 3 Steam Workshop content</i><h2 class=\"bb_tag\" >Modding Guides:</h2><ul class=\"bb_ul\"><li><u>Official - How to Play - Workshop Guide</u><br></li><li><u>Official - How to Create - Workshop Guide</u></li></ul></p><br><h1>À propos du jeu</h1>Call of Duty®: Black Ops III Zombies Chronicles Edition inclut le jeu de base complet et l'extension Zombies Chronicles.<br><br>Call of Duty: Black Ops III propose trois modes de jeu uniques : Campagne, Multijoueur et Zombies. Il offre aux fans le plus complet et le plus ambitieux opus de Call of Duty.<br><br>L'extension Zombies Chronicles inclut 8 cartes Zombies classiques remasterisées de Call of Duty®: World at War, Call of Duty®: Black Ops et Call of Duty®: Black Ops II. Il s'agit des cartes complètes de la saga d'origine, entièrement remastérisées en HD et jouables dans Call of Duty®: Black Ops III.",
+  "website": "https://www.callofduty.com/blackops3",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/header.jpg?t=1748022663",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/capsule_231x87.jpg?t=1748022663",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/311210?t=1748022663",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_ca7376d838d5714f916936f0070824c27c4c5641.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_150874824f4fff0915e63ea2ade5410e576a2b70.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_4b270e7a32d3a93a8119e7bcc3d8dcaa784f84f1.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_c4f8101a3529e2e430641af1e061926b1f57e4e7.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_5f7f870196c956da97f37b066310e963643a63a8.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_3a84113daacead987f549fbc3bd95fa9e66a833b.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_dfcf315c0c02ae7b62b47306c4b9ae774c2b14d0.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_44b153c469da3d79a03221e11b51c59807f3b6e7.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_1e4a1d817d5b6b456bec8f71f5cb99e6a306e759.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_fb8189adfd4a639392544169e5a526be020b7fdd.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_01c9cbde469b82ab719fb30c491f5e1102894607.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_fd59cd3b0af53cef7f9a726f3dbfc92625452f9e.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_61b6c855912c4542162252584b73dec0f9962f38.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_5ab9e51484a92cefa60d1959ddc8067c90fccac2.1920x1080.jpg?t=1748022663",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/311210/ss_31f499fa9bb7eb4b4cd5209988ff5f1d81756027.1920x1080.jpg?t=1748022663"
+  ],
+  "price": 59.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows 7 64-Bit / Windows 8 64-Bit / Windows 8.1 64-Bit<br></li><li><strong>Processeur :</strong> Intel® Core™ i3-530 @ 2.93 GHz / AMD Phenom™ II X4 810 @ 2.60 GHz<br></li><li><strong>Mémoire vive :</strong> 6 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA® GeForce® GTX 470 @ 1GB / ATI® Radeon™ HD 6970 @ 1GB<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 100 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> DirectX Compatible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "zh-Hans",
+    "zh-Hant",
+    "ja",
+    "pl",
+    "pt-BR",
+    "ru"
+  ],
+  "metacriticScore": 73
+}

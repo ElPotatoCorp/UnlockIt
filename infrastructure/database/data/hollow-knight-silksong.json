@@ -1,0 +1,70 @@
+{
+  "name": "Hollow Knight: Silksong",
+  "type": "game",
+  "ageRating": 7,
+  "releaseDate": "2025-09-04",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Action",
+    "Aventure",
+    "Plateforme 2D",
+    "Exploration",
+    "Sombre",
+    "Immersif",
+    "Fantastique",
+    "Stylisé",
+    "2D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps4": false,
+    "ps5": true,
+    "xboxOne": false,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Team Cherry"
+  ],
+  "developers": [
+    "Team Cherry"
+  ],
+  "shortDescription": "Découvrez un vaste royaume maudit dans Hollow Knight: Silksong ! Explorez, combattez et survivez tout en grimpant jusqu'au sommet de terres maudites par la soie et les mélodies.",
+  "detailedDescription": "<h2 class=\"bb_tag\" >Devenez la princesse chevaleresse</h2><p class=\"bb_paragraph\" >Incarnez Hornet, une chasseuse redoutable et partez à la découverte d'un royaume maudit par la soie et les mélodies. Capturée et transportée sur des terres inconnues, soyez près à combattre des ennemis et à résoudre des mystères anciens au cours d'un dangereux pèlerinage pour atteindre le sommet du royaume.</p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" >Hollow Knight: Silksong est la suite épique d'Hollow Knight, le jeu d’action et d’aventure primé. Aventurez-vous dans un nouveau royaume, découvrez de nouveaux pouvoirs, combattez des hordes d'insectes et de bêtes tout en révélant des secrets anciens directement liés à votre nature et à votre passé. </p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/extras/79511c52afc0965cd49ece2f9db57fb1.avif?t=1764916587\" width=776 height=192 /></span></p><h2 class=\"bb_tag\" >Fonctionnalités du jeu</h2><ul class=\"bb_ul\"><li><p class=\"bb_paragraph\" >Découvrez Pharloom, un royaume déchu peuplé d’insectes. Explorez des cavernes verdoyantes, des villes dorées et des terres brumeuses lors de votre ascension jusqu’au sommet de la citadelle étincelante.</p></li><li><p class=\"bb_paragraph\" >Combattez en dansant un ballet mortel ! Effectuez des attaques redoutables en virevoltant entre vos ennemies dans des combats rapides et élégants.</p></li><li><p class=\"bb_paragraph\" >Fabriquez de puissants outils ! Maîtrisez un vaste arsenal d'armes, de pièges et de mécanismes ingénieux en tout genre, pour triompher de vos ennemis et atteindre le sommet du royaume.</p></li><li><p class=\"bb_paragraph\" >Accomplissez des quêtes stupéfiantes ! Chassez des bêtes rares, résolvez des mystères anciens afin d'exaucer les souhaits des plus faibles et de raviver l’espoir de tout un royaume.</p></li><li><p class=\"bb_paragraph\" >Affrontez plus de 200 ennemis redoutables ! Bêtes sauvages, chasseurs, monstres et chevaliers. Faites preuve de bravoure et de talent pour les terrasser.</p></li><li><p class=\"bb_paragraph\" >Terrassez plus de 40 boss légendaires ! Affrontez des héros mythiques et des monarques déchus dans des combats épiques qui décideront le sort du royaume.</p></li><li><p class=\"bb_paragraph\" >Relevez le défi du mode Âme d'Acier ! Après avoir conquis le royaume, mettez vos talents à l’épreuve dans un tout nouveau mode de jeu, offrant une nouvelle expérience intense.</p></li><li><p class=\"bb_paragraph\" >Vivez une expérience musicale unique grâce à une orchestration magistrale ! Christopher Larkin, le compositeur primé d'Hollow Knight, est de retour pour sublimer cette nouvelle aventure de ses compositions musicales mélancoliques, ses cordes symphoniques et des thèmes musicaux de boss palpitants et inoubliables.</p></li></ul><p class=\"bb_paragraph\" style=\"text-align: center\"><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/extras/b258a2e2154510be60044988ada30824.webp?t=1764916587\" width=614 height=41 /></span></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/extras/7343b986a4c1e4f76d75078f9acabf0c.avif?t=1764916587\" width=776 height=192 /></span><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/extras/ca3b9d4b06c52fc85590c7bc886fe36b.avif?t=1764916587\" width=776 height=192 /></span><span class=\"bb_img_ctn\"><img class=\"bb_img\" src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/extras/5a1d9a433bdc14dcb7f74afe0be61022.avif?t=1764916587\" width=776 height=192 /></span></p>",
+  "website": "http://hollowknightsilksong.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/7983574d464e6559ac7e24275727f73a8bcca1f3/header.jpg?t=1764916587",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/b73ec03fbdb9e21e3c59eb7e59966949d0c17f29/capsule_231x87.jpg?t=1764916587",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1030300?t=1764916587",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/26950369fe4b03c2268620eb9815c8a246aa0b06/ss_26950369fe4b03c2268620eb9815c8a246aa0b06.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/09ccaa6c16f158f9df8298feb5d196098506a028/ss_09ccaa6c16f158f9df8298feb5d196098506a028.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/d1a893ec6357b347a55ed929833ba793b57a79d2/ss_d1a893ec6357b347a55ed929833ba793b57a79d2.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/856e33e755a0b9a785c645d116036516ea08812b/ss_856e33e755a0b9a785c645d116036516ea08812b.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/8e09f2b2eedd3fa9b4479dd5c26d8bdf60562478/ss_8e09f2b2eedd3fa9b4479dd5c26d8bdf60562478.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/d907d0cc2b10b5ea4788b8d502cc27787d520c1d/ss_d907d0cc2b10b5ea4788b8d502cc27787d520c1d.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/1b93e8131cb6f4bd9e3791a606d0da8f9ee78276/ss_1b93e8131cb6f4bd9e3791a606d0da8f9ee78276.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/d20b045b8bdaea6ace2ca4170875772b439c2c2e/ss_d20b045b8bdaea6ace2ca4170875772b439c2c2e.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/2ebe4dc35ad33ad86b672f7cf9faed44c9b1668e/ss_2ebe4dc35ad33ad86b672f7cf9faed44c9b1668e.1920x1080.jpg?t=1764916587",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/dae3a0798c6c59a433b46de8f5ec18b21ad97fcd/ss_dae3a0798c6c59a433b46de8f5ec18b21ad97fcd.1920x1080.jpg?t=1764916587"
+  ],
+  "price": 19.5,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10 version 21H1 (build 19043) or newer<br></li><li><strong>Processeur :</strong> Intel Core i3-3240, AMD FX-4300<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> GeForce GTX 560 Ti (1GB), Radeon HD 7750 (1GB)<br></li><li><strong>DirectX :</strong> Version 10<br></li><li><strong>Espace disque :</strong> 8 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ja",
+    "ko",
+    "pt-BR",
+    "ru",
+    "zh-Hans"
+  ],
+  "metacriticScore": 90
+}

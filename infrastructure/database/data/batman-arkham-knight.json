@@ -1,0 +1,71 @@
+{
+  "name": "Batman™: Arkham Knight",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2015-06-23",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Action",
+    "Aventure",
+    "Monde ouvert",
+    "Infiltration",
+    "Contemporain",
+    "Sombre",
+    "Intense",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "WB Games"
+  ],
+  "developers": [
+    "Rocksteady Studios"
+  ],
+  "shortDescription": "Batman™: Arkham Knight marque le dénouement épique de la trilogie primée Arkham, créée par les studios Rocksteady. Développé exclusivement pour les consoles nouvelle génération, Batman: Arkham Knight introduit une version unique de la Batmobile, créée par Rocksteady.",
+  "detailedDescription": "<p class=\"bb_paragraph\" >Batman™: Arkham Knight marque le dénouement épique de la trilogie primée Arkham, créée par les studios Rocksteady. Développé exclusivement pour les consoles nouvelle génération, Batman: Arkham Knight introduit une version unique de la Batmobile, créée par Rocksteady. Ce véhicule légendaire, associé au gameplay plébiscité de la série Batman Arkham, offre aux joueurs l'expérience de jeu Batman la plus complète. Roulez à toute allure dans les rues de Gotham City et élancez-vous au-dessus des toits. Dans ce final explosif, Batman affronte la menace ultime dans la ville qu’il s’est juré de protéger. L'Épouvantail est de retour pour réunir les super-vilains de Gotham et détruire Batman une bonne fois pour toutes. </p><h2 class=\"bb_tag\" >CARACTÉRISTIQUES DU JEU :</h2><p class=\"bb_paragraph\" >« Incarnez Batman » : Enfilez le masque alors que le Chevalier noir s'aventure dans l'ultime chapitre de la trilogie Arkham par Rocksteady. Les joueurs incarneront le plus grand détective du monde comme jamais auparavant grâce à l'arrivée de la Batmobile et aux améliorations apportées à des éléments clés des précédents opus : le combat déchaîné, la furtivité, le scanner médico-légal et la navigation.</p><p class=\"bb_paragraph\" >La Batmobile est là ! La Batmobile adopte un look totalement inédit et original, avec à son bord toute une panoplie de gadgets high-tech. Conçue pour être pilotable dans tout l'univers du jeu et capable de se transformer, passant du mode poursuite à haute vitesse au mode combat pour devenir une véritable machine de guerre. Ce véhicule légendaire est au cœur de la conception du jeu et permet au joueur de se lancer à la poursuite des plus dangereux criminels de Gotham en traversant ses rues à une vitesse incroyable. La Batmobile permet également d'améliorer toutes les capacités de Batman, que ce soit la navigation, le scanner médico-légal, les combats ou la résolution d'énigmes, créant ainsi un lien tangible entre homme et machine.</p><p class=\"bb_paragraph\" >La conclusion épique de la trilogie Arkham de Rocksteady : Dans Batman: Arkham Knight, Gotham city devient un véritable champ de bataille. L’attaque de l’asile dans Batman: Arkham Asylum, qui a ensuite évolué en une terrible conspiration contre les prisonniers dans Batman: Arkham City, arrive à son apogée dans cet ultime affrontement pour le futur de Gotham. Déjà à la merci de l'Épouvantail, le destin de la ville ne tient qu’à un fil alors que ce dernier est rejoint par le Chevalier d’Arkham, un personnage complètement inédit et original dans l’univers de Batman, ainsi que par un casting dantesque de super-vilains comme Harley Quinn, Le Pingouin, Double-Face et l'Homme-mystère.</p><p class=\"bb_paragraph\" >Explorez Gotham City dans son intégralité : Pour la première fois, les joueurs peuvent explorer les moindres recoins de Gotham City, dans un monde de jeu complètement ouvert et accessible. Cinq fois plus grande que le monde d'Arkham City, Gotham City a bénéficié du même niveau de finition qui a fait la renommée de la saga Arkham.</p><p class=\"bb_paragraph\" >Missions de traque annexes : Les joueurs peuvent s'immerger complètement dans le chaos ambiant qui envahit les rues de Gotham. Vous croiserez irrémédiablement la route de génies du crime, mais vous aurez le choix de poursuivre l'aventure principale ou de vous concentrer sur ces missions et sur la neutralisation de ces criminels. </p><p class=\"bb_paragraph\" >Des combats améliorés et de nouveaux gadgets : Les joueurs disposent de plus de techniques de combat et de gadgets que jamais auparavant. Avec la nouvelle capacité permettant d'utiliser les gadgets en planant, Batman peut se servir de gadgets comme les Batarangs, le grappin ou la tyrolienne en l'air. La ceinture de Batman a elle aussi été améliorée de manière à contenir tous les nouveaux gadgets qui lui permettent de développer ses capacités d'enquête médico-légale, sa furtivité et ses performances en combat.</p>",
+  "website": "https://www.batmanarkhamknight.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/header.jpg?t=1745534372",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/capsule_231x87.jpg?t=1745534372",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/208650?t=1745534372",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_90026e46a995760d53bfa2dc1612b73960c84c94.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_4c9d5fb849b1a7169184a37db000919b276056fe.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_5da3185e4f7da999300555747be6b84b8f16164f.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_43ac2ec5dc64f59b1816b1cc0ba5b430d36c636f.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_88b07767c3d67b3d5be85fb27c97527770a98e7e.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_0093e9b8191093a1c97187079adb3d93a8ba6cf9.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_9ccb4ec0388cd868c0f49580f98da94e8bd0e213.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_8dd2a78400463d6924b9dc8ce1e734420414af3d.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_0631bea114bcb67866f59fb82cab6c31f2f760c6.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_315ff2cdd5f50d28614ae9cfa45283bb2b9f969e.1920x1080.jpg?t=1745534372",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/208650/ss_ccff12cebf58bc7d1d3e0a5783eba65c4aecf345.1920x1080.jpg?t=1745534372"
+  ],
+  "price": 19.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation  *:</strong> Win 7 SP1, Win 8.1 (64-bit Operating System Required)<br></li><li><strong>Processeur :</strong> Intel Core i5-750, 2.67 GHz | AMD Phenom II X4 965, 3.4 GHz<br></li><li><strong>Mémoire vive :</strong> 6 GB de mémoire<br></li><li><strong>Graphiques :</strong> Graphics: NVIDIA GeForce GTX 660 (2 GB Memory Minimum)  | AMD Radeon HD 7870 (2 GB Memory Minimum)<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 45 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "ko",
+    "pt-BR",
+    "pl",
+    "ru",
+    "ja"
+  ],
+  "metacriticScore": null
+}

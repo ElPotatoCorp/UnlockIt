@@ -1,0 +1,72 @@
+{
+  "name": "Balatro",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2024-02-20",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Roguelike / Roguelite",
+    "Stratégie",
+    "Puzzle / Réflexion",
+    "Relaxant",
+    "Pixel art",
+    "2D",
+    "Progression non linéaire"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": true,
+    "android": true,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": true,
+    "xboxSeries": true
+  },
+  "publishers": [
+    "Playstack"
+  ],
+  "developers": [
+    "LocalThunk"
+  ],
+  "shortDescription": "Un jeu de poker roguelike. Balatro est un jeu de deckbuilding prenant où vous jouez des combinaisons de poker illégales, découvrez des jokers révolutionnaires et déclenchez des combos aussi palpitants que dévastateurs.",
+  "detailedDescription": "<p class=\"bb_paragraph\" ><strong>Balatro est un jeu de deckbuilding roguelike basé sur du poker qui met en avant les puissantes synergies pour gagner gros.</strong></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/d5b3b51f8b55febc8dd08a443d126907.poster.avif?t=1762516142\" width=780 height=190 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/d5b3b51f8b55febc8dd08a443d126907.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p><p class=\"bb_paragraph\" >Combinez des mains de poker avec des jokers uniques pour créer une variété de synergies et de decks. Gagnez assez de jetons pour venir à bout des mises, tout en découvrant des bonus de main et des decks secrets. Il vous faudra tous les avantages possibles pour atteindre l'ultime blind, venir à bout du dernier ante et remporter la victoire.</p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/5f6a6f99b54a68f6c070208eb4fc816f.poster.avif?t=1762516142\" width=780 height=240 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/5f6a6f99b54a68f6c070208eb4fc816f.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p><ul class=\"bb_ul\"><li><p class=\"bb_paragraph\" >L'expérience de poker roguelike ultime.</p></li><li><p class=\"bb_paragraph\" >Des possibilités sans fin : chaque bonus, défausse et joker peut grandement altérer le déroulement de votre partie.</p></li><li><p class=\"bb_paragraph\" >Un mode campagne exhaustif avec 8 difficultés, ainsi qu'un mode difficile, un mode quotidien et un mode classé.</p></li></ul><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/3709bdd6d508e2351303497ef0677f0d.poster.avif?t=1762516142\" width=780 height=190 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/3709bdd6d508e2351303497ef0677f0d.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p><p class=\"bb_paragraph\" >Utilisez toute une variété d'outils : différents decks, jokers, cartes de tarot, cartes Planet, cartes Spectral et Vouchers. Tirez parti de ces outils polyvalents pour réaliser des combos surpuissants, renforcer vos mains et créer des synergies électrisantes.</p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/065599625dbc7a1712d0ea315940df38.poster.avif?t=1762516142\" width=780 height=316 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/065599625dbc7a1712d0ea315940df38.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p><ul class=\"bb_ul\"><li><p class=\"bb_paragraph\" >150 jokers avec des capacités uniques</p></li><li><p class=\"bb_paragraph\" >15 decks avec différents modificateurs à choisir à chaque partie</p></li><li><p class=\"bb_paragraph\" >5 variantes potentielles de chaque joker qui ajoute d'autres capacités</p></li><li><p class=\"bb_paragraph\" >22 variantes de cartes de tarot qui peuvent embellir vos cartes ordinaires</p></li><li><p class=\"bb_paragraph\" >11 cartes Planet qui peuvent vous aider à améliorer vos mains</p></li><li><p class=\"bb_paragraph\" >32 cartes Voucher qui vous octroient des bonus permanents pour votre partie en cours</p></li></ul><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/d01e8b80fbdc100d195fce0f5f27b63b.poster.avif?t=1762516142\" width=780 height=190 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/d01e8b80fbdc100d195fce0f5f27b63b.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p><p class=\"bb_paragraph\" >Plongez dans le monde unique et psychédélique de Balatro. Laissez-vous charmer par la bande-son synthwave. Détendez-vous, échappez à la routine et préparez-vous à jouer au roguelike ultime.</p><p class=\"bb_paragraph\" ></p><ul class=\"bb_ul\"><li><p class=\"bb_paragraph\" >Améliorez votre collection, et découvrez de nouveaux secrets et cartes lors de chaque partie.</p></li><li><p class=\"bb_paragraph\" >Tirez parti de l'écran détaillé des statistiques pour analyser vos meilleures mains, vos jokers les plus utilisés et bien plus encore !</p></li><li><p class=\"bb_paragraph\" >Retrouvez le visuel caractéristique des écrans à tube cathodique et admirez ce pixel art détaillé.</p></li></ul><p class=\"bb_paragraph\" ></p><p class=\"bb_paragraph\" ><span class=\"bb_img_ctn\"><video class=\"bb_img\" autoplay muted loop playsinline crossorigin=\"anonymous\" poster=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/3bf854ed6d6623c9940b8281d4c115e0.poster.avif?t=1762516142\" width=780 height=240 ><source src=\"https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/extras/3bf854ed6d6623c9940b8281d4c115e0.webm?t=1762516142\" type=\"video/webm; codecs=vp9\"></video></span></p>",
+  "website": "https://www.playbalatro.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/7a85430784e4d613cdb0547414d8cf16ffa45747/header.jpg?t=1762516142",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/554b5f66f60e80b43f910cba21d23af16ed897be/capsule_231x87.jpg?t=1762516142",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/2379780?t=1762516142",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/96208723dbedef49d71bf1b0a74aee1689018c50/ss_96208723dbedef49d71bf1b0a74aee1689018c50.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_4862112e5030f74a5818cd4c31347d699ac5adf3.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_3be65a7dd3be072d567e11883d208861a7e959fa.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_e32ac94d7d1d6be7dd015d78f2b52aeb4cc282ed.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_b8455573ec1fd2c9412f22bd8df05f2d8027a95b.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_075cb45cbfa97d8139fb11f21667d6e35f908640.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_ae055e0e583ac65000920ce33511df73f40814f4.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_204350350761316ad3aa8b0184689f3f93e01f7b.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_ddee13031ad8ba66ac7806a46f6e5519d32e767d.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/d8bca9a646921db5ecd24c25571b79e4ff15aa60/ss_d8bca9a646921db5ecd24c25571b79e4ff15aa60.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_e52b658ebc79c633063e58d77e73ca9750e01039.1920x1080.jpg?t=1762516142",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/ss_5ab29592c9b5cafe5ce787740afc411eecb9664a.1920x1080.jpg?t=1762516142"
+  ],
+  "price": 13.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation  *:</strong> Windows 7, 8, 10, 11 x64<br></li><li><strong>Processeur :</strong> Intel Core i3<br></li><li><strong>Mémoire vive :</strong> 1 GB de mémoire<br></li><li><strong>Graphiques :</strong> OpenGL 2.1 compatible graphics card, integrated graphics<br></li><li><strong>Espace disque :</strong> 150 MB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "nl",
+    "ja",
+    "pl",
+    "pt-BR",
+    "zh-Hans",
+    "es-419",
+    "zh-Hant"
+  ],
+  "metacriticScore": 90
+}

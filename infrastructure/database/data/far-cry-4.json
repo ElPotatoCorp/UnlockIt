@@ -1,0 +1,74 @@
+{
+  "name": "Far Cry 4",
+  "type": "game",
+  "ageRating": 18,
+  "releaseDate": "2014-11-17",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Coopératif",
+    "Tir / Shooter",
+    "Action",
+    "Monde ouvert",
+    "Contemporain",
+    "Exploration",
+    "Intense",
+    "Réaliste",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps3": true,
+    "ps4": true,
+    "ps5": false,
+    "xboxOne": true,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Ubisoft"
+  ],
+  "developers": [
+    "Ubisoft Montreal, Red Storm, Shanghai, Toronto, Kiev"
+  ],
+  "shortDescription": "Caché dans l'Himalaya se trouve Kyrat, une région déchirée entre tradition et violence. Vous incarnez Ajay Ghale, en route vers Kyrat pour honorer les dernières volontés de sa mère. Dès votre arrivée, vous êtes plongé au cœur d’une guerre civile visant à renverser le régime oppressif du dictateur auto-proclamé Pagan Min.",
+  "detailedDescription": "Caché dans l'Himalaya se trouve Kyrat, une région déchirée entre tradition et violence. Vous incarnez Ajay Ghale, en route vers Kyrat pour honorer les dernières volontés de sa mère. Dès votre arrivée, vous êtes plongé au cœur d’une guerre civile visant à renverser le régime oppressif du dictateur auto-proclamé Pagan Min.<br />\r\nDécouvrez et explorez un monde ouvert dangereux et imprévisible, où tout peut arriver. Chaque décision compte, et chaque seconde est une histoire, votre histoire. Bienvenue à Kyrat.<br />\r\n<br />\r\nPoints clés<br />\r\n<br />\r\n• EXPLOREZ UN MONDE OUVERT RICHE ET IMPREVISIBLE <br />\r\n<br />\r\nDécouvrez le monde ouvert le plus riche de la série Far Cry. Des vastes plaines aux sommets enneigés de l’Himalaya en passant par les forêts verdoyantes, évoluez dans un univers aussi vivant que mortel.<br />\r\n- Léopards, rhinocéros, aigles noirs ou blaireaux vicieux… Kyrat abrite une faune sauvage abondante et dangereuse. Chassez pour survivre mais attention à ne pas devenir la proie.<br />\r\n- Par les airs en vous jetant en wingsuit du nouveau gyrocoptère, ou sur le dos d’un puissant éléphant de 6 tonnes, tous les moyens sont bons pour infiltrer les lignes ennemies.<br />\r\n- Choisissez bien vos armes pour chaque mission, surtout pour les plus insensées... Un arsenal varié et explosif vous attend !<br />\r\n<br />\r\n• CO-OP : UNE TOUTE NOUVELLE EXPÉRIENCE<br />\r\n<br />\r\nExplorez le monde ouvert et vivant de Kyrat à deux. Invitez un deuxième joueur directement dans votre partie, pour une expérience en coopération nouvelle génération dans l’esprit Far Cry.",
+  "website": "http://farcrygame.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/header.jpg?t=1764168324",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/capsule_231x87.jpg?t=1764168324",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/298110?t=1764168324",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/ss_ba2f250b4986a7b6aa5133bba13b2004c410d68b.1920x1080.jpg?t=1764168324",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/ss_bc4db88cc60dbbf1b33347ea7a84752f1e256480.1920x1080.jpg?t=1764168324",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/ss_dafab79021e112001f0cdb2b20121d99585e35ca.1920x1080.jpg?t=1764168324",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/ss_2e7b8e01e12b4932b83b802318d8aae5eb59bacb.1920x1080.jpg?t=1764168324",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/298110/ss_738eb6ad93238c22b8042074119032fb3d0cb5e0.1920x1080.jpg?t=1764168324"
+  ],
+  "price": 29.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation :</strong> Windows 10 (64-bit)<br></li><li><strong>Processeur :</strong> 2.6 GHz Intel® Core™ i5-750 or 3.2 GHz AMD Phenom™ II X4 955<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GeForce GTX 460 or AMD Radeon HD5850 (1 GB VRAM)<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Réseau :</strong> connexion internet haut débit<br></li><li><strong>Espace disque :</strong> 30 GB d'espace disque disponible<br></li><li><strong>Carte son :</strong> DirectX-compatible (5.1 surround sound recommended)<br></li><li><strong>Notes supplémentaires :</strong> Windows-compatible keyboard, mouse, optional controller (Xbox 360 Controller for Windows recommended)</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "da",
+    "nl",
+    "fi",
+    "ja",
+    "ko",
+    "pl",
+    "pt-BR",
+    "ru",
+    "sv",
+    "no",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "metacriticScore": 80
+}

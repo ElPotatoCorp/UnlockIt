@@ -1,0 +1,76 @@
+{
+  "name": "Spore",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2008-12-19",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Simulation",
+    "Stratégie",
+    "RPG / Jeu de rôle",
+    "Sandbox",
+    "Construction",
+    "Science-fiction",
+    "Familial",
+    "Stylisé",
+    "3D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false,
+    "ios": false,
+    "android": false,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Electronic Arts"
+  ],
+  "developers": [
+    "Maxis™"
+  ],
+  "shortDescription": "Be the architect of your own universe with Spore, an exciting single-player adventure. From Single Cell to Galactic God, evolve your creature in a universe of your own creations.",
+  "detailedDescription": "D'un être unicellulaire jusqu'au demi-dieu galactique, faites évoluer votre créature dans un univers de votre création.<br>Jouer à Spore <strong> à travers 5 stades d'évolution : </strong>: Cellule, Créature, Tribu, Civilisation et Espace. Chaque stade est particulier dans son mode et ses buts. Jouez comme vous le souhaitez : faites évoluer votre cellule en voyageur interplanétaire ou construisez des civilisations sur de nouvelles planètes dès le départ : faites ce que vous voulez de votre univers.<br>Spore vous confère le pouvoir de <strong>créer simplement </strong> pour modeler les aspects de l'univers : créatures, véhicules, bâtiments et même des vaisseaux spatiaux. Alors que Spore est un jeu solo, vous pouvez partager vos créations avec d'autres joueurs et explorez des mondes sans limites.<br><ul class=\"bb_ul\"><li><strong>CRÉER du micro au macro</strong>  Du bouillon originel aux civilisations galactiques.<br></li><li><strong>ÉVOLUER 5 stades d'évolution vous attendent</strong>  La survie en s'amusant. Décidez de votre propre sort.<br></li><li><strong>EXPLORER les galaxies des autres joueurs</strong>  Votre créature contrôlera-t-elle la galaxie ou sera-t-elle victime d'une autre créature ? <br></li><li><strong>PARTAGER avec le monde</strong>  Tout est destiné à être partagé. Des tonnes et des tonnes de créatures.</li></ul>",
+  "website": "http://www.spore.com/",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/header.jpg?t=1642702281",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/capsule_231x87.jpg?t=1642702281",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/17390?t=1642702281",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006439.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006440.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006441.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006442.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006443.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006444.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006445.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006446.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006447.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006448.1920x1080.jpg?t=1642702281",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/0000006449.1920x1080.jpg?t=1642702281"
+  ],
+  "price": 19.99,
+  "pcRequirements": "<ul class=\"bb_ul\"><li><strong>Interface :</strong> Microsoft Windows® XP avec Service Pack 1 ou Vista<br></li><li><strong>Processeur :</strong> 2.0 GHz Intel Pentium® 4 ou équivalent<br></li><li><strong>Mémoire :</strong> 512 Mo RAM (768 Mo RAM pour Vista)<br></li><li><strong>Graphismes :</strong> 128 Mo Video Card, avec support pour Pixel Shader 2.0<br></li><li><strong>DirectX® :</strong> Dernière version DirectX 9.0c ou supérieure<br></li><li><strong>Disque dur :</strong> 4 Go avec 1 Go supplémentaire pour les créations</li></ul><strong>Pour les ordinateurs utilisant les circuits intégrés pour Windows, le jeu nécessite : </strong><br><ul class=\"bb_ul\"><li>Intel Integrated Chipset, 945GM ou supérieur<br></li><li>2.6 GHz Pentium D CPU, ou 1.8 GHz Core 2 Duo, ou équivalent<br></li><li>768 Mo RAM</li></ul><ul class=\"bb_ul\"><li>CONNEXION INTERNET, AUTHENTIFICATION EN LIGNE ET ACCORDS D'UTILISATION SONT REQUIS. POUR ACCÉDER AUX OPTIONS EN LIGNE VOUS DEVEZ VOUS ENREGISTRER EN LIGNE. UN SEUL ENREGISTREMENT EN LIGNE ET AUTORISE PAR JEU. LES CONDITIONS EA SONT DISPONIBLES SUR LE SITE .</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "cs",
+    "da",
+    "de",
+    "es",
+    "fi",
+    "fr",
+    "it",
+    "hu",
+    "nl",
+    "no",
+    "pl",
+    "ru",
+    "sv",
+    "pt-PT"
+  ],
+  "metacriticScore": 84
+}

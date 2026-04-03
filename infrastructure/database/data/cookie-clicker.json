@@ -1,0 +1,73 @@
+{
+  "name": "Cookie Clicker",
+  "type": "game",
+  "ageRating": 3,
+  "releaseDate": "2021-09-01",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Simulation",
+    "Gestion",
+    "Relaxant",
+    "Humoristique",
+    "Familial",
+    "2D",
+    "Minimaliste"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": false,
+    "ios": false,
+    "android": true,
+    "switch": false,
+    "ps4": false,
+    "ps5": false,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Playsaurus"
+  ],
+  "developers": [
+    "Orteil",
+    "DashNet"
+  ],
+  "shortDescription": "Un jeu incrémental à base de confection de cookies ! Publié à l'origine en 2013 sur le Web, et toujours développé activement depuis. Voici sa version officielle sur Steam.",
+  "detailedDescription": "Cookie Clicker est un jeu consistant à produire une quantité absurde de cookies. Pour t'aider dans cette tâche, tu recruteras des confectionneurs de cookies divers et variés, commes des grand-mères adorables, avec des fermes, des usines, ainsi que des portails vers d'autres mondes.<br><br>Cookie Clicker a d'abord été publié en 2013, mais a continué d'être développé activement depuis. Si tu y as déjà joué, essaie à nouveau pour profiter de toutes ses nouvelles fonctionnalités !<br><br><ul class=\"bb_ul\"><li> Accumule les cookies et dépense-les pour en gagner encore plus<br></li><li> Plus de 600 améliorations<br></li><li> Plus de 500 trophées<br></li><li> Caresse ton dragon<br></li><li> Mini-jeux<br></li><li> Débloque des améliorations célestes permanentes<br></li><li> Sauvegarde sur le cloud (plus de suppression de cookies par accident)<br></li><li> Musique de C418</li></ul>",
+  "website": "https://cookieclicker.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/header.jpg?t=1762210027",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/capsule_231x87.jpg?t=1762210027",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1454400?t=1762210027",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_33b5eb6d3b3d582c9acc69739a920cd5a0b18693.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_36c8a99a696f818801aaef980bb3b9b6baeeeaf5.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_ff9c72abf6cc8feea1f96e816abe9e860e8e445e.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_5d75e52f96f5f742fcc9a5c0ada88b487287c119.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_ade4f966735b0489065c5ad3c363204589fc0517.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_7a6add51071906277f48a2abaf50bc04f3d03a15.1920x1080.jpg?t=1762210027",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1454400/ss_2c1907d589650f6254a6bdb30a3e593ced198cd2.1920x1080.jpg?t=1762210027"
+  ],
+  "price": 4.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Microsoft® Windows Server 2008, Windows 7, or Windows 8 Classic<br></li><li><strong>Processeur :</strong> 2.33GHz or faster x86-compatible processor, or Intel Atom™ 1.6GHz or faster processor for netbook class devices<br></li><li><strong>Mémoire vive :</strong> 512 MB de mémoire<br></li><li><strong>Espace disque :</strong> 350 MB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "it",
+    "de",
+    "es",
+    "cs",
+    "nl",
+    "ja",
+    "pl",
+    "pt-BR",
+    "ru",
+    "zh-Hans",
+    "ko",
+    "pt-PT",
+    "es-419",
+    "da",
+    "no"
+  ],
+  "metacriticScore": null
+}

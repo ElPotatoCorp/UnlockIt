@@ -1,0 +1,70 @@
+{
+  "name": "Inscryption",
+  "type": "game",
+  "ageRating": 12,
+  "releaseDate": "2021-10-19",
+  "comingSoon": false,
+  "tags": [
+    "Solo",
+    "Roguelike / Roguelite",
+    "Stratégie",
+    "Puzzle / Réflexion",
+    "Horreur",
+    "Narratif",
+    "Sombre",
+    "Immersif",
+    "Pixel art",
+    "2D"
+  ],
+  "platforms": {
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "ios": false,
+    "android": false,
+    "switch": true,
+    "ps4": true,
+    "ps5": true,
+    "xboxOne": false,
+    "xboxSeries": false
+  },
+  "publishers": [
+    "Devolver Digital"
+  ],
+  "developers": [
+    "Daniel Mullins Games"
+  ],
+  "shortDescription": "Inscryption est une odyssée personnelle qui prend la forme d'un jeu de cartes d'un noir d'encre qui mélange le rogue-like, la création de deck, les énigmes des escape-room et l'horreur psychologique. Mais ce n'est pas tout, car les cartes renferment des secrets encore plus noirs...",
+  "detailedDescription": "Le créateur de Pony Island et The Hex revient avec une nouvelle lettre d'amour aux jeux vidéo, complètement hallucinée et obsessionnelle. <strong>Inscryption</strong> est une odyssée personnelle qui prend la forme d'un jeu de cartes d'un noir d'encre qui mélange le rogue-like, la création de deck, les énigmes des escape-room et l'horreur psychologique. Mais ce n'est pas tout, car les cartes renferment des secrets encore plus noirs...<h2 class=\"bb_tag\" >Dans Inscryption, vous pourrez...</h2><ul class=\"bb_ul\"><li>Obtenir un deck de cartes composées de créatures des bois, en les collectionnant, en les opérant... ou en vous automutilant.<br></li><li>Révéler les secrets tapis dans l'ombre poisseuse de la cabane de Leshy.<br></li><li>Vous embarquer dans une odyssée radicalement étrange et inattendue.</li></ul>",
+  "website": "https://www.inscryption-game.com",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/header.jpg?t=1762447328",
+  "coverImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/capsule_231x87.jpg?t=1762447328",
+  "backgroundImage": "https://store.akamai.steamstatic.com/images/storepagebackground/app/1092790?t=1762447328",
+  "screenshotUrls": [
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_0191a69b0e94a9a7784f5b81e27f06379910645a.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_3b714682e9e0a214df1630a234e9f6764528eece.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_7bfe728822807d232398df1cb1a5d64addd3d8fb.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_79a146c36a3f0b728a8e0085327cec8c7fba82d6.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_738220c84b63522c4ca8c77fbff1ddb252ea0fe9.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_e3338b329e4d92b56121f2e849486ee805a56169.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_5fd7a0e8967cdd05264988c6b397e18f99e78eef.1920x1080.jpg?t=1762447328",
+    "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1092790/ss_1db397016a48d454a7f65b18b88b7775d202c853.1920x1080.jpg?t=1762447328"
+  ],
+  "price": 19.99,
+  "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation  *:</strong> Windows 7<br></li><li><strong>Processeur :</strong> Intel Core i5-760 (4 * 2800); AMD Athlon II X4 645 AM3 (4 * 3100)<br></li><li><strong>Mémoire vive :</strong> 4 GB de mémoire<br></li><li><strong>Graphiques :</strong> GeForce GTX 550 Ti (3072 VRAM); Radeon HD 6850 (1024 VRAM)<br></li><li><strong>Espace disque :</strong> 3 GB d'espace disque disponible</li></ul>",
+  "supportedLanguages": [
+    "en",
+    "fr",
+    "de",
+    "es",
+    "ja",
+    "ko",
+    "ru",
+    "zh-Hans",
+    "it",
+    "pt-BR",
+    "zh-Hant",
+    "tr"
+  ],
+  "metacriticScore": 85
+}
