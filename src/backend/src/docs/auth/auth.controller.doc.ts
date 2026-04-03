@@ -1,5 +1,5 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags, ApiTooManyRequestsResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { ApiAuth } from "./decorators/api-auth.decorator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { JwtPayloadDto } from "src/auth/dto/jwt-payload.dto";
@@ -44,7 +44,8 @@ export const AuthControllerDoc = {
       },
     }),
     ApiBadRequestResponse({ description: 'Bad request. Validation failed.' }),
-    ApiConflictResponse({ description: 'Conflict. Email or username already taken.' })
+    ApiConflictResponse({ description: 'Conflict. Email or username already taken.' }),
+    ApiTooManyRequestsResponse({ description: 'Too many login attempts. Please try again later.' })
   ),
 
   Login: () => applyDecorators(
@@ -85,7 +86,8 @@ export const AuthControllerDoc = {
         },
       },
     }),
-    ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid credentials.' })
+    ApiUnauthorizedResponse({ description: 'Unauthorized. Invalid credentials.' }),
+    ApiTooManyRequestsResponse({ description: 'Too many login attempts. Please try again later.' })
   ),
 
   Refresh: () => applyDecorators(

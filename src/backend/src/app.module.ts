@@ -19,9 +19,16 @@ import { UserModule } from './user/user.module';
 import { SessionsModule } from './sessions/sessions.module';
 import jwtConfig from './config/jwt.config';
 import databaseConfig from './config/database.config';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        { name: 'authRegister', ttl: 1000 * 60 * 60, limit: 3 },
+        { name: 'authLogin', ttl: 1000 * 15, limit: 5 },
+      ]
+    }),
     ConfigModule.forRoot({
       envFilePath: ENV_FILE_PATH,
       isGlobal: true,
@@ -59,4 +66,4 @@ import databaseConfig from './config/database.config';
     AppService
   ],
 })
-export class AppModule {}
+export class AppModule { }

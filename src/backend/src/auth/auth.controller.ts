@@ -10,7 +10,7 @@ import { UserAgent } from './decorators/user-agent.decorator';
 import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
-import { JWT_ACCESS_TOKEN_COOKIE_NAME, JWT_REFRESH_TOKEN_COOKIE_NAME } from 'src/globals';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
@@ -42,6 +42,8 @@ export class AuthController {
 
   @AuthControllerDoc.Register()
   @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ authRegister: { limit: 3, ttl: 1000 * 60 * 60 } }) // 3 attempts per hour
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
@@ -49,7 +51,8 @@ export class AuthController {
 
   @AuthControllerDoc.Login()
   @Public()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard, ThrottlerGuard)
+  @Throttle({ authLogin: { limit: 5, ttl: 1000 * 15 } }) // 5 attempts per 15 minutes
   @Post('login')
   async login(@User('sub') userId: string, @Ip() ip: string, @UserAgent() userAgent: string, @Response({ passthrough: true }) res) {
     const tokens = await this.authService.login(userId, ip, userAgent);
