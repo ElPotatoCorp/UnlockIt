@@ -1,4 +1,4 @@
-CREATE TYPE ticket_status AS ENUM ('open', 'resolved', 'closed');
+CREATE TYPE ticket_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
 DROP TABLE IF EXISTS tickets;
 CREATE TABLE tickets(
    id          UUID          DEFAULT gen_random_uuid(),
