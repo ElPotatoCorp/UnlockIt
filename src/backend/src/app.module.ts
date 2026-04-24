@@ -49,6 +49,10 @@ import { ThrottlerModule } from '@nestjs/throttler';
         password: config.password,
         database: config.database,
         autoLoadEntities: true,
+
+        migrations:  ["dist/database/migrations/**/*.{ts,js}"],
+        migrationsRun: true,
+        synchronize: false,
       }),
     }),
     UsersModule,
