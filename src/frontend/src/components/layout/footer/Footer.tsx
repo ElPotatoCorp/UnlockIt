@@ -9,9 +9,9 @@ export const Footer: FC = () => {
 
   return (
     <footer className={styles.pageFooter}>
-      <Logo color={isDarkMode ? "white" : "black"} />
+      <Logo color={isDarkMode ? "white" : "black"} size={140}/>
       <LegalNotice />
-      <SocialLinks />
+      <SocialLinks color={isDarkMode ? "white" : "black"} size={42}/>
     </footer>
   );
 };

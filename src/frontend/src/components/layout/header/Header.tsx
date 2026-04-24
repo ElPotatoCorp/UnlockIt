@@ -13,7 +13,7 @@ export const Header: FC = () => {
       <header className={styles.pageHeader}>
         <div className={styles.topRow}>
           <div className={styles.left}>
-            <Logo color={isDarkMode ? "white" : "black"} />
+            <Logo color={isDarkMode ? "white" : "black"} size={140}/>
           </div>
 
           <div className={styles.center}>
