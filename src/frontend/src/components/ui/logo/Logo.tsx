@@ -1,19 +1,23 @@
+import { Link } from "react-router-dom";
+import styles from "./logo.module.css";
+
 type LogoProps = {
     color?: string;
     size?: number;
+    link?: string;
     className?: string;
 };
 
-export function Logo({ color = "white", size = 64, className }: LogoProps) {
+export function Logo({ color = "white", size = 64, link, className }: LogoProps) {
     const height = (size * 77) / 325;
 
-    return (
+    const svg = (
         <svg
             width={size}
             height={height}
             viewBox="0 0 325 77"
             xmlns="http://www.w3.org/2000/svg"
-            className={className}
+            className={`${styles.logoSvg} ${className || ""}`}
             style={{ color }}
         >
             <path d="M303 59.5H311V33.5H325V26H311V14.5H303V26H292.5V33.5H303V59.5Z" fill="currentColor" />
@@ -190,4 +194,14 @@ export function Logo({ color = "white", size = 64, className }: LogoProps) {
             </defs>
         </svg>
     );
+        
+    if (link) {
+        return (
+            <Link to={link} className={styles.logoWrapper}>
+                {svg}
+            </Link>
+        );
+    }
+
+    return svg;
 }

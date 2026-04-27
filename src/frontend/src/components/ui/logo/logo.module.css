@@ -1,0 +1,17 @@
+/* Wrapper quand le logo est cliquable */
+.logoWrapper {
+  display: inline-block;
+  cursor: var(--cursor-pointer);
+}
+
+/* SVG du logo */
+.logoSvg {
+  transition: transform 0.25s ease, filter 0.25s ease;
+  display: block;
+}
+
+/* Hover uniquement si cliquable */
+.logoWrapper:hover .logoSvg {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 6px var(--color-blue-shadow));
+}

@@ -291,17 +291,19 @@ Desktop : 1024px+
 
 ### Tailles de texte
 
-|         | Mobile | Tablette | Desktop |
-| ------- | ------ | -------- | ------- |
-| H1      | 2rem   | 2.5rem   | 3rem    |
-| H2      | 1.6rem | 2rem     | 2.2rem  |
-| H3      | 1.2rem | 1.4rem   | 1.6rem  |
-| Texte   | 1rem   | 1.1rem   | 1.15rem |
-| Boutons | 1.1rem | 1.2rem   | 1.3rem  |
+|       | Mobile  | Tablette | Desktop |
+| ----- | ------- | -------- | ------- |
+| H1    | 1.4rem  | 1.7rem   | 2rem    |
+| H2    | 1.2rem  | 1.35rem  | 1.5rem  |
+| H3    | 1.05rem | 1.15rem  | 1.2rem  |
+| Texte | 0.9rem  | 0.95rem  | 1rem    |
+| Tiny  | 0.75rem | 0.8rem   | 0.9rem  |
 
 Typographies :  
 - Titres / Sous-titres : Audiowide  
 - Textes, label, etc. : Orbitron
+
+Les polices sont très grosses, les font-size sont donc plus petites.
 
 ### Images
 

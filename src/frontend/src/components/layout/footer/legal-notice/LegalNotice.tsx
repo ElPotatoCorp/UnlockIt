@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { Link } from "react-router-dom";
 import styles from "./legalNotice.module.css";
 
 export const LegalNotice: FC = () => (
@@ -7,8 +8,12 @@ export const LegalNotice: FC = () => (
     Toutes les marques déposées sont la propriété de leurs détenteurs respectifs en France et dans d'autres pays. <br />
     La TVA est incluse dans tous les prix lorsqu'elle est applicable.
     <br />
-    <span className={styles.links}>
-      Politique de confidentialité | Mentions légales | Remboursements | Cookies
+
+    <span>
+      <Link to="/privacy">Politique de confidentialité</Link> |{" "}
+      <Link to="/legal">Mentions légales</Link> |{" "}
+      <Link to="/refunds">Remboursements</Link> |{" "}
+      <Link to="/cookies">Cookies</Link>
     </span>
   </p>
 );
