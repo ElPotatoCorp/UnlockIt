@@ -2,6 +2,14 @@
 .logoWrapper {
   display: inline-block;
   cursor: var(--cursor-pointer);
+  
+  color: inherit !important;
+  text-decoration: none !important;
+  position: static !important;
+}
+
+.logoWrapper::after {
+  display: none !important;
 }
 
 /* SVG du logo */
@@ -10,8 +18,19 @@
   display: block;
 }
 
-/* Hover uniquement si cliquable */
 .logoWrapper:hover .logoSvg {
-  transform: scale(1.03);
-  filter: drop-shadow(0 0 6px var(--color-blue-shadow));
+  transform: scale(1.06);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: drop-shadow(0 0 15px var(--color-green-shadow));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--color-blue-shadow));
+  }
+  100% {
+    filter: drop-shadow(0 0 15px var(--color-green-shadow));
+  }
 }
