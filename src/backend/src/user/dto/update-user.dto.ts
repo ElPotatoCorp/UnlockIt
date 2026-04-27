@@ -1,9 +1,10 @@
-import { IsEmail, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, Length, Matches } from "class-validator";
+import { IsEmail, IsOptional, IsPhoneNumber, IsString, IsStrongPassword, Length } from "class-validator";
+import { IsUsername } from "src/common/validators/username.validator";
 import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
 
 export class UpdateUserDto {
   @UserEntityDoc.Username(false)
-  @IsOptional() @IsString() @Length(3, 50) @Matches(/^[a-zA-Z0-9_]+$/)
+  @IsOptional() @IsUsername() @Length(3, 50)
   username?: string;
 
   @UserEntityDoc.Password(false)

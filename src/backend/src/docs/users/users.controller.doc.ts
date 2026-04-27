@@ -1,7 +1,6 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags, getSchemaPath } from "@nestjs/swagger";
 import { PaginatedDto } from "src/common/dto/paginated.dto";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { PublicUserDto } from "src/user/dto/public-user.dto";
 
 export const UsersControllerDoc = {

@@ -1,9 +1,10 @@
-import { IsEmail, IsString, IsStrongPassword, Length, Matches } from "class-validator";
+import { IsEmail, IsString, IsStrongPassword, Length } from "class-validator";
+import { IsUsername } from "src/common/validators/username.validator";
 import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
 
 export class CreateUserDto {
   @UserEntityDoc.Username()
-  @IsString() @Length(3, 50) @Matches(/^[a-zA-Z0-9_]+$/)
+  @IsUsername() @Length(3, 50)
   username: string;
 
   @UserEntityDoc.Password()

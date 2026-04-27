@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 import { ENV_FILE_PATH, UPLOADS_DIR } from './globals';
+import jwtConfig from './config/jwt.config';
+import databaseConfig from './config/database.config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,8 +19,6 @@ import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { SessionsModule } from './sessions/sessions.module';
-import jwtConfig from './config/jwt.config';
-import databaseConfig from './config/database.config';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({

@@ -1,6 +1,7 @@
 import { User } from "../entities/user.entity";
 import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
-import { IsDateString, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUUID, Length, Matches, Min } from "class-validator";
+import { IsDateString, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUUID, Length, Min } from "class-validator";
+import { IsUsername } from "src/common/validators/username.validator";
 
 export class UserDto {
   public static fromEntity(user: User, privacy = true): UserDto {
@@ -25,7 +26,7 @@ export class UserDto {
   id: string;
 
   @UserEntityDoc.Username()
-  @IsString() @Length(3, 50) @Matches(/^[a-zA-Z0-9_]+$/)
+  @IsUsername() @Length(3, 50)
   username: string;
 
   @UserEntityDoc.Email()
