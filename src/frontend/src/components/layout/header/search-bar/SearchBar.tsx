@@ -2,6 +2,7 @@ import { type FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./searchBar.module.css";
 import { slugify } from "../../../../utils/formatters/slug.formatter";
+import { SearchIcon } from "./search-icon/SearchIcon";
 
 export const SearchBar: FC = () => {
   const [query, setQuery] = useState("");
@@ -11,7 +12,6 @@ export const SearchBar: FC = () => {
     e.preventDefault();
 
     const q = query.trim();
-    if (!q) return;
 
     navigate(`/search/${encodeURIComponent(slugify(q))}`);
   };
@@ -26,7 +26,7 @@ export const SearchBar: FC = () => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <button type="submit" className={styles.button}>
-        <img src="/images/search-logo.png" alt="Rechercher" />
+        <SearchIcon size={22} color="white" />
       </button>
     </form>
   );
