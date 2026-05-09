@@ -3,9 +3,10 @@ import styles from "./profileMenu.module.css";
 import cardStyles from "../../../../../styles/card.module.css";
 
 import { Link } from "react-router-dom";
+import { DefaultPfpIcon } from "../default-profile-picture/DefaultPfpIcon";
 
 interface ProfileMenuProps {
-  profilePic: string;
+  profilePic?: string;
   isAuthenticated: boolean;
 }
 
@@ -29,44 +30,33 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isAuthenticated 
 
   return (
     <div className={styles.profile}>
-      <img
-        src={profilePic}
-        alt="Profil"
-        onClick={() => setOpen(!open)}
-      />
+      <div onClick={() => setOpen(!open)}>
+        {profilePic ? (
+          <img src={profilePic} alt="Profil" />
+        ) : (
+          <DefaultPfpIcon size={40} />
+        )}
+      </div>
+
       {open && (
         <div className={styles.profileMenu}>
           <ul className={cardStyles.colList}>
             {isAuthenticated && (
               <>
-              <li>
-                <Link to="/settings" className={styles.menuLink}>
-                  Paramètres
-                </Link>
-              </li>
-              <li>
-                <Link to="/wishlist" className={styles.menuLink}>
-                  Liste de souhaits
-                </Link>
-              </li>
+                <li><Link to="/settings">Paramètres</Link></li>
+                <li><Link to="/wishlist">Liste de souhaits</Link></li>
               </>
             )}
-            <li>
-              <Link to="/settings" className={styles.menuLink}>
-                Langue
-              </Link>
-            </li>
-            <li>
-              <Link to="/settings" className={styles.menuLink}>
-                Thème
-              </Link>
-            </li>
+
+            <li><Link to="/settings">Langue</Link></li>
+            <li><Link to="/settings">Thème</Link></li>
+
             {isAuthenticated ? (
               <li>
-              <Link to="/login" onClick={handleLogout} className={styles.logOutLink}>
-                Déconnexion
-              </Link>
-            </li>
+                <button onClick={handleLogout} className={styles.logOutLink}>
+                  Déconnexion
+                </button>
+              </li>
             ) : (
               <li>
                 <Link to="/login" className={styles.logInLink}>
