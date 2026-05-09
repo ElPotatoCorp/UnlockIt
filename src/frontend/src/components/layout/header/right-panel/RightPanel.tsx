@@ -2,35 +2,33 @@ import { type FC, useEffect } from "react";
 import { ProfileMenu } from "./profile-menu/ProfileMenu";
 import styles from "./rightPanel.module.css";
 
-// import cartImg from "/images/cart-logo.png";
 import { Link } from "react-router-dom";
-
-// import defaultProfilePic from "/images/default_profile_picture.png";
+import { CartIcon } from "./cart-icon/CartIcon";
 
 export const RightPanel: FC = () => {
   const isAuthenticated = true;
   const wallet = 5.0;
   const profilePic = "";
-  const defaultProfilePic = "";
-  const cartImg = "";
 
   return (
     <div className={styles.rightPanel}>
-
       {isAuthenticated && (
         <Link to="/cart" className={styles.imgBasket}>
-          <img src={cartImg} className={styles.cart} alt="Panier" />
+          <div className={styles.cartWrapper}>
+            <CartIcon className={styles.cart} size={32} />
+          </div>
         </Link>
+
       )}
 
       {isAuthenticated && (
-        <div className={styles.wallet}>
+        <h3>
           {wallet.toFixed(2)} €
-        </div>
+        </h3>
       )}
 
       <ProfileMenu
-        profilePic={profilePic ?? defaultProfilePic}
+        profilePic={profilePic}
         isAuthenticated={isAuthenticated}
       />
     </div>
