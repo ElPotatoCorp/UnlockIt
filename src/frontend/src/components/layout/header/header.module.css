@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: var(--color-tar);
   display: flex;
   flex-direction: column;
   align-items: stretch;
