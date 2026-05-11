@@ -29,7 +29,7 @@ export const RightPanel: FC = () => {
 
       <ProfileMenu
         profilePic={profilePic}
-        isAuthenticated={isAuthenticated}
+        isLogged={isAuthenticated}
       />
     </div>
   );

@@ -1,16 +1,14 @@
-import { type FC, useState } from "react";
-import styles from "./profileMenu.module.css";
-import cardStyles from "../../../../../styles/card.module.css";
-
 import { Link } from "react-router-dom";
+import styles from "./profileMenu.module.css";
+import { useState, type FC } from "react";
 import { DefaultPfpIcon } from "../default-profile-picture/DefaultPfpIcon";
 
 interface ProfileMenuProps {
   profilePic?: string;
-  isAuthenticated: boolean;
+  isLogged: boolean;
 }
 
-export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isAuthenticated }) => {
+export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -29,44 +27,88 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isAuthenticated 
   };
 
   return (
-    <div className={styles.profile}>
-      <div onClick={() => setOpen(!open)}>
+    <>
+      <div onClick={() => setOpen(!open)} className={styles.profileIcon}>
         {profilePic ? (
           <img src={profilePic} alt="Profil" />
         ) : (
           <DefaultPfpIcon size={40} />
         )}
       </div>
-
       {open && (
         <div className={styles.profileMenu}>
-          <ul className={cardStyles.colList}>
-            {isAuthenticated && (
+          <ul className={styles.menuList}>
+            {isLogged ? (
               <>
-                <li><Link to="/settings">Paramètres</Link></li>
-                <li><Link to="/wishlist">Liste de souhaits</Link></li>
+                <li>
+                  <Link to="/profile" className={styles.menuItem}>
+                    <span className={styles.menuContent}>
+                      Profile
+                    </span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/settings" className={styles.menuItem}>
+                    <span className={styles.menuContent}>
+                      Settings
+                    </span>
+                  </Link>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className={`${styles.menuItem} ${styles.comingSoon}`}
+                    disabled
+                  >
+                    <span className={styles.menuContent}>
+                      <span className={styles.defaultLabel}>Theme</span>
+                      <span className={styles.hoverLabel}>Coming Soon</span>
+                    </span>
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    className={`${styles.menuItem} ${styles.comingSoon}`}
+                    disabled
+                  >
+                    <span className={styles.menuContent}>
+                      <span className={styles.defaultLabel}>Language</span>
+                      <span className={styles.hoverLabel}>Coming Soon</span>
+                    </span>
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className={`${styles.menuItem} ${styles.danger}`}
+                  >
+                    <span className={styles.menuContent}>
+                      Logout
+                    </span>
+                  </button>
+                </li>
               </>
-            )}
-
-            <li><Link to="/settings">Langue</Link></li>
-            <li><Link to="/settings">Thème</Link></li>
-
-            {isAuthenticated ? (
-              <li>
-                <button onClick={handleLogout} className={styles.logOutLink}>
-                  Déconnexion
-                </button>
-              </li>
             ) : (
               <li>
-                <Link to="/login" className={styles.logInLink}>
-                  Connexion
+                <Link
+                  to="/login"
+                  className={`${styles.menuItem} ${styles.success}`}
+                >
+                  <span className={styles.menuContent}>
+                    Login
+                  </span>
                 </Link>
               </li>
             )}
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
-};
+}

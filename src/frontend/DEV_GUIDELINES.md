@@ -40,6 +40,16 @@ Ce document résume les règles de développement sur tout le site **UnlockIt**.
 
 ---
 
+## Animations
+
+Des animations css se situeront dans un animations.css importé dans le index.css, elle pourrons etre utilisées pour diverses application comme un hover, des filtres, etc.
+
+| Variable          | Description                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| --animation-pulse | Alterne en 1.5 seconde entre var(--color-blue-shadow) et var(--color-green-shadow) à l'infini |
+
+---
+
 ## Nommage
 
 - variables : nomVariable

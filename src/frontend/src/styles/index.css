@@ -1,5 +1,6 @@
 @import "./fonts.css";
 @import "./hooks.css";
+@import "./animations.css";
 
 :root {
   /* === Couleurs === */
@@ -48,6 +49,9 @@
   --text-h3: 1.05rem;
   --text-body: 0.9rem;
   --text-tiny: 0.75rem;
+
+  /* === animations === */
+  --animation-pulse: pulse 1.5s ease-in-out infinite;
 }
 
 /* TABLETTE */

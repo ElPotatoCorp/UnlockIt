@@ -1,99 +1,153 @@
-.profile img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  cursor: var(--cursor-pointer);
-  transition: transform 0.2s ease;
+.profileIcon {
+  display: flex;
+  align-items: center;  
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.profile img:hover {
-  transform: scale(1.05);
+.profileIcon:hover {
+  transform: scale(1.06);
+  animation: var(--animation-pulse);
+  cursor: var(--cursor-pointer);
 }
 
 .profileMenu {
   position: fixed;
-  top: 53px;
-  right: -20px;
+  top: 58px;
+  right: -1rem;
+
+  width: 200px;
+
   background: var(--color-tar);
-  border-radius: 10px;
-  width: 220px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-  border: 1px solid #333;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  animation: fadeInUp 0.3s ease forwards;
+  border: 1px solid var(--color-smoke);
+  border-radius: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
   overflow: hidden;
   z-index: 999;
+
+  animation: fadeInUp 0.5s ease;
 }
 
-/* Effet hover global */
-.profileMenu:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+.menuList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
 }
 
-.logOutLink {
-  display: inline-block;
-  color: var(--color-error);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 15px;
-  text-decoration: none;
-  cursor: var(--cursor-pointer);
-  transition: color 0.2s ease, transform 0.2s ease;
-}
+.menuItem {
+  width: 100%;
 
-.logOutLink:hover {
-  transform: translateX(4px);
-}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-.logOutLink:focus-visible {
-  outline: 2px solid var(--color-green);
-  outline-offset: 2px;
-}
+  padding: 14px 18px;
 
-.logInLink {
-  display: inline-block;
-  color: var(--color-green);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 15px;
-  text-decoration: none;
-  cursor: var(--cursor-pointer);
-  transition: color 0.2s ease, transform 0.2s ease;
-}
+  background: transparent;
+  border: none;
 
-.logInLink:hover {
-  transform: translateX(4px);
-}
-
-.logInLink:focus-visible {
-  outline: 2px solid var(--color-green);
-  outline-offset: 2px;
-}
-
-.menuLink {
-  display: inline-block;
   color: var(--color-white);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 15px;
+
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  text-align: left;
   text-decoration: none;
+
   cursor: var(--cursor-pointer);
-  transition: color 0.2s ease, transform 0.2s ease;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
-.menuLink:hover {
-  color: #fff;
+.menuContent {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-height: 24px;
+
+  transition: transform 0.2s ease;
+}
+
+.defaultLabel,
+.hoverLabel {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.hoverLabel {
+  position: absolute;
+  left: 0;
+
+  opacity: 0;
+  transform: translateX(-4px);
+
+  color: var(--color-mist);
+}
+
+.menuItem::after {
+  display: none !important;
+}
+
+.menuItem:hover {
+  background: var(--color-smoke);
+  color: var(--color-green);
+}
+
+.menuItem:hover .menuContent {
   transform: translateX(4px);
 }
 
-.menuLink:focus-visible {
+.menuItem:focus-visible {
   outline: 2px solid var(--color-green);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
-/* Animation */
+.success {
+  color: var(--color-success);
+}
+
+.danger {
+  color: var(--color-error);
+}
+
+.danger:hover  {
+  color: var(--color-error);
+}
+
+.comingSoon:hover .menuContent {
+  transform: none;
+}
+
+.comingSoon:hover .defaultLabel {
+  opacity: 0;
+  transform: translateX(4px);
+}
+
+.comingSoon:hover .hoverLabel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--color-smoke);
+  color: var(--color-mist);
+  font-size: var(--text-tiny);
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
