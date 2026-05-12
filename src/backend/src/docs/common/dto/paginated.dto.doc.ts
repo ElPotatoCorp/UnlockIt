@@ -1,5 +1,20 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, getSchemaPath } from "@nestjs/swagger";
+import { PaginatedDto } from "src/common/dto/paginated.dto";
+
+export const PaginatedDtoSchemaDoc = (itemType: any) => ({
+  allOf: [
+    { $ref: getSchemaPath(PaginatedDto) },
+    {
+      properties: {
+        data: {
+          type: 'array',
+          items: { $ref: getSchemaPath(itemType) },
+        },
+      },
+    },
+  ],
+});
 
 export const PaginatedDtoDoc = {
   Total: () => applyDecorators(
