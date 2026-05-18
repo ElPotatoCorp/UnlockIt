@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { unlink } from 'fs';
 import { join } from 'path';
-import { AVATARS_DIR } from 'src/globals';
+import { UPLOADS_DIR } from 'src/globals';
+import { UploadSubdir } from './upload.constants';
 
 @Injectable()
 export class UploadService {
-  removeObsoleteFile(file: string | null) {
+  removeObsoleteFile(subdir: UploadSubdir, file: string | null) {
     if (!file) {
       return;
     }
 
-    const fullPath = join(AVATARS_DIR, file);
+    const fullPath = join(UPLOADS_DIR, subdir, file);
 
     unlink(fullPath, (err) => {
       if (err) {

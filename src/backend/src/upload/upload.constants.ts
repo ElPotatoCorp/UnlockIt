@@ -1,14 +1,19 @@
 import { UnprocessableEntityException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
+import { join } from 'path';
+import { UPLOADS_DIR } from 'src/globals';
 
-// This values are in megabytes (MB)
-export const MAX_AVATAR_SIZE = 5;
+export enum UploadSubdir {
+  AVATARS = 'avatars',
+}
+
+export const MAX_AVATAR_SIZE = 5; // MB
 
 export const uploadUserAvatar = {
   multerOptions: {
     storage: diskStorage({
-      destination: './uploads/avatars',
+      destination: join(UPLOADS_DIR, UploadSubdir.AVATARS),
       filename: (req: any, file: Express.Multer.File, cb: (err: Error | null, filename: string) => void) => {
         const ext = '.' + (file.mimetype.split('/').pop() || 'bin');
         const filename = `avatar-${randomUUID()}-${Date.now()}${ext}`;
