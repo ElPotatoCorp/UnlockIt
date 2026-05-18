@@ -11,6 +11,8 @@ function applyAppDocumentation(app: INestApplication<any>): void {
     .addTag('Auth', 'Endpoints related to authentication and user sessions')
     .addTag('User', 'Related to user management and information about the currently authenticated user')
     .addTag('Users', 'Related to everything a user made publicly')
+    .addTag('Games', 'Endpoints related to game management, including creation, retrieval, updating, and deletion of games')
+    .addTag('Series', 'Endpoints related to series management, including creation, retrieval, updating, and deletion of series')
     .addGlobalResponse({
       status: 500,
       description: 'Internal server error. It could be an unexpected error or simply a unhandled specific case.',

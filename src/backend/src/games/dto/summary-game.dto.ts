@@ -1,0 +1,45 @@
+import { GameEntityDoc } from "src/docs/games/entities/game.entity.doc";
+import { EUAgeRating, Game } from "../entities/game.entity";
+
+export class SummaryGameDto {
+  @GameEntityDoc.Id()
+  id: number;
+
+  @GameEntityDoc.Name()
+  name: string;
+
+  @GameEntityDoc.Slug()
+  slug: string;
+
+  @GameEntityDoc.Type()
+  type: string;
+
+  @GameEntityDoc.Price()
+  price: number;
+
+  @GameEntityDoc.AgeRating()
+  ageRating: EUAgeRating;
+
+  @GameEntityDoc.ReleaseDate()
+  comingSoon: boolean;
+
+  @GameEntityDoc.HeaderImage()
+  headerImage: string;
+  
+  @GameEntityDoc.ShortDescription()
+  shortDescription: string;
+
+  static fromEntity(game: Game): SummaryGameDto {
+    const dto = new SummaryGameDto();
+    dto.id = game.id;
+    dto.name = game.name;
+    dto.slug = game.slug;
+    dto.type = game.type;
+    dto.price = game.price;
+    dto.ageRating = game.ageRating;
+    dto.comingSoon = game.comingSoon;
+    dto.headerImage = game.headerImage;
+    dto.shortDescription = game.shortDescription;
+    return dto;
+  }
+}

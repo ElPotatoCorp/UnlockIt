@@ -20,6 +20,9 @@ import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { SeriesModule } from './series/series.module';
+import { GamesModule } from './games/games.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -60,6 +63,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
     UploadModule,
     UserModule,
     SessionsModule,
+    SeriesModule,
+    GamesModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [
@@ -71,3 +77,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
   ],
 })
 export class AppModule { }
+
+console.log(`Loaded environment variables from: ${ENV_FILE_PATH}`);
+console.log(databaseConfig());
