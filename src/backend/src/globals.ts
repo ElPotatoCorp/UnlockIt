@@ -7,4 +7,3 @@ export const JWT_REFRESH_TOKEN_COOKIE_NAME='unlockit-refresh-token';
 
 export const ROOT_DIR = join(__dirname, '..', '..');
 export const UPLOADS_DIR = join(ROOT_DIR, 'uploads');
-export const AVATARS_DIR = join(UPLOADS_DIR, 'avatars');
