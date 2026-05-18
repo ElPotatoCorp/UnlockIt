@@ -4,11 +4,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UploadService } from 'src/upload/upload.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UserProfile } from './entities/user-profile.entity';
 import { UserBilling } from './entities/user-billing.entity';
 import { UpdateBillingDto } from './dto/update-billing.dto';
+import { UploadSubdir } from 'src/upload/upload.constants';
 
 @Injectable()
 export class UserService {
@@ -79,7 +80,7 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found.`);
     }
     else {
-      user.avatar && this.uploadService.removeObsoleteFile(user.avatar); // Remove old avatar if it exists
+      user.avatar && this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
     }
     
     this.userRepository.update(id, { avatar: avatarFile.filename });
@@ -98,7 +99,7 @@ export class UserService {
       })
     )?.avatar ?? null;
 
-    this.uploadService.removeObsoleteFile(avatar); // Remove old avatar if it exists
+    this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, avatar); // Remove old avatar if it exists
     avatar && this.userRepository.update(id, { avatar: null });
 
     return {
