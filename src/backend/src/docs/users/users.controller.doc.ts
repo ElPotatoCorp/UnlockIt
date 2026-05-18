@@ -1,7 +1,8 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags, getSchemaPath } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiExtraModels, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { PaginatedDto } from "src/common/dto/paginated.dto";
 import { PublicUserDto } from "src/user/dto/public-user.dto";
+import { PaginatedDtoSchemaDoc } from "../common/dto/paginated.dto.doc";
 
 export const UsersControllerDoc = {
   Controller: () => applyDecorators(
@@ -16,19 +17,7 @@ export const UsersControllerDoc = {
     }),
     ApiOkResponse({
       description: 'Paginated list of users successfully retrieved.',
-      schema: {
-        allOf: [
-          { $ref: getSchemaPath(PaginatedDto) },
-          {
-            properties: {
-              data: {
-                type: 'array',
-                items: { $ref: getSchemaPath(PublicUserDto) },
-              },
-            },
-          },
-        ],
-      },
+      schema: PaginatedDtoSchemaDoc(PublicUserDto),
     }),
     ApiBadRequestResponse({
       description: 'Invalid pagination parameters (e.g. page or limit is not a number).',
