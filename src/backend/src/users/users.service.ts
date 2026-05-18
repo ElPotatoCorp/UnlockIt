@@ -3,11 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { PublicUserDto } from '../user/dto/public-user.dto';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly commonService: CommonService,
+  ) { }
 
   findPassword(identifier: string): Promise<{ id: string; password: string } | null> {
     return this.userRepository.findOne({
@@ -19,13 +23,8 @@ export class UsersService {
     })
   }
 
-  async findAll(page: number, limit: number) {
-    const [users, total] = await this.userRepository.findAndCount({
-      skip: (page - 1) * limit,
-      take: limit,
-    });
-
-    return new PaginatedDto(total, page, limit, users.map(user => PublicUserDto.fromEntity(user)));
+  async findAll(paginationQueryDto: PaginationQueryDto) {
+    return this.commonService.getPaginatedResponse(this.userRepository, paginationQueryDto, { transform: PublicUserDto.fromEntity });
   }
 
   findOne(where: FindOptionsWhere<User>, includeSensitive = false) {

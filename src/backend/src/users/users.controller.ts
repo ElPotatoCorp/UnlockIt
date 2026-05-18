@@ -13,8 +13,8 @@ export class UsersController {
 
   @UsersControllerDoc.Index()
   @Get()
-  findAll(@Query() { page, limit }: PaginationQueryDto) {
-    return this.usersService.findAll(page, limit);
+  findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+    return this.usersService.findAll(paginationQueryDto);
   }
 
   @UsersControllerDoc.GetOne()
