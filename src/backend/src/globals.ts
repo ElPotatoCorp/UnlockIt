@@ -1,6 +1,6 @@
 import { join } from "path";
 
-export const ENV_FILE_PATH = join(__dirname, '..', '..', '..', `.env.${process.env.NODE_ENV || 'development'}`);
+export const ENV_FILE_PATH = join(__dirname, '..', '..', '..', '..', `.env.${process.env.NODE_ENV || 'development'}`);
 
 export const JWT_ACCESS_TOKEN_COOKIE_NAME='unlockit-access-token';
 export const JWT_REFRESH_TOKEN_COOKIE_NAME='unlockit-refresh-token';
