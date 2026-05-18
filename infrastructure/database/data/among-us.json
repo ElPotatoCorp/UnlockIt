@@ -49,6 +49,6 @@
   ],
   "price": 4.49,
   "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li><strong>Système d'exploitation :</strong> Windows 10 x32bit<br></li><li><strong>Processeur :</strong> INTEL i3-4330<br></li><li><strong>Mémoire vive :</strong> 1 GB de mémoire<br></li><li><strong>Graphiques :</strong> INTEL HD Graphics 4600</li></ul>",
-  "supportedLanguages": ["en", "pt-BR", "es-419", "es", "ko", "ru", "fr", "it", "de", "nl", "ja", "pt-PT", "zh-Hans", "zh-Hant"],
+  "supportedLanguages": ["en", "es", "ko", "ru", "fr", "it", "de", "nl", "ja", "pt", "zh"],
   "metacriticScore": 85
 }

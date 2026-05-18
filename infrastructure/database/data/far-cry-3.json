@@ -71,7 +71,7 @@
     "fr",
     "it",
     "es",
-    "pt-PT",
+    "pt",
     "pl",
     "da",
     "nl",
@@ -81,8 +81,7 @@
     "ru",
     "ja",
     "ko",
-    "zh-Hans",
-    "zh-Hant"
+    "zh"
   ],
   "metacriticScore": 88
 }

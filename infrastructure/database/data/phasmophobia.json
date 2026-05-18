@@ -68,9 +68,8 @@
   "pcRequirements": "<strong>Minimale :</strong><br><ul class=\"bb_ul\"><li>Système d'exploitation et processeur 64 bits nécessaires<br></li><li><strong>Système d'exploitation :</strong> Windows 10 64Bit<br></li><li><strong>Processeur :</strong> Intel Core i5-4590 / AMD Ryzen 5 2600<br></li><li><strong>Mémoire vive :</strong> 8 GB de mémoire<br></li><li><strong>Graphiques :</strong> NVIDIA GTX 970 / AMD Radeon R9 390<br></li><li><strong>DirectX :</strong> Version 11<br></li><li><strong>Espace disque :</strong> 21 GB d'espace disque disponible<br></li><li><strong>Prise en charge VR:</strong> OpenXR<br></li><li><strong>Notes supplémentaires :</strong> Minimum Specs are for VR, lower specs may work for Non-VR.</li></ul>",
   "supportedLanguages": [
     "en",
-    "pt-PT",
+    "pt",
     "es",
-    "pt-BR",
     "de",
     "fr",
     "it",
@@ -87,9 +86,8 @@
     "pl",
     "ro",
     "ru",
-    "zh-Hans",
+    "zh",
     "sv",
-    "zh-Hant",
     "tr",
     "uk",
     "ca"
