@@ -30,7 +30,7 @@ services:
 
   backend:
     build:
-      context: ./src/backend
+      context: ./apps/backend
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     ports:
@@ -45,7 +45,7 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
     volumes:
-      - ./src/backend:/srv/backend:cached,z
+      - ./apps/backend:/srv/backend:cached,z
       - /srv/backend/node_modules
     depends_on:
       - db
@@ -54,7 +54,7 @@ services:
 
   frontend:
     build:
-      context: ./src/frontend
+      context: ./apps/frontend
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     ports:
@@ -65,7 +65,7 @@ services:
       NODE_ENV: development
       VITE_API_BASE_URL: backend:3000
     volumes:
-      - ./src/frontend:/srv/frontend:cached,z
+      - ./apps/frontend:/srv/frontend:cached,z
       - /srv/frontend/node_modules
 
       #- ./dev.key:/srv/dev.key:ro,z
