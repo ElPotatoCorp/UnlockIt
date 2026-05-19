@@ -1,7 +1,7 @@
 import { DecimalColumnTransformer } from "src/common/transformers/decimal-column.transformer";
 import { GameEntityDoc } from "src/docs/games/entities/game.entity.doc";
 import { Series } from "src/series/entities/series.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Check, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum GameType {
   GAME = 'game',
@@ -204,6 +204,8 @@ export enum LangCode {
 }
 
 @Entity('games')
+@Check(`"price" >= 0`)
+@Check(`"metacritic_score" BETWEEN 0 AND 100 OR "metacritic_score" IS NULL`)
 export class Game {
   @GameEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
