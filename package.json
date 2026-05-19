@@ -2,7 +2,8 @@
   "name": "unlockit",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "setup": "npm run install:frontend && npm run install:backend",
