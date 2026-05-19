@@ -1,20 +1,24 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { JwtPayload } from "@unlockit/shared";
 
-export class JwtPayloadDto {
+export class JwtPayloadDto implements JwtPayload {
   @ApiProperty({
     description: 'The unique identifier of the user (UUID)',
   })
-  sub: string; // subject (user id)
+  sub: string;
+
   @ApiProperty({
     description: 'The session identifier',
   })
-  sid: string; // sessionId
+  sid: string;
+
   @ApiProperty({
     description: 'The timestamp when the token was issued',
   })
-  iat: number; // issued at
+  iat: number;
+  
   @ApiProperty({
     description: 'The timestamp when the token expires',
   })
-  exp: number; // expiration time
+  exp: number;
 }
