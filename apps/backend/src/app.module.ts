@@ -77,6 +77,3 @@ import { CommonModule } from './common/common.module';
   ],
 })
 export class AppModule { }
-
-console.log(`Loaded environment variables from: ${ENV_FILE_PATH}`);
-console.log(databaseConfig());
