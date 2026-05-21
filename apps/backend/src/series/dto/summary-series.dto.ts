@@ -1,6 +1,6 @@
-import { SummaryGameDto } from "src/games/dto/summary-game.dto";
-import { Series } from "../entities/series.entity";
-import { SeriesEntityDoc } from "src/docs/series/entities/series.entity.doc";
+import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
+import { Series } from '../entities/series.entity';
+import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
 
 export class SummarySeriesDto {
   @SeriesEntityDoc.Id()
@@ -11,7 +11,7 @@ export class SummarySeriesDto {
 
   @SeriesEntityDoc.Slug()
   slug: string;
-  
+
   @SeriesEntityDoc.Games()
   games: SummaryGameDto[];
 
@@ -20,7 +20,11 @@ export class SummarySeriesDto {
     summarySeriesDto.id = series.id;
     summarySeriesDto.name = series.name;
     summarySeriesDto.slug = series.slug;
-    summarySeriesDto.games = series.games ? await series.games.then((games) => games.map((game: any) => SummaryGameDto.fromEntity(game))) : [];
+    summarySeriesDto.games = series.games
+      ? await series.games.then((games) =>
+          games.map((game: any) => SummaryGameDto.fromEntity(game)),
+        )
+      : [];
     return summarySeriesDto;
   }
 }

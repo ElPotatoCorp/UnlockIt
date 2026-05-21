@@ -7,7 +7,9 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 
 @Injectable()
 export class SessionsService {
-  constructor(@InjectRepository(Session) private sessionRepository: Repository<Session>) {}
+  constructor(
+    @InjectRepository(Session) private sessionRepository: Repository<Session>,
+  ) {}
 
   createOrUpdate(session: CreateSessionDto) {
     return this.sessionRepository.upsert(session, ['id']);

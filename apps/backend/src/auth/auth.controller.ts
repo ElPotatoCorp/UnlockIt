@@ -1,4 +1,14 @@
-import { Controller, Post, UseGuards, Response, Body, Get, HttpCode, Ip, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Response,
+  Body,
+  Get,
+  HttpCode,
+  Ip,
+  Inject,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from './decorators/public.decorator';
@@ -25,7 +35,7 @@ export class AuthController {
       secure: process.env.HTTPS === 'true',
       sameSite: 'strict',
       maxAge: this.jwt.accessTokenExpiresIn,
-    })
+    });
     res.cookie(this.jwt.refreshTokenCookieName, refreshToken, {
       httpOnly: true,
       secure: process.env.HTTPS === 'true',
@@ -54,7 +64,12 @@ export class AuthController {
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   @Throttle({ authLogin: { limit: 5, ttl: 1000 * 15 } }) // 5 attempts per 15 minutes
   @Post('login')
-  async login(@User('sub') userId: string, @Ip() ip: string, @UserAgent() userAgent: string, @Response({ passthrough: true }) res) {
+  async login(
+    @User('sub') userId: string,
+    @Ip() ip: string,
+    @UserAgent() userAgent: string,
+    @Response({ passthrough: true }) res,
+  ) {
     const tokens = await this.authService.login(userId, ip, userAgent);
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
@@ -63,17 +78,27 @@ export class AuthController {
   @Public()
   @UseGuards(JwtRefreshAuthGuard)
   @Post('refresh')
-  async refresh(@User() session: JwtPayloadDto, @Ip() ip: string, @UserAgent() userAgent: string, @Response({ passthrough: true }) res) {
-    const tokens = await this.authService.login(session.sub, ip, userAgent, session.sid);
+  async refresh(
+    @User() session: JwtPayloadDto,
+    @Ip() ip: string,
+    @UserAgent() userAgent: string,
+    @Response({ passthrough: true }) res,
+  ) {
+    const tokens = await this.authService.login(
+      session.sub,
+      ip,
+      userAgent,
+      session.sid,
+    );
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
-  
+
   @AuthControllerDoc.Logout()
   @Post('logout')
   @HttpCode(204)
   logout(@User('sid') sessionId: string, @Response({ passthrough: true }) res) {
     this.authService.logout(sessionId);
-    
+
     res.clearCookie(this.jwt.accessTokenCookieName);
     res.clearCookie(this.jwt.refreshTokenCookieName);
   }

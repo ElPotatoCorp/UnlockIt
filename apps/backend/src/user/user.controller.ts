@@ -1,4 +1,14 @@
-import { Controller, Get, Body, Patch, Delete, Response, UseInterceptors, UploadedFile, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  Patch,
+  Delete,
+  Response,
+  UseInterceptors,
+  UploadedFile,
+  Inject,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { uploadUserAvatar } from 'src/upload/upload.constants';
@@ -41,10 +51,7 @@ export class UserController {
 
   @UserControllerDoc.Patch()
   @Patch()
-  update(
-    @User('sub') userId: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {    
+  update(@User('sub') userId: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(userId, updateUserDto);
   }
 
@@ -65,7 +72,6 @@ export class UserController {
   ) {
     return this.userService.upsertBilling(userId, billing);
   }
-
 
   @UserControllerDoc.UpdateAvatar()
   @Patch('avatar')

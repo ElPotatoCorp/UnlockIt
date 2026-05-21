@@ -1,4 +1,4 @@
-import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,11 +8,11 @@ import {
   CreateDateColumn,
   OneToOne,
   OneToMany,
-} from "typeorm";
-import { UserProfile } from "./user-profile.entity";
-import { UserBilling } from "./user-billing.entity";
-import { DecimalColumnTransformer } from "src/common/transformers/decimal-column.transformer";
-import { Session } from "src/sessions/entities/session.entity";
+} from 'typeorm';
+import { UserProfile } from './user-profile.entity';
+import { UserBilling } from './user-billing.entity';
+import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
+import { Session } from 'src/sessions/entities/session.entity';
 
 @Entity('users')
 @Unique(['username'])
@@ -39,7 +39,12 @@ export class User {
   email: string;
 
   @UserEntityDoc.PhoneNumber()
-  @Column('varchar', { name: 'phone_number', length: 20, nullable: true, unique: true })
+  @Column('varchar', {
+    name: 'phone_number',
+    length: 20,
+    nullable: true,
+    unique: true,
+  })
   phoneNumber: string | null;
 
   @UserEntityDoc.Bio()
@@ -51,7 +56,12 @@ export class User {
   avatar: string | null;
 
   @UserEntityDoc.Wallet()
-  @Column('numeric', { precision: 10, scale: 2, default: 0, transformer: new DecimalColumnTransformer() })
+  @Column('numeric', {
+    precision: 10,
+    scale: 2,
+    default: 0,
+    transformer: new DecimalColumnTransformer(),
+  })
   wallet: number;
 
   @UserEntityDoc.CreatedAt()

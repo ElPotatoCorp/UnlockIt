@@ -1,7 +1,8 @@
-import { IsArray, IsNumber } from "class-validator";
-import { PaginatedDtoDoc } from "src/docs/common/dto/paginated.dto.doc";
+import { Paginated } from '@unlockit/shared';
+import { IsArray, IsNumber } from 'class-validator';
+import { PaginatedDtoDoc } from 'src/docs/common/dto/paginated.dto.doc';
 
-export class PaginatedDto<T> {
+export class PaginatedDto<T> implements Paginated<T> {
   @PaginatedDtoDoc.Total()
   @IsNumber()
   total: number;

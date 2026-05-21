@@ -1,4 +1,4 @@
-import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import {
   Entity,
   PrimaryColumn,
@@ -6,8 +6,8 @@ import {
   Check,
   OneToOne,
   JoinColumn,
-} from "typeorm";
-import { User } from "./user.entity";
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('user_billing')
 @Check(`"country" ~ '^[A-Z]{2}$'`)

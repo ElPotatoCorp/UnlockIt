@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  HttpCode,
+} from '@nestjs/common';
 import { SeriesService } from './series.service';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
@@ -44,15 +54,25 @@ export class SeriesController {
   @SeriesControllerDoc.Update()
   @Patch(':id')
   @HttpCode(204)
-  update(@Param('id', EntityExistsPipe(Series)) series: Series, @Body() updateSeriesDto: UpdateSeriesDto) {
+  update(
+    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Body() updateSeriesDto: UpdateSeriesDto,
+  ) {
     return this.seriesService.update(series.id, updateSeriesDto);
   }
 
   @SeriesControllerDoc.AddGames()
   @Patch(':id/games')
   @HttpCode(204)
-  modifyGames(@Param('id', EntityExistsPipe(Series)) series: Series, @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto) {
-    return this.seriesService.modifyGames(series.id, modifyGamesInSerieDto, 'add');
+  modifyGames(
+    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
+  ) {
+    return this.seriesService.modifyGames(
+      series.id,
+      modifyGamesInSerieDto,
+      'add',
+    );
   }
 
   @SeriesControllerDoc.Remove()
@@ -65,7 +85,14 @@ export class SeriesController {
   @SeriesControllerDoc.RemoveGames()
   @Delete(':id/games')
   @HttpCode(204)
-  removeGames(@Param('id', EntityExistsPipe(Series)) series: Series, @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto) {
-    return this.seriesService.modifyGames(series.id, modifyGamesInSerieDto, 'remove');
+  removeGames(
+    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
+  ) {
+    return this.seriesService.modifyGames(
+      series.id,
+      modifyGamesInSerieDto,
+      'remove',
+    );
   }
 }

@@ -1,8 +1,9 @@
-import { Type } from "class-transformer";
-import { IsInt, IsOptional, Max, Min } from "class-validator";
-import { PaginationQueryDtoDoc } from "src/docs/common/dto/pagination-query.dto.doc";
+import { PaginationQuery } from '@unlockit/shared';
+import { Type } from 'class-transformer';
+import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { PaginationQueryDtoDoc } from 'src/docs/common/dto/pagination-query.dto.doc';
 
-export class PaginationQueryDto {
+export class PaginationQueryDto implements PaginationQuery {
   @PaginationQueryDtoDoc.Page()
   @IsOptional()
   @Type(() => Number)

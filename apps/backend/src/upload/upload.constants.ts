@@ -14,7 +14,11 @@ export const uploadUserAvatar = {
   multerOptions: {
     storage: diskStorage({
       destination: join(UPLOADS_DIR, UploadSubdir.AVATARS),
-      filename: (req: any, file: Express.Multer.File, cb: (err: Error | null, filename: string) => void) => {
+      filename: (
+        req: any,
+        file: Express.Multer.File,
+        cb: (err: Error | null, filename: string) => void,
+      ) => {
         const ext = '.' + (file.mimetype.split('/').pop() || 'bin');
         const filename = `avatar-${randomUUID()}-${Date.now()}${ext}`;
         cb(null, filename);
@@ -26,7 +30,12 @@ export const uploadUserAvatar = {
     fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
       // Validate MIME type
       if (!/^image\/(jpeg|png|gif|webp)$/.test(file.mimetype)) {
-        return cb(new UnprocessableEntityException('Only JPEG, PNG, GIF, and WebP images are allowed'), false);
+        return cb(
+          new UnprocessableEntityException(
+            'Only JPEG, PNG, GIF, and WebP images are allowed',
+          ),
+          false,
+        );
       }
       cb(null, true);
     },

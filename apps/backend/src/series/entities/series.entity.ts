@@ -1,6 +1,6 @@
-import { SeriesEntityDoc } from "src/docs/series/entities/series.entity.doc";
-import { Game } from "src/games/entities/game.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
+import { Game } from 'src/games/entities/game.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('series')
 export class Series {

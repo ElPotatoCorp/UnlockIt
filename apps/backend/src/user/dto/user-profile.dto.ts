@@ -1,6 +1,13 @@
-import { UserProfile } from "../entities/user-profile.entity";
-import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
-import { IsBoolean, IsDateString, IsOptional, IsString, Length, Matches } from "class-validator";
+import { UserProfile } from '../entities/user-profile.entity';
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
+import {
+  IsBoolean,
+  IsDateString,
+  IsOptional,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 
 export class UserProfileDto {
   public static fromEntity(entity: UserProfile | null) {
@@ -9,7 +16,7 @@ export class UserProfileDto {
     }
 
     const dto = new UserProfileDto();
-    
+
     dto.firstName = entity.firstName;
     dto.lastName = entity.lastName;
     dto.birthdate = entity.birthdate;
@@ -20,22 +27,30 @@ export class UserProfileDto {
   }
 
   @UserEntityDoc.FirstName()
-  @IsOptional() @IsString() @Length(1, 100)
+  @IsOptional()
+  @IsString()
+  @Length(1, 100)
   firstName: string | null;
 
   @UserEntityDoc.LastName()
-  @IsOptional() @IsString() @Length(1, 100)
+  @IsOptional()
+  @IsString()
+  @Length(1, 100)
   lastName: string | null;
 
   @UserEntityDoc.Birthdate()
-  @IsOptional() @IsDateString()
+  @IsOptional()
+  @IsDateString()
   birthdate: string | null;
 
   @UserEntityDoc.Country()
-  @IsOptional() @IsString() @Matches(/^[A-Z]{2}$/)
+  @IsOptional()
+  @IsString()
+  @Matches(/^[A-Z]{2}$/)
   country: string | null;
 
   @UserEntityDoc.Newsletter()
-  @IsOptional() @IsBoolean()
+  @IsOptional()
+  @IsBoolean()
   newsletter: boolean;
 }

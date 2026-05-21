@@ -16,9 +16,11 @@ export class UserService {
   constructor(
     private readonly uploadService: UploadService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @InjectRepository(UserProfile) private readonly userProfileRepository: Repository<UserProfile>,
-    @InjectRepository(UserBilling) private readonly userBillingRepository: Repository<UserBilling>,
-  ) { }
+    @InjectRepository(UserProfile)
+    private readonly userProfileRepository: Repository<UserProfile>,
+    @InjectRepository(UserBilling)
+    private readonly userBillingRepository: Repository<UserBilling>,
+  ) {}
 
   async index(id: string) {
     const user = await this.userRepository.findOneBy({ id });
@@ -31,21 +33,25 @@ export class UserService {
   }
 
   async getProfile(id: string) {
-    return await (
+    return (
+      (await (
         await this.userRepository.findOne({
-        where: { id },
-        select: ['profile'],
-      })
-    )?.profile ?? null;
+          where: { id },
+          select: ['profile'],
+        })
+      )?.profile) ?? null
+    );
   }
 
   async getBilling(id: string) {
-    return await (
+    return (
+      (await (
         await this.userRepository.findOne({
-        where: { id },
-        select: ['billing'],
-      })
-    )?.billing ?? null;
+          where: { id },
+          select: ['billing'],
+        })
+      )?.billing) ?? null
+    );
   }
 
   create(createUserDto: CreateUserDto) {
@@ -59,14 +65,14 @@ export class UserService {
   upsertProfile(id: string, profile: UpdateProfileDto) {
     return this.userProfileRepository.upsert(
       { userId: id, ...profile },
-      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true }
+      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true },
     );
   }
 
   upsertBilling(id: string, billing: UpdateBillingDto) {
     return this.userBillingRepository.upsert(
       { userId: id, ...billing },
-      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true }
+      { conflictPaths: ['userId'], skipUpdateIfNoValuesChanged: true },
     );
   }
 
@@ -75,14 +81,17 @@ export class UserService {
       where: { id },
       select: ['id', 'avatar'],
     });
-    
+
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found.`);
+    } else {
+      user.avatar &&
+        this.uploadService.removeObsoleteFile(
+          UploadSubdir.AVATARS,
+          user.avatar,
+        ); // Remove old avatar if it exists
     }
-    else {
-      user.avatar && this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
-    }
-    
+
     this.userRepository.update(id, { avatar: avatarFile.filename });
 
     return {
@@ -92,12 +101,13 @@ export class UserService {
   }
 
   async deleteAvatar(id: string) {
-    const avatar = (
-      await this.userRepository.findOne({
-        where: { id },
-        select: ['avatar'],
-      })
-    )?.avatar ?? null;
+    const avatar =
+      (
+        await this.userRepository.findOne({
+          where: { id },
+          select: ['avatar'],
+        })
+      )?.avatar ?? null;
 
     this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, avatar); // Remove old avatar if it exists
     avatar && this.userRepository.update(id, { avatar: null });

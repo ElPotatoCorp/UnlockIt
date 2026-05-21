@@ -1,22 +1,32 @@
-import { User } from "../entities/user.entity";
-import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
-import { IsDateString, IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUUID, Length, Min } from "class-validator";
-import { IsUsername } from "src/common/validators/username.validator";
+import { User } from '../entities/user.entity';
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
+import {
+  IsDateString,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  IsUUID,
+  Length,
+  Min,
+} from 'class-validator';
+import { IsUsername } from 'src/common/validators/username.validator';
 
 export class UserDto {
   public static fromEntity(user: User, privacy = true): UserDto {
     const dto = new UserDto();
 
-    dto.id               = user.id;
-    dto.username         = user.username;
-    dto.email            = privacy
+    dto.id = user.id;
+    dto.username = user.username;
+    dto.email = privacy
       ? user.email.replace(/(.{2}).+(@.+)/, '$1***$2')
       : user.email;
-    dto.phoneNumber      = user.phoneNumber;
-    dto.bio              = user.bio;
-    dto.avatar           = user.avatar;
-    dto.wallet           = user.wallet;
-    dto.createdAt        = user.createdAt;
+    dto.phoneNumber = user.phoneNumber;
+    dto.bio = user.bio;
+    dto.avatar = user.avatar;
+    dto.wallet = user.wallet;
+    dto.createdAt = user.createdAt;
 
     return dto;
   }
@@ -26,27 +36,35 @@ export class UserDto {
   id: string;
 
   @UserEntityDoc.Username()
-  @IsUsername() @Length(3, 50)
+  @IsUsername()
+  @Length(3, 50)
   username: string;
 
   @UserEntityDoc.Email()
-  @IsEmail() @Length(5, 255)
+  @IsEmail()
+  @Length(5, 255)
   email: string;
 
   @UserEntityDoc.PhoneNumber()
-  @IsOptional() @IsPhoneNumber()
+  @IsOptional()
+  @IsPhoneNumber()
   phoneNumber: string | null;
 
   @UserEntityDoc.Bio()
-  @IsOptional() @IsString() @Length(0, 1000)
+  @IsOptional()
+  @IsString()
+  @Length(0, 1000)
   bio: string | null;
 
   @UserEntityDoc.Avatar()
-  @IsOptional() @IsString() @Length(0, 255)
+  @IsOptional()
+  @IsString()
+  @Length(0, 255)
   avatar: string | null;
 
   @UserEntityDoc.Wallet()
-  @IsNumber({ allowNaN: false, allowInfinity: false, maxDecimalPlaces: 2 }) @Min(0)
+  @IsNumber({ allowNaN: false, allowInfinity: false, maxDecimalPlaces: 2 })
+  @Min(0)
   wallet: number;
 
   @UserEntityDoc.CreatedAt()

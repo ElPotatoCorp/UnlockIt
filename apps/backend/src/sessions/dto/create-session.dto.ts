@@ -1,21 +1,32 @@
-import { IsDateString, IsHash, IsIP, IsOptional, IsString, IsUUID } from "class-validator";
+import {
+  IsDateString,
+  IsHash,
+  IsIP,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateSessionDto {
-  @IsOptional() @IsUUID(4)
+  @IsOptional()
+  @IsUUID(4)
   id?: string;
 
   @IsUUID(4)
   userId: string;
-  
-  @IsString() @IsHash('sha256')
+
+  @IsString()
+  @IsHash('sha256')
   refreshTokenHash: string;
 
-  @IsString() @IsIP(4)
+  @IsString()
+  @IsIP(4)
   ipAddress: string;
 
   @IsString()
   userAgent: string;
 
-  @IsOptional() @IsDateString()
+  @IsOptional()
+  @IsDateString()
   expiresAt?: Date;
 }

@@ -6,10 +6,7 @@ import { Game } from './entities/game.entity';
 import { UploadModule } from 'src/upload/upload.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Game]),
-    UploadModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Game]), UploadModule],
   controllers: [GamesController],
   providers: [GamesService],
 })

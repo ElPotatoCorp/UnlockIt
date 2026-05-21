@@ -8,6 +8,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
 
+/** Ceci est un test a la con */
 @Injectable()
 export class GamesService {
   constructor(
@@ -20,7 +21,11 @@ export class GamesService {
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { transform: SummaryGameDto.fromEntity });
+    return this.commonService.getPaginatedResponse(
+      this.gameRepository,
+      paginationQueryDto,
+      { transform: SummaryGameDto.fromEntity },
+    );
   }
 
   findOne(id: number) {

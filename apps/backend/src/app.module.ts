@@ -30,7 +30,7 @@ import { CommonModule } from './common/common.module';
       throttlers: [
         { name: 'authRegister', ttl: 1000 * 60 * 60, limit: 3 },
         { name: 'authLogin', ttl: 1000 * 15, limit: 5 },
-      ]
+      ],
     }),
     ConfigModule.forRoot({
       envFilePath: ENV_FILE_PATH,
@@ -53,7 +53,7 @@ import { CommonModule } from './common/common.module';
         database: config.database,
         autoLoadEntities: true,
 
-        migrations:  ["dist/database/migrations/**/*.{ts,js}"],
+        migrations: ['dist/database/migrations/**/*.{ts,js}'],
         migrationsRun: true,
         synchronize: false,
       }),
@@ -73,7 +73,7 @@ import { CommonModule } from './common/common.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    AppService
+    AppService,
   ],
 })
-export class AppModule { }
+export class AppModule {}

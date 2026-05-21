@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { JwtPayload } from "@unlockit/shared";
+import { ApiProperty } from '@nestjs/swagger';
+import { JwtPayload } from '@unlockit/shared';
 
 export class JwtPayloadDto implements JwtPayload {
   @ApiProperty({
@@ -16,7 +16,7 @@ export class JwtPayloadDto implements JwtPayload {
     description: 'The timestamp when the token was issued',
   })
   iat: number;
-  
+
   @ApiProperty({
     description: 'The timestamp when the token expires',
   })

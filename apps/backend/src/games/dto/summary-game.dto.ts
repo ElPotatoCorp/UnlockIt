@@ -1,7 +1,8 @@
-import { GameEntityDoc } from "src/docs/games/entities/game.entity.doc";
-import { EUAgeRating, Game } from "../entities/game.entity";
+import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { Game } from '../entities/game.entity';
+import { EUAgeRating, GameType, SummaryGame } from '@unlockit/shared';
 
-export class SummaryGameDto {
+export class SummaryGameDto implements SummaryGame {
   @GameEntityDoc.Id()
   id: number;
 
@@ -12,7 +13,7 @@ export class SummaryGameDto {
   slug: string;
 
   @GameEntityDoc.Type()
-  type: string;
+  type: GameType;
 
   @GameEntityDoc.Price()
   price: number;
@@ -25,7 +26,7 @@ export class SummaryGameDto {
 
   @GameEntityDoc.HeaderImage()
   headerImage: string;
-  
+
   @GameEntityDoc.ShortDescription()
   shortDescription: string;
 

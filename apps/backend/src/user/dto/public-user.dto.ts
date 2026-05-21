@@ -1,5 +1,5 @@
-import { PickType } from "@nestjs/swagger";
-import { User } from "../entities/user.entity";
+import { PickType } from '@nestjs/swagger';
+import { User } from '../entities/user.entity';
 
 const PUBLIC_FIELDS = ['id', 'username', 'bio', 'avatar', 'createdAt'] as const;
 
