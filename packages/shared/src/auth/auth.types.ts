@@ -1,4 +1,4 @@
-export interface JwtPayload {
+export type JwtPayload = {
   sub: string; // subject (user id)
   sid: string; // sessionId
   iat: number; // issued at

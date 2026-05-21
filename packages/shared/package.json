@@ -1,7 +1,7 @@
 {
   "name": "@unlockit/shared",
   "version": "1.0.0",
-  "description": "This package contains everything that need to be shared between the frontend and backend such as DTOs.",
+  "description": "This package contains everything that need to be shared between the frontend and backend such as interfaces and DTOs.",
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

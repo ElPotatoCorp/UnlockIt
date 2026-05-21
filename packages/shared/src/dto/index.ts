@@ -1,1 +1,0 @@
-export { JwtPayload } from "./auth/jwt-payload.interface";
