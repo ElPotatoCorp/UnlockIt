@@ -23,7 +23,8 @@
     "build:backend": "npm run build --workspace=backend",
     "start": "concurrently -k -p \"[{name}]\" -n \"FRONT,BACK\" -c \"cyan,green\" \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "npm run start --workspace=frontend",
-    "start:backend": "npm run start --workspace=backend"
+    "start:backend": "npm run start --workspace=backend",
+    "generate:docs:backend": "npm run compodoc --workspace=backend"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
