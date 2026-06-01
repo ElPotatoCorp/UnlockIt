@@ -1,38 +1,16 @@
 import { type FC } from "react";
-import styles from "./header.module.css";
-import { SearchBar } from "./search-bar/SearchBar";
-import { RightPanel } from "./right-panel/RightPanel";
-import { TrapezoidMenu } from "./trapezoid-menu/TrapezoidMenu";
-import { Logo } from "../../ui/logo/Logo";
+import { useMediaQuery } from "../../../utils/hooks/useMediaQuery.hook";
+import { HeaderDesktop } from "./desktop/HeaderDesktop";
+import { HeaderMobile } from "./mobile/HeaderMobile";
+import { TrapezoidMenu } from "./desktop/trapezoid-menu/TrapezoidMenu";
 
 export const Header: FC = () => {
-  const isDarkMode = true;
+  const isMobile = useMediaQuery("(max-width: 860px)");
 
   return (
     <>
-      <header className={styles.pageHeader}>
-        <div className={styles.topRow}>
-          <div className={styles.left}>
-            <Logo color={isDarkMode ? "white" : "black"} size={140} link="/"/>
-          </div>
-
-          <div className={styles.center}>
-            <SearchBar />
-          </div>
-
-          <div className={styles.right}>
-            <RightPanel />
-          </div>
-        </div>
-
-        <div className={styles.bottomRow}>
-          <div className={styles.centerMobile}>
-            <SearchBar />
-          </div>
-        </div>
-      </header>
-
-      <TrapezoidMenu />
+      {isMobile ? <HeaderMobile /> : <HeaderDesktop />}
+      {!isMobile && <TrapezoidMenu />}
     </>
   );
 };

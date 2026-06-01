@@ -1,0 +1,207 @@
+/* === Drawer container === */
+.drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-tar);
+  border-top: 1px solid var(--color-smoke);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 998;
+
+  /* Slide depuis le header vers le bas */
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.drawerOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawerInner {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+/* === Section (accordéon) === */
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.4rem;
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  cursor: var(--cursor-pointer);
+  transition: background 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.sectionHeader:hover {
+  background: var(--color-smoke);
+}
+
+.sectionTitle {
+  font-family: var(--font-title);
+  font-size: var(--text-body);
+  color: var(--color-mist);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.profileSectionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.profileAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Chevron */
+.chevron {
+  color: var(--color-mist);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* === Corps de section (accordéon) === */
+.sectionBody {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.sectionBodyOpen {
+  max-height: 400px;
+}
+
+/* === Liens Navigation === */
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0 0.75rem 0;
+}
+
+.navItem {
+  padding: 0.7rem 2rem;
+  color: var(--color-white);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+  border-left: 2px solid transparent;
+}
+
+.navItem:hover {
+  background: var(--color-smoke);
+  color: var(--color-green);
+  padding-left: 2.4rem;
+  border-left-color: var(--color-green);
+}
+
+/* Neutralise le ::after des liens globaux */
+.navItem::after {
+  display: none !important;
+}
+
+/* === Items Profil === */
+.profileLinks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0 0.75rem 0;
+}
+
+.profileItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.7rem 2rem;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  color: var(--color-white);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  text-align: left;
+  text-decoration: none;
+  cursor: var(--cursor-pointer);
+  transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+}
+
+.profileItem:hover:not(:disabled) {
+  background: var(--color-smoke);
+  color: var(--color-green);
+  padding-left: 2.4rem;
+  border-left-color: var(--color-green);
+}
+
+.profileItem::after {
+  display: none !important;
+}
+
+.profileItem:disabled {
+  cursor: var(--cursor-not-allowed);
+  opacity: 0.6;
+}
+
+.comingSoon {
+  opacity: 0.5;
+}
+
+.comingSoonBadge {
+  font-size: var(--text-tiny);
+  color: var(--color-mist);
+  background: var(--color-smoke);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.danger {
+  color: var(--color-error);
+}
+
+.danger:hover {
+  color: var(--color-error) !important;
+  border-left-color: var(--color-error) !important;
+}
+
+.success {
+  color: var(--color-success);
+}
+
+/* === Séparateur === */
+.divider {
+  height: 1px;
+  background: var(--color-smoke);
+  margin: 0.25rem 1.4rem;
+}

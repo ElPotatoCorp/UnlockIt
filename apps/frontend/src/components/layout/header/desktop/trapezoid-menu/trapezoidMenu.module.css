@@ -1,0 +1,118 @@
+.trapezoid {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  transition: transform 0.4s ease;
+  width: 740px;
+  max-width: 100%;
+  height: 40px;
+  background-color: var(--color-tar);
+  clip-path: polygon(0% 0%, 100% 0%, calc(100% - 100px) 100%, 100px 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.trapezoid.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.trapezoidButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  width: 95px;
+  height: 25px;
+  background: var(--color-onyx);
+  border: 1px solid var(--color-blue);
+  border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  line-height: 25px;
+  display: inline-block;
+}
+
+.btn:hover {
+  border: 1px solid var(--color-green);
+  text-shadow: 0 0 5px var(--color-green);
+}
+
+/* Responsive */
+@media (max-width: 1000px) { 
+  .trapezoid { 
+    top: 59px; 
+  } 
+}
+
+@media (max-width: 860px) { 
+  .trapezoid { 
+    top: 112px; 
+  } 
+}
+
+@media (max-width: 768px) { 
+  .trapezoid { 
+    top: 120px;
+  } 
+}
+
+@media (max-width: 610px) {
+  .trapezoid {
+    top: 120px;
+    clip-path: none;
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .trapezoidButtons {
+    display: flex;
+    gap: 1.8rem;
+    overflow-x: auto;
+    padding: 0 0.5rem;
+    max-width: 100%;
+  }
+
+  .trapezoidButtons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .btn {
+    flex: 0 0 auto;
+    width: 80px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 428px) {
+  .trapezoidButtons {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .btn {
+    width: 70px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 610px) {
+  .trapezoid {
+    top: 120px;
+  }
+}
+
+@media (max-width: 360px) {
+  .trapezoid {
+    top: 110px;
+  }
+}

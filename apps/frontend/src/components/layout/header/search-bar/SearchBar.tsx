@@ -2,7 +2,7 @@ import { type FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./searchBar.module.css";
 import { slugify } from "../../../../utils/formatters/slug.formatter";
-import { SearchIcon } from "./search-icon/SearchIcon";
+import { SearchIcon } from "../../../ui/icons/SearchIcon";
 
 export const SearchBar: FC = () => {
   const [query, setQuery] = useState("");
@@ -13,7 +13,7 @@ export const SearchBar: FC = () => {
 
     const q = query.trim();
 
-    navigate(`/search/${encodeURIComponent(slugify(q))}`);
+    navigate(`/search/${encodeURIComponent(slugify(q))}`, { "replace": true });
   };
 
   return (

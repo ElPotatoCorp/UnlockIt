@@ -1,0 +1,85 @@
+.pageHeader {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-tar);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  padding: 0 1rem;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 0.6rem 1rem;
+}
+
+/* === Hamburger button === */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: var(--cursor-pointer);
+  padding: 4px;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-white);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  transform-origin: center;
+}
+
+/* Croix quand ouvert */
+.open .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.open .bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.open .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 360px) {
+  .topRow {
+    height: 46px;
+    padding: 0 0.6rem;
+  }
+
+  .bottomRow {
+    padding: 0 0.6rem 0.5rem 0.6rem;
+  }
+}
