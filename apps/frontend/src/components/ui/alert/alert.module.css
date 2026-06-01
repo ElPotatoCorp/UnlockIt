@@ -1,0 +1,103 @@
+.alertContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.alert {
+    background: var(--color-white);
+    border: 2px solid var(--color-pastel);
+    border-radius: 10px;
+    padding: 20px 26px;
+    min-width: 320px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.25s ease;
+    color: var(--color-carbon);
+}
+
+.alert.success { border-color: var(--color-success); }
+.alert.error   { border-color: var(--color-error); }
+.alert.info    { border-color: var(--color-pastel); }
+
+.alertHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.alertTitle {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    color: var(--color-ocean);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.alertIcon { font-size: 1.3rem; }
+
+.closeButton {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--color-smoke);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    transition: 0.2s ease;
+}
+
+.closeButton:hover { background: var(--color-plastic); }
+
+.alertContent {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    color: var(--color-carbon);
+}
+
+.alertChildren { margin-top: 10px; }
+
+.alertActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.alertButton {
+    background: var(--color-ocean);
+    border: none;
+    color: var(--color-white);
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.alertButton:hover { background: var(--color-pastel); }
+
+.alertButton.cancel {
+    background: var(--color-error);
+}
+
+.alertButton.cancel:hover { opacity: 0.85; }
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 699px) {
+    .alert { min-width: unset; width: 100%; }
+    .alertActions { flex-direction: column; }
+    .alertButton { width: 100%; }
+}

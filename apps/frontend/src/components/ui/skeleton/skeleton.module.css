@@ -1,0 +1,20 @@
+/* ─── Conteneur racine ───────────────────────────────────────────────────── */
+
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ─── Brique shimmer ─────────────────────────────────────────────────────── */
+
+.shimmer {
+    animation: shimmer 1.4s ease-in-out infinite;
+    /* La durée et le délai sont injectés en inline style */
+}
+
+@keyframes shimmer {
+    0%,
+    100% { opacity: 1;    }
+    50%   { opacity: 0.35; }
+}
