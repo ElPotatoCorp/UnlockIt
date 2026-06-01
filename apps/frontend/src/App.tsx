@@ -1,31 +1,46 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { Privacy } from "./pages/privacy/Privacy";
-import { Legal } from "./pages/legal/Legal";
-import { Cookies } from "./pages/cookies/Cookies";
-import { Refunds } from "./pages/refunds/Refunds";
+import { lazy, Suspense } from "react";
 import { Layout } from "./components/layout/Layout";
+import { Loader } from "./features/Loader";
 
-function App() {
+function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
+  return new Promise<T>(resolve => {
+    setTimeout(() => {
+      resolve(importFn());
+    }, delay);
+  });
+}
+
+const Privacy = lazy(() => import("./pages/privacy/Privacy"));
+const Legal = lazy(() => import("./pages/legal/Legal"));
+const Cookies = lazy(() => import("./pages/cookies/Cookies"));
+const Refunds = lazy(() => import("./pages/refunds/Refunds"));
+
+function lazyRoute(element: React.ReactNode) {
+  return (
+    <Suspense fallback={<Loader />}>
+      {element}
+    </Suspense>
+  );
+}
+
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<></>} />
           <Route path="/home" element={<></>} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/cookies" element={<Cookies />} />
-          <Route path="/refunds" element={<Refunds />} />
-          
-          <Route path="/playground" element={<></>} />
 
-          {/* Catch-all route */}
+          <Route path="/privacy" element={lazyRoute(<Privacy />)} />
+          <Route path="/legal" element={lazyRoute(<Legal />)} />
+          <Route path="/cookies" element={lazyRoute(<Cookies />)} />
+          <Route path="/refunds" element={lazyRoute(<Refunds />)} />
+
+          <Route path="/playground" element={<></>} />
           <Route path="*" element={<></>} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;

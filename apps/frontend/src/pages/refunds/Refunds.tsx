@@ -1,4 +1,4 @@
-export function Refunds() {
+export default function Refunds() {
     return (
         <div>
             <h1>Politique de remboursement</h1>

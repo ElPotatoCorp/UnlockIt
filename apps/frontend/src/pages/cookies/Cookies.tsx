@@ -1,4 +1,4 @@
-export function Cookies() {
+export default function Cookies() {
     return (
         <div>
             <h1>Politique Cookies</h1>

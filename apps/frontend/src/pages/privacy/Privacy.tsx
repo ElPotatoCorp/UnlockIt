@@ -1,4 +1,4 @@
-export function Privacy() {
+export default function Privacy() {
     return (
         <div>
             <h1>Politique de confidentialité</h1>

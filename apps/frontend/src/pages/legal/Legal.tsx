@@ -1,4 +1,4 @@
-export function Legal() {
+export default function Legal() {
     return (
         <div>
             <h1>Mentions légales</h1>

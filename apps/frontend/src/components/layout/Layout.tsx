@@ -5,6 +5,8 @@ import styles from "./layout.module.css";
 import { Header } from "./header/Header";
 import { Footer } from "./footer/Footer";
 import { Background } from "./background/Background";
+import { Suspense } from "react";
+import { Loader } from "../../features/Loader";
 
 export const Layout = memo(() => {
     return (
@@ -13,7 +15,11 @@ export const Layout = memo(() => {
 
             <main className={styles.mainContent}>
                 <Background />
-                <Outlet />
+
+                <Suspense fallback={<Loader />}>
+                    <Outlet />
+                </Suspense>
+
             </main>
 
             <Footer />
