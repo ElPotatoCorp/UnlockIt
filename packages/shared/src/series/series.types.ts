@@ -1,6 +1,6 @@
 import { Game } from "../game/game.types";
 
-export class Series {
+export type Series = {
   id: number;
   name: string;
   slug: string;

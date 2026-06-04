@@ -1,14 +1,10 @@
+import { MediaEntity, MediaType } from '@unlockit/shared';
 import { MediaEntityDoc } from 'src/docs/media/entities/media.entity.doc';
 import { Game } from 'src/games/entities/game.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum MediaType {
-  VIDEO = 'video',
-  IMAGE = 'image',
-}
-
 @Entity('media')
-export class Media {
+export class Media implements MediaEntity {
   @MediaEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
@@ -26,6 +22,6 @@ export class Media {
   url: string;
 
   @MediaEntityDoc.Type()
-  @Column({ type: 'enum', enum: MediaType, nullable: true })
-  type: MediaType | null;
+  @Column({ type: 'enum', enum: MediaType, default: MediaType.IMAGE })
+  type: MediaType;
 }

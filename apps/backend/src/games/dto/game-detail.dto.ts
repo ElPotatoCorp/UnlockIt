@@ -1,8 +1,4 @@
 import { Game } from 'src/games/entities/game.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
-import { Developer } from 'src/developers/entities/developer.entity';
-import { Publisher } from 'src/publishers/entities/publisher.entity';
-import { Media } from 'src/media/entities/media.entity';
 import { EUAgeRating, GameType, LangCode } from '@unlockit/shared';
 import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
 

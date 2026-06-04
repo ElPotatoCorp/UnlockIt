@@ -1,9 +1,10 @@
+import { PublisherEntity } from '@unlockit/shared';
 import { PublisherEntityDoc } from 'src/docs/publishers/entities/publisher.entity.doc';
 import { Game } from 'src/games/entities/game.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('publishers')
-export class Publisher {
+export class Publisher implements PublisherEntity {
   @PublisherEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;

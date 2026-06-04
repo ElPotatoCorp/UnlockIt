@@ -1,6 +1,13 @@
 export type JwtPayload = {
-  sub: string; // subject (user id)
-  sid: string; // sessionId
-  iat: number; // issued at
-  exp: number; // expiration time
-}
+  /** @summary Subject (user id) */
+  sub: string;
+
+  /** @summary Session id */
+  sid: string;
+
+  /** @summary Issued at */
+  iat: number;
+
+  /** @summary Expiration time */
+  exp: number;
+};

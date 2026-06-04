@@ -1,8 +1,13 @@
+import { DeveloperEntity } from "../developer/developer.types";
+import { GamePlatformEntity } from "../game-platform/game-platform.types";
+import { MediaEntity } from "../media/media.types";
+import { PublisherEntity } from "../publisher/publisher.types";
 import { Series } from "../series/series.types";
+import { TagEntity } from "../tag/tag.types";
 import { NullToOptional } from "../utils/types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
-export class Game {
+export type Game = {
   id: number;
   name: string;
   slug: string;
@@ -20,10 +25,20 @@ export class Game {
   website: string | null;
   pcRequirements: string | null;
   supportedLanguages: LangCode[] | null;
-  series: Series | null;
-}
 
-export type CreateGame = NullToOptional<Omit<Game, 'id' | 'series'>>;
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  series: Promise<Series | null>;
+  tags: Promise<TagEntity[]>;
+  developers: Promise<DeveloperEntity[]>;
+  publishers: Promise<PublisherEntity[]>;
+  platforms: Promise<GamePlatformEntity | null>;
+  media: Promise<MediaEntity[]>;
+};
+
+export type CreateGame = NullToOptional<Omit<Game, 'id' | 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'>>;
 
 export type UpdateGame = Partial<CreateGame>;
 

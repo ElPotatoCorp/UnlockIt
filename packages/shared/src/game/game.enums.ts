@@ -182,7 +182,7 @@ export enum LangCode {
   ZA = 'za',
   ZH = 'zh',
   ZU = 'zu',
-}
+};
 
 export enum EUAgeRating {
   THREE = 3,
@@ -190,10 +190,10 @@ export enum EUAgeRating {
   TWELVE = 12,
   SIXTEEN = 16,
   EIGHTEEN = 18,
-}
+};
 
 export enum GameType {
   GAME = 'game',
   DLC = 'dlc',
   OST = 'ost',
-}
+};

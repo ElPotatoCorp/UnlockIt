@@ -117,11 +117,10 @@ export class Game implements IGame {
 
   @ManyToOne(() => Series, (series) => series.games, {
     lazy: true,
-    nullable: true,
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'series_id' })
-  series: Series | null;
+  series: Promise<Series>;
 
   @ManyToMany(() => Tag, (tag) => tag.games, { lazy: true })
   @JoinTable({

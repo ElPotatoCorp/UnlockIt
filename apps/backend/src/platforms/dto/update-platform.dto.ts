@@ -1,7 +1,8 @@
+import { UpdatePlatform } from '@unlockit/shared';
 import { IsBoolean, IsOptional } from 'class-validator';
 import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
 
-export class UpdatePlatformDto {
+export class UpdatePlatformDto implements UpdatePlatform {
   @PlatformEntityDoc.Windows()    @IsOptional() @IsBoolean() windows?:    boolean;
   @PlatformEntityDoc.Mac()        @IsOptional() @IsBoolean() mac?:        boolean;
   @PlatformEntityDoc.Linux()      @IsOptional() @IsBoolean() linux?:      boolean;
