@@ -1,4 +1,4 @@
-import { Card } from "../../components/ui/card/Card";
+import { Card } from "../../components/common/card/Card";
 import styles from "./legal.module.css";
 
 export default function Legal() {
