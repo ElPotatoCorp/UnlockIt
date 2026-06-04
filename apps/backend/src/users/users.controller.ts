@@ -29,7 +29,7 @@ export class UsersController {
   findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.usersService.findOne({ id }).then((user) => {
       if (!user) {
-        throw new NotFoundException(`User with ID "${id}"not found`);
+        throw new NotFoundException(`User with ID "${id}" not found`);
       }
       return PublicUserDto.fromEntity(user);
     });

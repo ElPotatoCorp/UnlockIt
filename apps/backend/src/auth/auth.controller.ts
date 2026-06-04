@@ -22,6 +22,7 @@ import { type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
+@AuthControllerDoc.Controller()
 @Controller('auth')
 export class AuthController {
   constructor(

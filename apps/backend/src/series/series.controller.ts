@@ -40,8 +40,8 @@ export class SeriesController {
   @SeriesControllerDoc.FindOne()
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seriesService.findOne({ id: +id }, `Series #${id} not found`);
+  findOne(@Param('id', EntityExistsPipe(Series)) series: Series) {
+    return series;
   }
 
   @SeriesControllerDoc.FindOneBySlug()
