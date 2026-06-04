@@ -33,25 +33,11 @@ export class UserService {
   }
 
   async getProfile(id: string) {
-    return (
-      (await (
-        await this.userRepository.findOne({
-          where: { id },
-          select: ['profile'],
-        })
-      )?.profile) ?? null
-    );
+    return await this.userProfileRepository.findOneBy({ userId: id }) ?? null;
   }
 
   async getBilling(id: string) {
-    return (
-      (await (
-        await this.userRepository.findOne({
-          where: { id },
-          select: ['billing'],
-        })
-      )?.billing) ?? null
-    );
+    return await this.userBillingRepository.findOneBy({ userId: id }) ?? null;
   }
 
   create(createUserDto: CreateUserDto) {
@@ -101,20 +87,17 @@ export class UserService {
   }
 
   async deleteAvatar(id: string) {
-    const avatar =
-      (
-        await this.userRepository.findOne({
-          where: { id },
-          select: ['avatar'],
-        })
-      )?.avatar ?? null;
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: ['avatar'],
+    });
 
-    this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, avatar); // Remove old avatar if it exists
-    avatar && this.userRepository.update(id, { avatar: null });
+    if (user?.avatar) {
+      this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
+      await this.userRepository.update(id, { avatar: null });
+    }
 
-    return {
-      message: 'Avatar removed successfully',
-    };
+    return { message: 'Avatar removed successfully' };
   }
 
   delete(id: string) {
