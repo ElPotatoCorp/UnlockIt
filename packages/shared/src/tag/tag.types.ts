@@ -11,4 +11,4 @@ export type Tag = Pick<TagEntity, 'id' | 'name'>;
 
 export type CreateTag = Omit<Tag, 'id'>;
 
-export type UpdateTag = Partial<TagEntity>;
+export type UpdateTag = Partial<CreateTag>;
