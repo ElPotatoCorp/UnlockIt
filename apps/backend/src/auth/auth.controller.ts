@@ -35,13 +35,13 @@ export class AuthController {
     res.cookie(this.jwt.accessTokenCookieName, accessToken, {
       httpOnly: true,
       secure: process.env.HTTPS === 'true',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: this.jwt.accessTokenExpiresIn,
     });
     res.cookie(this.jwt.refreshTokenCookieName, refreshToken, {
       httpOnly: true,
       secure: process.env.HTTPS === 'true',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: this.jwt.refreshTokenExpiresIn,
     });
   }
