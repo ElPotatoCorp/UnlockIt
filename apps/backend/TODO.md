@@ -35,36 +35,9 @@
 
 ---
 
-## 2. Triggers to Keep
-
-All of the following triggers from `tmp/02_triggers.sql` should be kept as-is (they maintain denormalized counters and enforce business rules at the DB level):
-
-- [x] `trigger_category_game_added` / `trigger_category_game_removed` → keeps `types.games_count` in sync
-- [x] `trigger_genre_game_added` / `trigger_genre_game_removed` → keeps `genres.games_count` in sync
-- [x] `trigger_platform_game_added` / `trigger_platform_game_removed` → keeps `platforms.games_count` in sync
-- [x] `trigger_developer_game_added` / `trigger_developer_game_removed` → keeps `developers.games_count` in sync
-- [x] `trigger_publisher_game_added` / `trigger_publisher_game_removed` → keeps `publishers.games_count` in sync
-- [x] `trigger_stock_added` / `trigger_stock_removed` / `trigger_stock_updated` → keeps `games.quantity` in sync
-- [x] `trigger_review_vote_added` / `trigger_review_vote_removed` / `trigger_review_vote_updated` → keeps `reviews.helpful_count` / `not_helpful_count` in sync
-- [x] `trigger_session_updated` → marks session unsafe on IP/UA/country change or expiry
-- [x] `trigger_discount_scope_check` → prevents private discounts from being publicly listed
-- [x] `trigger_cart_unreservation` → restores game quantities on cart unreservation
-- [x] `trigger_cart_reservation` → deducts game quantities on cart reservation
-- [x] `trigger_add_customer_id_to_ticket` → auto-links ticket to user by email
-- [x] `trigger_hash_password_on_insert` / `trigger_hash_password_on_update` → bcrypt hashing (from `02_triggers.sql`)
-- [x] `trigger_create_cart_on_customer_insert` → auto-creates cart on user insert (from `02_triggers.sql`)
-
----
-
 ## 3. Modules to Create
 
-### Already existing (partial)
-- `AuthModule` — needs work (see endpoints)
-- `UserModule` — needs work (see endpoints)
-- `UsersModule` — needs work (see endpoints)
-
 ### To create
-- [ ] `GamesModule`
 - [ ] `CartModule`
 - [ ] `WishlistModule`
 - [ ] `ReviewsModule`
@@ -79,88 +52,6 @@ All of the following triggers from `tmp/02_triggers.sql` should be kept as-is (t
 ---
 
 ## 4. Endpoints
-
-### Auth — `/api/auth` ✅ (partial)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| ✅ done | POST | `/api/auth/register` | Register with email or phone |
-| ✅ done | POST | `/api/auth/login` | Login → creates session row, issues short-lived access JWT + long-lived refresh token (both HttpOnly cookies) |
-| ✅ done | POST | `/api/auth/logout` | Destroy session row, clear both cookies |
-| ✅ done | GET | `/api/auth/me` | Get current authenticated user info |
-| [ ] todo | POST | `/api/auth/refresh` | Issue new access token using refresh token cookie; validate against `sessions.refresh_token_hash` |
-| [ ] todo | POST | `/api/auth/password-reset/request` | Request password reset (creates ticket) |
-| [ ] todo | POST | `/api/auth/password-reset/confirm` | Confirm reset using ticket ID + new password |
-
----
-
-### User (self) — `/api/user` ✅ (partial)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | PATCH | `/api/user` | Update own profile (username, bio, country, billing address, etc.) |
-| [ ] todo | GET | `/api/user/sessions` | List own active sessions |
-| [ ] todo | DELETE | `/api/user/sessions/:sessionId` | Revoke a specific session |
-| [ ] todo | DELETE | `/api/user/sessions` | Revoke all sessions |
-| [ ] todo | GET | `/api/user/wishlist` | Get own wishlist |
-| [ ] todo | POST | `/api/user/wishlist/:gameId` | Add game to wishlist |
-| [ ] todo | DELETE | `/api/user/wishlist/:gameId` | Remove game from wishlist |
-| [ ] todo | GET | `/api/user/library` | Get owned games (purchases) |
-| [ ] todo | GET | `/api/user/library/:purchaseId` | Get single purchase detail |
-| [ ] todo | GET | `/api/user/library/:purchaseId/key` | Get product key for a purchase |
-| [ ] todo | GET | `/api/user/cart` | Get current cart contents |
-| [ ] todo | POST | `/api/user/cart/:gameId` | Add game to cart |
-| [ ] todo | PATCH | `/api/user/cart/:gameId` | Set quantity for a game in cart |
-| [ ] todo | DELETE | `/api/user/cart/:gameId` | Remove game from cart |
-| [ ] todo | GET | `/api/user/wallet` | Get wallet balance |
-| [ ] todo | GET | `/api/user/payment-methods` | List saved payment methods |
-| [ ] todo | POST | `/api/user/payment-methods` | Save a new payment method |
-| [ ] todo | DELETE | `/api/user/payment-methods/:pmId` | Remove a saved payment method |
-| [ ] todo | GET | `/api/user/reviews` | Get own reviews |
-| [ ] todo | GET | `/api/user/tickets` | Get own support tickets |
-
-also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DELETE /user/avatar
----
-
-### Users (public) — `/api/users` ✅ (partial)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| ✅ done | GET | `/api/users` | List users (admin only) |
-| ✅ done | GET | `/api/users/:id` | Get public user profile by ID |
-| [ ] todo | GET | `/api/users/:id/reviews` | Get public reviews by user |
-| [ ] todo | GET | `/api/users/:id/library` | Get public library (count only, no keys) |
-
----
-
-### Games — `/api/games`
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/games` | List games (paginated) |
-| [ ] todo | GET | `/api/games/:id` | Get full game details |
-| [ ] todo | GET | `/api/games/:id/media` | Get game media (screenshots, videos) |
-| [ ] todo | GET | `/api/games/:id/reviews` | Get reviews for a game |
-| [ ] todo | GET | `/api/games/:id/related` | Get related games |
-| [ ] todo | POST | `/api/games` | Create game (admin) |
-| [ ] todo | PATCH | `/api/games/:id` | Update game (admin) |
-| [ ] todo | DELETE | `/api/games/:id` | Delete game (admin) |
-| [ ] todo | POST | `/api/games/:id/media` | Add media to game (admin) |
-| [ ] todo | DELETE | `/api/games/:id/media/:mediaId` | Remove media from game (admin) |
-| [ ] todo | POST | `/api/games/:id/types/:typeId` | Link type to game (admin) |
-| [ ] todo | DELETE | `/api/games/:id/types/:typeId` | Unlink type from game (admin) |
-| [ ] todo | POST | `/api/games/:id/genres/:genreId` | Link genre to game (admin) |
-| [ ] todo | DELETE | `/api/games/:id/genres/:genreId` | Unlink genre from game (admin) |
-| [ ] todo | POST | `/api/games/:id/platforms/:platformId` | Link platform (admin) |
-| [ ] todo | DELETE | `/api/games/:id/platforms/:platformId` | Unlink platform (admin) |
-| [ ] todo | POST | `/api/games/:id/developers/:devId` | Link developer (admin) |
-| [ ] todo | DELETE | `/api/games/:id/developers/:devId` | Unlink developer (admin) |
-| [ ] todo | POST | `/api/games/:id/publishers/:pubId` | Link publisher (admin) |
-| [ ] todo | DELETE | `/api/games/:id/publishers/:pubId` | Unlink publisher (admin) |
-| [ ] todo | POST | `/api/games/:id/related/:relatedId` | Link related game (admin) |
-| [ ] todo | DELETE | `/api/games/:id/related/:relatedId` | Unlink related game (admin) |
-
----
 
 ### Search — `/api/search`
 
@@ -225,17 +116,6 @@ also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DEL
 | [ ] todo | POST | `/api/discounts/:id/games/:gameId` | Assign discount to a game |
 | [ ] todo | DELETE | `/api/discounts/:id/games/:gameId` | Remove discount from a game |
 
----
-
-### Metadata — `/api/` (public, read-only)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/types` | List all game types / categories |
-| [ ] todo | GET | `/api/genres` | List all genres |
-| [ ] todo | GET | `/api/platforms` | List all platforms |
-| [ ] todo | GET | `/api/developers` | List all developers |
-| [ ] todo | GET | `/api/publishers` | List all publishers |
 
 ---
 
@@ -254,34 +134,8 @@ also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DEL
 ## 5. Services / Business Logic
 
 ### AuthService
-- [ ] `validateUser(email?, phone?, password)` — verify bcrypt hash against DB
-- [ ] `login(user, ip, ua, country)` — create session, return JWT or session token
-- [ ] `logout(sessionId)` — destroy session
-- [ ] `register(dto)` — insert user (trigger handles cart creation & password hashing)
 - [ ] `requestPasswordReset(email)` — create ticket with reset link
 - [ ] `confirmPasswordReset(ticketId, newPassword)` — validate ticket, update password
-
-### UserService *(extend existing)*
-- [ ] `getProfile(userId)` — return full user row
-- [ ] `updateProfile(userId, dto)` — partial update (username, bio, country, etc.)
-- [ ] `updateAvatar(userId, filePath)` — update `avatar` column, return old path for deletion
-- [ ] `deleteAccount(userId)` — delete user row (cascade handles the rest)
-- [ ] `getWallet(userId)` — return wallet balance
-- [ ] `getSessions(userId)` — list sessions
-- [ ] `revokeSession(userId, sessionId)` — delete session (verify ownership)
-- [ ] `revokeAllSessions(userId)` — delete all sessions for user
-
-### GamesService
-- [ ] `findAll(page, limit)` — paginated list
-- [ ] `findOne(id)` — full game detail with relations (types, genres, platforms, developers, publishers, media)
-- [ ] `create(dto)` — admin: insert game + relations
-- [ ] `update(id, dto)` — admin: partial update
-- [ ] `remove(id)` — admin: delete game
-- [ ] `getMedia(id)` — list media for game
-- [ ] `addMedia(id, dto)` — admin
-- [ ] `removeMedia(id, mediaId)` — admin
-- [ ] `linkType / unlinkType` etc. — for all many-to-many joins (types, genres, platforms, developers, publishers, related)
-- [ ] `checkAvailability(id, quantity)` — check `games.quantity >= quantity`
 
 ### SearchService
 - [ ] `search(filters, pagination)` — filter by term, price range, genre[], platform[], developer[], publisher[], metacritic, coming_soon; sort by name/price/releaseDate/metacritic
@@ -350,32 +204,15 @@ also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DEL
 - [ ] `updateStatus(ticketId, status)` — employee only
 - [ ] `findAll(filters)` — employee/admin only
 
-### SessionService
-- [ ] `createSession(userId, ip, ua, country)` — insert session row, generate opaque refresh token, store SHA-256 hash in `refresh_token_hash`, return both the session row and the raw refresh token (raw token is sent to client, never stored)
-- [ ] `validateRefreshToken(sessionId, rawToken)` — SHA-256 hash the incoming token, compare against `refresh_token_hash`; return session if valid, throw if not
-- [ ] `rotateRefreshToken(sessionId)` — generate new opaque token, update hash (optional: implement refresh token rotation for extra security)
-- [ ] `getSession(sessionId)` — return session row; used in `JwtStrategy.validate()` to confirm session still exists and is not unsafe
-- [ ] `updateLastSeen(sessionId)` — update `last_seen_at`
-- [ ] `updateMetadata(sessionId, ip, ua, country)` — update all fields (trigger marks unsafe on IP change)
-- [ ] `destroySession(sessionId)` — delete session row (logout, or revoke one device)
-- [ ] `destroyAllUserSessions(userId)` — delete all sessions for user (security revocation)
-- [ ] `getUserSessions(userId)` — list all sessions with metadata for the "active sessions" UI
-
 ---
 
 ## 6. Guards, Decorators & Middleware
 
-- [x] `JwtAuthGuard` — already exists
-- [x] `LocalAuthGuard` — already exists
-- [x] `@Public()` decorator — already exists
-- [ ] Update `JwtStrategy.validate()` — after signature check, query `sessions` table to confirm session row exists and `is_unsafe = false`; this is the revocation check
-- [ ] `RefreshTokenGuard` — validates the refresh token cookie against `sessions.refresh_token_hash` for the `/auth/refresh` endpoint
 - [ ] `EmployeeGuard` — check `employees` table + `permission_level >= 1`
 - [ ] `AdminGuard` — check `permission_level >= 4` (or chosen threshold)
 - [ ] `@CurrentUser()` decorator — already partially exists (`user.decorator.ts`), verify it exposes `id`, `cart_id`, and `sessionId` (from JWT payload `sid` claim)
 - [ ] IP / UA / country extraction middleware — extract from request headers on each authenticated call, pass to `SessionService.updateMetadata()`
 - [ ] Rate limiting — apply `@Throttle()` from `@nestjs/throttler` on `/auth/login`, `/auth/register`, `/auth/password-reset/request`
-- [ ] Request logging middleware (optional)
 
 ---
 
@@ -383,13 +220,6 @@ also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DEL
 
 ### Entities to create (TypeORM)
 
-- [ ] `Game` entity + relations
-- [ ] `Type` entity
-- [ ] `Genre` entity
-- [ ] `Platform` entity
-- [ ] `Developer` entity
-- [ ] `Publisher` entity
-- [ ] `Media` entity
 - [ ] `Bundle` entity + `BundleGame` junction
 - [ ] `Discount` entity
 - [ ] `GameDiscount` entity
@@ -402,15 +232,12 @@ also add them : GET /user/profile, GET /user/billing, PUT /user/billing, and DEL
 - [ ] `Wishlist` entity
 - [ ] `Review` entity
 - [ ] `ReviewVote` entity
-- [ ] `Session` entity
 - [ ] `Ticket` entity
 - [ ] `Employee` entity
 
 ### DTOs to create
 
 **Auth**
-- [ ] `RegisterDto` (username, password, email?, phone_wzc?, phone_number?)
-- [ ] `LoginDto` (email or phone + password)
 - [ ] `PasswordResetRequestDto` (email)
 - [ ] `PasswordResetConfirmDto` (ticketId, newPassword)
 
@@ -426,11 +253,6 @@ interface JwtPayload {
 
 **User**
 - [ ] `UpdateUserDto` — extend existing (bio, country, billing_address, newsletter_subscription, birthday_date, first_name, last_name)
-
-**Games**
-- [ ] `CreateGameDto`
-- [ ] `UpdateGameDto`
-- [ ] `AddMediaDto` (url, type: 'vid' | 'pic')
 
 **Cart**
 - [ ] `AddToCartDto` (gameId, quantity)
