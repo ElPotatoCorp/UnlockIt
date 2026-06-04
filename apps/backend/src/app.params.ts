@@ -54,6 +54,7 @@ export default function applyAppParams(app: INestApplication<any>): void {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+    sameSite: 'lax',
   });
 
   applyAppDocumentation(app);
