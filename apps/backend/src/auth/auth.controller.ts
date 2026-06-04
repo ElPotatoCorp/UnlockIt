@@ -34,16 +34,18 @@ export class AuthController {
   ) {}
 
   private setAuthCookies(res: any, accessToken: string, refreshToken: string) {
+    const HTTPS: boolean = this.config.get('HTTPS', false);
+
     res.cookie(this.jwt.accessTokenCookieName, accessToken, {
       httpOnly: true,
-      secure: this.config.get<boolean>('HTTPS', false),
-      sameSite: this.config.get<boolean>('HTTPS', false) ? 'none' : 'lax',
+      secure: HTTPS === true,
+      sameSite: HTTPS === true  ? 'none' : 'lax',
       maxAge: this.jwt.accessTokenExpiresIn,
     });
     res.cookie(this.jwt.refreshTokenCookieName, refreshToken, {
       httpOnly: true,
-      secure: this.config.get<boolean>('HTTPS', false),
-      sameSite: this.config.get<boolean>('HTTPS', false) ? 'none' : 'lax',
+      secure: HTTPS === true,
+      sameSite: HTTPS === true  ? 'none' : 'lax',
       maxAge: this.jwt.refreshTokenExpiresIn,
     });
   }
