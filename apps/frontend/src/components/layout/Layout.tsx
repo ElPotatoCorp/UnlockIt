@@ -6,7 +6,7 @@ import { Header } from "./header/Header";
 import { Footer } from "./footer/Footer";
 import { Background } from "./background/Background";
 import { Suspense } from "react";
-import { Loader } from "../../features/Loader";
+import { Loader } from "../../features/loader/Loader";
 
 export const Layout = memo(() => {
     return (

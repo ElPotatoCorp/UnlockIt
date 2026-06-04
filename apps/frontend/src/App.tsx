@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Layout } from "./components/layout/Layout";
-import { Loader } from "./features/Loader";
+import { Loader } from "./features/loader/Loader";
 
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
   return new Promise<T>(resolve => {
