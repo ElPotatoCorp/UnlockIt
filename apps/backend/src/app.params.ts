@@ -50,5 +50,11 @@ export default function applyAppParams(app: INestApplication<any>): void {
     }),
   );
 
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   applyAppDocumentation(app);
 }
