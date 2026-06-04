@@ -17,16 +17,18 @@ import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import { UserAgent } from './decorators/user-agent.decorator';
-import jwtConfig from '../config/jwt.config';
-import { type ConfigType } from '@nestjs/config';
+import { ConfigService, type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { EmployeeRole } from '@unlockit/shared';
+import jwtConfig from '../config/jwt.config';
+
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
 export class AuthController {
   constructor(
+    private readonly config: ConfigService,
     private readonly authService: AuthService,
     @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
@@ -34,14 +36,14 @@ export class AuthController {
   private setAuthCookies(res: any, accessToken: string, refreshToken: string) {
     res.cookie(this.jwt.accessTokenCookieName, accessToken, {
       httpOnly: true,
-      secure: process.env.HTTPS === 'true',
-      sameSite: 'lax',
+      secure: this.config.get<boolean>('HTTPS', false),
+      sameSite: this.config.get<boolean>('HTTPS', false) ? 'none' : 'lax',
       maxAge: this.jwt.accessTokenExpiresIn,
     });
     res.cookie(this.jwt.refreshTokenCookieName, refreshToken, {
       httpOnly: true,
-      secure: process.env.HTTPS === 'true',
-      sameSite: 'lax',
+      secure: this.config.get<boolean>('HTTPS', false),
+      sameSite: this.config.get<boolean>('HTTPS', false) ? 'none' : 'lax',
       maxAge: this.jwt.refreshTokenExpiresIn,
     });
   }
@@ -55,7 +57,7 @@ export class AuthController {
   @AuthControllerDoc.Register()
   @Public()
   @UseGuards(ThrottlerGuard)
-  @Throttle({ authRegister: { limit: 3, ttl: 1000 * 60 * 60 } }) // 3 attempts per hour
+  @Throttle({ authRegister: {} })
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
@@ -64,7 +66,7 @@ export class AuthController {
   @AuthControllerDoc.Login()
   @Public()
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
-  @Throttle({ authLogin: { limit: 5, ttl: 1000 * 15 } }) // 5 attempts per 15 minutes
+  @Throttle({ authLogin: {} })
   @Post('login')
   async login(
     @User() user: { sub: string, permission: EmployeeRole | null },

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 import { ENV_FILE_PATH, UPLOADS_DIR } from './globals';
+import throttlerConfig from './config/throttler.config';
 import jwtConfig from './config/jwt.config';
 import databaseConfig from './config/database.config';
 
@@ -32,16 +33,19 @@ import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot({
-      throttlers: [
-        { name: 'authRegister', ttl: 1000 * 60 * 60, limit: 3 },
-        { name: 'authLogin', ttl: 1000 * 15, limit: 5 },
-      ],
-    }),
     ConfigModule.forRoot({
       envFilePath: ENV_FILE_PATH,
       isGlobal: true,
-      load: [jwtConfig, databaseConfig],
+      load: [throttlerConfig, jwtConfig, databaseConfig],
+    }),
+    ThrottlerModule.forRootAsync({
+      inject: [throttlerConfig.KEY],
+      useFactory: (config: ConfigType<typeof throttlerConfig>) => ({
+        throttlers: [
+          { name: 'authRegister', ttl: config.authRegister.ttl, limit: config.authRegister.limit },
+          { name: 'authLogin', ttl: config.authLogin.ttl, limit: config.authLogin.limit },
+        ],
+      }),
     }),
     ServeStaticModule.forRoot({
       rootPath: UPLOADS_DIR,

@@ -142,7 +142,7 @@ export const AuthControllerDoc = {
         summary: 'Refresh the access token using the refresh token',
         description: `Requires a valid \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookie. If valid, it issues a new access token and refresh token, updating the cookies accordingly.`,
       }),
-      ApiNoContentResponse({
+      ApiCreatedResponse({
         description: `Token refreshed successfully. The \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookies are updated with new tokens.`,
         headers: {
           'Set-Cookie': {

@@ -51,10 +51,10 @@ export default function applyAppParams(app: INestApplication<any>): void {
   );
 
   app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    origin: process.env.NODE_ENV === 'development' ? true : process.env.FRONTEND_URL,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    sameSite: 'lax',
   });
 
   applyAppDocumentation(app);
