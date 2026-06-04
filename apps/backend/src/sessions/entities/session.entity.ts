@@ -64,5 +64,5 @@ export class Session {
     nullable: false,
   })
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: Promise<User>;
 }
