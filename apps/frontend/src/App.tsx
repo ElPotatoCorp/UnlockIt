@@ -15,6 +15,8 @@ const Privacy = lazy(() => import("./pages/privacy/Privacy"));
 const Legal = lazy(() => import("./pages/legal/Legal"));
 const Cookies = lazy(() => import("./pages/cookies/Cookies"));
 const Refunds = lazy(() => import("./pages/refunds/Refunds"));
+const Login = lazy(() => import("./features/login/Login"));
+const Register = lazy(() => import("./features/register/Register"));
 
 function lazyRoute(element: React.ReactNode) {
   return (
@@ -24,7 +26,7 @@ function lazyRoute(element: React.ReactNode) {
   );
 }
 
-export default function App() {
+export default function App() {  
   return (
     <BrowserRouter>
       <Routes>
@@ -36,6 +38,8 @@ export default function App() {
           <Route path="/legal" element={lazyRoute(<Legal />)} />
           <Route path="/cookies" element={lazyRoute(<Cookies />)} />
           <Route path="/refunds" element={lazyRoute(<Refunds />)} />
+          <Route path="/login" element={lazyRoute(<Login />)} />
+          <Route path="/register" element={lazyRoute(<Register />)} />
 
           <Route path="/playground" element={<></>} />
           <Route path="*" element={<></>} />

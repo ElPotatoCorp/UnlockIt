@@ -1,0 +1,16 @@
+/* identifierInput.module.css */
+
+.label {
+  color: var(--color-mist);
+  font-size: var(--text-tiny);
+  cursor: var(--cursor-default);
+}
+
+.input::placeholder {
+  color: var(--color-carbon);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: var(--text-tiny);
+}
