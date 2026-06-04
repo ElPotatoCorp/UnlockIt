@@ -30,8 +30,7 @@ dist-ssr
 *.cert
 
 # UnlockIt
-docs
-documentation
+generated-docs
 .env*
 !.env.dev*
 !.env*example

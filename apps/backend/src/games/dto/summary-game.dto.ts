@@ -2,7 +2,7 @@ import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { Game } from '../entities/game.entity';
 import { EUAgeRating, GameType, SummaryGame } from '@unlockit/shared';
 
-export class SummaryGameDto implements SummaryGame {
+export class SummaryGameDto {
   @GameEntityDoc.Id()
   id: number;
 
@@ -21,7 +21,7 @@ export class SummaryGameDto implements SummaryGame {
   @GameEntityDoc.AgeRating()
   ageRating: EUAgeRating;
 
-  @GameEntityDoc.ReleaseDate()
+  @GameEntityDoc.ComingSoon()
   comingSoon: boolean;
 
   @GameEntityDoc.HeaderImage()
@@ -32,14 +32,14 @@ export class SummaryGameDto implements SummaryGame {
 
   static fromEntity(game: Game): SummaryGameDto {
     const dto = new SummaryGameDto();
-    dto.id = game.id;
-    dto.name = game.name;
-    dto.slug = game.slug;
-    dto.type = game.type;
-    dto.price = game.price;
-    dto.ageRating = game.ageRating;
-    dto.comingSoon = game.comingSoon;
-    dto.headerImage = game.headerImage;
+    dto.id               = game.id;
+    dto.name             = game.name;
+    dto.slug             = game.slug;
+    dto.type             = game.type;
+    dto.price            = game.price;
+    dto.ageRating        = game.ageRating;
+    dto.comingSoon       = game.comingSoon;
+    dto.headerImage      = game.headerImage;
     dto.shortDescription = game.shortDescription;
     return dto;
   }

@@ -23,6 +23,10 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { SeriesModule } from './series/series.module';
 import { GamesModule } from './games/games.module';
 import { CommonModule } from './common/common.module';
+import { DevelopersModule } from './developers/developers.module';
+import { PublishersModule } from './publishers/publishers.module';
+import { PlatformsModule } from './platforms/platforms.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -66,6 +70,10 @@ import { CommonModule } from './common/common.module';
     SeriesModule,
     GamesModule,
     CommonModule,
+    DevelopersModule,
+    PublishersModule,
+    PlatformsModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [

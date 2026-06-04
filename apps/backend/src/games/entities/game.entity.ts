@@ -5,14 +5,23 @@ import {
   Game as IGame,
 } from '@unlockit/shared';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
+import { Developer } from 'src/developers/entities/developer.entity';
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { Media } from 'src/media/entities/media.entity';
+import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
+import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { Series } from 'src/series/entities/series.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 import {
   Check,
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -113,4 +122,34 @@ export class Game implements IGame {
   })
   @JoinColumn({ name: 'series_id' })
   series: Series | null;
+
+  @ManyToMany(() => Tag, (tag) => tag.games, { lazy: true })
+  @JoinTable({
+    name: 'game_tags',
+    joinColumn:        { name: 'game_id',  referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'tag_id',   referencedColumnName: 'id' },
+  })
+  tags: Promise<Tag[]>;
+
+  @ManyToMany(() => Developer, (dev) => dev.games, { lazy: true })
+  @JoinTable({
+    name: 'game_developers',
+    joinColumn:        { name: 'game_id',      referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'developer_id', referencedColumnName: 'id' },
+  })
+  developers: Promise<Developer[]>;
+
+  @ManyToMany(() => Publisher, (pub) => pub.games, { lazy: true })
+  @JoinTable({
+    name: 'game_publishers',
+    joinColumn:        { name: 'game_id',      referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'publisher_id', referencedColumnName: 'id' },
+  })
+  publishers: Promise<Publisher[]>;
+
+  @OneToOne(() => GamePlatform, (gp) => gp.game, { lazy: true, cascade: true })
+  platforms: Promise<GamePlatform | null>;
+
+  @OneToMany(() => Media, (media) => media.game, { lazy: true, cascade: true })
+  media: Promise<Media[]>;
 }
