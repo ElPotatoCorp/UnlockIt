@@ -13,11 +13,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(
     identifier: string,
     password: string,
-  ): Promise<Pick<JwtPayloadDto, 'sub'>> {
-    const userId = await this.authService.validateUser(identifier, password);
-    if (!userId) {
+  ): Promise<Pick<JwtPayloadDto, 'sub' | 'permission'>> {
+    const user = await this.authService.validateUser(identifier, password);
+
+    if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return { sub: userId }; // Return an object with a 'sub' property for JWT payload
+    
+    return { sub: user.id, permission: user.permission }; // Return an object with a 'sub' property for JWT payload
   }
 }

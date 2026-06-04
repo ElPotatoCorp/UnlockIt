@@ -8,6 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { createHash } from 'crypto';
+import { EmployeeRole } from '@unlockit/shared';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
   async validateUser(identifier: string, pass: string) {
     const user = await this.usersService.findPassword(identifier);
     if (user && (await compare(pass, user.password))) {
-      return user.id;
+      return user;
     }
     return null;
   }
@@ -55,27 +56,28 @@ export class AuthService {
   }
 
   async login(
-    userId: string,
+    user: { userId: string, permission: EmployeeRole | null },
     ip: string,
     userAgent: string,
     sessionId?: string,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const refreshToken = this.jwtService.sign(
-      { sub: userId },
+      { sub: user.userId, permission: user.permission },
       { expiresIn: this.jwt.refreshTokenExpiresIn },
     );
 
     const session = (
       await this.sessionsService.createOrUpdate({
         id: sessionId,
-        userId: userId,
+        userId: user.userId,
         refreshTokenHash: this.hashRefreshToken(refreshToken),
         ipAddress: ip,
         userAgent: userAgent,
       })
     ).identifiers[0].id;
 
-    const payload = { sub: userId, sid: session };
+    const payload = { sub: user.userId, sid: session, permission: user.permission };
+
     return {
       accessToken: this.jwtService.sign(payload, {
         expiresIn: this.jwt.accessTokenExpiresIn,

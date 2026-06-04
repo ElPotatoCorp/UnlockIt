@@ -1,3 +1,5 @@
+import { EmployeeRole } from "../user/user.enums";
+
 export type JwtPayload = {
   /** @summary Subject (user id) */
   sub: string;
@@ -10,4 +12,5 @@ export type JwtPayload = {
 
   /** @summary Expiration time */
   exp: number;
+  permission: EmployeeRole | null;
 };

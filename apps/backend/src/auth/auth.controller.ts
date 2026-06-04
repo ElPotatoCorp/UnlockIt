@@ -21,6 +21,7 @@ import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
+import { EmployeeRole } from '@unlockit/shared';
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
@@ -66,12 +67,12 @@ export class AuthController {
   @Throttle({ authLogin: { limit: 5, ttl: 1000 * 15 } }) // 5 attempts per 15 minutes
   @Post('login')
   async login(
-    @User('sub') userId: string,
+    @User() user: { sub: string, permission: EmployeeRole | null },
     @Ip() ip: string,
     @UserAgent() userAgent: string,
     @Response({ passthrough: true }) res,
   ) {
-    const tokens = await this.authService.login(userId, ip, userAgent);
+    const tokens = await this.authService.login({ userId: user.sub, permission: user.permission }, ip, userAgent);
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 
@@ -86,7 +87,7 @@ export class AuthController {
     @Response({ passthrough: true }) res,
   ) {
     const tokens = await this.authService.login(
-      session.sub,
+      { userId: session.sub, permission: session.permission },
       ip,
       userAgent,
       session.sid,

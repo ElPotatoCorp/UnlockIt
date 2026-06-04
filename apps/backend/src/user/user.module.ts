@@ -6,10 +6,11 @@ import { User } from './entities/user.entity';
 import { UploadModule } from 'src/upload/upload.module';
 import { UserProfile } from './entities/user-profile.entity';
 import { UserBilling } from './entities/user-billing.entity';
+import { Employee } from './entities/employee.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, UserProfile, UserBilling]),
+    TypeOrmModule.forFeature([User, Employee, UserProfile, UserBilling]),
     UploadModule,
   ],
   controllers: [UserController],

@@ -5,6 +5,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
+import { EmployeeRole } from '@unlockit/shared';
 
 @Injectable()
 export class UsersService {
@@ -13,13 +14,16 @@ export class UsersService {
     private readonly commonService: CommonService,
   ) {}
 
-  findPassword(
+  async findPassword(
     identifier: string,
-  ): Promise<{ id: string; password: string } | null> {
-    return this.userRepository.findOne({
+  ): Promise<{ id: string; password: string, permission: EmployeeRole | null } | null> {
+    const user = await this.userRepository.findOne({
       where: [{ email: identifier }, { username: identifier }],
-      select: ['id', 'password'],
+      relations: { employee: true },
+      select: ['id', 'password', 'employee'],
     });
+
+    return user ? { id: user.id, password: user.password, permission: (await user?.employee)?.role ?? null } : null;
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {

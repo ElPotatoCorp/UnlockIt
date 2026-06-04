@@ -8,11 +8,14 @@ import {
   CreateDateColumn,
   OneToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { UserProfile } from './user-profile.entity';
 import { UserBilling } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { Session } from 'src/sessions/entities/session.entity';
+import { Ticket } from "src/tickets/entities/ticket.entity";
+import { Employee } from "./employee.entity";
 
 @Entity('users')
 @Unique(['username'])
@@ -72,6 +75,14 @@ export class User {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
+  @OneToOne(() => Employee, (employee) => employee.id, {
+    lazy: true,
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn({ name: 'id' })
+  employee: Promise<Employee | null>;
+
   @OneToOne(() => UserProfile, (profile) => profile.user, {
     lazy: true,
     cascade: true,
@@ -91,4 +102,10 @@ export class User {
     cascade: ['remove'],
   })
   sessions: Promise<Session[]>;
+
+  @OneToMany(() => Ticket, (ticket) => ticket.user, {
+    lazy: true,
+    cascade: ['remove'],
+  })
+  tickets: Promise<Ticket[]>;
 }

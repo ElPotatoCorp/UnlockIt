@@ -33,6 +33,6 @@ export class JwtRefreshStrategy extends PassportStrategy(
       payload.sub,
     );
 
-    return { sub: session.userId, sid: session.id };
+    return { sub: session.userId, sid: session.id, permission: payload.permission };
   }
 }

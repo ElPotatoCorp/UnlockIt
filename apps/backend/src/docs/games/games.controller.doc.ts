@@ -22,10 +22,10 @@ import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 
-const GAME_ID_PARAM  = ApiParam({ name: 'id',          type: Number, description: 'Numeric ID of the game.',      example: 42 });
-const TAG_ID_PARAM_G = ApiParam({ name: 'tagId',        type: Number, description: 'Numeric ID of the tag.',       example: 1  });
-const DEV_ID_PARAM_G = ApiParam({ name: 'developerId',  type: Number, description: 'Numeric ID of the developer.', example: 1  });
-const PUB_ID_PARAM_G = ApiParam({ name: 'publisherId',  type: Number, description: 'Numeric ID of the publisher.', example: 1  });
+const GAME_ID_PARAM  = ApiParam({ name: 'id',           type: Number, description: 'Numeric ID of the game.',       example: 42 });
+const TAG_ID_PARAM_G = ApiParam({ name: 'tagId',        type: Number, description: 'Numeric ID of the tag.',        example: 1  });
+const DEV_ID_PARAM_G = ApiParam({ name: 'developerId',  type: Number, description: 'Numeric ID of the developer.',  example: 1  });
+const PUB_ID_PARAM_G = ApiParam({ name: 'publisherId',  type: Number, description: 'Numeric ID of the publisher.',  example: 1  });
 const MED_ID_PARAM_G = ApiParam({ name: 'mediaId',      type: Number, description: 'Numeric ID of the media item.', example: 1 });
 
 export const GamesControllerDoc = {

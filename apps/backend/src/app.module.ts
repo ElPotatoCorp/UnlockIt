@@ -27,6 +27,8 @@ import { DevelopersModule } from './developers/developers.module';
 import { PublishersModule } from './publishers/publishers.module';
 import { PlatformsModule } from './platforms/platforms.module';
 import { MediaModule } from './media/media.module';
+import { TicketsModule } from './tickets/tickets.module';
+import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
   imports: [
@@ -74,12 +76,17 @@ import { MediaModule } from './media/media.module';
     PublishersModule,
     PlatformsModule,
     MediaModule,
+    TicketsModule,
   ],
   controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
     AppService,
   ],
