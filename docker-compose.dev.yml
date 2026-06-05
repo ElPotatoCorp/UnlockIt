@@ -1,8 +1,12 @@
 services:
+
   db: 
     image: postgres:17
     env_file:
-      - .env.development
+    - path: .env.development
+      required: true
+    - path: .env.development.local
+      required: false
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
@@ -36,7 +40,10 @@ services:
     ports:
       - "5001:3000"
     env_file:
-      - .env.development
+      - path: .env.development
+        required: true
+      - path: .env.development.local
+        required: false
     environment:
       NODE_ENV: development
       DB_HOST: db
@@ -60,7 +67,10 @@ services:
     ports:
       - "5000:5173"
     env_file:
-      - .env.development
+      - path: .env.development
+        required: true
+      - path: .env.development.local
+        required: false
     environment:
       NODE_ENV: development
       VITE_API_BASE_URL: backend:3000
