@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
-import { ENV_FILE_PATH, UPLOADS_DIR } from './globals';
+import { ENV_FILES_PATHS, UPLOADS_DIR } from './globals';
 import throttlerConfig from './config/throttler.config';
 import jwtConfig from './config/jwt.config';
 import databaseConfig from './config/database.config';
@@ -34,7 +34,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ENV_FILE_PATH,
+      envFilePath: ENV_FILES_PATHS,
       isGlobal: true,
       load: [throttlerConfig, jwtConfig, databaseConfig],
     }),

@@ -2,6 +2,12 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import { JWT_ACCESS_TOKEN_COOKIE_NAME } from './globals';
+import { readFileSync } from 'fs';
+
+export const httpsOptions = process.env.HTTPS === 'true' ? {
+  key: readFileSync(process.env.SSL_KEY_PATH!),
+  cert: readFileSync(process.env.SSL_CERT_PATH!),
+} : undefined;
 
 function applyAppDocumentation(app: INestApplication<any>): void {
   const config = new DocumentBuilder()
