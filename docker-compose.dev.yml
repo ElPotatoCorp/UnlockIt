@@ -33,6 +33,7 @@ services:
       - unlockit_network
 
   backend:
+    user: "${UID}:${GID}"
     build:
       context: .
       dockerfile: apps/backend/Dockerfile.dev
@@ -62,6 +63,7 @@ services:
       - unlockit_network
 
   frontend:
+    user: "${UID}:${GID}"
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile.dev
