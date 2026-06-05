@@ -7,6 +7,10 @@
   ],
   "scripts": {
     "setup": "npm install",
+    "docker": "docker compose --env-file .env.development -f docker-compose.dev.yml up --build",
+    "docker:down": "docker compose --env-file .env.development -f docker-compose.dev.yml down -v",
+    "docker:db": "docker compose --env-file .env.development -f docker-compose.dev.yml up --build db",
+    "docker:db:down": "docker compose --env-file .env.development -f docker-compose.dev.yml down -v db",
     "dev:migration:run": "dotenv -e .env.development -- npx --workspace=backend typeorm migration:run -d database/data-source.js",
     "dev:migration:revert": "dotenv -e .env.development -- npx --workspace=backend typeorm migration:revert -d database/data-source.js",
     "dev:migration:show": "dotenv -e .env.development -- npx --workspace=backend typeorm migration:show -d database/data-source.js",
