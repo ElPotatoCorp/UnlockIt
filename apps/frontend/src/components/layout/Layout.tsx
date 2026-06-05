@@ -5,6 +5,7 @@ import styles from "./layout.module.css";
 import { Header } from "./header/Header";
 import { Footer } from "./footer/Footer";
 import { Background } from "./background/Background";
+import { SessionStatusPanel } from "./session-status-panel/SessionStatusPanel";
 
 export const Layout = memo(() => {
     return (
@@ -14,6 +15,7 @@ export const Layout = memo(() => {
             <main className={styles.mainContent}>
                 <Background />
                 <Outlet />
+                <SessionStatusPanel />
             </main>
 
             <Footer />
