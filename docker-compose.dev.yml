@@ -51,8 +51,10 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
+      SSL_DIR_PATH: /srv/cert
     volumes:
       - ./apps/backend:/srv/apps/backend:cached,z
+      - ./infrastructure/cert:/srv/cert:ro,z
       - /srv/node_modules
     depends_on:
       - db

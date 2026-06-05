@@ -23,12 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# SSL certificates (local development)
-*.pem
-*.key
-*.crt
-*.cert
-
 # UnlockIt
 generated-docs
 !.env.dev*

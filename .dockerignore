@@ -29,5 +29,5 @@ lerna-debug.log*
 # Irrelevant project folders for app images
 rapport
 tools
-infrastructure
+infrastructure/database
 apps/backend/uploads

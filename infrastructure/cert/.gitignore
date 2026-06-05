@@ -1,0 +1,5 @@
+# SSL certificates (local development)
+*.pem
+*.key
+*.crt
+*.cert

@@ -3,10 +3,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import { JWT_ACCESS_TOKEN_COOKIE_NAME } from './globals';
 import { readFileSync } from 'fs';
+import { join } from 'path';
 
 export const httpsOptions = process.env.HTTPS === 'true' ? {
-  key: readFileSync(process.env.SSL_KEY_PATH!),
-  cert: readFileSync(process.env.SSL_CERT_PATH!),
+  key:  readFileSync(join(process.env.SSL_DIR_PATH!, process.env.SSL_KEY_FILENAME!)),
+  cert: readFileSync(join(process.env.SSL_DIR_PATH!, process.env.SSL_CERT_FILENAME!)),
 } : undefined;
 
 function applyAppDocumentation(app: INestApplication<any>): void {
