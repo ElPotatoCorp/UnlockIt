@@ -31,10 +31,10 @@ dist-ssr
 
 # UnlockIt
 generated-docs
-.env*
-.env*.local
 !.env.dev*
 !.env*example
+.env*
+.env*.local
 local_host.url
 config.tsx
 sandbox.*
