@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { Layout } from "./components/layout/Layout";
 import { Loader } from "./features/loader/Loader";
 
+/** @ts-ignore */
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
   return new Promise<T>(resolve => {
     setTimeout(() => {

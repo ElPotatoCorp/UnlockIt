@@ -38,7 +38,7 @@ const Login: FC = () => {
 
   const onSubmit = async ({ identifier, password }: FormData) => {
     try {
-      await login("TestUser","Test123&"); // crée la session
+      await login(identifier, password); // crée la session
       await loadUser();                  // charge /user
       navigate("/");
     } catch (err: any) {
