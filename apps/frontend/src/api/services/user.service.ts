@@ -1,15 +1,11 @@
 import { api } from "../axios.instance";
-import type {
-  User,
-  UserProfileDetails,
-  UserBilling,
-} from "../stores/user.store";
+import type { UserEntity, UserProfileEntity, UserBillingEntity } from "@unlockit/shared";
 
 export const userService = {
   // -------------------------
   // USER
   // -------------------------
-  getUser: async (): Promise<User> => {
+  getUser: async (): Promise<UserEntity> => {
     try {
       const res = await api.get("/user");
       return res.data;
@@ -21,7 +17,7 @@ export const userService = {
     }
   },
 
-  updateUser: async (payload: Partial<User>) => {
+  updateUser: async (payload: Partial<UserEntity>) => {
     try {
       const res = await api.patch("/user", payload);
       return res.data;
@@ -46,7 +42,7 @@ export const userService = {
   // -------------------------
   // PROFILE DETAILS
   // -------------------------
-  getProfile: async (): Promise<UserProfileDetails> => {
+  getProfile: async (): Promise<UserProfileEntity> => {
     try {
       const res = await api.get("/user/profile");
       return res.data;
@@ -58,7 +54,7 @@ export const userService = {
     }
   },
 
-  updateProfile: async (payload: UserProfileDetails) => {
+  updateProfile: async (payload: UserProfileEntity) => {
     try {
       const res = await api.patch("/user/profile", payload);
       return res.data;
@@ -73,7 +69,7 @@ export const userService = {
   // -------------------------
   // BILLING
   // -------------------------
-  getBilling: async (): Promise<UserBilling> => {
+  getBilling: async (): Promise<UserBillingEntity> => {
     try {
       const res = await api.get("/user/billing");
       return res.data;
@@ -85,7 +81,7 @@ export const userService = {
     }
   },
 
-  updateBilling: async (payload: UserBilling) => {
+  updateBilling: async (payload: UserBillingEntity) => {
     try {
       const res = await api.patch("/user/billing", payload);
       return res.data;

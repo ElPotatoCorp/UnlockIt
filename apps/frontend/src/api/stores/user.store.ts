@@ -1,46 +1,18 @@
 import { create } from "zustand";
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  phoneNumber: string | null;
-  bio: string | null;
-  avatar: string | null;
-  wallet: number;
-  createdAt: string;
-}
-
-export interface UserProfileDetails {
-  firstName: string;
-  lastName: string;
-  birthdate: string;
-  country: string;
-  newsletter: boolean;
-}
-
-export interface UserBilling {
-  firstName: string;
-  lastName: string;
-  country: string;
-  city: string;
-  postalCode: string;
-  addressLine1: string;
-  addressLine2: string | null;
-}
+import type { UserEntity, UserProfileEntity, UserBillingEntity } from "@unlockit/shared";
 
 interface UserState {
-  user: User | null;
-  profile: UserProfileDetails | null;
-  billing: UserBilling | null;
+  user: UserEntity | null;
+  profile: UserProfileEntity | null;
+  billing: UserBillingEntity | null;
 
-  setUser: (u: User) => void;
+  setUser: (u: UserEntity) => void;
   clearUser: () => void;
 
-  setProfile: (p: UserProfileDetails) => void;
+  setProfile: (p: UserProfileEntity) => void;
   clearProfile: () => void;
 
-  setBilling: (b: UserBilling) => void;
+  setBilling: (b: UserBillingEntity) => void;
   clearBilling: () => void;
 }
 

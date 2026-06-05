@@ -1,16 +1,10 @@
 import { create } from "zustand";
-
-export interface AuthSession {
-  sub: string;
-  sid: string;
-  iat: number;
-  exp: number;
-}
+import type { JwtPayload } from "@unlockit/shared";
 
 interface AuthState {
-  session: AuthSession | null;
+  session: JwtPayload | null;
   isLogged: boolean;
-  setSession: (session: AuthSession) => void;
+  setSession: (session: JwtPayload) => void;
   clearSession: () => void;
 }
 
