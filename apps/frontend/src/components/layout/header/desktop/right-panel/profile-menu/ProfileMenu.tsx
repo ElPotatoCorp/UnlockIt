@@ -3,6 +3,7 @@ import styles from "./profileMenu.module.css";
 import { useState, type FC } from "react";
 import { DefaultPfpIcon } from "../../../../../ui/icons/DefaultPfpIcon";
 import { PROFILE_LINKS } from "../../../navigation.config";
+import { useAuth } from "../../../../../../api/hooks/useAuth.hook";
 
 interface ProfileMenuProps {
   profilePic?: string;
@@ -12,18 +13,14 @@ interface ProfileMenuProps {
 export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
   const [open, setOpen] = useState(false);
 
+  const { logout } = useAuth();
+
   const handleLogout = async () => {
     try {
-      const res = await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (res.ok) {
-        window.location.href = "/login";
-      }
+      await logout();
+      window.location.href = "/login";
     } catch (err) {
-      console.error('Logout failed:', err);
+      console.error("Logout failed:", err);
     }
   };
 
@@ -36,6 +33,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
           <DefaultPfpIcon size={40} />
         )}
       </div>
+
       {open && (
         <div className={styles.profileMenu}>
           <ul className={styles.menuList}>
@@ -50,7 +48,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
                     >
                       <span className={styles.menuContent}>
                         <span className={styles.defaultLabel}>{label}</span>
-                        <span className={styles.hoverLabel}>Coming Soon</span>
+                        <span className={styles.hoverLabel}>Bientôt</span>
                       </span>
                     </button>
                   ) : isLogout ? (
@@ -74,9 +72,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
                   to="/login"
                   className={`${styles.menuItem} ${styles.success}`}
                 >
-                  <span className={styles.menuContent}>
-                    Login
-                  </span>
+                  <span className={styles.menuContent}>Se connecter</span>
                 </Link>
               </li>
             )}
@@ -85,4 +81,4 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
       )}
     </>
   );
-}
+};

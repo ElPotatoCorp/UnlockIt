@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import { ProfileMenu } from "./profile-menu/ProfileMenu";
 import { CartIcon } from "../../../../ui/icons/CartIcon";
 import styles from "./rightPanel.module.css";
+import { useAuth } from "../../../../../api/hooks/useAuth.hook";
+import { useUser } from "../../../../../api/hooks/useUser.hook";
 
 export const RightPanel: FC = () => {
-  const isAuthenticated = true;
-  const wallet = 5.0;
-  const profilePic = "";
+  const { session } = useAuth();
+  const { user } = useUser();
+
+  const isAuthenticated = Boolean(session && user);
+  const wallet = user?.wallet ?? 0;
+  const profilePic = user?.avatar ?? "";
 
   return (
     <div className={styles.rightPanel}>
@@ -17,13 +22,10 @@ export const RightPanel: FC = () => {
             <CartIcon className={styles.cart} size={32} />
           </div>
         </Link>
-
       )}
 
       {isAuthenticated && (
-        <h3>
-          {wallet.toFixed(2)} €
-        </h3>
+        <h3>{wallet.toFixed(2)} €</h3>
       )}
 
       <ProfileMenu

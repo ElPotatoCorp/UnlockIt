@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./hamburgerDrawer.module.css";
 import { DefaultPfpIcon } from "../../../../ui/icons/DefaultPfpIcon";
 import { NAV_LINKS, PROFILE_LINKS } from "../../navigation.config";
+import { useAuth } from "../../../../../api/hooks/useAuth.hook";
 
 interface HamburgerDrawerProps {
   open: boolean;
@@ -39,15 +40,12 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
   const [navOpen, setNavOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  const { logout } = useAuth();
+
   const handleLogout = async () => {
     try {
-      const res = await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      if (res.ok) {
-        window.location.href = "/login";
-      }
+      await logout();
+      window.location.href = "/login";
     } catch (err) {
       console.error("Logout failed:", err);
     }

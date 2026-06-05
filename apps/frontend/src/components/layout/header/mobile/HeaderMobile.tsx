@@ -3,15 +3,19 @@ import styles from "./headerMobile.module.css";
 import { Logo } from "../../../ui/logo/Logo";
 import { SearchBar } from "../search-bar/SearchBar";
 import { HamburgerDrawer } from "./hamburger-drawer/HamburgerDrawer";
+import { useAuth } from "../../../../api/hooks/useAuth.hook";
+import { useUser } from "../../../../api/hooks/useUser.hook";
 
 export const HeaderMobile: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const { session } = useAuth();
+  const { user } = useUser();
 
-  // TODO brancher sur store/hook auth réel
-  const isDarkMode = true;
-  const isAuthenticated = true;
-  const profilePic = "";
+  const isAuthenticated = Boolean(session && user);
+  const profilePic = user?.avatar ?? "";
+
+  const isDarkMode = true; // TODO : Thèmes
 
   return (
     <header className={styles.pageHeader}>
