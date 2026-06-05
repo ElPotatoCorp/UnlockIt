@@ -114,7 +114,7 @@ export const AuthControllerDoc = {
           required: ['password'],
         },
       }),
-      ApiCreatedResponse({
+      ApiOkResponse({
         description: `Login successful. The \`${JWT_ACCESS_TOKEN_COOKIE_NAME}\` and \`${JWT_REFRESH_TOKEN_COOKIE_NAME}\` httpOnly cookies are set.`,
         headers: {
           'Set-Cookie': {

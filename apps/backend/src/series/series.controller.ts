@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { SeriesService } from './series.service';
 import { CreateSeriesDto } from './dto/create-series.dto';
@@ -53,7 +54,7 @@ export class SeriesController {
 
   @SeriesControllerDoc.Update()
   @Patch(':id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   update(
     @Param('id', EntityExistsPipe(Series)) series: Series,
     @Body() updateSeriesDto: UpdateSeriesDto,
@@ -63,7 +64,7 @@ export class SeriesController {
 
   @SeriesControllerDoc.AddGames()
   @Patch(':id/games')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   modifyGames(
     @Param('id', EntityExistsPipe(Series)) series: Series,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
@@ -77,14 +78,14 @@ export class SeriesController {
 
   @SeriesControllerDoc.Remove()
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', EntityExistsPipe(Series)) series: Series) {
     return this.seriesService.remove(series.id);
   }
 
   @SeriesControllerDoc.RemoveGames()
   @Delete(':id/games')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   removeGames(
     @Param('id', EntityExistsPipe(Series)) series: Series,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,

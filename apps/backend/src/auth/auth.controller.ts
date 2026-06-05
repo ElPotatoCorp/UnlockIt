@@ -8,6 +8,7 @@ import {
   HttpCode,
   Ip,
   Inject,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -70,6 +71,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   @Throttle({ authLogin: {} })
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(
     @User() user: { sub: string, permission: EmployeeRole | null },
     @Ip() ip: string,
@@ -101,7 +103,7 @@ export class AuthController {
 
   @AuthControllerDoc.Logout()
   @Post('logout')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   logout(@User('sid') sessionId: string, @Response({ passthrough: true }) res) {
     this.authService.logout(sessionId);
 
