@@ -41,9 +41,7 @@ export default function App() {
                 <>
                   <UnlockItHelmet
                     title="Accueil"
-                    description="UnlockIt : achetez vos jeux PC moins cher. Clés Steam, Origin et Uplay livrées instantanément au meilleur prix."
                     path="/"
-                    image="/og-image.png"
                   />
                 </>
               }
