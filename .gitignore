@@ -36,3 +36,5 @@ sandbox.*
 
 src/backend/uploads
 start-dev.vbs
+stop-dev.vbs
+reset-db.vbs
