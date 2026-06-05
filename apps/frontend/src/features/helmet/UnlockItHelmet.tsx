@@ -22,7 +22,7 @@ export function UnlockItHelmet({
 
   const ogImage = image === null
     ? null
-    : `${baseUrl}${image || "/default-og.png"}`;
+    : `${baseUrl}${image || "/default-og-image.png"}`;
 
   return (
     <Helmet>
