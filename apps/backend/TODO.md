@@ -19,14 +19,8 @@
 
 ## 1. Database / Schema Changes
 
-- [ ] Rename camelCase tmp-function table/column aliases to match actual snake_case schema columns (the tmp SQL files reference `"User"`, `"Game"`, `"CartGame"` etc. — these need to align with the real table names `users`, `games`, `carts_games`)
-- [ ] Decide on and document final table naming convention (snake_case confirmed from `01_tables.sql`)
-- [ ] Drop all `tmp/03_func_*.sql` functions (replacing with TypeORM)
-- [ ] Drop `tmp/04_proc_purchasing.sql` procedures (replacing with TypeORM + service logic)
-- [ ] Keep and finalize `tmp/02_triggers.sql` (see section 2)
 - [ ] Fix `stocks` trigger for `UPDATE` — current condition `OLD.is_sold IS NULL` is wrong; replace with `OLD.is_sold = FALSE AND NEW.is_sold = TRUE`
 - [ ] Change `users.password` from `CHAR(60)` to `VARCHAR(255)` — bcrypt fits in 60 chars but Argon2 does not; future-proof it now before data exists
-- [ ] Add `refresh_token_hash CHAR(64)` and `expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '30 days'` columns to `sessions` table (required for refresh token architecture)
 - [ ] Soft-delete stocks instead of hard-delete: add `is_archived BOOLEAN DEFAULT FALSE` to `stocks`, add FK `purchases.product_key → stocks.product_key ON DELETE RESTRICT`, never hard-delete stock rows (they are financial records)
 - [ ] Fix `purchases.discount_applied`: rename to `discount_id`, change type to `BIGINT`, add `FOREIGN KEY (discount_id) REFERENCES discounts(id) ON DELETE SET NULL`
 - [ ] Remove `games.quantity` denormalized column — derive from `COUNT(stocks WHERE is_sold = FALSE AND is_archived = FALSE)` at query time, or keep but add a periodic reconciliation job and fix the trigger bug first
@@ -210,9 +204,6 @@
 
 - [ ] `EmployeeGuard` — check `employees` table + `permission_level >= 1`
 - [ ] `AdminGuard` — check `permission_level >= 4` (or chosen threshold)
-- [ ] `@CurrentUser()` decorator — already partially exists (`user.decorator.ts`), verify it exposes `id`, `cart_id`, and `sessionId` (from JWT payload `sid` claim)
-- [ ] IP / UA / country extraction middleware — extract from request headers on each authenticated call, pass to `SessionService.updateMetadata()`
-- [ ] Rate limiting — apply `@Throttle()` from `@nestjs/throttler` on `/auth/login`, `/auth/register`, `/auth/password-reset/request`
 
 ---
 
@@ -240,19 +231,6 @@
 **Auth**
 - [ ] `PasswordResetRequestDto` (email)
 - [ ] `PasswordResetConfirmDto` (ticketId, newPassword)
-
-**JWT Payload interface** (not a DTO but define it as a typed interface):
-```ts
-interface JwtPayload {
-  sub: string;    // userId
-  sid: string;    // sessionId
-  iat: number;
-  exp: number;
-}
-```
-
-**User**
-- [ ] `UpdateUserDto` — extend existing (bio, country, billing_address, newsletter_subscription, birthday_date, first_name, last_name)
 
 **Cart**
 - [ ] `AddToCartDto` (gameId, quantity)
@@ -288,15 +266,11 @@ interface JwtPayload {
   - `CleanupExpiredReservations` — every 5 minutes, cancel carts reserved > 15 min ago
   - `CleanupOldSessions` — daily, delete sessions where `expires_at < NOW()`
 - [ ] **Swagger / OpenAPI** — wire up all new controllers to the existing doc structure in `src/docs/`
-- [ ] **Pagination** — extend `PaginatedDto` for use across all list endpoints
 - [ ] **Error handling** — standardize HTTP error responses (404, 403, 409 conflict for duplicate reviews, etc.)
 - [ ] **Payment integration** — Stripe: create payment intent, save `pm_*` IDs into `payment_methods`, link to `saved_payment_methods`
 - [ ] **Upload — avatar filename** — replace `avatar-{userId}-{timestamp}` pattern with `avatar-{randomUUID()}` to avoid leaking userId in publicly accessible URLs
-- [ ] **Upload — add WebP support** — add `image/webp` to the MIME filter in `upload.constants.ts`
 - [ ] **Upload — image resizing** — install `sharp`, resize avatar to max 512×512 before saving to disk; prevents image-bomb attacks and reduces storage
 - [ ] **Upload — file deletion reliability** — replace fire-and-forget `unlink` callback with a proper async/await + structured error logging in `UploadService.removeObsoleteFile()`
-- [ ] **Upload — storage** — local disk (`./uploads/avatars`) does not survive redeployment without a Docker volume mount; configure a named volume in `docker-compose.yml`, or migrate to S3/MinIO for production
 - [ ] **Environment config** — ensure all secrets (JWT secret, DB creds, Stripe key) are in `.env` and validated at startup with `@nestjs/config` + Joi schema
-- [ ] **Rate limiting** — install `@nestjs/throttler`, apply globally with stricter limits on auth routes
 - [ ] **Unit tests** — `.spec.ts` files exist for some modules; fill out tests for all services
 - [ ] **E2E tests** — cover the main purchase flow end-to-end
