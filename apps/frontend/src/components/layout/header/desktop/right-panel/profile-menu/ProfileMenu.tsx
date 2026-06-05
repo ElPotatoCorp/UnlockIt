@@ -26,7 +26,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
 
   return (
     <>
-      <div onClick={() => setOpen(!open)} className={styles.profileIcon}>
+      <div data-testid="header-profile-button" onClick={() => setOpen(!open)} className={styles.profileIcon}>
         {profilePic ? (
           <img src={profilePic} alt="Profil" />
         ) : (
@@ -53,6 +53,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
                     </button>
                   ) : isLogout ? (
                     <button
+                      data-testid="logout-button"
                       type="button"
                       onClick={handleLogout}
                       className={`${styles.menuItem} ${styles.danger}`}

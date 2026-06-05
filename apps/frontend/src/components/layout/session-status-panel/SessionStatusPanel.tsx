@@ -7,7 +7,7 @@ export const SessionStatusPanel: FC = () => {
   const { session, fetchSession, logout } = useAuth();
   const { user, loadUser } = useUser();
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);

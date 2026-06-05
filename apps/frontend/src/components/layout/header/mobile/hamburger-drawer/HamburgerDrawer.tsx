@@ -82,6 +82,7 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
         {/* === Section Profil === */}
         <div className={styles.section}>
           <button
+            data-testid="drawer-profile-section"
             className={styles.sectionHeader}
             onClick={() => setProfileOpen((prev) => !prev)}
             aria-expanded={profileOpen}
@@ -115,6 +116,7 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
                       </button>
                     ) : isLogout ? (
                       <button
+                        data-testid="logout-button"
                         type="button"
                         className={`${styles.profileItem} ${styles.danger}`}
                         onClick={handleLogout}
