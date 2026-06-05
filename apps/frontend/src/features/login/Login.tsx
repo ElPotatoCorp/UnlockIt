@@ -9,6 +9,7 @@ import { IdentifierInput } from "../../components/common/form/identifier-input/I
 import { PasswordInput } from "../../components/common/form/password-input/PasswordInput";
 import { Card } from "../../components/common/card/Card";
 import styles from "./login.module.css";
+import { UnlockItHelmet } from "../helmet/UnlockItHelmet";
 
 type FormData = {
   identifier: string;
@@ -61,6 +62,12 @@ const Login: FC = () => {
   if (session && user) {
     return (
       <div className={styles.loginPage}>
+        <UnlockItHelmet
+          title="Connexion"
+          description="Connectez-vous à votre compte UnlockIt."
+          path="/login"
+        />
+
         <h1 className={styles.pageTitle}>Déjà connecté</h1>
 
         <Card hover={false}>
@@ -86,6 +93,12 @@ const Login: FC = () => {
 
   return (
     <div className={styles.loginPage}>
+      <UnlockItHelmet
+        title="Connexion"
+        description="Connectez-vous à votre compte UnlockIt."
+        path="/login"
+      />
+
       <h1 className={styles.pageTitle}>Connexion</h1>
 
       <Card hover={false}>

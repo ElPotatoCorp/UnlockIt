@@ -9,6 +9,7 @@ import { useAuth } from "../../api/hooks/useAuth.hook";
 import { IdentifierInput } from "../../components/common/form/identifier-input/IdentifierInput";
 import { PasswordInput } from "../../components/common/form/password-input/PasswordInput";
 import { useUser } from "../../api/hooks/useUser.hook";
+import { UnlockItHelmet } from "../helmet/UnlockItHelmet";
 
 type ContactMode = "email" | "phone";
 
@@ -69,6 +70,12 @@ const Register: FC = () => {
   if (session && user) {
     return (
       <div className={styles.registerPage}>
+        <UnlockItHelmet
+          title="Inscription"
+          description="Créez votre compte UnlockIt."
+          path="/login"
+        />
+
         <h1 className={styles.pageTitle}>Déjà connecté</h1>
 
         <Card hover={false}>
@@ -93,6 +100,12 @@ const Register: FC = () => {
 
   return (
     <div className={styles.registerPage}>
+      <UnlockItHelmet
+        title="Inscription"
+        description="Créez votre compte UnlockIt."
+        path="/login"
+      />
+
       <h1 className={styles.pageTitle}>Inscription</h1>
 
       <Card hover={false}>

@@ -1,9 +1,18 @@
 import { Card } from "../../components/common/card/Card";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import styles from "./privacy.module.css";
 
 export default function Privacy() {
     return (
         <div className={styles.container}>
+            <UnlockItHelmet
+                title="Politique de confidentialité"
+                description="Découvrez comment UnlockIt protège vos données personnelles et respecte votre vie privée."
+                path="/privacy"
+                robots="noindex, nofollow"
+                type="article"
+            />
+
             <Card className={styles.card} hover={false}>
                 <h1>Politique de confidentialité</h1>
                 <p>Dernière mise à jour : 2025</p>

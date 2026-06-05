@@ -1,9 +1,18 @@
 import { Card } from "../../components/common/card/Card";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import styles from "./refunds.module.css";
 
 export default function Refunds() {
     return (
         <div className={styles.container}>
+            <UnlockItHelmet
+                title="Politique de remboursement"
+                description="Découvrez les conditions de remboursement d’UnlockIt : clés non révélées, clés invalides et procédures de demande."
+                path="/refunds"
+                robots="noindex, nofollow"
+                type="article"
+            />
+
             <Card className={styles.card} hover={false}>
                 <h1>Politique de remboursement</h1>
 

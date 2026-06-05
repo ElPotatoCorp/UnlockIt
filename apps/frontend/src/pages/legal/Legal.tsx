@@ -1,9 +1,18 @@
 import { Card } from "../../components/common/card/Card";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import styles from "./legal.module.css";
 
 export default function Legal() {
     return (
         <div className={styles.container}>
+            <UnlockItHelmet
+                title="Mentions légales"
+                description="Mentions légales du site UnlockIt : éditeur, hébergeur, propriété intellectuelle et responsabilités."
+                path="/legal"
+                robots="noindex, nofollow"
+                type="article"
+            />
+
             <Card className={styles.card} hover={false}>
                 <h1>Mentions légales</h1>
 

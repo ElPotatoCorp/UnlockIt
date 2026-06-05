@@ -1,9 +1,18 @@
 import { Card } from "../../components/common/card/Card";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import styles from "./cookies.module.css";
 
 export default function Cookies() {
     return (
         <div className={styles.container}>
+            <UnlockItHelmet
+                title="Politique Cookies"
+                description="Découvrez comment UnlockIt utilise uniquement des cookies essentiels, sans tracking ni publicité."
+                path="/cookies"
+                robots="noindex, nofollow"
+                type="article"
+            />
+
             <Card className={styles.card} hover={false}>
                 <h1>Politique Cookies</h1>
 

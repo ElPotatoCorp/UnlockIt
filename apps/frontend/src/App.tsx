@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Layout } from "./components/layout/Layout";
 import { Loader } from "./features/loader/Loader";
+import { HelmetProvider } from "react-helmet-async";
+import { UnlockItHelmet } from "./features/helmet/UnlockItHelmet";
 
 /** @ts-ignore */
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
@@ -27,25 +29,40 @@ function lazyRoute(element: React.ReactNode) {
   );
 }
 
-export default function App() {  
+export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<></>} />
-          <Route path="/home" element={<></>} />
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route
+              index
+              element={
+                <>
+                  <UnlockItHelmet
+                    title="Accueil"
+                    description="UnlockIt : achetez vos jeux PC moins cher. Clés Steam, Origin et Uplay livrées instantanément au meilleur prix."
+                    path="/"
+                    image="/og-image.png"
+                  />
+                </>
+              }
+            />
 
-          <Route path="/privacy" element={lazyRoute(<Privacy />)} />
-          <Route path="/legal" element={lazyRoute(<Legal />)} />
-          <Route path="/cookies" element={lazyRoute(<Cookies />)} />
-          <Route path="/refunds" element={lazyRoute(<Refunds />)} />
-          <Route path="/login" element={lazyRoute(<Login />)} />
-          <Route path="/register" element={lazyRoute(<Register />)} />
+            <Route path="/home" element={<></>} />
 
-          <Route path="/playground" element={<></>} />
-          <Route path="*" element={<></>} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route path="/privacy" element={lazyRoute(<Privacy />)} />
+            <Route path="/legal" element={lazyRoute(<Legal />)} />
+            <Route path="/cookies" element={lazyRoute(<Cookies />)} />
+            <Route path="/refunds" element={lazyRoute(<Refunds />)} />
+            <Route path="/login" element={lazyRoute(<Login />)} />
+            <Route path="/register" element={lazyRoute(<Register />)} />
+
+            <Route path="/playground" element={<></>} />
+            <Route path="*" element={<></>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
