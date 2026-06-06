@@ -117,7 +117,7 @@ const Register: FC = () => {
           Déjà un compte ? Connectez-vous
         </Link>
 
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form id="register-form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 
           {/* ── Username ── */}
           <IdentifierInput

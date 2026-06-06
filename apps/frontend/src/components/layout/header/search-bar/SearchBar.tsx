@@ -17,7 +17,7 @@ export const SearchBar: FC = () => {
   };
 
   return (
-    <form className={styles.searchBar} onSubmit={handleSubmit}>
+    <form id="searchbar-form" className={styles.searchBar} onSubmit={handleSubmit}>
       <input
         className={styles.input}
         type="text"

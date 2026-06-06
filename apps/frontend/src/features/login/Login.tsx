@@ -110,7 +110,7 @@ const Login: FC = () => {
           Pas encore de compte ? Inscrivez-vous
         </Link>
 
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form id="login-form" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <IdentifierInput
             label="Email ou pseudo"
             placeholder="you@example.com"
