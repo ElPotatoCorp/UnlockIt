@@ -21,6 +21,12 @@ export class CommonService {
     paginationQueryDto: PaginationQueryDto,
   ): Promise<PaginatedDto<T>>;
 
+  async getPaginatedResponse<T extends ObjectLiteral>(
+    repository: Repository<T>,
+    paginationQueryDto: PaginationQueryDto,
+    options: Omit<PaginatedResponseOptions<T, never>, 'transform'>,
+  ): Promise<PaginatedDto<T>>;
+
   async getPaginatedResponse<T extends ObjectLiteral, U>(
     repository: Repository<T>,
     paginationQueryDto: PaginationQueryDto,
