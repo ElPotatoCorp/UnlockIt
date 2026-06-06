@@ -1,44 +1,48 @@
-import { User } from "src/user/entities/user.entity";
-import { Check, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { User } from 'src/user/entities/user.entity';
+import {
+  Check,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+ 
 export enum TicketStatus {
-  OPEN = 'open',
+  OPEN        = 'open',
   IN_PROGRESS = 'in_progress',
-  RESOLVED = 'resolved',
-  CLOSED = 'closed',
+  RESOLVED    = 'resolved',
+  CLOSED      = 'closed',
 }
-
+ 
 @Entity('tickets')
 @Check(`LENGTH(TRIM(reason)) > 0`)
 @Check(`LENGTH(TRIM(content)) > 0`)
 export class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column('varchar', { length: 255, nullable: false })
+ 
+  @Column('varchar', { length: 255 })
   email: string;
-
-  @Column('varchar', { length: 255, nullable: false })
+ 
+  @Column('varchar', { length: 255 })
   reason: string;
-
-  @Column('text', { nullable: false })
+ 
+  @Column('text')
   content: string;
-
+ 
   @Column('enum', { enum: TicketStatus, default: TicketStatus.OPEN })
   status: TicketStatus;
-
-  @Column('timestamptz', { name: 'created_at', default: () => 'NOW()' })
-  created_at: Date;
-
-  @Column('boolean', { name: 'is_customer', default: false })
-  isCustomer: boolean;
-
-  @Column('boolean', { name: 'is_employee', default: false })
-  isEmployee: boolean;
-
-  @Column('uuid', { name: 'user_id', default: () => 'gen_random_uuid()' })
-  userId: string;
-
-  @ManyToOne(() => User, user => user.tickets)
-  user: User;
+ 
+  @CreateDateColumn({ type: 'timestamptz', name: 'created_at' })
+  createdAt: Date;
+ 
+  // We allow guest in case someone cannot create an account or something
+  @Column('uuid', { name: 'user_id', nullable: true })
+  userId: string | null;
+ 
+  @ManyToOne(() => User, (user) => user.tickets, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'user_id' })
+  user: User | null;
 }
