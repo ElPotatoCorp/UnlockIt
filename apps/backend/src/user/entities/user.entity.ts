@@ -23,6 +23,7 @@ import { Employee } from "./employee.entity";
 @Unique(['phoneNumber'])
 @Check(`"email" ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'`)
 @Check(`LENGTH(TRIM("username")) >= 3`)
+@Check(`LENGTH("bio") <= 500 OR "bio" IS NULL`)
 @Check(`"wallet" >= 0`)
 export class User {
   @UserEntityDoc.Id()

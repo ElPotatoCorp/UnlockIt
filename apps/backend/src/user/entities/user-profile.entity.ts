@@ -13,7 +13,6 @@ import { User } from './user.entity';
 @Check(`"country" ~ '^[A-Z]{2}$' OR "country" IS NULL`)
 @Check(`"birthdate" < NOW() OR "birthdate" IS NULL`)
 @Check(`"birthdate" <= NOW() - INTERVAL '13 years' OR "birthdate" IS NULL`)
-@Check(`LENGTH("bio") <= 500 OR "bio" IS NULL`)
 export class UserProfile {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;

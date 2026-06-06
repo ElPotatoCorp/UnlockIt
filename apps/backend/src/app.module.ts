@@ -64,8 +64,8 @@ import { RolesGuard } from './common/guards/roles.guard';
         autoLoadEntities: true,
 
         migrations: ['dist/database/migrations/**/*.{ts,js}'],
-        migrationsRun: true,
-        synchronize: false,
+        migrationsRun: false, // Turn to true in prod
+        synchronize: true, // Turn to false in prod
       }),
     }),
     UsersModule,
