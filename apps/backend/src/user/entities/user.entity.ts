@@ -9,6 +9,7 @@ import {
   OneToOne,
   OneToMany,
   JoinColumn,
+  BeforeInsert,
 } from 'typeorm';
 import { UserProfile } from './user-profile.entity';
 import { UserBilling } from './user-billing.entity';
@@ -16,6 +17,7 @@ import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column
 import { Session } from 'src/sessions/entities/session.entity';
 import { Ticket } from "src/tickets/entities/ticket.entity";
 import { Employee } from "./employee.entity";
+import { genSalt, hash } from 'bcrypt-ts';
 
 @Entity('users')
 @Unique(['username'])
@@ -109,4 +111,10 @@ export class User {
     cascade: ['remove'],
   })
   tickets: Promise<Ticket[]>;
+
+  @BeforeInsert()
+  async setPassword(password: string) {
+    const salt = await genSalt(12);
+    this.password = await hash(password || this.password, salt);
+  }
 }
