@@ -52,12 +52,13 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
   };
 
   return (
-    <div className={`${styles.drawer} ${open ? styles.drawerOpen : ""}`}>
+    <div id="drawer" className={`${styles.drawer} ${open ? styles.drawerOpen : ""}`}>
       <div className={styles.drawerInner}>
 
         {/* === Section Navigation === */}
-        <div className={styles.section}>
+        <div id="nav-section" className={styles.section}>
           <button
+            id="nav-section-button"
             className={styles.sectionHeader}
             onClick={() => setNavOpen((prev) => !prev)}
             aria-expanded={navOpen}
@@ -69,7 +70,7 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
           <div className={`${styles.sectionBody} ${navOpen ? styles.sectionBodyOpen : ""}`}>
             <nav className={styles.navLinks}>
               {NAV_LINKS.map(({ to, label }) => (
-                <Link key={to} to={to} className={styles.navItem} onClick={onClose}>
+                <Link id={`${to!.slice(1)}-button`} key={to} to={to} className={styles.navItem} onClick={onClose}>
                   {label}
                 </Link>
               ))}
@@ -80,9 +81,9 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
         <div className={styles.divider} />
 
         {/* === Section Profil === */}
-        <div className={styles.section}>
+        <div id="profile-section" className={styles.section}>
           <button
-            data-testid="drawer-profile-section"
+            id="profile-section-button"
             className={styles.sectionHeader}
             onClick={() => setProfileOpen((prev) => !prev)}
             aria-expanded={profileOpen}
@@ -116,7 +117,7 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
                       </button>
                     ) : isLogout ? (
                       <button
-                        data-testid="logout-button"
+                        id="logout-button"
                         type="button"
                         className={`${styles.profileItem} ${styles.danger}`}
                         onClick={handleLogout}
@@ -124,7 +125,7 @@ export const HamburgerDrawer: FC<HamburgerDrawerProps> = ({
                         {label}
                       </button>
                     ) : (
-                      <Link to={to!} className={styles.profileItem} onClick={onClose}>
+                      <Link id={`${to!.slice(1)}-button`} to={to!} className={styles.profileItem} onClick={onClose}>
                         {label}
                       </Link>
                     )}

@@ -26,7 +26,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
 
   return (
     <>
-      <div data-testid="header-profile-button" onClick={() => setOpen(!open)} className={styles.profileIcon}>
+      <div id="profile-menu-button" onClick={() => setOpen(!open)} className={styles.profileIcon}>
         {profilePic ? (
           <img src={profilePic} alt="Profil" />
         ) : (
@@ -35,7 +35,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
       </div>
 
       {open && (
-        <div className={styles.profileMenu}>
+        <div id="profile-menu" className={styles.profileMenu}>
           <ul className={styles.menuList}>
             {isLogged ? (
               PROFILE_LINKS.map(({ to, label, comingSoon, isLogout }) => (
@@ -53,15 +53,15 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
                     </button>
                   ) : isLogout ? (
                     <button
-                      data-testid="logout-button"
                       type="button"
+                      id="logout-button"
                       onClick={handleLogout}
                       className={`${styles.menuItem} ${styles.danger}`}
                     >
                       <span className={styles.menuContent}>{label}</span>
                     </button>
                   ) : (
-                    <Link to={to!} className={styles.menuItem}>
+                    <Link id={`${to!.slice(1)}-button`} to={to!} className={styles.menuItem}>
                       <span className={styles.menuContent}>{label}</span>
                     </Link>
                   )}

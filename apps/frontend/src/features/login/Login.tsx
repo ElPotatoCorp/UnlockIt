@@ -80,7 +80,7 @@ const Login: FC = () => {
               Retour à l'accueil
             </Link>
 
-            <button onClick={handleLogout} className={styles.btnDanger}>
+            <button id="logout-button" onClick={handleLogout} className={styles.btnDanger}>
               Se déconnecter
             </button>
           </div>

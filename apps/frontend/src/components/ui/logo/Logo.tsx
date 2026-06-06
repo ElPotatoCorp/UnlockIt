@@ -197,7 +197,7 @@ export function Logo({ color = "white", size = 64, link, className }: LogoProps)
         
     if (link) {
         return (
-            <Link to={link} className={styles.logoWrapper}>
+            <Link id="logo" to={link} className={styles.logoWrapper}>
                 {svg}
             </Link>
         );

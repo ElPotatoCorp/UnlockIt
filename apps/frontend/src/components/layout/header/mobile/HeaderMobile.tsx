@@ -26,7 +26,7 @@ export const HeaderMobile: FC = () => {
 
         <div className={styles.right}>
           <button
-            data-testid="header-hamburger-button"
+            id="hamburger-button"
             className={`${styles.hamburger} ${drawerOpen ? styles.open : ""}`}
             onClick={() => setDrawerOpen((prev) => !prev)}
             aria-label="Menu"

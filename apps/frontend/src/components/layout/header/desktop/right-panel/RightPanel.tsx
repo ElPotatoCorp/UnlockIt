@@ -17,7 +17,7 @@ export const RightPanel: FC = () => {
   return (
     <div className={styles.rightPanel}>
       {isAuthenticated && (
-        <Link to="/cart" className={styles.imgBasket}>
+        <Link id="cart" to="/cart" className={styles.imgBasket}>
           <div className={styles.cartWrapper}>
             <CartIcon className={styles.cart} size={32} />
           </div>
@@ -25,7 +25,7 @@ export const RightPanel: FC = () => {
       )}
 
       {isAuthenticated && (
-        <h3>{wallet.toFixed(2)} €</h3>
+        <h3 id="wallet">{wallet.toFixed(2)} €</h3>
       )}
 
       <ProfileMenu

@@ -87,7 +87,7 @@ const Register: FC = () => {
           <div className={styles.actions}>
             <Link to="/" className={styles.link}>Retour à l'accueil</Link>
 
-            <button onClick={logout} className={styles.btnDanger}>
+            <button id="logout-button" onClick={logout} className={styles.btnDanger}>
               Se déconnecter
             </button>
           </div>
