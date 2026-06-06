@@ -25,7 +25,9 @@
     "generate:docs:backend": "npm run compodoc --workspace=backend"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "dotenv-cli": "^11.0.0"
   }
 }

@@ -78,12 +78,11 @@ export class User {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  @OneToOne(() => Employee, (employee) => employee.id, {
+  @OneToOne(() => Employee, (employee) => employee.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  @JoinColumn({ name: 'id' })
   employee: Promise<Employee | null>;
 
   @OneToOne(() => UserProfile, (profile) => profile.user, {
