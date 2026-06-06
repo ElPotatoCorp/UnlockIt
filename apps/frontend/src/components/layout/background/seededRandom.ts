@@ -1,11 +1,11 @@
 /**
- * djb2 hash — turns any string into a uint32
+ * djb2 hash — turns any string into a uint32.
  */
 export function hashString(str: string): number {
   let hash = 5381;
   for (let i = 0; i < str.length; i++) {
     hash = ((hash << 5) + hash) ^ str.charCodeAt(i);
-    hash = hash >>> 0; // keep uint32
+    hash = hash >>> 0;
   }
   return hash;
 }
@@ -26,8 +26,16 @@ export function createSeededRandom(seed: number): () => number {
 }
 
 /**
- * Derive a seed from a cookie value, or fall back to a stable default.
- * Pass your auth cookie name (e.g. "session_id") and it will be used if present.
+ * Derive a numeric seed directly from any string — session ID, user ID, etc.
+ * Same string always produces the same seed (deterministic).
+ */
+export function seedFromString(value: string): number {
+  return hashString(value);
+}
+
+/**
+ * Fallback: derive a seed from a cookie value.
+ * Use seedFromString() instead when you have direct access to session data.
  */
 export function getSeedFromCookie(cookieName: string, fallback = "hexbg-default"): number {
   const match = document.cookie
