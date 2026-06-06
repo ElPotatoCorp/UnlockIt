@@ -102,7 +102,12 @@ export class HexBackground {
       [THEME_COLORS.blue,  THEME_COLORS.green],
     ];
 
-    const buildColumn = (layer: PIXI.Container, zoneX: number, zoneW: number) => {
+    const buildColumn = (
+      layer: PIXI.Container,
+      zoneX: number,
+      zoneW: number,
+      anchor: "left" | "right",
+    ) => {
       const placed: PIXI.Rectangle[] = [];
 
       for (let attempt = 0; attempt < slotsY * ATTEMPTS_PER_COLUMN; attempt++) {
@@ -115,8 +120,20 @@ export class HexBackground {
         const [colorA, colorB] = colorPairs[Math.floor(rng() * colorPairs.length)];
         const animSpeed   = 0.0001 + rng() * 0.0004;
 
-        // Keep patterns well within the zone bounds
-        const originX = zoneX + rng() * zoneW * 0.7;
+        // Estimate the pattern's pixel footprint so we can anchor correctly.
+        // horizStep * cols is a close enough upper bound; exact bounds come
+        // from getBounds() after construction for the overlap check.
+        const horizStep   = orientation === "pointy" ? Math.sqrt(3) * size : size * 1.5;
+        const patWidth    = cols * horizStep + size;
+
+        // Left column: origin at left edge, pattern grows rightward (into screen).
+        // Right column: origin pushed left by patWidth so the pattern grows
+        //   leftward toward the centre and never bleeds off the right edge.
+        const jitter  = rng() * zoneW * 0.4; // small random inset from the zone edge
+        const originX = anchor === "left"
+          ? zoneX + jitter
+          : zoneX + zoneW - patWidth - jitter;
+
         const originY = rng() * pageH;
 
         const pat = new HexPatternContainer({
@@ -143,10 +160,11 @@ export class HexBackground {
       }
     };
 
-    // Mobile: single full-width zone on leftLayer only, rightLayer stays empty
-    buildColumn(this.leftLayer, zones.left.x, zones.left.width);
+    // Mobile: single full-width zone on leftLayer only, rightLayer stays empty.
+    // Tablet/desktop: mirrored side columns, right column anchors from right edge.
+    buildColumn(this.leftLayer, zones.left.x, zones.left.width, "left");
     if (zones.right !== null) {
-      buildColumn(this.rightLayer, zones.right.x, zones.right.width);
+      buildColumn(this.rightLayer, zones.right.x, zones.right.width, "right");
     }
   }
 
