@@ -6,7 +6,7 @@ export interface ColumnZones {
 }
 
 export function getBreakpoint(width: number): Breakpoint {
-  if (width < 700) return "mobile";
+  if (width < 860) return "mobile";
   if (width < 1024) return "tablet";
   return "desktop";
 }
