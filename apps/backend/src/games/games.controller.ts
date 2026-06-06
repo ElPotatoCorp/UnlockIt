@@ -33,6 +33,7 @@ export class GamesController {
   constructor(private readonly gamesService: GamesService) { }
 
   @GamesControllerDoc.Create()
+  @MinRole(EmployeeRole.ADMIN)
   @Post()
   create(@Body() createGameDto: CreateGameDto) {
     return this.gamesService.create(createGameDto);
@@ -53,7 +54,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.Update()
-  @MinRole(EmployeeRole.ADMIN)
+  @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id')
   update(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -63,6 +64,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.Remove()
+  @MinRole(EmployeeRole.SUPER_ADMIN)
   @Delete(':id')
   remove(@Param('id', EntityExistsPipe(Game)) game: Game) {
     return this.gamesService.remove(game.id);
@@ -70,6 +72,7 @@ export class GamesController {
 
   // --- Tags ---
   @GamesControllerDoc.AddTag()
+  @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/tags/:tagId')
   addTag(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -79,6 +82,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.RemoveTag()
+  @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/tags/:tagId')
   removeTag(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -88,6 +92,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.SetTags()
+  @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/tags')
   setTags(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -101,6 +106,7 @@ export class GamesController {
 
   // --- Developers ---
   @GamesControllerDoc.AddDeveloper()
+  @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/developers/:developerId')
   addDeveloper(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -110,6 +116,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.RemoveDeveloper()
+  @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/developers/:developerId')
   removeDeveloper(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -119,6 +126,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.SetDevelopers()
+  @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/developers')
   setDevelopers(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -129,6 +137,7 @@ export class GamesController {
 
   // --- Publishers ---
   @GamesControllerDoc.AddPublisher()
+  @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/publishers/:publisherId')
   addPublisher(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -138,6 +147,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.RemovePublisher()
+  @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/publishers/:publisherId')
   removePublisher(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -147,6 +157,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.SetPublishers()
+  @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/publishers')
   setPublishers(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -157,6 +168,7 @@ export class GamesController {
 
   // --- Platforms ---
   @GamesControllerDoc.UpsertPlatforms()
+  @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/platforms')
   upsertPlatforms(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -167,6 +179,7 @@ export class GamesController {
 
   // --- Media ---
   @GamesControllerDoc.AddMedia()
+  @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/media')
   addMedia(
     @Param('id', EntityExistsPipe(Game)) game: Game,
@@ -176,6 +189,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.RemoveMedia()
+  @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/media/:mediaId')
   removeMedia(
     @Param('id', EntityExistsPipe(Game)) game: Game,
