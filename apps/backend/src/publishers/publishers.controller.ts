@@ -3,7 +3,16 @@ import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { PublisherEntity } from './entities/publisher.entity';
 import { PublishersControllerDoc } from 'src/docs/publishers/publishers.controller.doc';
-import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
@@ -37,7 +46,9 @@ export class PublishersController {
 
   @PublishersControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity) {
+  remove(
+    @Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
+  ) {
     return this.publishersService.remove(publisher.id);
   }
 }

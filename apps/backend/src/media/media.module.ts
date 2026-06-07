@@ -4,6 +4,6 @@ import { MediaEntity } from './entities/media.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MediaEntity])],
-  exports: [TypeOrmModule]
+  exports: [TypeOrmModule],
 })
 export class MediaModule {}

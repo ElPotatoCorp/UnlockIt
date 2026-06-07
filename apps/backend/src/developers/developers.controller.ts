@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DevelopersService } from './developers.service';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
@@ -37,7 +46,9 @@ export class DevelopersController {
 
   @DevelopersControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity) {
+  remove(
+    @Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
+  ) {
     return this.developersService.remove(developer.id);
   }
 }

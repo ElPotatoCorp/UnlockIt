@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Delete, Query, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Delete,
+  Query,
+  HttpCode,
+} from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { GameEntity } from 'src/games/entities/game.entity';
@@ -10,7 +18,10 @@ export class WishlistController {
   constructor(private readonly wishlistService: WishlistService) {}
 
   @Get()
-  findAll(@User('sub') userId: string, @Query() pagination: PaginationQueryDto) {
+  findAll(
+    @User('sub') userId: string,
+    @Query() pagination: PaginationQueryDto,
+  ) {
     return this.wishlistService.findAll(userId, pagination);
   }
 

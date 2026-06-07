@@ -13,7 +13,7 @@ export class WishlistService {
     @InjectRepository(WishlistEntity)
     private readonly wishlistRepository: Repository<WishlistEntity>,
     private readonly commonService: CommonService,
-  ) { }
+  ) {}
 
   findAll(userId: string, pagination: PaginationQueryDto) {
     return this.commonService.getPaginatedResponse(
@@ -22,12 +22,16 @@ export class WishlistService {
       {
         where: { userId },
         order: { addedAt: 'DESC' },
-        transform: (entry) => SummaryGameDto.fromEntity(entry.game as GameEntity),
+        transform: (entry: WishlistEntity) =>
+          SummaryGameDto.fromEntity(entry.game),
       },
     );
   }
 
-  async isWishlisted(userId: string, gameId: number): Promise<{ wishlisted: boolean }> {
+  async isWishlisted(
+    userId: string,
+    gameId: number,
+  ): Promise<{ wishlisted: boolean }> {
     const exists = await this.wishlistRepository.existsBy({ userId, gameId });
     return { wishlisted: exists };
   }

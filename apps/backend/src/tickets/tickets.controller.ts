@@ -22,12 +22,12 @@ import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { TicketEntity } from './entities/ticket.entity';
- 
+
 @TicketsControllerDoc.Controller()
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
- 
+
   @TicketsControllerDoc.Create()
   @Public()
   @UseGuards(JwtAuthOptionalGuard)
@@ -38,7 +38,7 @@ export class TicketsController {
   ) {
     return this.ticketsService.create(createTicketDto, userId ?? null);
   }
- 
+
   @TicketsControllerDoc.FindAll()
   @Get()
   findAll(
@@ -47,16 +47,13 @@ export class TicketsController {
   ) {
     return this.ticketsService.findAll(user, paginationQueryDto);
   }
- 
+
   @TicketsControllerDoc.FindOne()
   @Get(':id')
-  findOne(
-    @Param('id') id: string,
-    @User() user: JwtPayloadDto,
-  ) {
+  findOne(@Param('id') id: string, @User() user: JwtPayloadDto) {
     return this.ticketsService.findOne(id, user);
   }
- 
+
   @TicketsControllerDoc.Update()
   @Patch(':id')
   update(
@@ -67,10 +64,10 @@ export class TicketsController {
     if (user.permission === null) {
       throw new ForbiddenException('Only employees can update ticket status');
     }
- 
+
     return this.ticketsService.update(ticket, updateTicketDto);
   }
- 
+
   @TicketsControllerDoc.Remove()
   @Delete(':id')
   @HttpCode(204)
@@ -81,7 +78,7 @@ export class TicketsController {
     if (user.permission === null) {
       throw new ForbiddenException('Only employees can delete tickets');
     }
- 
+
     return this.ticketsService.remove(ticket);
   }
 }

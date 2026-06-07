@@ -19,11 +19,14 @@ import { GameDetailDto } from './dto/game-detail.dto';
 @Injectable()
 export class GamesService {
   constructor(
-    @InjectRepository(GameEntity) private readonly gameRepository: Repository<GameEntity>,
-    @InjectRepository(GamePlatformEntity) private readonly platformRepository: Repository<GamePlatformEntity>,
-    @InjectRepository(MediaEntity) private readonly mediaRepository: Repository<MediaEntity>,
+    @InjectRepository(GameEntity)
+    private readonly gameRepository: Repository<GameEntity>,
+    @InjectRepository(GamePlatformEntity)
+    private readonly platformRepository: Repository<GamePlatformEntity>,
+    @InjectRepository(MediaEntity)
+    private readonly mediaRepository: Repository<MediaEntity>,
     private readonly commonService: CommonService,
-  ) { }
+  ) {}
 
   create(createGameDto: CreateGameDto) {
     return this.gameRepository.save(createGameDto);
@@ -74,7 +77,10 @@ export class GamesService {
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
       .of(game.id)
-      .addAndRemove(tags.map(t => t.id), current.map(t => t.id));
+      .addAndRemove(
+        tags.map((t) => t.id),
+        current.map((t) => t.id),
+      );
   }
 
   async setTagsById(game: GameEntity, tagIds: number[]): Promise<void> {
@@ -83,11 +89,17 @@ export class GamesService {
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
       .of(game.id)
-      .addAndRemove(tagIds, current.map(t => t.id));
+      .addAndRemove(
+        tagIds,
+        current.map((t) => t.id),
+      );
   }
 
   // --- Developers ---
-  async addDeveloper(game: GameEntity, developer: DeveloperEntity): Promise<void> {
+  async addDeveloper(
+    game: GameEntity,
+    developer: DeveloperEntity,
+  ): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -95,7 +107,10 @@ export class GamesService {
       .add(developer.id);
   }
 
-  async removeDeveloper(game: GameEntity, developer: DeveloperEntity): Promise<void> {
+  async removeDeveloper(
+    game: GameEntity,
+    developer: DeveloperEntity,
+  ): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -103,26 +118,41 @@ export class GamesService {
       .remove(developer.id);
   }
 
-  async setDevelopers(game: GameEntity, developers: DeveloperEntity[]): Promise<void> {
+  async setDevelopers(
+    game: GameEntity,
+    developers: DeveloperEntity[],
+  ): Promise<void> {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
       .of(game.id)
-      .addAndRemove(developers.map(d => d.id), current.map(d => d.id));
+      .addAndRemove(
+        developers.map((d) => d.id),
+        current.map((d) => d.id),
+      );
   }
 
-  async setDevelopersById(game: GameEntity, developerIds: number[]): Promise<void> {
+  async setDevelopersById(
+    game: GameEntity,
+    developerIds: number[],
+  ): Promise<void> {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
       .of(game.id)
-      .addAndRemove(developerIds, current.map(d => d.id));
+      .addAndRemove(
+        developerIds,
+        current.map((d) => d.id),
+      );
   }
 
   // --- Publishers ---
-  async addPublisher(game: GameEntity, publisher: PublisherEntity): Promise<void> {
+  async addPublisher(
+    game: GameEntity,
+    publisher: PublisherEntity,
+  ): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -130,7 +160,10 @@ export class GamesService {
       .add(publisher.id);
   }
 
-  async removePublisher(game: GameEntity, publisher: PublisherEntity): Promise<void> {
+  async removePublisher(
+    game: GameEntity,
+    publisher: PublisherEntity,
+  ): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -138,26 +171,41 @@ export class GamesService {
       .remove(publisher.id);
   }
 
-  async setPublishers(game: GameEntity, publishers: PublisherEntity[]): Promise<void> {
+  async setPublishers(
+    game: GameEntity,
+    publishers: PublisherEntity[],
+  ): Promise<void> {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
       .of(game.id)
-      .addAndRemove(publishers.map(p => p.id), current.map(p => p.id));
+      .addAndRemove(
+        publishers.map((p) => p.id),
+        current.map((p) => p.id),
+      );
   }
 
-  async setPublishersById(game: GameEntity, publisherIds: number[]): Promise<void> {
+  async setPublishersById(
+    game: GameEntity,
+    publisherIds: number[],
+  ): Promise<void> {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
       .of(game.id)
-      .addAndRemove(publisherIds, current.map(p => p.id));
+      .addAndRemove(
+        publisherIds,
+        current.map((p) => p.id),
+      );
   }
 
   // --- Platforms ---
-  async upsertPlatforms(game: GameEntity, dto: UpdatePlatformDto): Promise<void> {
+  async upsertPlatforms(
+    game: GameEntity,
+    dto: UpdatePlatformDto,
+  ): Promise<void> {
     // game_platforms row is created here if it doesn't exist yet
     await this.platformRepository.upsert(
       { gameId: game.id, ...dto },
@@ -173,5 +221,4 @@ export class GamesService {
   async removeMedia(game: GameEntity, media: MediaEntity): Promise<void> {
     await this.mediaRepository.delete(media.id);
   }
-
 }

@@ -1,5 +1,5 @@
-import { Media, MediaType } from "@unlockit/shared";
-import { MediaEntity } from "../entities/media.entity";
+import { Media, MediaType } from '@unlockit/shared';
+import { MediaEntity } from '../entities/media.entity';
 
 export class MediaDto implements Media {
   id: number;

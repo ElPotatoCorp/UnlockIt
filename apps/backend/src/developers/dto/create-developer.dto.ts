@@ -4,6 +4,7 @@ import { DeveloperEntityDoc } from 'src/docs/developers/entities/developer.entit
 
 export class CreateDeveloperDto implements CreateDeveloper {
   @DeveloperEntityDoc.Name()
-  @IsString() @Length(1, 200)
+  @IsString()
+  @Length(1, 200)
   name: string;
 }

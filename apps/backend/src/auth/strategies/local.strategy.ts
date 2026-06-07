@@ -19,7 +19,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    
+
     return { sub: user.id, permission: user.permission }; // Return an object with a 'sub' property for JWT payload
   }
 }

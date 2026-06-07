@@ -1,4 +1,4 @@
-import { PublisherEntity as PublisherEntity } from "../entities/publisher.entity";
+import { PublisherEntity as PublisherEntity } from '../entities/publisher.entity';
 
 export class GamePublisherDto implements GamePublisherDto {
   id: number;

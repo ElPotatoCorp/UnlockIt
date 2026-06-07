@@ -9,18 +9,15 @@ import {
   OneToOne,
   OneToMany,
   BeforeInsert,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { UserProfileEntity } from './user-profile.entity';
 import { UserBillingEntity } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
-import { TicketEntity } from "src/tickets/entities/ticket.entity";
-import { EmployeeEntity } from "../../employees/entities/employee.entity";
+import { TicketEntity } from 'src/tickets/entities/ticket.entity';
+import { EmployeeEntity } from '../../employees/entities/employee.entity';
 import { genSalt, hash } from 'bcrypt-ts';
 import { UserEntity as IUserEntity } from '@unlockit/shared';
-import { GameEntity } from 'src/games/entities/game.entity';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 
 @Entity('users')

@@ -1,7 +1,13 @@
 import { MediaEntity as IMediaEntity, MediaType } from '@unlockit/shared';
 import { MediaEntityDoc } from 'src/docs/media/entities/media.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('media')
 export class MediaEntity implements IMediaEntity {

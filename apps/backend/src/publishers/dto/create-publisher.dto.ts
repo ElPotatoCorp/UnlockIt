@@ -4,6 +4,7 @@ import { PublisherEntityDoc } from 'src/docs/publishers/entities/publisher.entit
 
 export class CreatePublisherDto implements CreatePublisher {
   @PublisherEntityDoc.Name()
-  @IsString() @Length(1, 200)
+  @IsString()
+  @Length(1, 200)
   name: string;
 }

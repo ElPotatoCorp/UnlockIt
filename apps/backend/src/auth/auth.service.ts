@@ -56,7 +56,7 @@ export class AuthService {
   }
 
   async login(
-    user: { userId: string, permission: EmployeeRole | null },
+    user: { userId: string; permission: EmployeeRole | null },
     ip: string,
     userAgent: string,
     sessionId?: string,
@@ -76,7 +76,11 @@ export class AuthService {
       })
     ).identifiers[0].id;
 
-    const payload = { sub: user.userId, sid: session, permission: user.permission };
+    const payload = {
+      sub: user.userId,
+      sid: session,
+      permission: user.permission,
+    };
 
     return {
       accessToken: this.jwtService.sign(payload, {

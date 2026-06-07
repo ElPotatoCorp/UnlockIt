@@ -1,6 +1,12 @@
-import { GameEntity } from "src/games/entities/game.entity";
-import { UserEntity } from "src/user/entities/user.entity";
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { GameEntity } from 'src/games/entities/game.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import {
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity('wishlist')
 export class WishlistEntity {
@@ -14,7 +20,9 @@ export class WishlistEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @ManyToOne(() => GameEntity, (game) => game.wishlists, { onDelete: 'CASCADE' })
+  @ManyToOne(() => GameEntity, (game) => game.wishlists, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 

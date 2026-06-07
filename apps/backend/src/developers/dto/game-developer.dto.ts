@@ -1,4 +1,4 @@
-import { DeveloperEntity } from "@unlockit/shared";
+import { DeveloperEntity } from '@unlockit/shared';
 
 export class GameDeveloperDto implements GameDeveloperDto {
   id: number;

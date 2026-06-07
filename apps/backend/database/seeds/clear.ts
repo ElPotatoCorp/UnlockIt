@@ -9,18 +9,25 @@ async function clearTable(dataSource: DataSource, targetTable: string) {
   const entities = dataSource.entityMetadatas;
 
   const matchedEntity = entities.find(
-    (e) => e.tableName.toLowerCase() === targetTable.toLowerCase() ||
-      e.name.toLowerCase() === targetTable.toLowerCase()
+    (e) =>
+      e.tableName.toLowerCase() === targetTable.toLowerCase() ||
+      e.name.toLowerCase() === targetTable.toLowerCase(),
   );
 
   if (!matchedEntity) {
-    console.error(`Table or Entity "${targetTable}" not found in database metadata.`);
+    console.error(
+      `Table or Entity "${targetTable}" not found in database metadata.`,
+    );
     process.exit(1);
   }
 
   const rl = readline.createInterface({ input, output });
-  console.warn(` WARNING: You are about to clear ALL data from table "${matchedEntity.tableName}".`);
-  const answer = await rl.question('This action might CASCADE and delete rows in related tables. Type "yes" to proceed: ');
+  console.warn(
+    ` WARNING: You are about to clear ALL data from table "${matchedEntity.tableName}".`,
+  );
+  const answer = await rl.question(
+    'This action might CASCADE and delete rows in related tables. Type "yes" to proceed: ',
+  );
   rl.close();
 
   if (answer.toLowerCase() !== 'yes') {
@@ -30,7 +37,9 @@ async function clearTable(dataSource: DataSource, targetTable: string) {
 
   console.log(`Clearing table "${matchedEntity.tableName}"...`);
   if (dataSource.options.type === 'postgres') {
-    await entityManager.query(`TRUNCATE TABLE "${matchedEntity.tableName}" RESTART IDENTITY CASCADE;`);
+    await entityManager.query(
+      `TRUNCATE TABLE "${matchedEntity.tableName}" RESTART IDENTITY CASCADE;`,
+    );
   } else {
     await entityManager.query(`DELETE FROM "${matchedEntity.tableName}";`);
   }
@@ -44,18 +53,26 @@ async function clearAll(dataSource: DataSource) {
   const rl = readline.createInterface({ input, output });
 
   try {
-    console.warn('\n WARNING: You are about to completely wipe all data from the database!');
+    console.warn(
+      '\n WARNING: You are about to completely wipe all data from the database!',
+    );
 
     // First Confirmation
-    const firstAnswer = await rl.question('Are you absolutely sure you want to clear the entire database? (type "yes" to proceed): ');
+    const firstAnswer = await rl.question(
+      'Are you absolutely sure you want to clear the entire database? (type "yes" to proceed): ',
+    );
     if (firstAnswer.toLowerCase() !== 'yes') {
       console.log('Action aborted by user.');
       process.exit(0);
     }
 
     // Second Confirmation (Double-check)
-    console.warn('\n FINAL WARNING: This action cannot be undone and will delete ALL rows across ALL tables!');
-    const secondAnswer = await rl.question('This is your last chance. Confirm by typing "yes" once more: ');
+    console.warn(
+      '\n FINAL WARNING: This action cannot be undone and will delete ALL rows across ALL tables!',
+    );
+    const secondAnswer = await rl.question(
+      'This is your last chance. Confirm by typing "yes" once more: ',
+    );
     if (secondAnswer.toLowerCase() !== 'yes') {
       console.log('Action aborted at final confirmation.');
       process.exit(0);
@@ -69,13 +86,14 @@ async function clearAll(dataSource: DataSource) {
 
     if (tableNames) {
       if (dataSource.options.type === 'postgres') {
-        await entityManager.query(`TRUNCATE TABLE ${tableNames} RESTART IDENTITY CASCADE;`);
+        await entityManager.query(
+          `TRUNCATE TABLE ${tableNames} RESTART IDENTITY CASCADE;`,
+        );
       }
       console.log('All database rows cleared successfully.');
     } else {
       console.log('No tables found to clear.');
     }
-
   } catch (error) {
     rl.close();
     throw error;
@@ -85,7 +103,9 @@ async function clearAll(dataSource: DataSource) {
 async function clear() {
   // Production Safeguard
   if (process.env.NODE_ENV === 'production') {
-    console.error('ERROR: Database commands cannot be executed in a PRODUCTION environment!');
+    console.error(
+      'ERROR: Database commands cannot be executed in a PRODUCTION environment!',
+    );
     process.exit(1);
   }
 
@@ -99,7 +119,12 @@ async function clear() {
     if (!dataSource.isInitialized) {
       await dataSource.initialize();
     }
-    targetTable ? await clearTable(dataSource, targetTable) : await clearAll(dataSource);
+
+    if (targetTable) {
+      await clearTable(dataSource, targetTable);
+    } else {
+      await clearAll(dataSource);
+    }
   } catch (error) {
     console.error('Clear execution failed:', error);
     process.exit(1);
@@ -110,4 +135,4 @@ async function clear() {
   }
 }
 
-clear();
+void clear();

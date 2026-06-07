@@ -12,7 +12,6 @@ import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity'
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { SeriesEntity } from 'src/series/entities/series.entity';
 import { TagEntity } from 'src/tags/entities/tag.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import {
   Check,
@@ -127,15 +126,15 @@ export class GameEntity implements IGameEntity {
   @ManyToMany(() => TagEntity, (tag) => tag.games, { lazy: true })
   @JoinTable({
     name: 'game_tags',
-    joinColumn:        { name: 'game_id',  referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'tag_id',   referencedColumnName: 'id' },
+    joinColumn: { name: 'game_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'tag_id', referencedColumnName: 'id' },
   })
   tags: Promise<TagEntity[]>;
 
   @ManyToMany(() => DeveloperEntity, (dev) => dev.games, { lazy: true })
   @JoinTable({
     name: 'game_developers',
-    joinColumn:        { name: 'game_id',      referencedColumnName: 'id' },
+    joinColumn: { name: 'game_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'developer_id', referencedColumnName: 'id' },
   })
   developers: Promise<DeveloperEntity[]>;
@@ -143,15 +142,21 @@ export class GameEntity implements IGameEntity {
   @ManyToMany(() => PublisherEntity, (pub) => pub.games, { lazy: true })
   @JoinTable({
     name: 'game_publishers',
-    joinColumn:        { name: 'game_id',      referencedColumnName: 'id' },
+    joinColumn: { name: 'game_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'publisher_id', referencedColumnName: 'id' },
   })
   publishers: Promise<PublisherEntity[]>;
 
-  @OneToOne(() => GamePlatformEntity, (gp) => gp.game, { lazy: true, cascade: true })
+  @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
+    lazy: true,
+    cascade: true,
+  })
   platforms: Promise<GamePlatformEntity | null>;
 
-  @OneToMany(() => MediaEntity, (media) => media.game, { lazy: true, cascade: true })
+  @OneToMany(() => MediaEntity, (media) => media.game, {
+    lazy: true,
+    cascade: true,
+  })
   media: Promise<MediaEntity[]>;
 
   @OneToMany(() => WishlistEntity, (wishlist) => wishlist.game, { lazy: true })

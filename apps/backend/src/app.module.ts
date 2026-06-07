@@ -44,8 +44,16 @@ import { WishlistModule } from './wishlist/wishlist.module';
       inject: [throttlerConfig.KEY],
       useFactory: (config: ConfigType<typeof throttlerConfig>) => ({
         throttlers: [
-          { name: 'authRegister', ttl: config.authRegister.ttl, limit: config.authRegister.limit },
-          { name: 'authLogin', ttl: config.authLogin.ttl, limit: config.authLogin.limit },
+          {
+            name: 'authRegister',
+            ttl: config.authRegister.ttl,
+            limit: config.authRegister.limit,
+          },
+          {
+            name: 'authLogin',
+            ttl: config.authLogin.ttl,
+            limit: config.authLogin.limit,
+          },
         ],
       }),
     }),

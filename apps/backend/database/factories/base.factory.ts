@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
-import { DataSource, EntityTarget } from "typeorm";
+import { faker } from '@faker-js/faker';
+import { DataSource, EntityTarget } from 'typeorm';
 
 /**
  * Base Factory class for generating test data with faker
@@ -9,13 +9,11 @@ export abstract class Factory<T> {
   protected datasource: DataSource | null;
 
   protected isDataSourceInitialized() {
-    if (this.datasource === null)
-    {
-      throw new Error("Datasource not provided");
+    if (this.datasource === null) {
+      throw new Error('Datasource not provided');
     }
-    if (this.datasource.isInitialized !== true)
-    {
-      throw new Error("Datasource not initialized yet");
+    if (this.datasource.isInitialized !== true) {
+      throw new Error('Datasource not initialized yet');
     }
   }
 
@@ -38,8 +36,8 @@ export abstract class Factory<T> {
    * Create an instance without saving (for in-memory use)
    */
   async make(overrides: Partial<T> = {}): Promise<T> {
-    const baseDefinition = await this.definition(); 
-    
+    const baseDefinition = await this.definition();
+
     return {
       ...baseDefinition,
       ...overrides,
@@ -51,7 +49,7 @@ export abstract class Factory<T> {
    */
   async makeMany(count: number, overrides: Partial<T> = {}): Promise<T[]> {
     return Promise.all(
-      Array.from({ length: count }, () => this.make(overrides))
+      Array.from({ length: count }, () => this.make(overrides)),
     );
   }
 

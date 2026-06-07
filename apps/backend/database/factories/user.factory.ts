@@ -18,10 +18,12 @@ export class UserFactory extends Factory<UserEntity> {
       username: this.fk.internet.username(),
       email: this.fk.internet.email(),
       password: await hash(password, salt),
-      phoneNumber: this.fk.datatype.boolean() ? this.fk.phone.number({ style: 'international' }) : null,
+      phoneNumber: this.fk.datatype.boolean()
+        ? this.fk.phone.number({ style: 'international' })
+        : null,
       bio: this.fk.datatype.boolean() ? this.fk.lorem.paragraph() : null,
       avatar: null, // Skip image generation to avoid timeout
-      wallet: this.fk.number.float({ min: 0, max: 500, fractionDigits: 2 })
+      wallet: this.fk.number.float({ min: 0, max: 500, fractionDigits: 2 }),
     };
   }
 }

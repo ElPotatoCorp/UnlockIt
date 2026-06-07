@@ -30,7 +30,7 @@ import { EmployeeRole } from '@unlockit/shared';
 @GamesControllerDoc.Controller()
 @Controller('games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(private readonly gamesService: GamesService) {}
 
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
@@ -110,7 +110,8 @@ export class GamesController {
   @Post(':id/developers/:developerId')
   addDeveloper(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
+    @Param('developerId', EntityExistsPipe(DeveloperEntity))
+    developer: DeveloperEntity,
   ) {
     return this.gamesService.addDeveloper(game, developer);
   }
@@ -120,7 +121,8 @@ export class GamesController {
   @Delete(':id/developers/:developerId')
   removeDeveloper(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
+    @Param('developerId', EntityExistsPipe(DeveloperEntity))
+    developer: DeveloperEntity,
   ) {
     return this.gamesService.removeDeveloper(game, developer);
   }
@@ -141,7 +143,8 @@ export class GamesController {
   @Post(':id/publishers/:publisherId')
   addPublisher(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('publisherId', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
+    @Param('publisherId', EntityExistsPipe(PublisherEntity))
+    publisher: PublisherEntity,
   ) {
     return this.gamesService.addPublisher(game, publisher);
   }
@@ -151,7 +154,8 @@ export class GamesController {
   @Delete(':id/publishers/:publisherId')
   removePublisher(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('publisherId', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
+    @Param('publisherId', EntityExistsPipe(PublisherEntity))
+    publisher: PublisherEntity,
   ) {
     return this.gamesService.removePublisher(game, publisher);
   }

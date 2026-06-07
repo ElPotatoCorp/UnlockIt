@@ -1,6 +1,16 @@
-import { EmployeeEntity as IEmployeeEntity, EmployeeRole } from "@unlockit/shared";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { UserEntity } from "../../user/entities/user.entity";
+import {
+  EmployeeEntity as IEmployeeEntity,
+  EmployeeRole,
+} from '@unlockit/shared';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('employees')
 export class EmployeeEntity implements IEmployeeEntity {
@@ -14,7 +24,11 @@ export class EmployeeEntity implements IEmployeeEntity {
   @Column('enum', { enum: EmployeeRole, default: EmployeeRole.SUPPORT })
   role: EmployeeRole;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz', default: () => 'NOW()' })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'NOW()',
+  })
   createdAt: Date;
 
   @Column('uuid', { name: 'created_by' })

@@ -13,7 +13,6 @@ import {
 import { SeriesService } from './series.service';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
-import { Like } from 'typeorm';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';

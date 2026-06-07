@@ -10,20 +10,29 @@ import { EmployeeRole } from '@unlockit/shared';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
     private readonly commonService: CommonService,
   ) {}
 
-  async findPassword(
-    identifier: string,
-  ): Promise<{ id: string; password: string, permission: EmployeeRole | null } | null> {
+  async findPassword(identifier: string): Promise<{
+    id: string;
+    password: string;
+    permission: EmployeeRole | null;
+  } | null> {
     const user = await this.userRepository.findOne({
       where: [{ email: identifier }, { username: identifier }],
       relations: { employee: true },
       select: ['id', 'password', 'employee'],
     });
 
-    return user ? { id: user.id, password: user.password, permission: (await user?.employee)?.role ?? null } : null;
+    return user
+      ? {
+          id: user.id,
+          password: user.password,
+          permission: (await user?.employee)?.role ?? null,
+        }
+      : null;
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {

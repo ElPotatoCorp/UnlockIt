@@ -18,7 +18,7 @@ import { PaginatedDtoSchemaDoc } from 'src/docs/common/dto/paginated.dto.doc';
 import { CreateTicketDto } from 'src/tickets/dto/create-ticket.dto';
 import { UpdateTicketDto } from 'src/tickets/dto/update-ticket.dto';
 import { TicketDto } from 'src/tickets/dto/ticket.dto';
- 
+
 const TICKET_ID_PARAM = ApiParam({
   name: 'id',
   type: String,
@@ -26,10 +26,10 @@ const TICKET_ID_PARAM = ApiParam({
   description: 'UUID of the ticket.',
   example: 'f3a1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
 });
- 
+
 export const TicketsControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Tickets')),
- 
+
   // POST /tickets
   Create: () =>
     applyDecorators(
@@ -47,7 +47,7 @@ export const TicketsControllerDoc = {
       }),
       ApiBadRequestResponse({ description: 'Validation failed.' }),
     ),
- 
+
   // GET /tickets
   FindAll: () =>
     applyDecorators(
@@ -66,7 +66,7 @@ export const TicketsControllerDoc = {
       }),
       ApiBadRequestResponse({ description: 'Invalid pagination parameters.' }),
     ),
- 
+
   // GET /tickets/:id
   FindOne: () =>
     applyDecorators(
@@ -85,7 +85,7 @@ export const TicketsControllerDoc = {
         description: 'Ticket belongs to another user.',
       }),
     ),
- 
+
   // PATCH /tickets/:id
   Update: () =>
     applyDecorators(
@@ -101,7 +101,7 @@ export const TicketsControllerDoc = {
       ApiForbiddenResponse({ description: 'Insufficient permissions.' }),
       ApiBadRequestResponse({ description: 'Validation failed.' }),
     ),
- 
+
   // DELETE /tickets/:id
   Remove: () =>
     applyDecorators(

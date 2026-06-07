@@ -8,7 +8,8 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 @Injectable()
 export class SessionsService {
   constructor(
-    @InjectRepository(SessionEntity) private sessionRepository: Repository<SessionEntity>,
+    @InjectRepository(SessionEntity)
+    private sessionRepository: Repository<SessionEntity>,
   ) {}
 
   createOrUpdate(session: CreateSessionDto) {

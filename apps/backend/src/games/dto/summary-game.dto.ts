@@ -32,14 +32,14 @@ export class SummaryGameDto {
 
   static fromEntity(game: GameEntity): SummaryGameDto {
     const dto = new SummaryGameDto();
-    dto.id               = game.id;
-    dto.name             = game.name;
-    dto.slug             = game.slug;
-    dto.type             = game.type;
-    dto.price            = game.price;
-    dto.ageRating        = game.ageRating;
-    dto.comingSoon       = game.comingSoon;
-    dto.headerImage      = game.headerImage;
+    dto.id = game.id;
+    dto.name = game.name;
+    dto.slug = game.slug;
+    dto.type = game.type;
+    dto.price = game.price;
+    dto.ageRating = game.ageRating;
+    dto.comingSoon = game.comingSoon;
+    dto.headerImage = game.headerImage;
     dto.shortDescription = game.shortDescription;
     return dto;
   }

@@ -15,7 +15,8 @@ import { UploadSubdir } from 'src/upload/upload.constants';
 export class UserService {
   constructor(
     private readonly uploadService: UploadService,
-    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(UserProfileEntity)
     private readonly userProfileRepository: Repository<UserProfileEntity>,
     @InjectRepository(UserBillingEntity)
@@ -33,11 +34,11 @@ export class UserService {
   }
 
   async getProfile(id: string) {
-    return await this.userProfileRepository.findOneBy({ userId: id }) ?? null;
+    return (await this.userProfileRepository.findOneBy({ userId: id })) ?? null;
   }
 
   async getBilling(id: string) {
-    return await this.userBillingRepository.findOneBy({ userId: id }) ?? null;
+    return (await this.userBillingRepository.findOneBy({ userId: id })) ?? null;
   }
 
   async create(createUserDto: CreateUserDto) {

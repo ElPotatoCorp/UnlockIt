@@ -23,7 +23,7 @@ export class SummarySeriesDto implements SummarySeries {
           games.map((game: any) => SummaryGameDto.fromEntity(game)),
         )
       : [];
-    
+
     return dto;
   }
 }

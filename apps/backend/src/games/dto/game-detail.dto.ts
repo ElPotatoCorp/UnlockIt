@@ -1,5 +1,5 @@
 import { GameEntity } from 'src/games/entities/game.entity';
-import { EUAgeRating, GameDetail, GamePlatform, GameType, LangCode } from '@unlockit/shared';
+import { EUAgeRating, GameDetail, GameType, LangCode } from '@unlockit/shared';
 import { SummarySeriesDto } from 'src/series/dto/summary-series.dto';
 import { GamePublisherDto } from 'src/publishers/dto/game-publisher.dto';
 import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';
@@ -53,14 +53,15 @@ export class GameDetailDto implements GameDetail {
     dto.pcRequirements = game.pcRequirements;
     dto.supportedLanguages = game.supportedLanguages;
 
-    const [tags, developers, publishers, platforms, media, series] = await Promise.all([
-      game.tags,
-      game.developers,
-      game.publishers,
-      game.platforms,
-      game.media,
-      game.series,
-    ]);
+    const [tags, developers, publishers, platforms, media, series] =
+      await Promise.all([
+        game.tags,
+        game.developers,
+        game.publishers,
+        game.platforms,
+        game.media,
+        game.series,
+      ]);
 
     dto.tags = tags.map(({ id, name }) => ({ id, name }));
     dto.developers = developers.map(({ id, name }) => ({ id, name }));

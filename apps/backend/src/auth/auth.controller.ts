@@ -26,7 +26,6 @@ import jwtConfig from '../config/jwt.config';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 import { UserEntity } from 'src/user/entities/user.entity';
 
-
 @AuthControllerDoc.Controller()
 @Controller('auth')
 export class AuthController {
@@ -42,13 +41,13 @@ export class AuthController {
     res.cookie(this.jwt.accessTokenCookieName, accessToken, {
       httpOnly: true,
       secure: isHttps,
-      sameSite: isHttps  ? 'none' : 'lax',
+      sameSite: isHttps ? 'none' : 'lax',
       maxAge: this.jwt.accessTokenExpiresIn,
     });
     res.cookie(this.jwt.refreshTokenCookieName, refreshToken, {
       httpOnly: true,
       secure: isHttps,
-      sameSite: isHttps  ? 'none' : 'lax',
+      sameSite: isHttps ? 'none' : 'lax',
       maxAge: this.jwt.refreshTokenExpiresIn,
     });
   }
@@ -64,7 +63,10 @@ export class AuthController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ authRegister: {} })
   @Post('register')
-  register(@Body(DuplicatedEntryPipe(UserEntity, ['email', 'username'])) createUserDto: CreateUserDto) {
+  register(
+    @Body(DuplicatedEntryPipe(UserEntity, ['email', 'username']))
+    createUserDto: CreateUserDto,
+  ) {
     return this.authService.register(createUserDto);
   }
 
@@ -75,12 +77,16 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @User() user: { sub: string, permission: EmployeeRole | null },
+    @User() user: { sub: string; permission: EmployeeRole | null },
     @Ip() ip: string,
     @UserAgent() userAgent: string,
     @Response({ passthrough: true }) res,
   ) {
-    const tokens = await this.authService.login({ userId: user.sub, permission: user.permission }, ip, userAgent);
+    const tokens = await this.authService.login(
+      { userId: user.sub, permission: user.permission },
+      ip,
+      userAgent,
+    );
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 

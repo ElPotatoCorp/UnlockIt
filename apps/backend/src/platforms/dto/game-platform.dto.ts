@@ -1,5 +1,5 @@
-import { GamePlatform } from "@unlockit/shared";
-import { PlatformEntityDoc } from "src/docs/platforms/entities/platform.entity.doc";
+import { GamePlatform } from '@unlockit/shared';
+import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
 
 export class GamePlatformDto implements GamePlatform {
   @PlatformEntityDoc.Windows() windows: boolean;

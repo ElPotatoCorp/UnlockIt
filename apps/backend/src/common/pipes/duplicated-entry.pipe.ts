@@ -19,7 +19,7 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
 
   for (const field of uniqueFields) {
     const fieldValue = value?.[field];
-    
+
     if (fieldValue === undefined || fieldValue === null) {
       continue;
     }

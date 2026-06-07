@@ -18,15 +18,21 @@ async function specific(dataSource: DataSource, options: SpecificOptions) {
 
   if (!FactoryClass) {
     console.error(`Factory for entity "${options.entity}" not found.`);
-    console.log(`Available entities: ${Object.keys(FACTORY_REGISTRY).join(', ')}`);
+    console.log(
+      `Available entities: ${Object.keys(FACTORY_REGISTRY).join(', ')}`,
+    );
     process.exit(1);
   }
 
   const factory = new FactoryClass(dataSource);
-  console.log(`Seeding ${options.count} individual instance(s) of "${options.entity}"...`);
+  console.log(
+    `Seeding ${options.count} individual instance(s) of "${options.entity}"...`,
+  );
 
   const results = await factory.createMany(options.count);
-  console.log(`Successfully seeded ${results.length} row(s) into the database!`);
+  console.log(
+    `Successfully seeded ${results.length} row(s) into the database!`,
+  );
 }
 
 async function init(dataSource: DataSource) {
@@ -46,7 +52,9 @@ async function init(dataSource: DataSource) {
 async function seed() {
   // Production Safeguard
   if (process.env.NODE_ENV === 'production') {
-    console.error('ERROR: Database commands cannot be executed in a PRODUCTION environment!');
+    console.error(
+      'ERROR: Database commands cannot be executed in a PRODUCTION environment!',
+    );
     process.exit(1);
   }
 
@@ -65,7 +73,9 @@ async function seed() {
       await dataSource.initialize();
     }
     console.log('Connected to database');
-    options.entity ? await specific(dataSource, options) : await init(dataSource);
+    options.entity
+      ? await specific(dataSource, options)
+      : await init(dataSource);
   } catch (error) {
     console.error('Seeding failed:', error);
     process.exit(1);

@@ -10,7 +10,12 @@ import { EmployeeEntity } from '../employees/entities/employee.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, EmployeeEntity, UserProfileEntity, UserBillingEntity]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      EmployeeEntity,
+      UserProfileEntity,
+      UserBillingEntity,
+    ]),
     UploadModule,
   ],
   controllers: [UserController],

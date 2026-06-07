@@ -1,4 +1,4 @@
-import { GameTag, TagEntity } from "@unlockit/shared";
+import { GameTag, TagEntity } from '@unlockit/shared';
 
 export class GameTagDto implements GameTag {
   id: number;

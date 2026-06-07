@@ -1,5 +1,5 @@
-import { EmployeeRole } from "@unlockit/shared";
-import { IsEnum, IsUUID } from "class-validator";
+import { EmployeeRole } from '@unlockit/shared';
+import { IsEnum, IsUUID } from 'class-validator';
 
 export class CreateEmployeeDto {
   @IsUUID(4)

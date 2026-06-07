@@ -5,10 +5,17 @@ import { JWT_ACCESS_TOKEN_COOKIE_NAME } from './globals';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-export const httpsOptions = process.env.HTTPS === 'true' ? {
-  key:  readFileSync(join(process.env.SSL_DIR_PATH!, process.env.SSL_KEY_FILENAME!)),
-  cert: readFileSync(join(process.env.SSL_DIR_PATH!, process.env.SSL_CERT_FILENAME!)),
-} : undefined;
+export const httpsOptions =
+  process.env.HTTPS === 'true'
+    ? {
+        key: readFileSync(
+          join(process.env.SSL_DIR_PATH!, process.env.SSL_KEY_FILENAME!),
+        ),
+        cert: readFileSync(
+          join(process.env.SSL_DIR_PATH!, process.env.SSL_CERT_FILENAME!),
+        ),
+      }
+    : undefined;
 
 function applyAppDocumentation(app: INestApplication<any>): void {
   const config = new DocumentBuilder()
@@ -58,7 +65,8 @@ export default function applyAppParams(app: INestApplication<any>): void {
   );
 
   app.enableCors({
-    origin: process.env.NODE_ENV === 'development' ? true : process.env.FRONTEND_URL,
+    origin:
+      process.env.NODE_ENV === 'development' ? true : process.env.FRONTEND_URL,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

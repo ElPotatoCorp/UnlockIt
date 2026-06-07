@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { TicketStatus } from 'src/tickets/entities/ticket.entity';
- 
+
 export const TicketEntityDoc = {
   Id: () =>
     applyDecorators(
@@ -14,12 +14,13 @@ export const TicketEntityDoc = {
         readOnly: true,
       }),
     ),
- 
+
   Email: (required = true) =>
     applyDecorators(
       ApiProperty({
         title: 'Contact email',
-        description: 'Email address to use for replies. Does not have to match the account email.',
+        description:
+          'Email address to use for replies. Does not have to match the account email.',
         type: String,
         format: 'email',
         maxLength: 255,
@@ -27,12 +28,13 @@ export const TicketEntityDoc = {
         required: required,
       }),
     ),
- 
+
   Reason: (required = true) =>
     applyDecorators(
       ApiProperty({
         title: 'Reason',
-        description: 'Short subject line summarising the issue. Cannot be blank.',
+        description:
+          'Short subject line summarising the issue. Cannot be blank.',
         type: String,
         minLength: 1,
         maxLength: 255,
@@ -40,7 +42,7 @@ export const TicketEntityDoc = {
         required: required,
       }),
     ),
- 
+
   Content: (required = true) =>
     applyDecorators(
       ApiProperty({
@@ -48,16 +50,18 @@ export const TicketEntityDoc = {
         description: 'Full description of the issue. Cannot be blank.',
         type: String,
         minLength: 1,
-        example: 'After purchasing Black Ops I cannot find the product key in my library.',
+        example:
+          'After purchasing Black Ops I cannot find the product key in my library.',
         required: required,
       }),
     ),
- 
+
   Status: (required = true) =>
     applyDecorators(
       ApiProperty({
         title: 'Status',
-        description: 'Current state of the ticket. Only employees can change this.',
+        description:
+          'Current state of the ticket. Only employees can change this.',
         enum: TicketStatus,
         enumName: 'TicketStatus',
         example: TicketStatus.OPEN,
@@ -65,24 +69,26 @@ export const TicketEntityDoc = {
         required: required,
       }),
     ),
- 
+
   CreatedAt: () =>
     applyDecorators(
       ApiProperty({
         title: 'Created at',
-        description: 'Timestamp of ticket submission. Set automatically by the server.',
+        description:
+          'Timestamp of ticket submission. Set automatically by the server.',
         type: String,
         format: 'date-time',
         example: '2024-01-15T10:23:00Z',
         readOnly: true,
       }),
     ),
- 
+
   UserId: () =>
     applyDecorators(
       ApiProperty({
         title: 'User ID',
-        description: 'UUID of the user who submitted the ticket. Null for guest submissions.',
+        description:
+          'UUID of the user who submitted the ticket. Null for guest submissions.',
         type: String,
         format: 'uuid',
         example: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',

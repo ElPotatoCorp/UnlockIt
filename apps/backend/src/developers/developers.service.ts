@@ -10,18 +10,25 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 @Injectable()
 export class DevelopersService {
   constructor(
-    @InjectRepository(DeveloperEntity) private readonly developerRepository: Repository<DeveloperEntity>,
+    @InjectRepository(DeveloperEntity)
+    private readonly developerRepository: Repository<DeveloperEntity>,
     private readonly commonService: CommonService,
   ) {}
 
   async create(dto: CreateDeveloperDto): Promise<DeveloperEntity> {
-    const existing = await this.developerRepository.findOneBy({ name: dto.name });
-    if (existing) throw new ConflictException(`Developer '${dto.name}' already exists`);
+    const existing = await this.developerRepository.findOneBy({
+      name: dto.name,
+    });
+    if (existing)
+      throw new ConflictException(`Developer '${dto.name}' already exists`);
     return this.developerRepository.save(dto);
   }
 
   findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(this.developerRepository, paginationQueryDto);
+    return this.commonService.getPaginatedResponse(
+      this.developerRepository,
+      paginationQueryDto,
+    );
   }
 
   async update(id: number, dto: UpdateDeveloperDto): Promise<void> {
