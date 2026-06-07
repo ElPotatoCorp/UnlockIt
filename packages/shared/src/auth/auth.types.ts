@@ -1,4 +1,4 @@
-import { EmployeeRole } from "../user/user.enums";
+import { EmployeeRole } from "../employee/employee.enums";
 
 export type JwtPayload = {
   /** @summary Subject (user id) */

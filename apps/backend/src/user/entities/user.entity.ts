@@ -15,7 +15,7 @@ import { UserBillingEntity } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from "src/tickets/entities/ticket.entity";
-import { EmployeeEntity } from "./employee.entity";
+import { EmployeeEntity } from "../../employees/entities/employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
 import { UserEntity as IUserEntity } from '@unlockit/shared';
 

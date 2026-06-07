@@ -29,7 +29,8 @@ import { PublishersModule } from './publishers/publishers.module';
 import { PlatformsModule } from './platforms/platforms.module';
 import { MediaModule } from './media/media.module';
 import { TicketsModule } from './tickets/tickets.module';
-import { RolesGuard } from './common/guards/roles.guard';
+import { RolesGuard } from './employees/guards/roles.guard';
+import { EmployeesModule } from './employees/employees.module';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     PlatformsModule,
     MediaModule,
     TicketsModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [

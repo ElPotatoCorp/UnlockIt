@@ -3,7 +3,10 @@ export * from "./common/paginated.types";
 export * from "./auth/auth.types";
 
 export * from "./user/user.types"
-export * from "./user/user.enums"
+
+export * from "./employee/employee.types"
+export * from "./employee/employee.enums"
+export * from "./employee/employee.constants"
 
 export * from "./game/game.types";
 export * from "./game/game.enums";

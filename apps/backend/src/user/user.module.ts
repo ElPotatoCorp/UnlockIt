@@ -6,7 +6,7 @@ import { UserEntity } from './entities/user.entity';
 import { UploadModule } from 'src/upload/upload.module';
 import { UserProfileEntity } from './entities/user-profile.entity';
 import { UserBillingEntity } from './entities/user-billing.entity';
-import { EmployeeEntity } from './entities/employee.entity';
+import { EmployeeEntity } from '../employees/entities/employee.entity';
 
 @Module({
   imports: [

@@ -24,7 +24,7 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
-import { MinRole } from 'src/user/decorators/support-roles.decorator';
+import { MinRole } from 'src/employees/decorators/support-roles.decorator';
 import { EmployeeRole } from '@unlockit/shared';
 
 @GamesControllerDoc.Controller()
