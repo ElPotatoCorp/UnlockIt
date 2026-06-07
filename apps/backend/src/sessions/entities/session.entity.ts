@@ -15,7 +15,7 @@ import {
 @Check(`LENGTH(refresh_token_hash) = 64`)
 @Index('idx_sessions_user_id', ['user'])
 @Index('idx_sessions_expires_at', ['expiresAt'])
-export class Session {
+export class SessionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

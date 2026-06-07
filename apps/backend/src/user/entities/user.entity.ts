@@ -14,7 +14,7 @@ import {
 import { UserProfile } from './user-profile.entity';
 import { UserBilling } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
-import { Session } from 'src/sessions/entities/session.entity';
+import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { Ticket } from "src/tickets/entities/ticket.entity";
 import { Employee } from "./employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
@@ -99,11 +99,11 @@ export class User {
   })
   billing: Promise<UserBilling | null>;
 
-  @OneToMany(() => Session, (session) => session.user, {
+  @OneToMany(() => SessionEntity, (session) => session.user, {
     lazy: true,
     cascade: ['remove'],
   })
-  sessions: Promise<Session[]>;
+  sessions: Promise<SessionEntity[]>;
 
   @OneToMany(() => Ticket, (ticket) => ticket.user, {
     lazy: true,

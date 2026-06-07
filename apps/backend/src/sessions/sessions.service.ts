@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Session } from './entities/session.entity';
+import { SessionEntity } from './entities/session.entity';
 import { Repository } from 'typeorm';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
@@ -8,7 +8,7 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 @Injectable()
 export class SessionsService {
   constructor(
-    @InjectRepository(Session) private sessionRepository: Repository<Session>,
+    @InjectRepository(SessionEntity) private sessionRepository: Repository<SessionEntity>,
   ) {}
 
   createOrUpdate(session: CreateSessionDto) {
@@ -37,11 +37,11 @@ export class SessionsService {
     return this.sessionRepository.delete({ userId });
   }
 
-  isExpired(session: Session): boolean {
+  isExpired(session: SessionEntity): boolean {
     return session.expiresAt.getTime() < Date.now();
   }
 
-  async deleteExpired(session: Session): Promise<void> {
+  async deleteExpired(session: SessionEntity): Promise<void> {
     await this.sessionRepository.delete(session.id);
   }
 }
