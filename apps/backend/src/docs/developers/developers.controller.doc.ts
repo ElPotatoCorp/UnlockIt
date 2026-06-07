@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { PaginatedDto } from 'src/common/dto/paginated.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
-import { Developer } from 'src/developers/entities/developer.entity';
+import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { CreateDeveloperDto } from 'src/developers/dto/create-developer.dto';
 import { UpdateDeveloperDto } from 'src/developers/dto/update-developer.dto';
 
@@ -30,15 +30,15 @@ export const DevelopersControllerDoc = {
     ApiAuth(),
     ApiOperation({ summary: 'Create a developer', description: 'Admin only.' }),
     ApiBody({ type: CreateDeveloperDto }),
-    ApiCreatedResponse({ description: 'Developer created.', type: Developer }),
+    ApiCreatedResponse({ description: 'Developer created.', type: DeveloperEntity }),
     ApiConflictResponse({ description: 'A developer with this name already exists.' }),
     ApiBadRequestResponse({ description: 'Validation failed.' }),
   ),
 
   FindAll: () => applyDecorators(
     ApiOperation({ summary: 'List all developers', description: 'Public endpoint.' }),
-    ApiExtraModels(PaginatedDto, Developer),
-    ApiOkResponse({ description: 'Paginated list of developers.', schema: PaginatedDtoSchemaDoc(Developer) }),
+    ApiExtraModels(PaginatedDto, DeveloperEntity),
+    ApiOkResponse({ description: 'Paginated list of developers.', schema: PaginatedDtoSchemaDoc(DeveloperEntity) }),
     ApiBadRequestResponse({ description: 'Invalid pagination parameters.' }),
   ),
 

@@ -8,7 +8,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
 import { Tag } from 'src/tags/entities/tag.entity';
-import { Developer } from 'src/developers/entities/developer.entity';
+import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
 import { Media } from 'src/media/entities/media.entity';
@@ -87,7 +87,7 @@ export class GamesService {
   }
 
   // --- Developers ---
-  async addDeveloper(game: Game, developer: Developer): Promise<void> {
+  async addDeveloper(game: Game, developer: DeveloperEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(Game, 'developers')
@@ -95,7 +95,7 @@ export class GamesService {
       .add(developer.id);
   }
 
-  async removeDeveloper(game: Game, developer: Developer): Promise<void> {
+  async removeDeveloper(game: Game, developer: DeveloperEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(Game, 'developers')
@@ -103,7 +103,7 @@ export class GamesService {
       .remove(developer.id);
   }
 
-  async setDevelopers(game: Game, developers: Developer[]): Promise<void> {
+  async setDevelopers(game: Game, developers: DeveloperEntity[]): Promise<void> {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()

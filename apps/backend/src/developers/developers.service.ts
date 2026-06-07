@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
-import { Developer } from './entities/developer.entity';
+import { DeveloperEntity } from './entities/developer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
@@ -10,11 +10,11 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 @Injectable()
 export class DevelopersService {
   constructor(
-    @InjectRepository(Developer) private readonly developerRepository: Repository<Developer>,
+    @InjectRepository(DeveloperEntity) private readonly developerRepository: Repository<DeveloperEntity>,
     private readonly commonService: CommonService,
   ) {}
 
-  async create(dto: CreateDeveloperDto): Promise<Developer> {
+  async create(dto: CreateDeveloperDto): Promise<DeveloperEntity> {
     const existing = await this.developerRepository.findOneBy({ name: dto.name });
     if (existing) throw new ConflictException(`Developer '${dto.name}' already exists`);
     return this.developerRepository.save(dto);

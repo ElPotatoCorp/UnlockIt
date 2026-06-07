@@ -5,7 +5,7 @@ import {
   Game as IGame,
 } from '@unlockit/shared';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
-import { Developer } from 'src/developers/entities/developer.entity';
+import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { Media } from 'src/media/entities/media.entity';
 import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
@@ -130,13 +130,13 @@ export class Game implements IGame {
   })
   tags: Promise<Tag[]>;
 
-  @ManyToMany(() => Developer, (dev) => dev.games, { lazy: true })
+  @ManyToMany(() => DeveloperEntity, (dev) => dev.games, { lazy: true })
   @JoinTable({
     name: 'game_developers',
     joinColumn:        { name: 'game_id',      referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'developer_id', referencedColumnName: 'id' },
   })
-  developers: Promise<Developer[]>;
+  developers: Promise<DeveloperEntity[]>;
 
   @ManyToMany(() => Publisher, (pub) => pub.games, { lazy: true })
   @JoinTable({

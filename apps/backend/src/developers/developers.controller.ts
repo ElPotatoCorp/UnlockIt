@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestj
 import { DevelopersService } from './developers.service';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
-import { Developer } from './entities/developer.entity';
+import { DeveloperEntity } from './entities/developer.entity';
 import { DevelopersControllerDoc } from 'src/docs/developers/developers.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -29,7 +29,7 @@ export class DevelopersController {
   @DevelopersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(Developer)) developer: Developer,
+    @Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
     @Body() dto: UpdateDeveloperDto,
   ) {
     return this.developersService.update(developer.id, dto);
@@ -37,7 +37,7 @@ export class DevelopersController {
 
   @DevelopersControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(Developer)) developer: Developer) {
+  remove(@Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity) {
     return this.developersService.remove(developer.id);
   }
 }

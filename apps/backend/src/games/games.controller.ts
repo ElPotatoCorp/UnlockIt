@@ -18,7 +18,7 @@ import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
 import { Game } from './entities/game.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Tag } from 'src/tags/entities/tag.entity';
-import { Developer } from 'src/developers/entities/developer.entity';
+import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { Media } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
@@ -110,7 +110,7 @@ export class GamesController {
   @Post(':id/developers/:developerId')
   addDeveloper(
     @Param('id', EntityExistsPipe(Game)) game: Game,
-    @Param('developerId', EntityExistsPipe(Developer)) developer: Developer,
+    @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
   ) {
     return this.gamesService.addDeveloper(game, developer);
   }
@@ -120,7 +120,7 @@ export class GamesController {
   @Delete(':id/developers/:developerId')
   removeDeveloper(
     @Param('id', EntityExistsPipe(Game)) game: Game,
-    @Param('developerId', EntityExistsPipe(Developer)) developer: Developer,
+    @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
   ) {
     return this.gamesService.removeDeveloper(game, developer);
   }
