@@ -40,7 +40,14 @@ export class UserService {
     return await this.userBillingRepository.findOneBy({ userId: id }) ?? null;
   }
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    if (await this.userRepository.existsBy({ email: createUserDto.email })) {
+      throw new ConflictException("Email already taken");
+    }
+    if (await this.userRepository.existsBy({ username: createUserDto.username })) {
+      throw new ConflictException("Username already taken");
+    }
+    
     return this.userRepository.save(createUserDto);
   }
 
