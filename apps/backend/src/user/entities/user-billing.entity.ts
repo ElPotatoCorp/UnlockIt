@@ -8,10 +8,11 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { UserBillingEntity as IUserBillingEntity } from '@unlockit/shared';
 
 @Entity('user_billing')
 @Check(`"country" ~ '^[A-Z]{2}$'`)
-export class UserBillingEntity {
+export class UserBillingEntity implements IUserBillingEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 

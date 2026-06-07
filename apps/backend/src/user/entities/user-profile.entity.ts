@@ -8,12 +8,13 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { UserProfileEntity as IUserProfileEntity } from '@unlockit/shared';
 
 @Entity('user_profile')
 @Check(`"country" ~ '^[A-Z]{2}$' OR "country" IS NULL`)
 @Check(`"birthdate" < NOW() OR "birthdate" IS NULL`)
 @Check(`"birthdate" <= NOW() - INTERVAL '13 years' OR "birthdate" IS NULL`)
-export class UserProfileEntity {
+export class UserProfileEntity implements IUserProfileEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 

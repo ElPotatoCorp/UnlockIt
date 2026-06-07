@@ -1,6 +1,6 @@
 import { GameEntity, SummaryGame } from "../game/game.types";
 
-export type Series = {
+export type SeriesEntity = {
   id: number;
   name: string;
   slug: string;

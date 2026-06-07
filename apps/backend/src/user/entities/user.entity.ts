@@ -17,6 +17,7 @@ import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from "src/tickets/entities/ticket.entity";
 import { EmployeeEntity } from "./employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
+import { UserEntity as IUserEntity } from '@unlockit/shared';
 
 @Entity('users')
 @Unique(['username'])
@@ -26,7 +27,7 @@ import { genSalt, hash } from 'bcrypt-ts';
 @Check(`LENGTH(TRIM("username")) >= 3`)
 @Check(`LENGTH("bio") <= 500 OR "bio" IS NULL`)
 @Check(`"wallet" >= 0`)
-export class UserEntity {
+export class UserEntity implements IUserEntity {
   @UserEntityDoc.Id()
   @PrimaryGeneratedColumn('uuid')
   id: string;

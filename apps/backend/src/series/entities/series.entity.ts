@@ -1,9 +1,10 @@
+import { SeriesEntity as ISeriesEntity } from '@unlockit/shared';
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('series')
-export class SeriesEntity {
+export class SeriesEntity implements ISeriesEntity {
   @SeriesEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;

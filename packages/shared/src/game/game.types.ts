@@ -2,7 +2,7 @@ import { Developer, DeveloperEntity } from "../developer/developer.types";
 import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
 import { Publisher, PublisherEntity } from "../publisher/publisher.types";
-import { SummarySeries, Series } from "../series/series.types";
+import { SummarySeries, SeriesEntity } from "../series/series.types";
 import { Tag, TagEntity } from "../tag/tag.types";
 import { NullToOptional } from "../utils/types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
@@ -30,7 +30,7 @@ export type GameEntity = {
   // Relations
   // =====================================================
 
-  series: Promise<Series | null>;
+  series: Promise<SeriesEntity | null>;
   tags: Promise<TagEntity[]>;
   developers: Promise<DeveloperEntity[]>;
   publishers: Promise<PublisherEntity[]>;
