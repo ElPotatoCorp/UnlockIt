@@ -9,6 +9,8 @@ import {
   OneToOne,
   OneToMany,
   BeforeInsert,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { UserProfileEntity } from './user-profile.entity';
 import { UserBillingEntity } from './user-billing.entity';
@@ -18,6 +20,8 @@ import { TicketEntity } from "src/tickets/entities/ticket.entity";
 import { EmployeeEntity } from "../../employees/entities/employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
 import { UserEntity as IUserEntity } from '@unlockit/shared';
+import { GameEntity } from 'src/games/entities/game.entity';
+import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 
 @Entity('users')
 @Unique(['username'])
@@ -110,6 +114,9 @@ export class UserEntity implements IUserEntity {
     cascade: ['remove'],
   })
   tickets: Promise<TicketEntity[]>;
+
+  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
+  wishlist: Promise<WishlistEntity[]>;
 
   @BeforeInsert()
   async setPassword(password: string) {

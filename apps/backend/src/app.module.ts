@@ -31,6 +31,7 @@ import { MediaModule } from './media/media.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { RolesGuard } from './employees/guards/roles.guard';
 import { EmployeesModule } from './employees/employees.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -83,6 +84,7 @@ import { EmployeesModule } from './employees/employees.module';
     MediaModule,
     TicketsModule,
     EmployeesModule,
+    WishlistModule,
   ],
   controllers: [AppController],
   providers: [

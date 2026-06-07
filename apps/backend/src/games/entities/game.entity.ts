@@ -12,6 +12,8 @@ import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity'
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { SeriesEntity } from 'src/series/entities/series.entity';
 import { TagEntity } from 'src/tags/entities/tag.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import {
   Check,
   Column,
@@ -151,4 +153,7 @@ export class GameEntity implements IGameEntity {
 
   @OneToMany(() => MediaEntity, (media) => media.game, { lazy: true, cascade: true })
   media: Promise<MediaEntity[]>;
+
+  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.game, { lazy: true })
+  wishlists: Promise<WishlistEntity[]>;
 }

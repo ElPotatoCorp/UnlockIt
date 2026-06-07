@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   FindOptionsOrder,
+  FindOptionsRelations,
   FindOptionsWhere,
   ObjectLiteral,
   Repository,
@@ -10,8 +11,9 @@ import { PaginatedDto } from './dto/paginated.dto';
 
 export interface PaginatedResponseOptions<T extends ObjectLiteral, U> {
   where?: FindOptionsWhere<T>;
-  transform?: (entity: T) => U;
   order?: FindOptionsOrder<T>;
+  relations?: FindOptionsRelations<T>;
+  transform?: (entity: T) => U;
 }
 
 @Injectable()
@@ -42,6 +44,7 @@ export class CommonService {
     const [data, total] = await repository.findAndCount({
       where: options?.where,
       order: options?.order,
+      relations: options?.relations,
       skip: (page - 1) * limit,
       take: limit,
     });
