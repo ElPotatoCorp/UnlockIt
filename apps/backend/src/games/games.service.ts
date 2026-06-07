@@ -9,7 +9,7 @@ import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
-import { Publisher } from 'src/publishers/entities/publisher.entity';
+import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
@@ -122,7 +122,7 @@ export class GamesService {
   }
 
   // --- Publishers ---
-  async addPublisher(game: GameEntity, publisher: Publisher): Promise<void> {
+  async addPublisher(game: GameEntity, publisher: PublisherEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -130,7 +130,7 @@ export class GamesService {
       .add(publisher.id);
   }
 
-  async removePublisher(game: GameEntity, publisher: Publisher): Promise<void> {
+  async removePublisher(game: GameEntity, publisher: PublisherEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -138,7 +138,7 @@ export class GamesService {
       .remove(publisher.id);
   }
 
-  async setPublishers(game: GameEntity, publishers: Publisher[]): Promise<void> {
+  async setPublishers(game: GameEntity, publishers: PublisherEntity[]): Promise<void> {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()

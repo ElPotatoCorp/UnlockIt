@@ -1,5 +1,5 @@
 import { Publisher } from "@unlockit/shared";
-import { Publisher as PublisherEntity } from "../entities/publisher.entity";
+import { PublisherEntity as PublisherEntity } from "../entities/publisher.entity";
 
 export class PublisherDto implements Publisher {
   id: number;

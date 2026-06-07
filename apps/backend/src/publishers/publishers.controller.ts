@@ -1,7 +1,7 @@
 import { PublishersService } from './publishers.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
-import { Publisher } from './entities/publisher.entity';
+import { PublisherEntity } from './entities/publisher.entity';
 import { PublishersControllerDoc } from 'src/docs/publishers/publishers.controller.doc';
 import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -29,7 +29,7 @@ export class PublishersController {
   @PublishersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(Publisher)) publisher: Publisher,
+    @Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
     @Body() dto: UpdatePublisherDto,
   ) {
     return this.publishersService.update(publisher.id, dto);
@@ -37,7 +37,7 @@ export class PublishersController {
 
   @PublishersControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(Publisher)) publisher: Publisher) {
+  remove(@Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity) {
     return this.publishersService.remove(publisher.id);
   }
 }

@@ -19,7 +19,7 @@ import { GameEntity } from './entities/game.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
-import { Publisher } from 'src/publishers/entities/publisher.entity';
+import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
@@ -141,7 +141,7 @@ export class GamesController {
   @Post(':id/publishers/:publisherId')
   addPublisher(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('publisherId', EntityExistsPipe(Publisher)) publisher: Publisher,
+    @Param('publisherId', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
   ) {
     return this.gamesService.addPublisher(game, publisher);
   }
@@ -151,7 +151,7 @@ export class GamesController {
   @Delete(':id/publishers/:publisherId')
   removePublisher(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('publisherId', EntityExistsPipe(Publisher)) publisher: Publisher,
+    @Param('publisherId', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
   ) {
     return this.gamesService.removePublisher(game, publisher);
   }
