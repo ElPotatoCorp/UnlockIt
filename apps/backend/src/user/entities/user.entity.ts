@@ -16,7 +16,7 @@ import { UserBilling } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from "src/tickets/entities/ticket.entity";
-import { Employee } from "./employee.entity";
+import { EmployeeEntity } from "./employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
 
 @Entity('users')
@@ -78,12 +78,12 @@ export class User {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  @OneToOne(() => Employee, (employee) => employee.user, {
+  @OneToOne(() => EmployeeEntity, (employee) => employee.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  employee: Promise<Employee | null>;
+  employee: Promise<EmployeeEntity | null>;
 
   @OneToOne(() => UserProfile, (profile) => profile.user, {
     lazy: true,

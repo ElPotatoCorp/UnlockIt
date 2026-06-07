@@ -1,5 +1,5 @@
 import { EmployeeRole } from "@unlockit/shared";
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { User } from "./user.entity";
 
 export const ROLE_HIERARCHY: Record<EmployeeRole, number> = {
@@ -10,11 +10,12 @@ export const ROLE_HIERARCHY: Record<EmployeeRole, number> = {
 };
 
 @Entity('employees')
-export class Employee {
+export class EmployeeEntity {
   @PrimaryColumn('uuid')
   id: string;
 
   @OneToOne(() => User, { eager: true, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'id' })
   user: User;
 
   @Column('enum', { enum: EmployeeRole, default: EmployeeRole.SUPPORT })
