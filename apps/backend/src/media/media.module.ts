@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Media } from './entities/media.entity';
+import { MediaEntity } from './entities/media.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Media])],
+  imports: [TypeOrmModule.forFeature([MediaEntity])],
   exports: [TypeOrmModule]
 })
 export class MediaModule {}

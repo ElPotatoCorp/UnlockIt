@@ -7,7 +7,7 @@ import {
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
-import { Media } from 'src/media/entities/media.entity';
+import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { Series } from 'src/series/entities/series.entity';
@@ -149,6 +149,6 @@ export class GameEntity implements IGameEntity {
   @OneToOne(() => GamePlatform, (gp) => gp.game, { lazy: true, cascade: true })
   platforms: Promise<GamePlatform | null>;
 
-  @OneToMany(() => Media, (media) => media.game, { lazy: true, cascade: true })
-  media: Promise<Media[]>;
+  @OneToMany(() => MediaEntity, (media) => media.game, { lazy: true, cascade: true })
+  media: Promise<MediaEntity[]>;
 }

@@ -20,7 +20,7 @@ import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
-import { Media } from 'src/media/entities/media.entity';
+import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
@@ -193,7 +193,7 @@ export class GamesController {
   @Delete(':id/media/:mediaId')
   removeMedia(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('mediaId', EntityExistsPipe(Media)) media: Media,
+    @Param('mediaId', EntityExistsPipe(MediaEntity)) media: MediaEntity,
   ) {
     return this.gamesService.removeMedia(game, media);
   }

@@ -1,10 +1,10 @@
-import { MediaEntity, MediaType } from '@unlockit/shared';
+import { MediaEntity as IMediaEntity, MediaType } from '@unlockit/shared';
 import { MediaEntityDoc } from 'src/docs/media/entities/media.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('media')
-export class Media implements MediaEntity {
+export class MediaEntity implements IMediaEntity {
   @MediaEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;

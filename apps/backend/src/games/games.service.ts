@@ -11,7 +11,7 @@ import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
-import { Media } from 'src/media/entities/media.entity';
+import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { GameDetailDto } from './dto/game-detail.dto';
@@ -21,7 +21,7 @@ export class GamesService {
   constructor(
     @InjectRepository(GameEntity) private readonly gameRepository: Repository<GameEntity>,
     @InjectRepository(GamePlatform) private readonly platformRepository: Repository<GamePlatform>,
-    @InjectRepository(Media) private readonly mediaRepository: Repository<Media>,
+    @InjectRepository(MediaEntity) private readonly mediaRepository: Repository<MediaEntity>,
     private readonly commonService: CommonService,
   ) { }
 
@@ -166,11 +166,11 @@ export class GamesService {
   }
 
   // --- Media ---
-  async addMedia(game: GameEntity, dto: CreateMediaDto): Promise<Media> {
+  async addMedia(game: GameEntity, dto: CreateMediaDto): Promise<MediaEntity> {
     return this.mediaRepository.save({ gameId: game.id, ...dto });
   }
 
-  async removeMedia(game: GameEntity, media: Media): Promise<void> {
+  async removeMedia(game: GameEntity, media: MediaEntity): Promise<void> {
     await this.mediaRepository.delete(media.id);
   }
 
