@@ -1,0 +1,1 @@
+export type DuplicatedEntry<T> = { invalidFields: (keyof T)[]; messages: Partial<Record<keyof T, string>> }

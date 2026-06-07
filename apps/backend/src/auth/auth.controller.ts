@@ -23,6 +23,8 @@ import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { EmployeeRole } from '@unlockit/shared';
 import jwtConfig from '../config/jwt.config';
+import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 
 @AuthControllerDoc.Controller()
@@ -62,7 +64,7 @@ export class AuthController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ authRegister: {} })
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto) {
+  register(@Body(DuplicatedEntryPipe(UserEntity, ['email', 'username'])) createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 

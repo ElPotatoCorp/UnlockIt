@@ -1,4 +1,4 @@
-import { ConflictException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UploadService } from 'src/upload/upload.service';
@@ -10,7 +10,6 @@ import { UserProfileEntity } from './entities/user-profile.entity';
 import { UserBillingEntity } from './entities/user-billing.entity';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UploadSubdir } from 'src/upload/upload.constants';
-import { entityExists } from 'src/common/pipes/entity-exists.pipe';
 
 @Injectable()
 export class UserService {
@@ -42,13 +41,6 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    if (await this.userRepository.existsBy({ email: createUserDto.email })) {
-      throw new ConflictException("Email already taken");
-    }
-    if (await this.userRepository.existsBy({ username: createUserDto.username })) {
-      throw new ConflictException("Username already taken");
-    }
-    
     return this.userRepository.save(createUserDto);
   }
 
