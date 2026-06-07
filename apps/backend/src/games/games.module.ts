@@ -20,5 +20,6 @@ import { PublishersModule } from 'src/publishers/publishers.module';
   ],
   controllers: [GamesController],
   providers: [GamesService],
+  exports: [TypeOrmModule],
 })
 export class GamesModule {}
