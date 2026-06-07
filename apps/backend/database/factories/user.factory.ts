@@ -1,14 +1,14 @@
 import { hash, genSalt } from 'bcrypt-ts';
-import { User } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { Factory } from './base.factory';
 import { EntityTarget } from 'typeorm';
 
-export class UserFactory extends Factory<User> {
-  get entity(): EntityTarget<User> {
-    return User;
+export class UserFactory extends Factory<UserEntity> {
+  get entity(): EntityTarget<UserEntity> {
+    return UserEntity;
   }
 
-  async definition(): Promise<Partial<User>> {
+  async definition(): Promise<Partial<UserEntity>> {
     // Simple strong password without regex (avoids stack overflow)
     const randomStr = Math.random().toString(36).substring(2, 15);
     const password = `Test${randomStr}!Aa`;

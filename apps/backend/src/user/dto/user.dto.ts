@@ -1,4 +1,4 @@
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import {
   IsDateString,
@@ -14,7 +14,7 @@ import {
 import { IsUsername } from 'src/common/validators/username.validator';
 
 export class UserDto {
-  public static fromEntity(user: User, privacy = true): UserDto {
+  public static fromEntity(user: UserEntity, privacy = true): UserDto {
     const dto = new UserDto();
 
     dto.id = user.id;

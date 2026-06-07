@@ -7,17 +7,17 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('user_billing')
 @Check(`"country" ~ '^[A-Z]{2}$'`)
-export class UserBilling {
+export class UserBillingEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => User, (user) => user.billing)
+  @OneToOne(() => UserEntity, (user) => user.billing)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: UserEntity;
 
   @UserEntityDoc.FirstName(false)
   @Column('varchar', { name: 'first_name', length: 100 })

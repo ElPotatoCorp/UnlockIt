@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,
   Column,
@@ -42,7 +42,7 @@ export class TicketEntity {
   @Column('uuid', { name: 'user_id', nullable: true })
   userId: string | null;
  
-  @ManyToOne(() => User, (user) => user.tickets, { nullable: true, onDelete: 'SET NULL' })
+  @ManyToOne(() => UserEntity, (user) => user.tickets, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'user_id' })
-  user: User | null;
+  user: UserEntity | null;
 }

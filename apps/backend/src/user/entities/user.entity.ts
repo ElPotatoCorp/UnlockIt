@@ -8,11 +8,10 @@ import {
   CreateDateColumn,
   OneToOne,
   OneToMany,
-  JoinColumn,
   BeforeInsert,
 } from 'typeorm';
-import { UserProfile } from './user-profile.entity';
-import { UserBilling } from './user-billing.entity';
+import { UserProfileEntity } from './user-profile.entity';
+import { UserBillingEntity } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from "src/tickets/entities/ticket.entity";
@@ -27,7 +26,7 @@ import { genSalt, hash } from 'bcrypt-ts';
 @Check(`LENGTH(TRIM("username")) >= 3`)
 @Check(`LENGTH("bio") <= 500 OR "bio" IS NULL`)
 @Check(`"wallet" >= 0`)
-export class User {
+export class UserEntity {
   @UserEntityDoc.Id()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -85,19 +84,19 @@ export class User {
   })
   employee: Promise<EmployeeEntity | null>;
 
-  @OneToOne(() => UserProfile, (profile) => profile.user, {
+  @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  profile: Promise<UserProfile | null>;
+  profile: Promise<UserProfileEntity | null>;
 
-  @OneToOne(() => UserBilling, (billing) => billing.user, {
+  @OneToOne(() => UserBillingEntity, (billing) => billing.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  billing: Promise<UserBilling | null>;
+  billing: Promise<UserBillingEntity | null>;
 
   @OneToMany(() => SessionEntity, (session) => session.user, {
     lazy: true,

@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,
   Column,
@@ -58,11 +58,11 @@ export class SessionEntity {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  @ManyToOne(() => User, (user) => user.sessions, {
+  @ManyToOne(() => UserEntity, (user) => user.sessions, {
     lazy: true,
     onDelete: 'CASCADE',
     nullable: false,
   })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<User>;
+  user: Promise<UserEntity>;
 }

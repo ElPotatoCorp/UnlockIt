@@ -1,4 +1,4 @@
-import { UserProfile } from '../entities/user-profile.entity';
+import { UserProfileEntity } from '../entities/user-profile.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import {
   IsBoolean,
@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 
 export class UserProfileDto {
-  public static fromEntity(entity: UserProfile | null) {
+  public static fromEntity(entity: UserProfileEntity | null) {
     if (!entity) {
       return null;
     }

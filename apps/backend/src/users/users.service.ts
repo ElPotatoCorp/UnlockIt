@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user/entities/user.entity';
+import { UserEntity } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -10,7 +10,7 @@ import { EmployeeRole } from '@unlockit/shared';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
     private readonly commonService: CommonService,
   ) {}
 
@@ -34,7 +34,7 @@ export class UsersService {
     );
   }
 
-  findOne(where: FindOptionsWhere<User>, includeSensitive = false) {
+  findOne(where: FindOptionsWhere<UserEntity>, includeSensitive = false) {
     return this.userRepository.findOneBy(where).then((user) => {
       if (!user) {
         return null;

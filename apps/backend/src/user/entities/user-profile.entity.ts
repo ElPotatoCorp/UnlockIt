@@ -7,19 +7,19 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('user_profile')
 @Check(`"country" ~ '^[A-Z]{2}$' OR "country" IS NULL`)
 @Check(`"birthdate" < NOW() OR "birthdate" IS NULL`)
 @Check(`"birthdate" <= NOW() - INTERVAL '13 years' OR "birthdate" IS NULL`)
-export class UserProfile {
+export class UserProfileEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => User, (user) => user.profile)
+  @OneToOne(() => UserEntity, (user) => user.profile)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: UserEntity;
 
   @UserEntityDoc.FirstName(true)
   @Column('varchar', { name: 'first_name', length: 100, nullable: true })

@@ -1,9 +1,9 @@
-import { UserBilling } from '../entities/user-billing.entity';
+import { UserBillingEntity } from '../entities/user-billing.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
 
 export class UserBillingDto {
-  public static fromEntity(entity: UserBilling | null) {
+  public static fromEntity(entity: UserBillingEntity | null) {
     if (!entity) {
       return null;
     }

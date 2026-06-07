@@ -3,11 +3,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UploadService } from 'src/upload/upload.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { UserProfile } from './entities/user-profile.entity';
-import { UserBilling } from './entities/user-billing.entity';
+import { UserProfileEntity } from './entities/user-profile.entity';
+import { UserBillingEntity } from './entities/user-billing.entity';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UploadSubdir } from 'src/upload/upload.constants';
 
@@ -15,11 +15,11 @@ import { UploadSubdir } from 'src/upload/upload.constants';
 export class UserService {
   constructor(
     private readonly uploadService: UploadService,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @InjectRepository(UserProfile)
-    private readonly userProfileRepository: Repository<UserProfile>,
-    @InjectRepository(UserBilling)
-    private readonly userBillingRepository: Repository<UserBilling>,
+    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(UserProfileEntity)
+    private readonly userProfileRepository: Repository<UserProfileEntity>,
+    @InjectRepository(UserBillingEntity)
+    private readonly userBillingRepository: Repository<UserBillingEntity>,
   ) {}
 
   async index(id: string) {
