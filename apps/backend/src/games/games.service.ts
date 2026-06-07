@@ -10,7 +10,7 @@ import { CommonService } from 'src/common/common.service';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
-import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
+import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
@@ -20,7 +20,7 @@ import { GameDetailDto } from './dto/game-detail.dto';
 export class GamesService {
   constructor(
     @InjectRepository(GameEntity) private readonly gameRepository: Repository<GameEntity>,
-    @InjectRepository(GamePlatform) private readonly platformRepository: Repository<GamePlatform>,
+    @InjectRepository(GamePlatformEntity) private readonly platformRepository: Repository<GamePlatformEntity>,
     @InjectRepository(MediaEntity) private readonly mediaRepository: Repository<MediaEntity>,
     private readonly commonService: CommonService,
   ) { }

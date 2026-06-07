@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GamePlatform } from './entities/game-platform.entity';
+import { GamePlatformEntity } from './entities/game-platform.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([GamePlatform])],
+  imports: [TypeOrmModule.forFeature([GamePlatformEntity])],
   exports: [TypeOrmModule]
 })
 export class PlatformsModule {}

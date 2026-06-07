@@ -8,7 +8,7 @@ import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { MediaEntity } from 'src/media/entities/media.entity';
-import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
+import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { Publisher } from 'src/publishers/entities/publisher.entity';
 import { Series } from 'src/series/entities/series.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
@@ -146,8 +146,8 @@ export class GameEntity implements IGameEntity {
   })
   publishers: Promise<Publisher[]>;
 
-  @OneToOne(() => GamePlatform, (gp) => gp.game, { lazy: true, cascade: true })
-  platforms: Promise<GamePlatform | null>;
+  @OneToOne(() => GamePlatformEntity, (gp) => gp.game, { lazy: true, cascade: true })
+  platforms: Promise<GamePlatformEntity | null>;
 
   @OneToMany(() => MediaEntity, (media) => media.game, { lazy: true, cascade: true })
   media: Promise<MediaEntity[]>;
