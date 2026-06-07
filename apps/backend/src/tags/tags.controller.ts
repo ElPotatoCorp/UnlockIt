@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestj
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { Tag } from './entities/tag.entity';
+import { TagEntity } from './entities/tag.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -29,7 +29,7 @@ export class TagsController {
   @TagsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(Tag)) tag: Tag,
+    @Param('id', EntityExistsPipe(TagEntity)) tag: TagEntity,
     @Body() dto: UpdateTagDto,
   ) {
     return this.tagsService.update(tag.id, dto);
@@ -37,7 +37,7 @@ export class TagsController {
 
   @TagsControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(Tag)) tag: Tag) {
+  remove(@Param('id', EntityExistsPipe(TagEntity)) tag: TagEntity) {
     return this.tagsService.remove(tag.id);
   }
 }

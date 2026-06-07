@@ -1,10 +1,10 @@
 import { TagEntityDoc } from 'src/docs/tags/entities/tag.entity.doc';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { GameEntity } from 'src/games/entities/game.entity';
-import { TagEntity } from '@unlockit/shared';
+import { TagEntity as ITagEntity } from '@unlockit/shared';
 
 @Entity('tags')
-export class Tag implements TagEntity {
+export class TagEntity implements ITagEntity {
   @TagEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;

@@ -17,7 +17,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
 import { GameEntity } from './entities/game.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { MediaEntity } from 'src/media/entities/media.entity';
@@ -76,7 +76,7 @@ export class GamesController {
   @Post(':id/tags/:tagId')
   addTag(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('tagId', EntityExistsPipe(Tag)) tag: Tag,
+    @Param('tagId', EntityExistsPipe(TagEntity)) tag: TagEntity,
   ) {
     return this.gamesService.addTag(game, tag);
   }
@@ -86,7 +86,7 @@ export class GamesController {
   @Delete(':id/tags/:tagId')
   removeTag(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('tagId', EntityExistsPipe(Tag)) tag: Tag,
+    @Param('tagId', EntityExistsPipe(TagEntity)) tag: TagEntity,
   ) {
     return this.gamesService.removeTag(game, tag);
   }

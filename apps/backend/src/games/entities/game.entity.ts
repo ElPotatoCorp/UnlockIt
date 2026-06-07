@@ -11,7 +11,7 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { SeriesEntity } from 'src/series/entities/series.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { TagEntity } from 'src/tags/entities/tag.entity';
 import {
   Check,
   Column,
@@ -122,13 +122,13 @@ export class GameEntity implements IGameEntity {
   @JoinColumn({ name: 'series_id' })
   series: Promise<SeriesEntity>;
 
-  @ManyToMany(() => Tag, (tag) => tag.games, { lazy: true })
+  @ManyToMany(() => TagEntity, (tag) => tag.games, { lazy: true })
   @JoinTable({
     name: 'game_tags',
     joinColumn:        { name: 'game_id',  referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'tag_id',   referencedColumnName: 'id' },
   })
-  tags: Promise<Tag[]>;
+  tags: Promise<TagEntity[]>;
 
   @ManyToMany(() => DeveloperEntity, (dev) => dev.games, { lazy: true })
   @JoinTable({

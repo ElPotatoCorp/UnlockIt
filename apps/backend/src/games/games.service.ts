@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
@@ -52,7 +52,7 @@ export class GamesService {
   }
 
   // --- Tags ---
-  async addTag(game: GameEntity, tag: Tag): Promise<void> {
+  async addTag(game: GameEntity, tag: TagEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -60,7 +60,7 @@ export class GamesService {
       .add(tag.id);
   }
 
-  async removeTag(game: GameEntity, tag: Tag): Promise<void> {
+  async removeTag(game: GameEntity, tag: TagEntity): Promise<void> {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -68,7 +68,7 @@ export class GamesService {
       .remove(tag.id);
   }
 
-  async setTags(game: GameEntity, tags: Tag[]): Promise<void> {
+  async setTags(game: GameEntity, tags: TagEntity[]): Promise<void> {
     const current = await game.tags;
     await this.gameRepository
       .createQueryBuilder()
