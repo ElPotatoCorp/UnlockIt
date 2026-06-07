@@ -1,4 +1,4 @@
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { Developer, EUAgeRating, GameDetail, GamePlatform, GameType, LangCode, Media, Publisher, Tag } from '@unlockit/shared';
 import { SummarySeriesDto } from 'src/series/dto/summary-series.dto';
 
@@ -27,7 +27,7 @@ export class GameDetailDto implements GameDetail {
   media: Media[];
   series: SummarySeriesDto | null;
 
-  static async fromEntity(game: Game): Promise<GameDetailDto> {
+  static async fromEntity(game: GameEntity): Promise<GameDetailDto> {
     const dto = new GameDetailDto();
 
     dto.id                  = game.id;

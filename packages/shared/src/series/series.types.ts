@@ -1,10 +1,10 @@
-import { Game, SummaryGame } from "../game/game.types";
+import { GameEntity, SummaryGame } from "../game/game.types";
 
 export type Series = {
   id: number;
   name: string;
   slug: string;
-  games: Promise<Game[]>;
+  games: Promise<GameEntity[]>;
 }
 
 export type SummarySeries = {

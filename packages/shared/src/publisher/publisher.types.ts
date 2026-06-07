@@ -1,10 +1,10 @@
-import { Game } from "../game/game.types";
+import { GameEntity } from "../game/game.types";
 
 export type PublisherEntity = {
   id: number;
   name: string;
   gamesCount: number;
-  games: Promise<Game[]>;
+  games: Promise<GameEntity[]>;
 };
 
 export type Publisher = Pick<PublisherEntity, 'id' | 'name'>;

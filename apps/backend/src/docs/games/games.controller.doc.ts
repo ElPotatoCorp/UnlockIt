@@ -17,7 +17,7 @@ import { CreateGameDto } from 'src/games/dto/create-game.dto';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { UpdateGameDto } from 'src/games/dto/update-game.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
@@ -45,7 +45,7 @@ export const GamesControllerDoc = {
       }),
       ApiCreatedResponse({
         description: 'Game created successfully.',
-        type: Game,
+        type: GameEntity,
       }),
       ApiBadRequestResponse({
         description:
@@ -87,7 +87,7 @@ export const GamesControllerDoc = {
       }),
       ApiOkResponse({
         description: 'Game found.',
-        type: Game,
+        type: GameEntity,
       }),
       ApiNotFoundResponse({
         description: 'No game found with the specified ID.',

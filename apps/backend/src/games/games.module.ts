@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { GamesController } from './games.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Game } from './entities/game.entity';
+import { GameEntity } from './entities/game.entity';
 import { UploadModule } from 'src/upload/upload.module';
 import { TagsModule } from 'src/tags/tags.module';
 import { DevelopersModule } from 'src/developers/developers.module';
@@ -12,7 +12,7 @@ import { PublishersModule } from 'src/publishers/publishers.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Game, GamePlatform, Media]),
+    TypeOrmModule.forFeature([GameEntity, GamePlatform, Media]),
     TagsModule,
     DevelopersModule,
     PublishersModule,

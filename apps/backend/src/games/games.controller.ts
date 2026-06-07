@@ -15,7 +15,7 @@ import { UpdateGameDto } from './dto/update-game.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
-import { Game } from './entities/game.entity';
+import { GameEntity } from './entities/game.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
@@ -57,7 +57,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() updateGameDto: UpdateGameDto,
   ) {
     return this.gamesService.update(game.id, updateGameDto);
@@ -66,7 +66,7 @@ export class GamesController {
   @GamesControllerDoc.Remove()
   @MinRole(EmployeeRole.SUPER_ADMIN)
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(Game)) game: Game) {
+  remove(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity) {
     return this.gamesService.remove(game.id);
   }
 
@@ -75,7 +75,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/tags/:tagId')
   addTag(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('tagId', EntityExistsPipe(Tag)) tag: Tag,
   ) {
     return this.gamesService.addTag(game, tag);
@@ -85,7 +85,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/tags/:tagId')
   removeTag(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('tagId', EntityExistsPipe(Tag)) tag: Tag,
   ) {
     return this.gamesService.removeTag(game, tag);
@@ -95,7 +95,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/tags')
   setTags(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     // Resolve tag entities then bulk replace
@@ -109,7 +109,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/developers/:developerId')
   addDeveloper(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
   ) {
     return this.gamesService.addDeveloper(game, developer);
@@ -119,7 +119,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/developers/:developerId')
   removeDeveloper(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('developerId', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
   ) {
     return this.gamesService.removeDeveloper(game, developer);
@@ -129,7 +129,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/developers')
   setDevelopers(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setDevelopersById(game, dto.ids);
@@ -140,7 +140,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/publishers/:publisherId')
   addPublisher(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('publisherId', EntityExistsPipe(Publisher)) publisher: Publisher,
   ) {
     return this.gamesService.addPublisher(game, publisher);
@@ -150,7 +150,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/publishers/:publisherId')
   removePublisher(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('publisherId', EntityExistsPipe(Publisher)) publisher: Publisher,
   ) {
     return this.gamesService.removePublisher(game, publisher);
@@ -160,7 +160,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/publishers')
   setPublishers(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setPublishersById(game, dto.ids);
@@ -171,7 +171,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/platforms')
   upsertPlatforms(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: UpdatePlatformDto,
   ) {
     return this.gamesService.upsertPlatforms(game, dto);
@@ -182,7 +182,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/media')
   addMedia(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: CreateMediaDto,
   ) {
     return this.gamesService.addMedia(game, dto);
@@ -192,7 +192,7 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/media/:mediaId')
   removeMedia(
-    @Param('id', EntityExistsPipe(Game)) game: Game,
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Param('mediaId', EntityExistsPipe(Media)) media: Media,
   ) {
     return this.gamesService.removeMedia(game, media);

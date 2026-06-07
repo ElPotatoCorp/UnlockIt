@@ -1,5 +1,5 @@
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('series')
@@ -21,6 +21,6 @@ export class Series {
   // =====================================================
 
   @SeriesEntityDoc.Games()
-  @OneToMany(() => Game, (game) => game.series, { lazy: true })
-  games: Promise<Game[]>;
+  @OneToMany(() => GameEntity, (game) => game.series, { lazy: true })
+  games: Promise<GameEntity[]>;
 }

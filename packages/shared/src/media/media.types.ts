@@ -1,10 +1,10 @@
-import { Game } from "../game/game.types";
+import { GameEntity } from "../game/game.types";
 import { MediaType } from "./media.enums";
 
 export type MediaEntity = {
   id: number;
   gameId: number;
-  game: Game;
+  game: GameEntity;
   url: string;
   /** @default MediaType.IMAGE */
   type: MediaType;

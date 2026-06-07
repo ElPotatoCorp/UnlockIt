@@ -1,5 +1,5 @@
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
-import { Game } from '../entities/game.entity';
+import { GameEntity } from '../entities/game.entity';
 import { EUAgeRating, GameType } from '@unlockit/shared';
 
 export class SummaryGameDto {
@@ -30,7 +30,7 @@ export class SummaryGameDto {
   @GameEntityDoc.ShortDescription()
   shortDescription: string;
 
-  static fromEntity(game: Game): SummaryGameDto {
+  static fromEntity(game: GameEntity): SummaryGameDto {
     const dto = new SummaryGameDto();
     dto.id               = game.id;
     dto.name             = game.name;

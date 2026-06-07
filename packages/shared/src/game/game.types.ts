@@ -7,7 +7,7 @@ import { Tag, TagEntity } from "../tag/tag.types";
 import { NullToOptional } from "../utils/types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
-export type Game = {
+export type GameEntity = {
   id: number;
   name: string;
   slug: string;
@@ -38,13 +38,13 @@ export type Game = {
   media: Promise<MediaEntity[]>;
 };
 
-export type CreateGame = NullToOptional<Omit<Game, 'id' | 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'>>;
+export type CreateGame = NullToOptional<Omit<GameEntity, 'id' | 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'>>;
 
 export type UpdateGame = Partial<CreateGame>;
 
-export type SummaryGame = Pick<Game, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'>;
+export type SummaryGame = Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'>;
 
-export type GameDetail = Omit<Game, 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'> & {
+export type GameDetail = Omit<GameEntity, 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'> & {
   tags: Tag[];
   developers: Developer[];
   publishers: Publisher[];

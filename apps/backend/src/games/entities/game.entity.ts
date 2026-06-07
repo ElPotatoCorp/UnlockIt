@@ -2,7 +2,7 @@ import {
   EUAgeRating,
   GameType,
   LangCode,
-  Game as IGame,
+  GameEntity as IGameEntity,
 } from '@unlockit/shared';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
@@ -28,7 +28,7 @@ import {
 @Entity('games')
 @Check(`"price" >= 0`)
 @Check(`"metacritic_score" BETWEEN 0 AND 100 OR "metacritic_score" IS NULL`)
-export class Game implements IGame {
+export class GameEntity implements IGameEntity {
   @GameEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;

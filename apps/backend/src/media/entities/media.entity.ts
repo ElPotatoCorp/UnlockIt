@@ -1,6 +1,6 @@
 import { MediaEntity, MediaType } from '@unlockit/shared';
 import { MediaEntityDoc } from 'src/docs/media/entities/media.entity.doc';
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('media')
@@ -13,9 +13,9 @@ export class Media implements MediaEntity {
   @Column('bigint', { name: 'game_id' })
   gameId: number;
 
-  @ManyToOne(() => Game, { onDelete: 'CASCADE' })
+  @ManyToOne(() => GameEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'game_id' })
-  game: Game;
+  game: GameEntity;
 
   @MediaEntityDoc.Url()
   @Column('varchar', { length: 255 })

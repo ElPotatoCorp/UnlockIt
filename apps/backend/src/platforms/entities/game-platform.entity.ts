@@ -1,6 +1,6 @@
 import { GamePlatformEntity } from '@unlockit/shared';
 import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { OneToOne, JoinColumn, Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('game_platforms')
@@ -8,9 +8,9 @@ export class GamePlatform implements GamePlatformEntity {
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
-  @OneToOne(() => Game, { onDelete: 'CASCADE' })
+  @OneToOne(() => GameEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'game_id' })
-  game: Game;
+  game: GameEntity;
 
   @PlatformEntityDoc.Windows()
   @Column('boolean', { default: false })

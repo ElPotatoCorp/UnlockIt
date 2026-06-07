@@ -1,4 +1,4 @@
-import { Game } from "../game/game.types";
+import { GameEntity } from "../game/game.types";
 
 export type DeveloperEntity = {
   id: number;
@@ -7,7 +7,7 @@ export type DeveloperEntity = {
 
   gamesCount: number;
 
-  games: Promise<Game[]>;
+  games: Promise<GameEntity[]>;
 };
 
 export type Developer = Pick<DeveloperEntity, 'id' | 'name'>;

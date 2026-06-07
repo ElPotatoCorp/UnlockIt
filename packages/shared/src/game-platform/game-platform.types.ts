@@ -1,8 +1,8 @@
-import { Game } from "../game/game.types";
+import { GameEntity } from "../game/game.types";
 
 export type GamePlatformEntity = {
   gameId: number;
-  game: Game;
+  game: GameEntity;
   windows: boolean;
   mac: boolean;
   linux: boolean;

@@ -1,6 +1,6 @@
 import { DeveloperEntity as IDeveloperEntity } from '@unlockit/shared';
 import { DeveloperEntityDoc } from 'src/docs/developers/entities/developer.entity.doc';
-import { Game } from 'src/games/entities/game.entity';
+import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('developers')
@@ -17,6 +17,6 @@ export class DeveloperEntity implements IDeveloperEntity {
   @Column('int', { name: 'games_count', default: 0 })
   gamesCount: number;
 
-  @ManyToMany(() => Game, (game) => game.developers, { lazy: true })
-  games: Promise<Game[]>;
+  @ManyToMany(() => GameEntity, (game) => game.developers, { lazy: true })
+  games: Promise<GameEntity[]>;
 }
