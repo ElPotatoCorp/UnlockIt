@@ -21,7 +21,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
-import { Ticket } from './entities/ticket.entity';
+import { TicketEntity } from './entities/ticket.entity';
  
 @TicketsControllerDoc.Controller()
 @Controller('tickets')
@@ -60,7 +60,7 @@ export class TicketsController {
   @TicketsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(Ticket)) ticket: Ticket,
+    @Param('id', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
     @Body() updateTicketDto: UpdateTicketDto,
     @User() user: JwtPayloadDto,
   ) {
@@ -75,7 +75,7 @@ export class TicketsController {
   @Delete(':id')
   @HttpCode(204)
   remove(
-    @Param('id', EntityExistsPipe(Ticket)) ticket: Ticket,
+    @Param('id', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
     @User() user: JwtPayloadDto,
   ) {
     if (user.permission === null) {

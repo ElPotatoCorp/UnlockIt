@@ -19,7 +19,7 @@ export enum TicketStatus {
 @Entity('tickets')
 @Check(`LENGTH(TRIM(reason)) > 0`)
 @Check(`LENGTH(TRIM(content)) > 0`)
-export class Ticket {
+export class TicketEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
  

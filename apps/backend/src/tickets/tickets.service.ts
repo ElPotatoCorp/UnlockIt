@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Not, Repository } from 'typeorm';
-import { Ticket } from './entities/ticket.entity';
+import { TicketEntity } from './entities/ticket.entity';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { TicketDto } from './dto/ticket.dto';
@@ -14,15 +14,15 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
  
 // Password reset tickets are internal, never exposed via the public API
-const EXCLUDE_RESET_PASSWORD: FindOptionsWhere<Ticket> = {
+const EXCLUDE_RESET_PASSWORD: FindOptionsWhere<TicketEntity> = {
   reason: Not('RESET PASSWORD'),
 };
  
 @Injectable()
 export class TicketsService {
   constructor(
-    @InjectRepository(Ticket)
-    private readonly ticketRepository: Repository<Ticket>,
+    @InjectRepository(TicketEntity)
+    private readonly ticketRepository: Repository<TicketEntity>,
     private readonly commonService: CommonService,
   ) {}
  
@@ -40,7 +40,7 @@ export class TicketsService {
  
   findAll(user: JwtPayloadDto, paginationQueryDto: PaginationQueryDto) {
     // Employees see everything; regular users see only their own
-    const ownerFilter: FindOptionsWhere<Ticket> =
+    const ownerFilter: FindOptionsWhere<TicketEntity> =
       user.permission !== null ? {} : { userId: user.sub };
  
     return this.commonService.getPaginatedResponse(
@@ -67,7 +67,7 @@ export class TicketsService {
   }
  
   async update(
-    ticket: Ticket,
+    ticket: TicketEntity,
     dto: UpdateTicketDto,
   ): Promise<TicketDto> {
     await this.ticketRepository.update(ticket.id, dto);
@@ -75,7 +75,7 @@ export class TicketsService {
     return TicketDto.fromEntity({ ...ticket, ...dto });
   }
  
-  async remove(ticket: Ticket): Promise<void> {
+  async remove(ticket: TicketEntity): Promise<void> {
     await this.ticketRepository.delete(ticket.id);
   }
 }

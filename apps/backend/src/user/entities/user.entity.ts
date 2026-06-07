@@ -15,7 +15,7 @@ import { UserProfile } from './user-profile.entity';
 import { UserBilling } from './user-billing.entity';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
-import { Ticket } from "src/tickets/entities/ticket.entity";
+import { TicketEntity } from "src/tickets/entities/ticket.entity";
 import { Employee } from "./employee.entity";
 import { genSalt, hash } from 'bcrypt-ts';
 
@@ -105,11 +105,11 @@ export class User {
   })
   sessions: Promise<SessionEntity[]>;
 
-  @OneToMany(() => Ticket, (ticket) => ticket.user, {
+  @OneToMany(() => TicketEntity, (ticket) => ticket.user, {
     lazy: true,
     cascade: ['remove'],
   })
-  tickets: Promise<Ticket[]>;
+  tickets: Promise<TicketEntity[]>;
 
   @BeforeInsert()
   async setPassword(password: string) {

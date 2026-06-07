@@ -1,5 +1,5 @@
 import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
-import { Ticket, TicketStatus } from '../entities/ticket.entity';
+import { TicketEntity, TicketStatus } from '../entities/ticket.entity';
  
 export class TicketDto {
   @TicketEntityDoc.Id()
@@ -23,7 +23,7 @@ export class TicketDto {
   @TicketEntityDoc.UserId()
   userId: string | null;
  
-  static fromEntity(ticket: Ticket): TicketDto {
+  static fromEntity(ticket: TicketEntity): TicketDto {
     const dto        = new TicketDto();
     dto.id        = ticket.id;
     dto.email     = ticket.email;
