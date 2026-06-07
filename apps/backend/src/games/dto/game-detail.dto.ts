@@ -1,8 +1,8 @@
 import { Game } from 'src/games/entities/game.entity';
-import { EUAgeRating, GameType, LangCode } from '@unlockit/shared';
-import { GamePlatform } from 'src/platforms/entities/game-platform.entity';
+import { Developer, EUAgeRating, GameDetail, GamePlatform, GameType, LangCode, Media, Publisher, Tag } from '@unlockit/shared';
+import { SummarySeriesDto } from 'src/series/dto/summary-series.dto';
 
-export class GameDetailDto {
+export class GameDetailDto implements GameDetail {
   id: number;
   name: string;
   slug: string;
@@ -20,12 +20,12 @@ export class GameDetailDto {
   website: string | null;
   pcRequirements: string | null;
   supportedLanguages: LangCode[] | null;
-  tags: { id: number; name: string }[];
-  developers: { id: number; name: string }[];
-  publishers: { id: number; name: string }[];
-  platforms: Omit<GamePlatform, 'gameId' | 'game'> | null;
-  media: { id: number; url: string; type: string | null }[];
-  seriesId: number | null;
+  tags: Tag[];
+  developers: Developer[];
+  publishers: Publisher[];
+  platforms: GamePlatform | null;
+  media: Media[];
+  series: SummarySeriesDto | null;
 
   static async fromEntity(game: Game): Promise<GameDetailDto> {
     const dto = new GameDetailDto();
@@ -61,7 +61,7 @@ export class GameDetailDto {
     dto.developers  = developers.map(({ id, name }) => ({ id, name }));
     dto.publishers  = publishers.map(({ id, name }) => ({ id, name }));
     dto.media       = media.map(({ id, url, type }) => ({ id, url, type }));
-    dto.seriesId    = series?.id ?? null;
+    dto.series      = series?.id ?? null;
 
     if (platforms) {
       const { gameId: _, game: __, ...platformFlags } = platforms as any;

@@ -1,11 +1,9 @@
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { Series } from '../entities/series.entity';
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
+import { SummarySeries } from '@unlockit/shared';
 
-export class SummarySeriesDto {
-  @SeriesEntityDoc.Id()
-  id: number;
-
+export class SummarySeriesDto implements SummarySeries {
   @SeriesEntityDoc.Name()
   name: string;
 
@@ -17,7 +15,6 @@ export class SummarySeriesDto {
 
   static async fromEntity(series: Series): Promise<SummarySeriesDto> {
     const summarySeriesDto = new SummarySeriesDto();
-    summarySeriesDto.id = series.id;
     summarySeriesDto.name = series.name;
     summarySeriesDto.slug = series.slug;
     summarySeriesDto.games = series.games
