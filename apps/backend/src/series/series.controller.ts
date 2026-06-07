@@ -17,7 +17,7 @@ import { Like } from 'typeorm';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
-import { Series } from './entities/series.entity';
+import { SeriesEntity } from './entities/series.entity';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 import { SeriesControllerDoc } from 'src/docs/series/series.controller.doc';
 
@@ -41,7 +41,7 @@ export class SeriesController {
   @SeriesControllerDoc.FindOne()
   @Public()
   @Get(':id')
-  findOne(@Param('id', EntityExistsPipe(Series)) series: Series) {
+  findOne(@Param('id', EntityExistsPipe(SeriesEntity)) series: SeriesEntity) {
     return series;
   }
 
@@ -56,7 +56,7 @@ export class SeriesController {
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   update(
-    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Param('id', EntityExistsPipe(SeriesEntity)) series: SeriesEntity,
     @Body() updateSeriesDto: UpdateSeriesDto,
   ) {
     return this.seriesService.update(series.id, updateSeriesDto);
@@ -66,7 +66,7 @@ export class SeriesController {
   @Patch(':id/games')
   @HttpCode(HttpStatus.NO_CONTENT)
   modifyGames(
-    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Param('id', EntityExistsPipe(SeriesEntity)) series: SeriesEntity,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
     return this.seriesService.modifyGames(
@@ -79,7 +79,7 @@ export class SeriesController {
   @SeriesControllerDoc.Remove()
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', EntityExistsPipe(Series)) series: Series) {
+  remove(@Param('id', EntityExistsPipe(SeriesEntity)) series: SeriesEntity) {
     return this.seriesService.remove(series.id);
   }
 
@@ -87,7 +87,7 @@ export class SeriesController {
   @Delete(':id/games')
   @HttpCode(HttpStatus.NO_CONTENT)
   removeGames(
-    @Param('id', EntityExistsPipe(Series)) series: Series,
+    @Param('id', EntityExistsPipe(SeriesEntity)) series: SeriesEntity,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
     return this.seriesService.modifyGames(

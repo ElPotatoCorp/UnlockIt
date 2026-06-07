@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Series } from './entities/series.entity';
+import { SeriesEntity } from './entities/series.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
@@ -12,8 +12,8 @@ import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 @Injectable()
 export class SeriesService {
   constructor(
-    @InjectRepository(Series)
-    private readonly seriesRepository: Repository<Series>,
+    @InjectRepository(SeriesEntity)
+    private readonly seriesRepository: Repository<SeriesEntity>,
     private readonly commonService: CommonService,
   ) {}
 
@@ -25,7 +25,7 @@ export class SeriesService {
     if (gameIds?.length) {
       await this.seriesRepository
         .createQueryBuilder()
-        .relation(Series, 'games')
+        .relation(SeriesEntity, 'games')
         .of(series.id)
         .add(gameIds);
     }
@@ -41,7 +41,7 @@ export class SeriesService {
   }
 
   async findOne(
-    where: FindOptionsWhere<Series>,
+    where: FindOptionsWhere<SeriesEntity>,
     msg: string,
   ): Promise<SummarySeriesDto> {
     const series = await this.seriesRepository.findOne({
@@ -65,7 +65,7 @@ export class SeriesService {
   ) {
     const relation = this.seriesRepository
       .createQueryBuilder()
-      .relation(Series, 'games')
+      .relation(SeriesEntity, 'games')
       .of(id);
 
     if (action === 'add') {

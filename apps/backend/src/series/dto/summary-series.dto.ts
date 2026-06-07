@@ -1,5 +1,5 @@
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
-import { Series } from '../entities/series.entity';
+import { SeriesEntity } from '../entities/series.entity';
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
 import { SummarySeries } from '@unlockit/shared';
 
@@ -13,7 +13,7 @@ export class SummarySeriesDto implements SummarySeries {
   @SeriesEntityDoc.Games()
   games: SummaryGameDto[];
 
-  static async fromEntity(series: Series): Promise<SummarySeriesDto> {
+  static async fromEntity(series: SeriesEntity): Promise<SummarySeriesDto> {
     const summarySeriesDto = new SummarySeriesDto();
     summarySeriesDto.name = series.name;
     summarySeriesDto.slug = series.slug;

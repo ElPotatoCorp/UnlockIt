@@ -10,7 +10,7 @@ import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
-import { Series } from 'src/series/entities/series.entity';
+import { SeriesEntity } from 'src/series/entities/series.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 import {
   Check,
@@ -115,12 +115,12 @@ export class GameEntity implements IGameEntity {
   // Relations
   // =====================================================
 
-  @ManyToOne(() => Series, (series) => series.games, {
+  @ManyToOne(() => SeriesEntity, (series) => series.games, {
     lazy: true,
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'series_id' })
-  series: Promise<Series>;
+  series: Promise<SeriesEntity>;
 
   @ManyToMany(() => Tag, (tag) => tag.games, { lazy: true })
   @JoinTable({

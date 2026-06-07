@@ -3,7 +3,7 @@ import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('series')
-export class Series {
+export class SeriesEntity {
   @SeriesEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
