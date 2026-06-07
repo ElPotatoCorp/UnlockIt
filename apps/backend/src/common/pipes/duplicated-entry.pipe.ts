@@ -7,15 +7,15 @@ import {
   Type,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DuplicatedEntry } from '@unlockit/shared';
 import { ObjectLiteral, Repository } from 'typeorm';
+import { DuplicatedEntryDto } from '../dto/duplicated-entry.dto';
 
 export async function duplicatedEntryPipe<T extends ObjectLiteral>(
   repository: Repository<T>,
   uniqueFields: (keyof T)[] = ['id'],
   value: any,
 ): Promise<void> {
-  const errors: DuplicatedEntry<T> = { invalidFields: [], messages: {} };
+  const errors = new DuplicatedEntryDto<T>();
 
   for (const field of uniqueFields) {
     const fieldValue = value?.[field];
