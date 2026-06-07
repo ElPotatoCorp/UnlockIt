@@ -10,22 +10,6 @@ import {
 } from 'class-validator';
 
 export class UserProfileDto {
-  public static fromEntity(entity: UserProfileEntity | null) {
-    if (!entity) {
-      return null;
-    }
-
-    const dto = new UserProfileDto();
-
-    dto.firstName = entity.firstName;
-    dto.lastName = entity.lastName;
-    dto.birthdate = entity.birthdate;
-    dto.country = entity.country;
-    dto.newsletter = entity.newsletter;
-
-    return dto;
-  }
-
   @UserEntityDoc.FirstName()
   @IsOptional()
   @IsString()
@@ -53,4 +37,20 @@ export class UserProfileDto {
   @IsOptional()
   @IsBoolean()
   newsletter: boolean;
+
+  public static fromEntity(entity: UserProfileEntity | null) {
+    if (!entity) {
+      return null;
+    }
+
+    const dto = new UserProfileDto();
+
+    dto.firstName = entity.firstName;
+    dto.lastName = entity.lastName;
+    dto.birthdate = entity.birthdate;
+    dto.country = entity.country;
+    dto.newsletter = entity.newsletter;
+
+    return dto;
+  }
 }

@@ -3,24 +3,6 @@ import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
 
 export class UserBillingDto {
-  public static fromEntity(entity: UserBillingEntity | null) {
-    if (!entity) {
-      return null;
-    }
-
-    const dto = new UserBillingDto();
-
-    dto.firstName = entity.firstName;
-    dto.lastName = entity.lastName;
-    dto.postalCode = entity.postalCode;
-    dto.city = entity.city;
-    dto.country = entity.country;
-    dto.addressLine1 = entity.addressLine1;
-    dto.addressLine2 = entity.addressLine2;
-
-    return dto;
-  }
-
   @UserEntityDoc.FirstName()
   @IsString()
   @Length(1, 100)
@@ -56,4 +38,22 @@ export class UserBillingDto {
   @IsString()
   @Length(1, 255)
   addressLine2: string | null;
+
+  public static fromEntity(entity: UserBillingEntity | null) {
+    if (!entity) {
+      return null;
+    }
+
+    const dto = new UserBillingDto();
+
+    dto.firstName = entity.firstName;
+    dto.lastName = entity.lastName;
+    dto.postalCode = entity.postalCode;
+    dto.city = entity.city;
+    dto.country = entity.country;
+    dto.addressLine1 = entity.addressLine1;
+    dto.addressLine2 = entity.addressLine2;
+
+    return dto;
+  }
 }

@@ -14,23 +14,6 @@ import {
 import { IsUsername } from 'src/common/validators/username.validator';
 
 export class UserDto {
-  public static fromEntity(user: UserEntity, privacy = true): UserDto {
-    const dto = new UserDto();
-
-    dto.id = user.id;
-    dto.username = user.username;
-    dto.email = privacy
-      ? user.email.replace(/(.{2}).+(@.+)/, '$1***$2')
-      : user.email;
-    dto.phoneNumber = user.phoneNumber;
-    dto.bio = user.bio;
-    dto.avatar = user.avatar;
-    dto.wallet = user.wallet;
-    dto.createdAt = user.createdAt;
-
-    return dto;
-  }
-
   @UserEntityDoc.Id()
   @IsUUID(4)
   id: string;
@@ -70,4 +53,21 @@ export class UserDto {
   @UserEntityDoc.CreatedAt()
   @IsDateString()
   createdAt: Date;
+
+  public static fromEntity(user: UserEntity, privacy = true): UserDto {
+    const dto = new UserDto();
+
+    dto.id = user.id;
+    dto.username = user.username;
+    dto.email = privacy
+      ? user.email.replace(/(.{2}).+(@.+)/, '$1***$2')
+      : user.email;
+    dto.phoneNumber = user.phoneNumber;
+    dto.bio = user.bio;
+    dto.avatar = user.avatar;
+    dto.wallet = user.wallet;
+    dto.createdAt = user.createdAt;
+
+    return dto;
+  }
 }

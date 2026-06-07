@@ -14,14 +14,16 @@ export class SummarySeriesDto implements SummarySeries {
   games: SummaryGameDto[];
 
   static async fromEntity(series: SeriesEntity): Promise<SummarySeriesDto> {
-    const summarySeriesDto = new SummarySeriesDto();
-    summarySeriesDto.name = series.name;
-    summarySeriesDto.slug = series.slug;
-    summarySeriesDto.games = series.games
+    const dto = new SummarySeriesDto();
+
+    dto.name = series.name;
+    dto.slug = series.slug;
+    dto.games = series.games
       ? await series.games.then((games) =>
           games.map((game: any) => SummaryGameDto.fromEntity(game)),
         )
       : [];
-    return summarySeriesDto;
+    
+    return dto;
   }
 }

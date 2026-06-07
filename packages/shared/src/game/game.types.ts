@@ -1,10 +1,10 @@
-import { Developer, DeveloperEntity } from "../developer/developer.types";
+import { Developer, DeveloperEntity, GameDeveloper } from "../developer/developer.types";
 import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
-import { Publisher, PublisherEntity } from "../publisher/publisher.types";
+import { GamePublisher, Publisher, PublisherEntity } from "../publisher/publisher.types";
 import { SummarySeries, SeriesEntity } from "../series/series.types";
-import { Tag, TagEntity } from "../tag/tag.types";
-import { NullToOptional } from "../utils/types";
+import { GameTag, Tag, TagEntity } from "../tag/tag.types";
+import { NullToOptional, Simplify } from "../utils/types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
 export type GameEntity = {
@@ -44,11 +44,11 @@ export type UpdateGame = Partial<CreateGame>;
 
 export type SummaryGame = Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'>;
 
-export type GameDetail = Omit<GameEntity, 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'> & {
-  tags: Tag[];
-  developers: Developer[];
-  publishers: Publisher[];
+export type GameDetail = Simplify<Omit<GameEntity, 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'> & {
+  tags: GameTag[];
+  developers: GameDeveloper[];
+  publishers: GamePublisher[];
   platforms: GamePlatform | null;
   media: Media[];
   series: SummarySeries | null;
-}
+}>

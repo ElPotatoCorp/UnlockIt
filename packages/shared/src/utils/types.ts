@@ -1,4 +1,4 @@
-type Simplify<T> = { [K in keyof T]: T[K] } & {};
+export type Simplify<T> = { [K in keyof T]: T[K] } & {};
 
 type NullableKeys<T> = {
   [K in keyof T]: null extends T[K] ? K : never;

@@ -1,4 +1,5 @@
-import { GameEntity } from "../game/game.types";
+import { GameEntity, SummaryGame } from "../game/game.types";
+import { Simplify } from "../utils/types";
 
 export type DeveloperEntity = {
   id: number;
@@ -10,8 +11,10 @@ export type DeveloperEntity = {
   games: Promise<GameEntity[]>;
 };
 
-export type Developer = Pick<DeveloperEntity, 'id' | 'name'>;
+export type Developer = Simplify<Omit<DeveloperEntity, 'games'> & { games: SummaryGame[] }>;
 
-export type CreateDeveloper = Omit<Developer, 'id'>;
+export type GameDeveloper = Pick<Developer, 'id' | 'name'>;
+
+export type CreateDeveloper = Pick<Developer, 'name'>;
 
 export type UpdateDeveloper = Partial<CreateDeveloper>;
