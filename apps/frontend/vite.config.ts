@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
       react(),
       babel({ presets: [reactCompilerPreset()] })
     ],
+    optimizeDeps: {
+      include: ['@unlockit/shared'],
+    },
     server: {
       host: true,
       port: 5173,
