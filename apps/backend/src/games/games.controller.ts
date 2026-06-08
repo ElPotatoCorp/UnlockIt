@@ -26,6 +26,7 @@ import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { MinRole } from 'src/employees/decorators/support-roles.decorator';
 import { EmployeeRole } from '@unlockit/shared';
+import { SearchBodyDto, SearchGameOptionsDto } from './dto/search-game-options.dto';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
@@ -37,6 +38,13 @@ export class GamesController {
   @Post()
   create(@Body() createGameDto: CreateGameDto) {
     return this.gamesService.create(createGameDto);
+  }
+
+  @GamesControllerDoc.Search()
+  @Public()
+  @Post('search/:slug')
+  search(@Param('slug') name: string, @Query() paginationQueryDto: PaginationQueryDto, @Body() searchGameOptionsDto: SearchBodyDto) {
+    return this.gamesService.search(paginationQueryDto, { name, ...searchGameOptionsDto } as SearchGameOptionsDto);
   }
 
   @GamesControllerDoc.FindAll()

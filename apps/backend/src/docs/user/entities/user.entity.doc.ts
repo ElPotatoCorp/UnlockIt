@@ -22,7 +22,7 @@ export const UserEntityDoc = {
     applyDecorators(
       ApiProperty({
         title: 'Username',
-        description: 'Unique display name. Alphanumeric, 3–50 characters.',
+        description: 'Unique display name. Alphanumeric, 3-50 characters.',
         type: String,
         minLength: 3,
         maxLength: 50,

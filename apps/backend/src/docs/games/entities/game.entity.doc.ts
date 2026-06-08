@@ -205,7 +205,7 @@ export const GameEntityDoc = {
     applyDecorators(
       ApiProperty({
         title: 'Short description',
-        description: 'Brief summary shown in listings. 10–300 characters.',
+        description: 'Brief summary shown in listings. 10-300 characters.',
         type: String,
         minLength: 10,
         maxLength: 300,
@@ -219,7 +219,7 @@ export const GameEntityDoc = {
       ApiProperty({
         title: 'Detailed description',
         description:
-          'Full description shown on the game detail page. Supports plain text. 10–5000 characters.',
+          'Full description shown on the game detail page. Supports plain text. 10-5000 characters.',
         type: String,
         minLength: 10,
         maxLength: 5000,

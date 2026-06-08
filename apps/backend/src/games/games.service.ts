@@ -3,7 +3,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from './entities/game.entity';
-import { Repository } from 'typeorm';
+import { Between, FindOptionsOrder, FindOptionsWhere, LessThan, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
@@ -15,6 +15,8 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { GameDetailDto } from './dto/game-detail.dto';
+import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { SearchGameOptionsDto } from './dto/search-game-options.dto';
 
 @Injectable()
 export class GamesService {
@@ -30,6 +32,71 @@ export class GamesService {
 
   create(createGameDto: CreateGameDto) {
     return this.gameRepository.save(createGameDto);
+  }
+
+  private getBasicSearch(
+    options: SearchGameOptionsDto
+  ) {
+    const where: FindOptionsWhere<GameEntity> = {};
+    
+    where.slug = options.name;
+    where.type = options.type;
+
+    if (options.price) {
+      const { min, max } = options.price;
+      if (max !== undefined) {
+        where.price = Between(min, Math.max(min, max));
+      } else {
+        where.price = MoreThanOrEqual(min);
+      }
+    }
+
+    if (options.release) {
+      const { when, date } = options.release;
+
+      if (when === 'coming-soon') {
+        where.comingSoon = true;
+      } else if (date) {
+        const ISOdate = date instanceof Date ? date.toISOString() : date;
+        
+        switch (when) {
+          case 'exact':
+            where.releaseDate = ISOdate;
+            break;
+          case 'before':
+            where.releaseDate = LessThan(ISOdate);
+            break;
+          case 'after':
+            where.releaseDate = MoreThan(ISOdate);
+            break;
+        }
+      }
+    }
+
+    const order: FindOptionsOrder<GameEntity> = {};
+    const orderDirection = options.order?.asc === false ? 'DESC' : 'ASC';
+    switch (options.order.by) {
+      case 'price':
+        order.price = orderDirection
+        break;
+      default:
+        order.name = orderDirection;
+        break;
+    }
+
+    return { where, order };
+  }
+
+  async search(
+    paginationQueryDto: PaginationQueryDto,
+    options: SearchGameOptionsDto
+  ): Promise<PaginatedDto<GameEntity>> {
+    console.log(paginationQueryDto);
+    console.log(options);
+    
+    const { where, order } = this.getBasicSearch(options);
+
+    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order });
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {

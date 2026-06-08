@@ -32,28 +32,17 @@
 
 ### To create
 - [ ] `CartModule`
-- [ ] `WishlistModule`
 - [ ] `ReviewsModule`
 - [ ] `PurchasesModule` (owned games)
 - [ ] `StocksModule` (admin)
 - [ ] `DiscountsModule` (admin)
 - [ ] `TicketsModule`
-- [ ] `SearchModule` (or integrate into `GamesModule`)
 - [ ] `PaymentModule` (Stripe integration via `payment_methods` table)
 - [ ] `BundlesModule` (optional / later)
 
 ---
 
 ## 4. Endpoints
-
-### Search — `/api/search`
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/search` | Advanced search with filters (term, price, genre, platform, metacritic, coming_soon, sort, page) |
-| [ ] todo | GET | `/api/search/count` | Count results for a search query (for pagination) |
-
----
 
 ### Reviews — `/api/reviews`
 
@@ -131,7 +120,6 @@
 - [ ] `confirmPasswordReset(ticketId, newPassword)` — validate ticket, update password
 
 ### SearchService
-- [ ] `search(filters, pagination)` — filter by term, price range, genre[], platform[], developer[], publisher[], metacritic, coming_soon; sort by name/price/releaseDate/metacritic
 - [ ] `count(filters)` — same filters without pagination, returns total count
 
 ### CartService
@@ -140,12 +128,6 @@
 - [ ] `setQuantity(cartId, gameId, quantity)` — update or delete if 0
 - [ ] `removeFromCart(cartId, gameId)` — delete row
 - [ ] `computeTotal(cartId)` — sum `games.price * quantity` for each item (apply discounts when implemented)
-
-### WishlistService
-- [ ] `getWishlist(userId)` — return wishlist with game info
-- [ ] `addToWishlist(userId, gameId)` — insert, handle already-exists
-- [ ] `removeFromWishlist(userId, gameId)` — delete
-- [ ] `isInWishlist(userId, gameId)` — boolean check
 
 ### ReviewsService
 - [ ] `createReview(userId, gameId, rating, content)` — verify user owns game first
@@ -199,13 +181,6 @@
 
 ---
 
-## 6. Guards, Decorators & Middleware
-
-- [ ] `EmployeeGuard` — check `employees` table + `permission_level >= 1`
-- [ ] `AdminGuard` — check `permission_level >= 4` (or chosen threshold)
-
----
-
 ## 7. DTOs & Entities
 
 ### Entities to create (TypeORM)
@@ -219,7 +194,6 @@
 - [ ] `Purchase` entity
 - [ ] `PaymentMethod` entity
 - [ ] `SavedPaymentMethod` entity
-- [ ] `Wishlist` entity
 - [ ] `Review` entity
 - [ ] `ReviewVote` entity
 - [ ] `Ticket` entity
@@ -239,9 +213,6 @@
 - [ ] `CreateReviewDto` (gameId, rating, content?)
 - [ ] `UpdateReviewDto` (rating, content?)
 - [ ] `VoteReviewDto` (isHelpful: boolean)
-
-**Search**
-- [ ] `SearchQueryDto` (term, minPrice, maxPrice, categoryIds[], genreIds[], platformIds[], developerIds[], publisherIds[], minMetacritic, comingSoon, sortBy, sortOrder, page, limit)
 
 **Checkout**
 - [ ] `ConfirmPurchaseDto` (paymentMethodId?)

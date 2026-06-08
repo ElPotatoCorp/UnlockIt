@@ -1,9 +1,9 @@
-import { Developer, DeveloperEntity, GameDeveloper } from "../developer/developer.types";
+import { DeveloperEntity, GameDeveloper } from "../developer/developer.types";
 import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
-import { GamePublisher, Publisher, PublisherEntity } from "../publisher/publisher.types";
+import { GamePublisher, PublisherEntity } from "../publisher/publisher.types";
 import { SummarySeries, SeriesEntity } from "../series/series.types";
-import { GameTag, Tag, TagEntity } from "../tag/tag.types";
+import { GameTag, TagEntity } from "../tag/tag.types";
 import { NullToOptional, Simplify } from "../utils/types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
@@ -51,4 +51,33 @@ export type GameDetail = Simplify<Omit<GameEntity, 'series' | 'tags' | 'develope
   platforms: GamePlatform | null;
   media: Media[];
   series: SummarySeries | null;
+}>
+
+export type SearchGameOptions = {
+  /** @summary Will be turned into a slug */
+  name: string;
+  type?: GameType;
+  price?: {
+    /** 
+     * @description Minimum: 0
+     * @default 0
+     **/
+    min: number;
+    max?: number;
+  }
+  release?: {
+    when?: 'exact' | 'before' | 'after' | 'coming-soon';
+    date?: Date;
+  }
+  order: {
+    by: 'popular' | 'price';
+    asc?: boolean;
+  }
+}
+
+export type AdvancedSearchGameOptions = Simplify<SearchGameOptions & {
+  tags?: number[];
+  developers?: number[];
+  publishers?: number[];
+  platforms?: GamePlatform;
 }>
