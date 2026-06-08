@@ -1,8 +1,8 @@
 import { type FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./searchBar.module.css";
-import { slugify } from "../../../../utils/formatters/slug.formatter";
 import { SearchIcon } from "../../../ui/icons/SearchIcon";
+import { slugify } from "@unlockit/shared";
 
 export const SearchBar: FC = () => {
   const [query, setQuery] = useState("");
