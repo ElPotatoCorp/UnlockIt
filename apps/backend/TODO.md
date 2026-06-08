@@ -20,7 +20,6 @@
 ## 1. Database / Schema Changes
 
 - [ ] Fix `stocks` trigger for `UPDATE` — current condition `OLD.is_sold IS NULL` is wrong; replace with `OLD.is_sold = FALSE AND NEW.is_sold = TRUE`
-- [ ] Change `users.password` from `CHAR(60)` to `VARCHAR(255)` — bcrypt fits in 60 chars but Argon2 does not; future-proof it now before data exists
 - [ ] Soft-delete stocks instead of hard-delete: add `is_archived BOOLEAN DEFAULT FALSE` to `stocks`, add FK `purchases.product_key → stocks.product_key ON DELETE RESTRICT`, never hard-delete stock rows (they are financial records)
 - [ ] Fix `purchases.discount_applied`: rename to `discount_id`, change type to `BIGINT`, add `FOREIGN KEY (discount_id) REFERENCES discounts(id) ON DELETE SET NULL`
 - [ ] Remove `games.quantity` denormalized column — derive from `COUNT(stocks WHERE is_sold = FALSE AND is_archived = FALSE)` at query time, or keep but add a periodic reconciliation job and fix the trigger bug first
