@@ -16,7 +16,7 @@ export const Layout = memo(() => {
             <Header />
 
             <main className={styles.mainContent}>
-                <Background seedOverride={sid}/>
+                <Background seedOverride={sid} />
                 <Outlet />
                 <SessionStatusPanel />
             </main>
