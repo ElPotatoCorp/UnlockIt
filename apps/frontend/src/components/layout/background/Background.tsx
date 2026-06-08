@@ -36,12 +36,13 @@ export const Background: React.FC<BackgroundProps> = ({ seedOverride }) => {
         bgRef.current = null;
       }
     };
-    // Re-run whenever the seed string changes (new session = new pattern)
   }, [seedStr]);
 
   return (
     <div
+      id="background"
       ref={containerRef}
+      data-seed={seedStr}
       aria-hidden="true"
       style={{ position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" }}
     />

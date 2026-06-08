@@ -53,7 +53,8 @@ test.describe("Login", () => {
 
         await expect(page.getByRole("link", { name: "Retour à l'accueil" })).toBeVisible();
 
-        await expect(page.getByRole("button", { name: "Se déconnecter" })).toBeVisible();
+        const logoutButton = page.locator("#logout-button");
+        await expect(logoutButton).toBeVisible();
 
         await expect(page.locator("#login-form")).toHaveCount(0);
     });

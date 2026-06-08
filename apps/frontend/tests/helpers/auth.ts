@@ -19,7 +19,6 @@ export async function loginViaApi(page: Page, identifier: string, password: stri
   await page.context().addCookies(storage.cookies);
 }
 
-
 export async function registerViaApi(
   page: Page,
   username: string,

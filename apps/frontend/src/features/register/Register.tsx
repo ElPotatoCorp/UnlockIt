@@ -47,15 +47,7 @@ const Register: FC = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      if (contactMode === "email") {
-        await authRegister(
-          data.username,
-          data.email,
-          data.password
-        );
-      } else {
-        throw new Error("L'inscription par téléphone n'est pas encore supportée.");
-      }
+      await authRegister(data.username, data.email, data.password);
 
       navigate("/login");
     } catch (err: any) {
@@ -154,10 +146,10 @@ const Register: FC = () => {
 
               <button
                 type="button"
-                className={`${styles.modeBtn} ${contactMode === "phone" ? styles.modeBtnActive : ""}`}
-                onClick={() => setContactMode("phone")}
+                className={`${styles.modeBtn} ${styles.modeBtnDisabled}`}
+                disabled
               >
-                Téléphone
+                Téléphone (bientôt)
               </button>
             </div>
           </div>
@@ -179,37 +171,7 @@ const Register: FC = () => {
 
           {/* ── Phone ── */}
           {contactMode === "phone" && (
-            <div className={styles.phoneRow}>
-              <div className={styles.phoneCode}>
-                <IdentifierInput
-                  id="phoneCountryCode"
-                  label="Indicatif"
-                  placeholder="+33"
-                  type="text"
-                  autoComplete="tel-country-code"
-                  register={register("phoneCountryCode", {
-                    required: "Indicatif requis",
-                    pattern: { value: /^\+\d{1,4}$/, message: "Ex. +33" },
-                  })}
-                  error={errors.phoneCountryCode?.message}
-                />
-              </div>
-
-              <div className={styles.phoneNumber}>
-                <IdentifierInput
-                  id="phoneNumber"
-                  label="Numéro"
-                  placeholder="612345678"
-                  type="text"
-                  autoComplete="tel-national"
-                  register={register("phoneNumber", {
-                    required: "Numéro requis",
-                    pattern: { value: /^[0-9\s\-]{6,15}$/, message: "Numéro invalide" },
-                  })}
-                  error={errors.phoneNumber?.message}
-                />
-              </div>
-            </div>
+            <p className={styles.infoMessage}>L'inscription par téléphone sera bientôt disponible.</p>
           )}
 
           {/* ── Global error ── */}
