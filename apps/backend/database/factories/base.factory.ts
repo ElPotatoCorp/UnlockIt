@@ -5,17 +5,8 @@ import { DataSource, EntityTarget } from 'typeorm';
  * Base Factory class for generating test data with faker
  * Use: const user = userFactory.make(); or userFactory.create() for persistence
  */
-export abstract class Factory<T> {
+export abstract class Factory<T, U = T> {
   protected datasource: DataSource | null;
-
-  protected isDataSourceInitialized() {
-    if (this.datasource === null) {
-      throw new Error('Datasource not provided');
-    }
-    if (this.datasource.isInitialized !== true) {
-      throw new Error('Datasource not initialized yet');
-    }
-  }
 
   constructor(datasource?: DataSource) {
     this.datasource = datasource ?? null;
@@ -30,43 +21,43 @@ export abstract class Factory<T> {
   /**
    * Define attributes for the entity
    */
-  abstract definition(): Partial<T> | Promise<Partial<T>>;
+  abstract definition(): Partial<U> | Promise<Partial<U>>;
 
   /**
    * Create an instance without saving (for in-memory use)
    */
-  async make(overrides: Partial<T> = {}): Promise<T> {
+  async make(overrides: Partial<T> = {}): Promise<U> {
     const baseDefinition = await this.definition();
 
     return {
       ...baseDefinition,
       ...overrides,
-    } as T;
+    } as U;
   }
 
   /**
    * Create multiple instances
    */
-  async makeMany(count: number, overrides: Partial<T> = {}): Promise<T[]> {
+  async makeMany(count: number, overrides: Partial<T> = {}): Promise<U[]> {
     return Promise.all(
       Array.from({ length: count }, () => this.make(overrides)),
     );
   }
 
-  async create(overrides: Partial<T> = {}) {
-    this.isDataSourceInitialized();
+  async create(overrides: Partial<T> = {}): Promise<U> {
+    this.assertDatasource();
 
-    const item = await this.make(overrides);
+    const item = (await this.make(overrides)) as T;
 
-    return this.datasource!.manager.save(this.entity, item);
+    return this.datasource!.manager.save(this.entity, item) as unknown as Promise<U>;
   }
 
-  async createMany(count: number, overrides: Partial<T> = {}): Promise<T[]> {
-    this.isDataSourceInitialized();
+  async createMany(count: number, overrides: Partial<T> = {}): Promise<U[]> {
+    this.assertDatasource();
 
-    const items = await this.makeMany(count, overrides);
+    const items = (await this.makeMany(count, overrides)) as T;
 
-    return this.datasource!.manager.save(this.entity, items);
+    return this.datasource!.manager.save(this.entity, items) as unknown as Promise<U[]>;
   }
 
   /**
@@ -74,5 +65,18 @@ export abstract class Factory<T> {
    */
   protected get fk() {
     return faker;
+  }
+
+  // -------------------------------------------------------------------------
+  // Internal guard
+  // -------------------------------------------------------------------------
+
+  protected assertDatasource(): void {
+    if (!this.datasource) {
+      throw new Error(`${this.constructor.name}: DataSource not provided.`);
+    }
+    if (!this.datasource.isInitialized) {
+      throw new Error(`${this.constructor.name}: DataSource is not initialized.`);
+    }
   }
 }
