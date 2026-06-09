@@ -54,12 +54,12 @@ export type GameDetail = Simplify<Omit<GameEntity, 'series' | 'tags' | 'develope
 }>
 
 export type SearchGameOptions = {
-  /** @summary Will be turned into a slug */
+  /** Will be turned into a slug */
   name: string;
   type?: GameType;
   price?: {
     /** 
-     * @description Minimum: 0
+     * Minimum: 0
      * @default 0
      **/
     min: number;

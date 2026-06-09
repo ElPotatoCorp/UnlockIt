@@ -3,11 +3,8 @@ import { Simplify } from "../utils/types";
 
 export type DeveloperEntity = {
   id: number;
-
   name: string;
-
   gamesCount: number;
-
   games: Promise<GameEntity[]>;
 };
 
