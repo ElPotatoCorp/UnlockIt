@@ -10,6 +10,7 @@ import { UserProfileEntity } from './entities/user-profile.entity';
 import { UserBillingEntity } from './entities/user-billing.entity';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UploadSubdir } from 'src/upload/upload.constants';
+import { CartEntity } from 'src/cart/entities/cart.entity';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,8 @@ export class UserService {
     private readonly userProfileRepository: Repository<UserProfileEntity>,
     @InjectRepository(UserBillingEntity)
     private readonly userBillingRepository: Repository<UserBillingEntity>,
+    @InjectRepository(CartEntity)
+    private readonly cartRepository: Repository<CartEntity>,
   ) {}
 
   async index(id: string) {
@@ -42,7 +45,12 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    return this.userRepository.save(createUserDto);
+    const user = this.userRepository.create(createUserDto);
+
+    return this.userRepository.save(user).then(async (value) => {
+      await this.cartRepository.save({ userId: value.id });
+      return value;
+    });
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

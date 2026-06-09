@@ -9,6 +9,8 @@ import {
   OneToOne,
   OneToMany,
   BeforeInsert,
+  AfterInsert,
+  Repository,
 } from 'typeorm';
 import { UserProfileEntity } from './user-profile.entity';
 import { UserBillingEntity } from './user-billing.entity';
@@ -19,6 +21,7 @@ import { EmployeeEntity } from '../../employees/entities/employee.entity';
 import { genSalt, hash } from 'bcrypt-ts';
 import { UserEntity as IUserEntity } from '@unlockit/shared';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
+import { CartEntity } from 'src/cart/entities/cart.entity';
 
 @Entity('users')
 @Unique(['username'])
@@ -111,6 +114,12 @@ export class UserEntity implements IUserEntity {
     cascade: ['remove'],
   })
   tickets: Promise<TicketEntity[]>;
+
+  @OneToOne(() => CartEntity, (cart) => cart.user, {
+    lazy: true,
+    cascade: true,
+  })
+  cart: Promise<CartEntity>;
 
   @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
   wishlist: Promise<WishlistEntity[]>;

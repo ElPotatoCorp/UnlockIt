@@ -9,6 +9,7 @@ import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { EmployeeRole } from '@unlockit/shared';
+import { CreateJwtPayloadDto } from './dto/jwt-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -56,20 +57,20 @@ export class AuthService {
   }
 
   async login(
-    user: { userId: string; permission: EmployeeRole | null },
+    user: CreateJwtPayloadDto,
     ip: string,
     userAgent: string,
     sessionId?: string,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const refreshToken = this.jwtService.sign(
-      { sub: user.userId, permission: user.permission },
+      user,
       { expiresIn: this.jwt.refreshTokenExpiresIn },
     );
 
     const session = (
       await this.sessionsService.createOrUpdate({
         id: sessionId,
-        userId: user.userId,
+        userId: user.sub,
         refreshTokenHash: this.hashRefreshToken(refreshToken),
         ipAddress: ip,
         userAgent: userAgent,
@@ -77,9 +78,8 @@ export class AuthService {
     ).identifiers[0].id;
 
     const payload = {
-      sub: user.userId,
-      sid: session,
-      permission: user.permission,
+      sid: sessionId,
+      ...user,
     };
 
     return {

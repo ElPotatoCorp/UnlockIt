@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { EmployeeRole, JwtPayload } from '@unlockit/shared';
 
 export class JwtPayloadDto implements JwtPayload {
@@ -23,6 +23,11 @@ export class JwtPayloadDto implements JwtPayload {
   exp: number;
 
   @ApiProperty({
+    description: 'The UUID of the currently authenticated user\'s cart',
+  })
+  cartId: string;
+
+  @ApiProperty({
     description: 'The permission level of the user',
     enum: EmployeeRole,
     enumName: 'EmployeeRole',
@@ -34,3 +39,5 @@ export class JwtPayloadDto implements JwtPayload {
   })
   permission: EmployeeRole | null;
 }
+
+export class CreateJwtPayloadDto extends OmitType(JwtPayloadDto, ['sid', 'iat', 'exp'] as const) {}

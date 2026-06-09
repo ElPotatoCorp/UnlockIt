@@ -16,7 +16,7 @@ import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
-import { JwtPayloadDto } from './dto/jwt-payload.dto';
+import { CreateJwtPayloadDto, JwtPayloadDto } from './dto/jwt-payload.dto';
 import { UserAgent } from './decorators/user-agent.decorator';
 import { ConfigService, type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
@@ -77,13 +77,13 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
-    @User() user: { sub: string; permission: EmployeeRole | null },
+    @User() user: CreateJwtPayloadDto,
     @Ip() ip: string,
     @UserAgent() userAgent: string,
     @Response({ passthrough: true }) res,
   ) {
     const tokens = await this.authService.login(
-      { userId: user.sub, permission: user.permission },
+      user,
       ip,
       userAgent,
     );
@@ -100,8 +100,10 @@ export class AuthController {
     @UserAgent() userAgent: string,
     @Response({ passthrough: true }) res,
   ) {
+    const { sid, iat, exp, ...createJwtPayloadDto } = session;
+
     const tokens = await this.authService.login(
-      { userId: session.sub, permission: session.permission },
+      createJwtPayloadDto as CreateJwtPayloadDto,
       ip,
       userAgent,
       session.sid,

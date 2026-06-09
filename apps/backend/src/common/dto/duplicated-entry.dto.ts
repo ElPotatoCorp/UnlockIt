@@ -31,11 +31,11 @@ export class DuplicatedEntryDto<T> implements DuplicatedEntry<T> {
     description: "Every fields that does't respect the unique constraint",
     isArray: true,
   })
-  invalidFields: (keyof T)[];
+  invalidFields: (keyof T)[] = [];
 
   @ApiProperty({
     description:
       'Human-readable message concerning every fields contained in `invaliedFields`',
   })
-  messages: Partial<Record<keyof T, string>>;
+  messages: Partial<Record<keyof T, string>> = {};
 }

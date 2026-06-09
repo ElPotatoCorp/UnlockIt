@@ -7,6 +7,7 @@ import { UploadModule } from 'src/upload/upload.module';
 import { UserProfileEntity } from './entities/user-profile.entity';
 import { UserBillingEntity } from './entities/user-billing.entity';
 import { EmployeeEntity } from '../employees/entities/employee.entity';
+import { CartModule } from 'src/cart/cart.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { EmployeeEntity } from '../employees/entities/employee.entity';
       UserBillingEntity,
     ]),
     UploadModule,
+    CartModule,
   ],
   controllers: [UserController],
   providers: [UserService],

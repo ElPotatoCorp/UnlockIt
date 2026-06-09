@@ -5,20 +5,19 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
-import { EmployeeRole } from '@unlockit/shared';
+import { CreateJwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
+    private readonly userRepository: Repository<UserEntity>,
     private readonly commonService: CommonService,
   ) {}
 
   async findPassword(identifier: string): Promise<{
-    id: string;
     password: string;
-    permission: EmployeeRole | null;
+    createJwtPayloadDto: CreateJwtPayloadDto
   } | null> {
     const user = await this.userRepository.findOne({
       where: [{ email: identifier }, { username: identifier }],
@@ -28,9 +27,13 @@ export class UsersService {
 
     return user
       ? {
-          id: user.id,
           password: user.password,
-          permission: (await user?.employee)?.role ?? null,
+          createJwtPayloadDto: {
+            sub: user.id,
+            cartId: (await user.cart)?.id,
+            permission: (await user.employee)?.role ?? null,
+          }
+          
         }
       : null;
   }
