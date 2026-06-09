@@ -63,6 +63,7 @@ export const SearchGameOptionsDtoDoc = {
         title: 'Sort order',
         description: 'Controls how results are sorted.',
         type: 'object',
+        selfRequired: true,
         required: ['by'],
         properties: {
           by: { type: 'string', enum: ['popular', 'price'], example: 'popular', description: 'Field to sort by.' },

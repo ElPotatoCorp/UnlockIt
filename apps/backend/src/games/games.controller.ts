@@ -8,6 +8,8 @@ import {
   Delete,
   Query,
   Put,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -43,6 +45,7 @@ export class GamesController {
   @GamesControllerDoc.Search()
   @Public()
   @Post('search/:slug')
+  @HttpCode(HttpStatus.OK)
   search(@Param('slug') name: string, @Query() paginationQueryDto: PaginationQueryDto, @Body() searchGameOptionsDto: SearchBodyDto) {
     return this.gamesService.search(paginationQueryDto, { name, ...searchGameOptionsDto } as SearchGameOptionsDto);
   }

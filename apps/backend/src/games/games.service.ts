@@ -3,7 +3,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from './entities/game.entity';
-import { Between, FindOptionsOrder, FindOptionsWhere, LessThan, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, FindOptionsOrder, FindOptionsWhere, LessThan, Like, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
@@ -15,7 +15,6 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { GameDetailDto } from './dto/game-detail.dto';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
 import { SearchGameOptionsDto } from './dto/search-game-options.dto';
 
 @Injectable()
@@ -38,8 +37,8 @@ export class GamesService {
     options: SearchGameOptionsDto
   ) {
     const where: FindOptionsWhere<GameEntity> = {};
-    
-    where.slug = options.name;
+
+    where.slug = Like(`%${options.name}%`);
     where.type = options.type;
 
     if (options.price) {
@@ -90,13 +89,10 @@ export class GamesService {
   async search(
     paginationQueryDto: PaginationQueryDto,
     options: SearchGameOptionsDto
-  ): Promise<PaginatedDto<GameEntity>> {
-    console.log(paginationQueryDto);
-    console.log(options);
-    
+  ) {
     const { where, order } = this.getBasicSearch(options);
 
-    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order });
+    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order, transform: SummaryGameDto.fromEntity });
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {

@@ -22,7 +22,7 @@ import { GameEntity } from 'src/games/entities/game.entity';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
-import { SearchGameOptionsDto } from 'src/games/dto/search-game-options.dto';
+import { SearchBodyDto } from 'src/games/dto/search-game-options.dto';
 import { GameDetailDto } from 'src/games/dto/game-detail.dto';
 
 const GAME_ID_PARAM = ApiParam({
@@ -83,47 +83,47 @@ export const GamesControllerDoc = {
 
   // GET /games/search/:slug
   Search: () =>
-  applyDecorators(
-    ApiOperation({
-      summary: 'Search games',
-      description:
-        'Returns a paginated list of game summaries matching the given slug and optional filters. Public endpoint.',
-    }),
-    ApiParam({
-      name: 'slug',
-      type: String,
-      description:
-        'URL-friendly game name to search for (e.g. "call-of-duty"). Automatically slugified.',
-      example: 'call-of-duty',
-    }),
-    ApiQuery({
-      name: 'page',
-      type: Number,
-      required: false,
-      description: 'Page number (&ge; 1). Defaults to 1.',
-      example: 1,
-    }),
-    ApiQuery({
-      name: 'limit',
-      type: Number,
-      required: false,
-      description: 'Items per page (1-100). Defaults to 20.',
-      example: 20,
-    }),
-    ApiBody({
-      description:
-        'Optional search filters and sort order. All fields except `order.by` are optional.',
-      type: SearchGameOptionsDto,
-    }),
-    ApiExtraModels(PaginatedDto, SummaryGameDto),
-    ApiOkResponse({
-      description: 'Paginated list of matching game summaries.',
-      schema: PaginatedDtoSchemaDoc(SummaryGameDto),
-    }),
-    ApiBadRequestResponse({
-      description: 'Invalid slug, pagination parameters, or filter values.',
-    }),
-  ),
+    applyDecorators(
+      ApiOperation({
+        summary: 'Search games',
+        description:
+          'Returns a paginated list of game summaries matching the given slug and optional filters. Public endpoint.',
+      }),
+      ApiParam({
+        name: 'slug',
+        type: String,
+        description:
+          'URL-friendly game name to search for (e.g. "call-of-duty"). Automatically slugified.',
+        example: 'call-of-duty',
+      }),
+      ApiQuery({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number (&ge; 1). Defaults to 1.',
+        example: 1,
+      }),
+      ApiQuery({
+        name: 'limit',
+        type: Number,
+        required: false,
+        description: 'Items per page (1-100). Defaults to 20.',
+        example: 20,
+      }),
+      ApiBody({
+        description:
+          'Optional search filters and sort order. All fields except `order.by` are optional.',
+        type: SearchBodyDto,
+      }),
+      ApiExtraModels(PaginatedDto, SummaryGameDto),
+      ApiOkResponse({
+        description: 'Paginated list of matching game summaries.',
+        schema: PaginatedDtoSchemaDoc(SummaryGameDto),
+      }),
+      ApiBadRequestResponse({
+        description: 'Invalid slug, pagination parameters, or filter values.',
+      }),
+    ),
 
   // GET /games
   FindAll: () =>
