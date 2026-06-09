@@ -28,7 +28,7 @@ export class WishlistService {
     );
   }
 
-  async isWishlisted(
+  async isInWishlist(
     userId: string,
     gameId: number,
   ): Promise<{ wishlisted: boolean }> {

@@ -26,11 +26,11 @@ export class WishlistController {
   }
 
   @Get(':id')
-  isWishlisted(
+  isInWishlist(
     @User('sub') userId: string,
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
   ) {
-    return this.wishlistService.isWishlisted(userId, game.id);
+    return this.wishlistService.isInWishlist(userId, game.id);
   }
 
   @Post(':id')
