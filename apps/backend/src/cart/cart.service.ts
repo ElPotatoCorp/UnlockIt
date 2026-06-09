@@ -1,10 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from './entities/cart.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
-import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
-import { GameEntity } from 'src/games/entities/game.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CartItemEntity } from './entities/cart-item.entity';
 import { CartItemDto } from './dto/cart-items.dto';
@@ -18,13 +16,24 @@ export class CartService {
     private readonly commonService: CommonService,
   ) {}
 
-  getCartContent(cartId:string, pagination: PaginationQueryDto) {
+  get(cartId: string, pagination: PaginationQueryDto) {
     return this.commonService.getPaginatedResponse(this.cartItemRepository, pagination, {
       where: { cartId },
       order: { addedAt: 'DESC' },
       relations: { game: true },
       transform: CartItemDto.fromEntity,
     });
+  }
+
+  async total(cartId: string) {
+    const result = await this.cartItemRepository.createQueryBuilder('ci')
+      .innerJoin('ci.game', 'game')
+      .select('SUM(game.price * ci.quantity)', 'totalAmount')
+      .where('ci.cartId = :cartId', { cartId })
+      .andWhere('ci.selected = TRUE')
+      .getRawOne();
+
+    return result && result.totalAmount ? parseFloat(result.totalAmount) : 0;
   }
 
   async toggle(cartId: string, gameId: number, state?: boolean) {
@@ -63,11 +72,14 @@ export class CartService {
       return;
     }
     
-    const isValidQuantity = quantity && isInt(quantity) && quantity > 0;
-    const newQuantity = item.quantity + (isValidQuantity ? quantity : 1);
+    const isValidQuantity = isInt(quantity) && quantity > 0;
 
-    if (newQuantity > 0) {
-      await this.cartItemRepository.update({ cartId, gameId }, { quantity: newQuantity });
+    if (quantity) {
+      if (isValidQuantity) {
+        await this.cartItemRepository.update({ cartId, gameId }, { quantity: item.quantity - quantity });
+      } else {
+        throw new UnprocessableEntityException('The quantity is invalid');
+      }
     } else {
       await this.cartItemRepository.delete({ cartId, gameId });
     }

@@ -19,11 +19,16 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Get()
-  getCartContent(
+  get(
     @User('cartId') cartId: string,
     @Query() pagination: PaginationQueryDto,
   ) {
-    return this.cartService.getCartContent(cartId, pagination);
+    return this.cartService.get(cartId, pagination);
+  }
+
+  @Get('total')
+  total(@User('cartId') cartId: string) {
+    return this.cartService.total(cartId);
   }
 
   @Post(':id/toggle')

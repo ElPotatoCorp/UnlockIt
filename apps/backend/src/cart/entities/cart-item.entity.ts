@@ -1,5 +1,6 @@
 import { GameEntity } from 'src/games/entities/game.entity';
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -9,6 +10,7 @@ import {
 } from 'typeorm';
 import { CartEntity } from './cart.entity';
 
+@Check(`"quantity" > 0`)
 @Entity('cart_items')
 export class CartItemEntity {
   @PrimaryColumn('uuid', { name: 'cart_id' })
