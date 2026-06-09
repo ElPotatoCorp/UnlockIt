@@ -119,9 +119,10 @@ export class GameEntity implements IGameEntity {
   @ManyToOne(() => SeriesEntity, (series) => series.games, {
     lazy: true,
     onDelete: 'SET NULL',
+    nullable: true,
   })
   @JoinColumn({ name: 'series_id' })
-  series: Promise<SeriesEntity>;
+  series: Promise<SeriesEntity | null>;
 
   @ManyToMany(() => TagEntity, (tag) => tag.games, { lazy: true })
   @JoinTable({
@@ -150,6 +151,7 @@ export class GameEntity implements IGameEntity {
   @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
     lazy: true,
     cascade: true,
+    nullable: true,
   })
   platforms: Promise<GamePlatformEntity | null>;
 

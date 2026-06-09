@@ -6,30 +6,76 @@ import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';
 import { MediaDto } from 'src/media/dto/media.dto';
 import { GameTagDto } from 'src/tags/dto/game-tag.dto';
 import { GamePlatformDto } from 'src/platforms/dto/game-platform.dto';
+import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 
 export class GameDetailDto implements GameDetail {
+  @GameEntityDoc.Id()
   id: number;
+
+  @GameEntityDoc.Name()
   name: string;
+
+  @GameEntityDoc.Slug()
   slug: string;
+
+  @GameEntityDoc.Type()
   type: GameType;
+
+  @GameEntityDoc.Price()
   price: number;
+
+  @GameEntityDoc.AgeRating()
   ageRating: EUAgeRating;
+
+  @GameEntityDoc.ReleaseDate()
   releaseDate: string | null;
+
+  @GameEntityDoc.ComingSoon()
   comingSoon: boolean;
+
+  @GameEntityDoc.HeaderImage()
   headerImage: string;
+
+  @GameEntityDoc.CoverImage()
   coverImage: string;
+
+  @GameEntityDoc.BackgroundImage()
   backgroundImage: string;
+
+  @GameEntityDoc.ShortDescription()
   shortDescription: string;
+
+  @GameEntityDoc.DetailedDescription()
   detailedDescription: string;
+
+  @GameEntityDoc.MetacriticScore()
   metacriticScore: number | null;
+
+  @GameEntityDoc.Website()
   website: string | null;
+
+  @GameEntityDoc.PcRequirements()
   pcRequirements: string | null;
+
+  @GameEntityDoc.SupportedLanguages()
   supportedLanguages: LangCode[] | null;
+
+  //@GameEntityDoc.Name()
   tags: GameTagDto[];
+
+  //@GameEntityDoc.Name()
   developers: GameDeveloperDto[];
+
+  //@GameEntityDoc.Name()
   publishers: GamePublisherDto[];
+
+  //@GameEntityDoc.Name()
   platforms: GamePlatformDto | null;
+
+  //@GameEntityDoc.Name()
   media: MediaDto[];
+
+  //@GameEntityDoc.Name()
   series: SummarySeriesDto | null;
 
   static async fromEntity(game: GameEntity): Promise<GameDetailDto> {
@@ -67,7 +113,7 @@ export class GameDetailDto implements GameDetail {
     dto.developers = developers.map(({ id, name }) => ({ id, name }));
     dto.publishers = publishers.map(({ id, name }) => ({ id, name }));
     dto.media = media.map(({ id, url, type }) => ({ id, url, type }));
-    dto.series = await SummarySeriesDto.fromEntity(series);
+    dto.series = series ? await SummarySeriesDto.fromEntity(series) : null;
     dto.platforms = platforms ? GamePlatformDto.fromEntity(platforms) : null;
 
     return dto;

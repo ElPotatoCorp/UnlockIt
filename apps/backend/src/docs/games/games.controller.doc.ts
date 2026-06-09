@@ -23,6 +23,7 @@ import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { SearchGameOptionsDto } from 'src/games/dto/search-game-options.dto';
+import { GameDetailDto } from 'src/games/dto/game-detail.dto';
 
 const GAME_ID_PARAM = ApiParam({
   name: 'id',
@@ -158,7 +159,7 @@ export const GamesControllerDoc = {
       }),
       ApiOkResponse({
         description: 'Game found.',
-        type: GameEntity,
+        type: GameDetailDto,
       }),
       ApiNotFoundResponse({
         description: 'No game found with the specified ID.',
