@@ -33,7 +33,6 @@
 ### To create
 - [ ] `ReviewsModule`
 - [ ] `PurchasesModule` (owned games)
-- [ ] `StocksModule` (admin)
 - [ ] `DiscountsModule` (admin)
 - [ ] `TicketsModule`
 - [ ] `PaymentModule` (Stripe integration via `payment_methods` table)
@@ -73,16 +72,6 @@
 | [ ] todo | GET | `/api/tickets/:id` | Get ticket by ID (owner or employee) |
 | [ ] todo | PATCH | `/api/tickets/:id/status` | Update ticket status (employee only) |
 | [ ] todo | GET | `/api/tickets` | List all tickets (admin/employee only) |
-
----
-
-### Stocks — `/api/stocks` (admin)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/stocks/:gameId` | Get available stock count for a game |
-| [ ] todo | POST | `/api/stocks` | Add product keys to stock |
-| [ ] todo | DELETE | `/api/stocks/:productKey` | Remove a product key |
 
 ---
 
@@ -151,11 +140,6 @@
 - [ ] `cancelReservation(cartId)` — unreserve cart (trigger restores quantities)
 - [ ] `cleanupExpiredReservations(timeoutMinutes)` — scheduled job, cancel all carts reserved > N minutes ago
 
-### StocksService (admin)
-- [ ] `getStockCount(gameId)` — count unsold keys
-- [ ] `addKeys(gameId, keys[])` — bulk insert into `stocks`
-- [ ] `removeKey(productKey)` — delete
-
 ### DiscountsService (admin)
 - [ ] `findAll()` — list all discounts
 - [ ] `create(dto)` — insert discount
@@ -182,7 +166,6 @@
 - [ ] `GameDiscount` entity
 - [ ] `Cart` entity
 - [ ] `CartGame` entity
-- [ ] `Stock` entity
 - [ ] `Purchase` entity
 - [ ] `PaymentMethod` entity
 - [ ] `SavedPaymentMethod` entity
@@ -216,9 +199,6 @@
 **Discounts**
 - [ ] `CreateDiscountDto` (code?, amount, type, condition?, target, expirationDate)
 - [ ] `AssignDiscountDto` (scope: 'public' | 'private')
-
-**Stocks**
-- [ ] `AddStockDto` (gameId, keys: string[])
 
 ---
 
