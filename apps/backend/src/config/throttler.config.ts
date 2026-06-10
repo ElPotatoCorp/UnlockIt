@@ -9,4 +9,8 @@ export default registerAs('throttlerConfig', () => ({
     ttl: parseInt(process.env.LOGIN_ATTEMPTS_WINDOW || '') || 30000, // 30 seconds in milliseconds
     limit: parseInt(process.env.LOGIN_ATTEMPTS_LIMIT || '') || 5,
   },
+  authResetPassword: {
+    ttl: parseInt(process.env.RESET_PASSWORD_ATTEMPTS_WINDOW || '') || 30000, // 30 seconds in milliseconds
+    limit: parseInt(process.env.RESET_PASSWORD_ATTEMPTS_LIMIT || '') || 5,
+  },
 }));

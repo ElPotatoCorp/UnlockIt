@@ -96,6 +96,8 @@ export class AuthController {
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 
+  @Public()
+  @Throttle({ authResetPassword: {} })
   @Post('forgotten-password')
   @HttpCode(HttpStatus.OK)
   forgottenPassword(@Body() createPasswordResetDto: CreatePasswordResetDto) {
@@ -104,6 +106,8 @@ export class AuthController {
     return this.ticketService.createPasswordResetTicket(createPasswordResetDto);
   }
 
+  @Public()
+  @Throttle({ authResetPassword: {} })
   @Post('reset-password/:ticketId')
   resetPassword(@Param('ticketId', EntityExistsPipe(TicketEntity)) ticket: TicketEntity, @Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(ticket, resetPasswordDto);

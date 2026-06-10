@@ -55,6 +55,11 @@ import { StocksModule } from './stocks/stocks.module';
             ttl: config.authLogin.ttl,
             limit: config.authLogin.limit,
           },
+          {
+            name: 'authResetPassword',
+            ttl: config.authResetPassword.ttl,
+            limit: config.authResetPassword.limit,
+          },
         ],
       }),
     }),
