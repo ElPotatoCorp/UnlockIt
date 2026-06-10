@@ -1,0 +1,236 @@
+/* ==========================================================
+   UNLOCKIT V2 - RAPPORT QUALITE
+   ========================================================== */
+
+:root {
+    --primary: #1e3a5f;
+    --secondary: #2f6ea8;
+    --accent: #4f9cf9;
+
+    --text: #2c3e50;
+    --muted: #6b7280;
+
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #d9e2ec;
+
+    --success: #eafaf1;
+    --warning: #fff8e6;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    font-family: "Segoe UI", sans-serif;
+    line-height: 1.8;
+    color: var(--text);
+    background: var(--bg);
+}
+
+/* ==========================================================
+   PAGE DE GARDE
+   ========================================================== */
+
+.cover-page {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.cover-page img.logo {
+    max-width: 240px;
+    margin: 0 auto 40px auto;
+}
+
+.cover-page h1 {
+    border: none;
+    font-size: 4rem;
+    margin-bottom: 10px;
+}
+
+.cover-page h2 {
+    border: none;
+    background: none;
+    font-size: 1.8rem;
+    color: var(--muted);
+}
+
+.cover-image {
+    margin-top: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.15);
+}
+
+/* ==========================================================
+   TITRES
+   ========================================================== */
+
+h1 {
+    color: var(--primary);
+    margin-top: 80px;
+    border-bottom: 4px solid var(--primary);
+    padding-bottom: 12px;
+}
+
+h2 {
+    color: var(--primary);
+    margin-top: 50px;
+    border-left: 6px solid var(--accent);
+    background: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+h3 {
+    color: var(--secondary);
+    margin-top: 30px;
+}
+
+h4 {
+    color: var(--secondary);
+}
+
+/* ==========================================================
+   SOMMAIRE
+   ========================================================== */
+
+.toc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    margin: 40px 0;
+}
+
+.toc ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.toc li {
+    margin: 10px 0;
+}
+
+.toc a {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+.toc a:hover {
+    color: var(--accent);
+}
+
+/* ==========================================================
+   CARTES
+   ========================================================== */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    margin: 25px 0;
+}
+
+/* ==========================================================
+   COMPARAISON
+   ========================================================== */
+
+.comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 40px 0;
+}
+
+.before,
+.after {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+}
+
+.before h3 {
+    color: #b91c1c;
+}
+
+.after h3 {
+    color: #15803d;
+}
+
+/* ==========================================================
+   ALERTES
+   ========================================================== */
+
+.note {
+    background: var(--warning);
+    border-left: 5px solid #f59e0b;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.success {
+    background: var(--success);
+    border-left: 5px solid #22c55e;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+/* ==========================================================
+   CODE
+   ========================================================== */
+
+code {
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+pre {
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+/* ==========================================================
+   IMAGES
+   ========================================================== */
+
+img {
+    max-width: 100%;
+}
+
+/* ==========================================================
+   TABLEAUX
+   ========================================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+}
+
+th,
+td {
+    border: 1px solid var(--border);
+    padding: 12px;
+}
+
+th {
+    background: #eef5fb;
+}
+
+/* ==========================================================
+   PAGE BREAK
+   ========================================================== */
+
+.page-break {
+    page-break-after: always;
+}
