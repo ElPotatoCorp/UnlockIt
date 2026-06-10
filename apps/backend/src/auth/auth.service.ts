@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt-ts';
 import { SessionsService } from 'src/sessions/sessions.service';
@@ -9,6 +9,9 @@ import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { CreateJwtPayloadDto } from './dto/jwt-payload.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { TicketEntity } from 'src/tickets/entities/ticket.entity';
+import { hashPassword } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -87,6 +90,16 @@ export class AuthService {
       }),
       refreshToken: refreshToken,
     };
+  }
+
+  async resetPassword(ticket: TicketEntity, resetPasswordDto: ResetPasswordDto) {
+    const user = await this.usersService.findOne({ email: ticket.email });
+
+    if (!user) {
+      throw new UnprocessableEntityException('This user does not seem to exists')
+    }
+
+    this.userService.update(user.id, { password: await hashPassword(resetPasswordDto.password) });
   }
 
   logout(sessionId: string) {

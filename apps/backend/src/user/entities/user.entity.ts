@@ -9,8 +9,6 @@ import {
   OneToOne,
   OneToMany,
   BeforeInsert,
-  AfterInsert,
-  Repository,
 } from 'typeorm';
 import { UserProfileEntity } from './user-profile.entity';
 import { UserBillingEntity } from './user-billing.entity';
@@ -22,6 +20,11 @@ import { genSalt, hash } from 'bcrypt-ts';
 import { UserEntity as IUserEntity } from '@unlockit/shared';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import { CartEntity } from 'src/cart/entities/cart.entity';
+
+export async function hashPassword(password: string) {
+  const salt = await genSalt(12);
+  return hash(password || this.password, salt);
+}
 
 @Entity('users')
 @Unique(['username'])
@@ -126,7 +129,6 @@ export class UserEntity implements IUserEntity {
 
   @BeforeInsert()
   async setPassword(password: string) {
-    const salt = await genSalt(12);
-    this.password = await hash(password || this.password, salt);
+    this.password = await hashPassword(password);
   }
 }

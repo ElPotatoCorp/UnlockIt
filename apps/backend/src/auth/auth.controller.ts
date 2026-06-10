@@ -9,6 +9,7 @@ import {
   Ip,
   Inject,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -24,6 +25,11 @@ import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import jwtConfig from '../config/jwt.config';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 import { UserEntity } from 'src/user/entities/user.entity';
+import { TicketsService } from 'src/tickets/tickets.service';
+import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
@@ -31,6 +37,7 @@ export class AuthController {
   constructor(
     private readonly config: ConfigService,
     private readonly authService: AuthService,
+    private readonly ticketService: TicketsService,
     @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
 
@@ -87,6 +94,19 @@ export class AuthController {
       userAgent,
     );
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+  }
+
+  @Post('forgotten-password')
+  @HttpCode(HttpStatus.OK)
+  forgottenPassword(@Body() createPasswordResetDto: CreatePasswordResetDto) {
+    // In practice, the ticket id should not be returned
+    // However, in this case, because we are in dev with no mailing system, we do that way
+    return this.ticketService.createPasswordResetTicket(createPasswordResetDto);
+  }
+
+  @Post('reset-password/:ticketId')
+  resetPassword(@Param('ticketId', EntityExistsPipe(TicketEntity)) ticket: TicketEntity, @Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(ticket, resetPasswordDto);
   }
 
   @AuthControllerDoc.Refresh()
