@@ -10,6 +10,7 @@ import { PasswordInput } from "../../components/common/form/password-input/Passw
 import { Card } from "../../components/common/card/Card";
 import styles from "./login.module.css";
 import { UnlockItHelmet } from "../helmet/UnlockItHelmet";
+import { Button } from "../../components/common/button/Button";
 
 type FormData = {
   identifier: string;
@@ -133,13 +134,9 @@ const Login: FC = () => {
             <p className={styles.errorMessage}>{errors.root.message}</p>
           )}
 
-          <button
-            type="submit"
-            className={styles.btnPrimary}
-            disabled={isSubmitting}
-          >
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Connexion…" : "Se connecter"}
-          </button>
+          </Button>
         </form>
       </Card>
     </div>

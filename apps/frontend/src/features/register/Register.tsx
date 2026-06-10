@@ -10,6 +10,7 @@ import { IdentifierInput } from "../../components/common/form/identifier-input/I
 import { PasswordInput } from "../../components/common/form/password-input/PasswordInput";
 import { useUser } from "../../api/hooks/useUser.hook";
 import { UnlockItHelmet } from "../helmet/UnlockItHelmet";
+import { Button } from "../../components/common/button/Button";
 
 type ContactMode = "email" | "phone";
 
@@ -43,8 +44,6 @@ const Register: FC = () => {
 
   const passwordValue = watch("password", "");
 
-  // ─── Submit ───────────────────────────────────────────────────────────────
-
   const onSubmit = async (data: FormData) => {
     try {
       await authRegister(data.username, data.email, data.password);
@@ -55,10 +54,6 @@ const Register: FC = () => {
     }
   };
 
-  // ─── Already logged in ────────────────────────────────────────────────────
-  // On est connecté si :
-  // - session existe (JWT valide)
-  // - user existe (core user chargé)
   if (session && user) {
     return (
       <div className={styles.registerPage}>
@@ -179,13 +174,9 @@ const Register: FC = () => {
             <p className={styles.errorMessage}>{errors.root.message}</p>
           )}
 
-          <button
-            type="submit"
-            className={styles.btnPrimary}
-            disabled={isSubmitting}
-          >
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Inscription…" : "S'inscrire"}
-          </button>
+          </Button>
 
         </form>
       </Card>
