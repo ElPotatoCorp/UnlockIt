@@ -44,14 +44,17 @@ export abstract class Factory<T, U = T> {
     );
   }
 
+  /**
+   * Create and insert an instance in the db 
+   */
   async create(overrides: Partial<T> = {}): Promise<U> {
-    this.assertDatasource();
-
-    const item = (await this.make(overrides)) as T;
-
-    return this.datasource!.manager.save(this.entity, item) as unknown as Promise<U>;
+    const [result] = await this.createMany(1, overrides);
+    return result;
   }
 
+  /**
+   * Create and insert multiple instances
+   */
   async createMany(count: number, overrides: Partial<T> = {}): Promise<U[]> {
     this.assertDatasource();
 
@@ -61,7 +64,7 @@ export abstract class Factory<T, U = T> {
   }
 
   /**
-   * Helper to get faker instance (can be overridden per locale)
+   * Helper to get faker instance
    */
   protected get fk() {
     return faker;

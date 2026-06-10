@@ -2,11 +2,15 @@ import 'reflect-metadata';
 import dataSourceConfig from '../data-source';
 import { UserFactory } from '../factories/user.factory';
 import { DataSource } from 'typeorm';
+import { GameFactory } from 'database/factories/game.factory';
 
 // I don't know how to make it absolutely dynamic so I just put every possibilities here
-const FACTORY_REGISTRY: Record<string, any> = {
-  users: UserFactory,
-};
+const FACTORIES: [name: string, factory: any][] = [
+  ['users', UserFactory],
+  ['games', GameFactory],
+];
+
+const FACTORY_REGISTRY: Record<string, any> = Object.fromEntries(FACTORIES.map(value => [value[0], value[1]]));
 
 type SpecificOptions = {
   entity: string;
@@ -40,11 +44,15 @@ async function init(dataSource: DataSource) {
 
   // Initialize factories
   const userFactory = new UserFactory(dataSource);
+  const gameFactory = new GameFactory(dataSource);
 
-  // Execute your premade step-by-step pipeline sequence:
   console.log('-> Seeding batch: Users');
   const users = await userFactory.createMany(5);
   console.log(`   Created ${users.length} default users.`);
+
+  console.log('-> Seeding batch: Games');
+  const games = await gameFactory.createMany(64);
+  console.log(`   Created ${games.length} default games.`);
 
   console.log('\nGlobal database seeding finished successfully!');
 }
@@ -73,9 +81,11 @@ async function seed() {
       await dataSource.initialize();
     }
     console.log('Connected to database');
-    options.entity
-      ? await specific(dataSource, options)
-      : await init(dataSource);
+    if (options.entity) {
+      await specific(dataSource, options)
+    } else {
+      await init(dataSource);
+    }
   } catch (error) {
     console.error('Seeding failed:', error);
     process.exit(1);

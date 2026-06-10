@@ -31,7 +31,6 @@
 ## 3. Modules to Create
 
 ### To create
-- [ ] `CartModule`
 - [ ] `ReviewsModule`
 - [ ] `PurchasesModule` (owned games)
 - [ ] `StocksModule` (admin)
@@ -121,13 +120,6 @@
 
 ### SearchService
 - [ ] `count(filters)` — same filters without pagination, returns total count
-
-### CartService
-- [ ] `getCart(cartId)` — return cart with game details
-- [ ] `addToCart(cartId, gameId, quantity)` — upsert `carts_games`
-- [ ] `setQuantity(cartId, gameId, quantity)` — update or delete if 0
-- [ ] `removeFromCart(cartId, gameId)` — delete row
-- [ ] `computeTotal(cartId)` — sum `games.price * quantity` for each item (apply discounts when implemented)
 
 ### ReviewsService
 - [ ] `createReview(userId, gameId, rating, content)` — verify user owns game first
