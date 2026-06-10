@@ -223,7 +223,13 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
     this.assertDatasource();
 
     const resolved = await this.makeMany(count);
-    return Promise.all(resolved.map((r) => this.persist(r)));
+
+    const results: ResolvedGame[] = [];
+    for (const r of resolved) {
+      results.push(await this.persist(r));
+    }
+    
+    return results;
   }
 
   // -------------------------------------------------------------------------
