@@ -21,7 +21,6 @@ import { UserAgent } from './decorators/user-agent.decorator';
 import { ConfigService, type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
-import { EmployeeRole } from '@unlockit/shared';
 import jwtConfig from '../config/jwt.config';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 import { UserEntity } from 'src/user/entities/user.entity';
