@@ -34,7 +34,6 @@
 - [ ] `ReviewsModule`
 - [ ] `PurchasesModule` (owned games)
 - [ ] `DiscountsModule` (admin)
-- [ ] `TicketsModule`
 - [ ] `PaymentModule` (Stripe integration via `payment_methods` table)
 - [ ] `BundlesModule` (optional / later)
 
@@ -61,17 +60,6 @@
 | [ ] todo | POST | `/api/checkout/reserve` | Reserve cart for purchase (checks stock, adjusts quantities) |
 | [ ] todo | POST | `/api/checkout/confirm` | Complete purchase (grant keys, mark stock sold) |
 | [ ] todo | POST | `/api/checkout/cancel` | Cancel pending reservation |
-
----
-
-### Tickets — `/api/tickets`
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | POST | `/api/tickets` | Submit a support ticket (works for guests too) |
-| [ ] todo | GET | `/api/tickets/:id` | Get ticket by ID (owner or employee) |
-| [ ] todo | PATCH | `/api/tickets/:id/status` | Update ticket status (employee only) |
-| [ ] todo | GET | `/api/tickets` | List all tickets (admin/employee only) |
 
 ---
 
@@ -102,10 +90,6 @@
 ---
 
 ## 5. Services / Business Logic
-
-### AuthService
-- [ ] `requestPasswordReset(email)` — create ticket with reset link
-- [ ] `confirmPasswordReset(ticketId, newPassword)` — validate ticket, update password
 
 ### SearchService
 - [ ] `count(filters)` — same filters without pagination, returns total count
@@ -149,12 +133,6 @@
 - [ ] `removeFromGame(discountId, gameId)` — delete
 - [ ] `computeEffectivePrice(gameId, discountId?)` — replicate `GetEffectivePrice` logic in TS
 
-### TicketsService
-- [ ] `create(dto)` — insert ticket (trigger auto-links user by email)
-- [ ] `findOne(ticketId, requesterId)` — return ticket if owner or employee
-- [ ] `updateStatus(ticketId, status)` — employee only
-- [ ] `findAll(filters)` — employee/admin only
-
 ---
 
 ## 7. DTOs & Entities
@@ -171,14 +149,8 @@
 - [ ] `SavedPaymentMethod` entity
 - [ ] `Review` entity
 - [ ] `ReviewVote` entity
-- [ ] `Ticket` entity
-- [ ] `Employee` entity
 
 ### DTOs to create
-
-**Auth**
-- [ ] `PasswordResetRequestDto` (email)
-- [ ] `PasswordResetConfirmDto` (ticketId, newPassword)
 
 **Cart**
 - [ ] `AddToCartDto` (gameId, quantity)
@@ -191,10 +163,6 @@
 
 **Checkout**
 - [ ] `ConfirmPurchaseDto` (paymentMethodId?)
-
-**Tickets**
-- [ ] `CreateTicketDto` (email, reason, content)
-- [ ] `UpdateTicketStatusDto` (status: 'Open' | 'Resolved' | 'Closed')
 
 **Discounts**
 - [ ] `CreateDiscountDto` (code?, amount, type, condition?, target, expirationDate)
@@ -210,7 +178,6 @@
 - [ ] **Swagger / OpenAPI** — wire up all new controllers to the existing doc structure in `src/docs/`
 - [ ] **Error handling** — standardize HTTP error responses (404, 403, 409 conflict for duplicate reviews, etc.)
 - [ ] **Payment integration** — Stripe: create payment intent, save `pm_*` IDs into `payment_methods`, link to `saved_payment_methods`
-- [ ] **Upload — avatar filename** — replace `avatar-{userId}-{timestamp}` pattern with `avatar-{randomUUID()}` to avoid leaking userId in publicly accessible URLs
 - [ ] **Upload — image resizing** — install `sharp`, resize avatar to max 512×512 before saving to disk; prevents image-bomb attacks and reduces storage
 - [ ] **Upload — file deletion reliability** — replace fire-and-forget `unlink` callback with a proper async/await + structured error logging in `UploadService.removeObsoleteFile()`
 - [ ] **Environment config** — ensure all secrets (JWT secret, DB creds, Stripe key) are in `.env` and validated at startup with `@nestjs/config` + Joi schema
