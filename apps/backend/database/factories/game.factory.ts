@@ -255,11 +255,25 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
         savedPubs.push(await this.upsertByName(manager, PublisherEntity, p.name));
       }
 
-      resolved.game.tags = savedTags as any;
-      resolved.game.developers = savedDevs as any;
-      resolved.game.publishers = savedPubs as any;
-
       const savedGame = await manager.save(GameEntity, resolved.game);
+
+      await manager
+        .createQueryBuilder()
+        .relation(GameEntity, 'tags')
+        .of(savedGame.id)
+        .add(savedTags.map((t) => t.id));
+
+      await manager
+        .createQueryBuilder()
+        .relation(GameEntity, 'developers')
+        .of(savedGame.id)
+        .add(savedDevs.map((d) => d.id));
+
+      await manager
+        .createQueryBuilder()
+        .relation(GameEntity, 'publishers')
+        .of(savedGame.id)
+        .add(savedPubs.map((p) => p.id));
 
       resolved.platforms.gameId = savedGame.id;
       resolved.platforms.game = savedGame;
