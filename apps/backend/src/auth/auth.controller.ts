@@ -105,7 +105,7 @@ export class AuthController {
       createJwtPayloadDto as CreateJwtPayloadDto,
       ip,
       userAgent,
-      session.sid,
+      sid
     );
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }

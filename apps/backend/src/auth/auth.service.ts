@@ -8,7 +8,6 @@ import { UsersService } from 'src/users/users.service';
 import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { createHash } from 'crypto';
-import { EmployeeRole } from '@unlockit/shared';
 import { CreateJwtPayloadDto } from './dto/jwt-payload.dto';
 
 @Injectable()
@@ -78,7 +77,7 @@ export class AuthService {
     ).identifiers[0].id;
 
     const payload = {
-      sid: sessionId,
+      sid: session,
       ...user,
     };
 
