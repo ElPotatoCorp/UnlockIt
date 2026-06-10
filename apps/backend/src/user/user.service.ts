@@ -47,9 +47,10 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
 
-    return this.userRepository.save(user).then(async (value) => {
-      await this.cartRepository.save({ userId: value.id });
-      return value;
+    return this.userRepository.save(user).then(async (userEntity) => {
+      const cart = this.cartRepository.create({ userId: userEntity.id });
+      await this.cartRepository.save(cart);
+      return userEntity;
     });
   }
 

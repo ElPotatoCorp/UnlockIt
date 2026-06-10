@@ -19,6 +19,7 @@ import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { SeriesEntity } from './entities/series.entity';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 import { SeriesControllerDoc } from 'src/docs/series/series.controller.doc';
+import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 
 @Controller('series')
 export class SeriesController {
@@ -26,7 +27,7 @@ export class SeriesController {
 
   @SeriesControllerDoc.Create()
   @Post()
-  create(@Body() createSeriesDto: CreateSeriesDto) {
+  create(@Body(DuplicatedEntryPipe(SeriesEntity, 'slug')) createSeriesDto: CreateSeriesDto) {
     return this.seriesService.create(createSeriesDto);
   }
 

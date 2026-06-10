@@ -1,7 +1,7 @@
 import { PublisherEntity } from './entities/publisher.entity';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
@@ -15,13 +15,9 @@ export class PublishersService {
     private readonly commonService: CommonService,
   ) {}
 
-  async create(dto: CreatePublisherDto): Promise<PublisherEntity> {
-    const existing = await this.publisherRepository.findOneBy({
-      name: dto.name,
-    });
-    if (existing)
-      throw new ConflictException(`Publisher '${dto.name}' already exists`);
-    return this.publisherRepository.save(dto);
+  async create(createPublisherDto: CreatePublisherDto): Promise<PublisherEntity> {
+    const publisher = this.publisherRepository.create(createPublisherDto)
+    return this.publisherRepository.save(createPublisherDto);
   }
 
   findAll(paginationQueryDto: PaginationQueryDto) {
@@ -31,8 +27,8 @@ export class PublishersService {
     );
   }
 
-  async update(id: number, dto: UpdatePublisherDto): Promise<void> {
-    await this.publisherRepository.update(id, dto);
+  async update(id: number, updatePublisherDto: UpdatePublisherDto): Promise<void> {
+    await this.publisherRepository.update(id, updatePublisherDto);
   }
 
   async remove(id: number): Promise<void> {

@@ -64,7 +64,7 @@ export class AuthController {
   @Throttle({ authRegister: {} })
   @Post('register')
   register(
-    @Body(DuplicatedEntryPipe(UserEntity, ['email', 'username']))
+    @Body(DuplicatedEntryPipe(UserEntity, 'email', 'username'))
     createUserDto: CreateUserDto,
   ) {
     return this.authService.register(createUserDto);

@@ -19,8 +19,9 @@ export class SeriesService {
 
   async create(createSeriesDto: CreateSeriesDto) {
     const { gameIds, ...seriesData } = createSeriesDto;
-
-    const series = await this.seriesRepository.save(seriesData);
+    
+    const _series = this.seriesRepository.create(seriesData);
+    const series = await this.seriesRepository.save(_series);
 
     if (gameIds?.length) {
       await this.seriesRepository

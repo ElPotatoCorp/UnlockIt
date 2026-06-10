@@ -27,13 +27,14 @@ export class TicketsService {
   ) {}
 
   async create(
-    dto: CreateTicketDto,
+    createTicketDto: CreateTicketDto,
     userId: string | null,
   ): Promise<TicketDto> {
-    const ticket = await this.ticketRepository.save({
-      ...dto,
+    const _ticket = this.ticketRepository.create({
+      ...createTicketDto,
       userId: userId ?? null,
     });
+    const ticket = await this.ticketRepository.save(_ticket);
 
     return TicketDto.fromEntity(ticket);
   }
@@ -66,10 +67,10 @@ export class TicketsService {
     return TicketDto.fromEntity(ticket);
   }
 
-  async update(ticket: TicketEntity, dto: UpdateTicketDto): Promise<TicketDto> {
-    await this.ticketRepository.update(ticket.id, dto);
+  async update(ticket: TicketEntity, updateTicketDto: UpdateTicketDto): Promise<TicketDto> {
+    await this.ticketRepository.update(ticket.id, updateTicketDto);
 
-    return TicketDto.fromEntity({ ...ticket, ...dto });
+    return TicketDto.fromEntity({ ...ticket, ...updateTicketDto });
   }
 
   async remove(ticket: TicketEntity): Promise<void> {

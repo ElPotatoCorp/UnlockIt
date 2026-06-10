@@ -16,6 +16,7 @@ import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TagsControllerDoc } from 'src/docs/tags/tags.controller.doc';
+import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 
 @TagsControllerDoc.Controller()
 @Controller('tags')
@@ -24,8 +25,8 @@ export class TagsController {
 
   @TagsControllerDoc.Create()
   @Post()
-  create(@Body() dto: CreateTagDto) {
-    return this.tagsService.create(dto);
+  create(@Body(DuplicatedEntryPipe(TagEntity, 'name')) createTagDto: CreateTagDto) {
+    return this.tagsService.create(createTagDto);
   }
 
   @TagsControllerDoc.FindAll()
@@ -39,9 +40,9 @@ export class TagsController {
   @Patch(':id')
   update(
     @Param('id', EntityExistsPipe(TagEntity)) tag: TagEntity,
-    @Body() dto: UpdateTagDto,
+    @Body() updateTagDto: UpdateTagDto,
   ) {
-    return this.tagsService.update(tag.id, dto);
+    return this.tagsService.update(tag.id, updateTagDto);
   }
 
   @TagsControllerDoc.Remove()

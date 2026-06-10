@@ -30,7 +30,8 @@ export class GamesService {
   ) {}
 
   create(createGameDto: CreateGameDto) {
-    return this.gameRepository.save(createGameDto);
+    const game = this.gameRepository.create(createGameDto);
+    return this.gameRepository.save(game);
   }
 
   private getBasicSearch(
@@ -278,7 +279,8 @@ export class GamesService {
 
   // --- Media ---
   async addMedia(game: GameEntity, dto: CreateMediaDto): Promise<MediaEntity> {
-    return this.mediaRepository.save({ gameId: game.id, ...dto });
+    const media = this.mediaRepository.create({ gameId: game.id, ...dto })
+    return this.mediaRepository.save(media);
   }
 
   async removeMedia(game: GameEntity, media: MediaEntity): Promise<void> {

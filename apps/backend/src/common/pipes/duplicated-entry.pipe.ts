@@ -12,8 +12,8 @@ import { DuplicatedEntryDto } from '../dto/duplicated-entry.dto';
 
 export async function duplicatedEntryPipe<T extends ObjectLiteral>(
   repository: Repository<T>,
-  uniqueFields: (keyof T)[] = ['id'],
   value: any,
+  ...uniqueFields: (keyof T)[]
 ): Promise<void> {
   const errors = new DuplicatedEntryDto<T>();
 
@@ -28,7 +28,7 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
 
     if (exists) {
       errors.invalidFields.push(field);
-      errors.messages[field] = `This ${field.toString()} is already used`;
+      errors.messages[field] = `The value \`${fieldValue}\` of field \`${field.toString()}\` is already used`;
     }
   }
 
@@ -39,7 +39,7 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
 
 export function DuplicatedEntryPipe<T extends ObjectLiteral>(
   entity: Type<T>,
-  uniqueFields: (keyof T)[] = ['id'],
+  ...uniqueFields: (keyof T)[]
 ): Type<PipeTransform> {
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
@@ -48,7 +48,7 @@ export function DuplicatedEntryPipe<T extends ObjectLiteral>(
     ) {}
 
     async transform(value: any, metadata: ArgumentMetadata): Promise<any> {
-      await duplicatedEntryPipe(this.repository, uniqueFields, value);
+      await duplicatedEntryPipe(this.repository, value, ...uniqueFields);
       return value;
     }
   }

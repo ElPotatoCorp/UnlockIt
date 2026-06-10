@@ -16,6 +16,7 @@ import {
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 
 @PublishersControllerDoc.Controller()
 @Controller('publishers')
@@ -24,8 +25,8 @@ export class PublishersController {
 
   @PublishersControllerDoc.Create()
   @Post()
-  create(@Body() dto: CreatePublisherDto) {
-    return this.publishersService.create(dto);
+  create(@Body(DuplicatedEntryPipe(PublisherEntity, 'name')) createPublisherDto: CreatePublisherDto) {
+    return this.publishersService.create(createPublisherDto);
   }
 
   @PublishersControllerDoc.FindAll()
@@ -39,9 +40,9 @@ export class PublishersController {
   @Patch(':id')
   update(
     @Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
-    @Body() dto: UpdatePublisherDto,
+    @Body() updatePublisherDto: UpdatePublisherDto,
   ) {
-    return this.publishersService.update(publisher.id, dto);
+    return this.publishersService.update(publisher.id, updatePublisherDto);
   }
 
   @PublishersControllerDoc.Remove()

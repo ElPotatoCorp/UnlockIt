@@ -15,11 +15,9 @@ export class TagsService {
     private readonly commonService: CommonService,
   ) {}
 
-  async create(dto: CreateTagDto): Promise<TagEntity> {
-    const existing = await this.tagRepository.findOneBy({ name: dto.name });
-    if (existing)
-      throw new ConflictException(`Tag '${dto.name}' already exists`);
-    return this.tagRepository.save(dto);
+  async create(createTagDto: CreateTagDto): Promise<TagEntity> {
+    const tag = this.tagRepository.create(createTagDto)
+    return this.tagRepository.save(tag);
   }
 
   findAll(paginationQueryDto: PaginationQueryDto) {
@@ -29,8 +27,8 @@ export class TagsService {
     );
   }
 
-  async update(id: number, dto: UpdateTagDto): Promise<void> {
-    await this.tagRepository.update(id, dto);
+  async update(id: number, updateTagDto: UpdateTagDto): Promise<void> {
+    await this.tagRepository.update(id, updateTagDto);
   }
 
   async remove(id: number): Promise<void> {
