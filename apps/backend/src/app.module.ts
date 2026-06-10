@@ -32,6 +32,7 @@ import { TicketsModule } from './tickets/tickets.module';
 import { RolesGuard } from './employees/guards/roles.guard';
 import { EmployeesModule } from './employees/employees.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { StocksModule } from './stocks/stocks.module';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
     TicketsModule,
     EmployeesModule,
     WishlistModule,
+    StocksModule,
   ],
   controllers: [AppController],
   providers: [

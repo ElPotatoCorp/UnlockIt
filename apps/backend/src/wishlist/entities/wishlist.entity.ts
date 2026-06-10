@@ -1,3 +1,4 @@
+import { WishlistEntity as IWishlistEntity } from '@unlockit/shared';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
@@ -9,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity('wishlist')
-export class WishlistEntity {
+export class WishlistEntity implements IWishlistEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 

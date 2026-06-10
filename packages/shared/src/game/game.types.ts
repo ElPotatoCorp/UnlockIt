@@ -3,8 +3,10 @@ import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform
 import { Media, MediaEntity } from "../media/media.types";
 import { GamePublisher, PublisherEntity } from "../publisher/publisher.types";
 import { SummarySeries, SeriesEntity } from "../series/series.types";
+import { StockEntity } from "../stock/stock.types";
 import { GameTag, TagEntity } from "../tag/tag.types";
-import { NullToOptional, Simplify } from "../utils/types";
+import { NullToOptional, OmitPromises, Simplify } from "../utils/types";
+import { Wishlist, WishlistEntity } from "../wishlist/wishlist.types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
 export type GameEntity = {
@@ -36,22 +38,24 @@ export type GameEntity = {
   publishers: Promise<PublisherEntity[]>;
   platforms: Promise<GamePlatformEntity | null>;
   media: Promise<MediaEntity[]>;
+  wishlists: Promise<WishlistEntity[]>;
+  stocks: Promise<StockEntity[]>;
 };
 
-export type CreateGame = NullToOptional<Omit<GameEntity, 'id' | 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'>>;
+export type CreateGame = NullToOptional<Omit<OmitPromises<GameEntity>, 'id'>>;
 
 export type UpdateGame = Partial<CreateGame>;
 
 export type SummaryGame = Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'>;
 
-export type GameDetail = Simplify<Omit<GameEntity, 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media'> & {
+export type GameDetail = Simplify<OmitPromises<GameEntity> & {
   tags: GameTag[];
   developers: GameDeveloper[];
   publishers: GamePublisher[];
   platforms: GamePlatform | null;
   media: Media[];
   series: SummarySeries | null;
-}>
+}>;
 
 export type SearchGameOptions = {
   /** Will be turned into a slug */

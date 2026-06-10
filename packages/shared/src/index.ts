@@ -20,5 +20,9 @@ export * from "./game-platform/game-platform.types"
 export * from "./media/media.types"
 export * from "./media/media.enums"
 
+export * from "./wishlist/wishlist.types"
+
+export * from "./stock/stock.types"
+
 export * from "./utils/slug.formatter"
 export * from "./utils/types";
