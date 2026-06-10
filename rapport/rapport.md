@@ -1,19 +1,27 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="hljs.css">
 
+<header class="sticky-header">
+    <span class="header-title">Rapport Qualité et Refonte Architecturale</span>
+    <img src="./assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
+</header>
+
+<div class="false-body">
+
 <div class="cover-page">
-
-<img src="./assets/logo-unlockit.svg" class="logo" alt="UnlockIt Logo">
-
-# UnlockIt
-
-## Rapport Qualité et Refonte Architecturale
-
-### Frozen1753 & ElPotato
-
-BUT Informatique
-
-<img src="./assets/cover-homepage.webp" class="cover-image" alt="Capture UnlockIt">
+    <h1>Rapport Qualité et Refonte Architecturale</h1>
+    <a href="https://github.com/ElPotatoCorp/UnlockIt" target="_blank">
+        <img src="./assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
+    </a>
+    <div class="cover-authors">
+        <div class="info-line">Mars – Juin 2026</div>
+        <div class="info-line authors">
+            <a href="https://github.com/Frozen1753" target="_blank">Frozen1753</a>
+            <span>&</span>
+            <a href="https://github.com/ElPotatoCorp" target="_blank">ElPotato</a>
+        </div>
+        <div class="info-line">BUT Informatique</div>
+</div>
 
 </div>
 
@@ -23,11 +31,32 @@ BUT Informatique
 
 <div class="toc">
 
-- [1. Introduction](#1-introduction)
-- [2. Analyse de l'ancien projet](#2-analyse-de-lancien-projet)
-- [3. Frontend](#3-frontend)
-- [4. Backend](#4-backend)
-- [5. Conclusion](#5-conclusion)
+<ul>
+    <li><a href="#1-introduction">1. Introduction</a></li>
+    <li class="lvl2"><a href="#11-présentation-du-projet">1.1 Présentation du projet</a></li>
+    <li class="lvl2"><a href="#12-objectifs-de-la-refonte">1.2 Objectifs de la refonte</a></li>
+    <li><a href="#2-analyse-de-lancien-projet">2. Analyse de l'ancien projet</a></li>
+    <li class="lvl2"><a href="#21-constats">2.1 Constats</a></li>
+    <li class="lvl2"><a href="#22-avant--après-la-refonte">2.2 Avant / Après la refonte</a></li>
+    <li><a href="#3-frontend">3. Frontend</a></li>
+    <li class="lvl2"><a href="#31-refonte-de-larchitecture-react">3.1 Refonte de l'architecture React</a></li>
+    <li class="lvl2"><a href="#32-référencement-et-indexation">3.2 Référencement et indexation</a></li>
+    <li class="lvl2"><a href="#33-optimisation-des-performances">3.3 Optimisation des performances</a></li>
+    <li class="lvl2"><a href="#34-refonte-graphique">3.4 Refonte graphique</a></li>
+    <li class="lvl2"><a href="#35-pixijs">3.5 PixiJS</a></li>
+    <li class="lvl2"><a href="#36-nouvelle-couche-api-frontend">3.6 Nouvelle couche API Frontend</a></li>
+    <li class="lvl2"><a href="#37-tests-automatisés">3.7 Tests automatisés</a></li>
+    <li class="lvl2"><a href="#38-difficultés-rencontrées-et-solutions">3.8 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#4-backend">4. Backend</a></li>
+    <li class="lvl2"><a href="#41-migration-vers-nestjs">4.1 Migration vers NestJS</a></li>
+    <li class="lvl2"><a href="#42-architecture-modulaire">4.2 Architecture modulaire</a></li>
+    <li class="lvl2"><a href="#43-validation-et-sécurité">4.3 Validation et sécurité</a></li>
+    <li class="lvl2"><a href="#44-maintenabilité">4.4 Maintenabilité</a></li>
+    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#5-conclusion">5. Conclusion</a></li>
+    <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
+    <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
+</ul>
 
 </div>
 
@@ -199,3 +228,5 @@ Repository
 # Table des matières détaillée
 
 (reprise automatique de toutes les sections du rapport)
+
+</div>
