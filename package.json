@@ -1,31 +1,28 @@
 {
   "name": "unlockit",
   "private": true,
+  "packageManager": "npm@10.9.7",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "setup": "npm install",
     "docker": "docker compose --env-file .env.development -f docker-compose.dev.yml up --build",
     "docker:down": "docker compose --env-file .env.development -f docker-compose.dev.yml down -v",
     "docker:db": "docker compose --env-file .env.development -f docker-compose.dev.yml up --build db pgadmin",
     "docker:db:down": "docker compose --env-file .env.development -f docker-compose.dev.yml down -v db && docker compose --env-file .env.development -f docker-compose.dev.yml down pgadmin",
-    "dev": "concurrently -k -p \"[{name}]\" -n \"SHARED,FRONT,BACK\" -c \"magenta,cyan,green\" \"npm run dev:shared\" \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "dev:shared": "npm run build --workspace=@unlockit/shared -- --watch",
-    "dev:frontend": "npm run dev --workspace=frontend",
-    "dev:backend": "npm run start:dev --workspace=backend",
-    "build": "npm run build:shared && concurrently \"npm run build:frontend\" \"npm run build:backend\"",
-    "build:shared": "npm run build --workspace=@unlockit/shared",
-    "build:frontend": "npm run build --workspace=frontend",
-    "build:backend": "npm run build --workspace=backend",
-    "start": "concurrently -k -p \"[{name}]\" -n \"FRONT,BACK\" -c \"cyan,green\" \"npm run start:frontend\" \"npm run start:backend\"",
-    "start:frontend": "npm run start --workspace=frontend",
-    "start:backend": "npm run start --workspace=backend"
+    
+    "dev": "turbo run dev",
+    "build": "turbo run build check-types",
+    "start": "turbo run start",
+    
+    "db:clear": "turbo run db:clear",
+    "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "dotenv-cli": "^11.0.0"
+    "dotenv-cli": "^11.0.0",
+    "turbo": "^2.9.17"
   }
 }

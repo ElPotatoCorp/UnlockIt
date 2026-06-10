@@ -1,0 +1,29 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "build": {
+      "dependsOn": ["^@unlockit/shared#build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "with": ["start:dev"],
+      "cache": false,
+      "persistent": true,
+    },
+    "start:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "backend#db:clear": {
+      "interactive": true,  
+      "cache": false,
+    },
+    "backend#db:seed": {
+      "cache": false
+    }
+  }
+}
