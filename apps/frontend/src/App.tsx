@@ -4,6 +4,7 @@ import { Layout } from "./components/layout/Layout";
 import { Loader } from "./features/loader/Loader";
 import { HelmetProvider } from "react-helmet-async";
 import { UnlockItHelmet } from "./features/helmet/UnlockItHelmet";
+import { NotFound } from "./features/not-found/NotFound";
 
 /** @ts-ignore */
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
@@ -57,7 +58,7 @@ export default function App() {
             <Route path="/register" element={lazyRoute(<Register />)} />
 
             <Route path="/playground" element={<></>} />
-            <Route path="*" element={<></>} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

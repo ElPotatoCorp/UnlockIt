@@ -81,9 +81,9 @@ const Login: FC = () => {
               Retour à l'accueil
             </Link>
 
-            <button id="logout-button" onClick={handleLogout} className={styles.btnDanger}>
+            <Button id="logout-button" onClick={handleLogout} className={styles.btnDanger}>
               Se déconnecter
-            </button>
+            </Button>
           </div>
         </Card>
       </div>

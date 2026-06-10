@@ -1,0 +1,15 @@
+.notFoundPage {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageTitle {
+  text-align: center;
+  margin: 0;
+}

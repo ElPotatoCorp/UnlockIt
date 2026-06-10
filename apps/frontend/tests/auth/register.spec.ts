@@ -1,14 +1,13 @@
 import { test, expect } from "@playwright/test";
-import { isLoggedIn, loginViaApi, logoutViaApi, registerViaApi } from "../helpers/auth";
+import { ensureLoggedOut, isLoggedIn, loginViaApi, logoutViaApi, registerViaApi } from "../helpers/auth";
 
 test.describe("Register", () => {
 
-    test("register successfully email", async ({ page }) => {
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
+    test.beforeEach(async ({ page }) => {
+        await ensureLoggedOut(page);
+    });
 
+    test("register successfully email", async ({ page }) => {
         await page.goto("/register");
 
         const form = page.locator("#register-form");
@@ -27,11 +26,6 @@ test.describe("Register", () => {
     });
 
     test("register phoneNumber disabled", async ({ page }) => {
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
-
         await page.goto("/register");
 
         const phoneBtn = page.locator("button:has-text('Téléphone')");
@@ -41,14 +35,9 @@ test.describe("Register", () => {
     });
 
     test("username already used", async ({ page }) => {
-        const uniqueVar = `${Date.now()}`;
+        const uniqueVar = Math.random().toString(36).substring(2, 10);
         const username = `user_${uniqueVar}`;
         const email = `user_${uniqueVar}@test.test`;
-
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
 
         await registerViaApi(page, username, email, "Test123&");
 
@@ -62,19 +51,14 @@ test.describe("Register", () => {
 
         await form.locator('button[type="submit"]').click();
 
-        throw new Error("API error not implemented yet");
+        await expect(form.getByText("Email ou nom d'utilisateur déjà utilisé.")).toBeVisible();
     });
 
     test("email already used", async ({ page }) => {
-        const uniqueVar = `${Date.now()}`;
+        const uniqueVar = Math.random().toString(36).substring(2, 10);
         const username = `user_${uniqueVar}`;
         const email = `user_${uniqueVar}@test.test`;
 
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
-        
         await registerViaApi(page, username, email, "Test123&");
 
         await page.goto("/register");
@@ -87,7 +71,7 @@ test.describe("Register", () => {
 
         await form.locator('button[type="submit"]').click();
 
-        throw new Error("API error not implemented yet");
+        await expect(form.getByText("Email ou nom d'utilisateur déjà utilisé.")).toBeVisible();
     });
 
     test("already logged in", async ({ page }) => {

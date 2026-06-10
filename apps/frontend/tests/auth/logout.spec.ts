@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { isLoggedIn, loginViaApi } from "../helpers/auth";
+import { ensureLoggedIn, isLoggedIn, loginViaApi } from "../helpers/auth";
 
 test.describe("Logout desktop", () => {
   test.use({ viewport: { width: 1280, height: 800 } });

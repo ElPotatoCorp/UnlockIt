@@ -89,3 +89,25 @@ export async function retryApiCall(
 
   throw new Error("API rate-limited too many times");
 }
+
+export async function ensureLoggedOut(page: Page) {
+  if (await isLoggedIn(page)) {
+    await logoutViaApi(page);
+  }
+
+  const loggedIn = await isLoggedIn(page);
+  if (loggedIn) {
+    throw new Error("Failed to ensure logged out state");
+  }
+}
+
+export async function ensureLoggedIn(page: Page, email: string, password: string) {
+  if (!(await isLoggedIn(page))) {
+    await loginViaApi(page, email, password);
+  }
+
+  const loggedIn = await isLoggedIn(page);
+  if (!loggedIn) {
+    throw new Error("Failed to ensure logged in state");
+  }
+}

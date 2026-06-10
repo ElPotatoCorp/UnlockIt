@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
-import { isLoggedIn, loginViaApi, logoutViaApi } from "../helpers/auth";
+import { ensureLoggedOut, isLoggedIn, loginViaApi, logoutViaApi } from "../helpers/auth";
 
 test.describe("Login", () => {
-    test("login successfully", async ({ page }) => {
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
 
+    test.beforeEach(async ({ page }) => {
+        await ensureLoggedOut(page);
+    });
+
+    test("login successfully", async ({ page }) => {
         await page.goto("/login");
 
         const form = page.locator("#login-form");
@@ -24,11 +24,6 @@ test.describe("Login", () => {
     });
 
     test("invalid credentials", async ({ page }) => {
-        if (await isLoggedIn(page)) {
-            await logoutViaApi(page);
-            expect(await isLoggedIn(page)).toBe(false);
-        }
-
         await page.goto("/login");
 
         const form = page.locator("#login-form");
