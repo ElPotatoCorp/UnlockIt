@@ -49,7 +49,7 @@ export class TicketsService {
       paginationQueryDto,
       {
         where: { ...ownerFilter, ...EXCLUDE_RESET_PASSWORD },
-        transform: TicketDto.fromEntity,
+        transform: { fn: TicketDto.fromEntity },
       },
     );
   }

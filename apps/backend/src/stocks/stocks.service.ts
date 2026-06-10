@@ -20,13 +20,11 @@ export class StocksService {
     return this.stockRepository.save(stocks);
   }
 
-  async findAll(id: number, paginationQueryDto: PaginationQueryDto) {
-    const res = await this.commonService.getPaginatedResponse(this.stockRepository, paginationQueryDto, { where: { gameId: id } });
-
-    return {
-      ...res,
-      data: StockDto.fromEntities(res.data),
-    }
+  findAll(id: number, paginationQueryDto: PaginationQueryDto) {
+    return this.commonService.getPaginatedResponse(this.stockRepository, paginationQueryDto, {
+      where: { gameId: id },
+      transform: { fn: StockDto.fromEntities, each: false } 
+    });
   }
 
   softRemove(stock: StockEntity) {

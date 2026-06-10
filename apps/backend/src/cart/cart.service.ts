@@ -21,7 +21,7 @@ export class CartService {
       where: { cartId },
       order: { addedAt: 'DESC' },
       relations: { game: true },
-      transform: CartItemDto.fromEntity,
+      transform: { fn: CartItemDto.fromEntity },
     });
   }
 

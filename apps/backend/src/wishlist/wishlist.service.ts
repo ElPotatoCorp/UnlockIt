@@ -4,7 +4,6 @@ import { WishlistEntity } from './entities/wishlist.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
-import { GameEntity } from 'src/games/entities/game.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Injectable()
@@ -22,8 +21,9 @@ export class WishlistService {
       {
         where: { userId },
         order: { addedAt: 'DESC' },
-        transform: (entry: WishlistEntity) =>
-          SummaryGameDto.fromEntity(entry.game),
+        transform: {
+          fn: (entry: WishlistEntity) => SummaryGameDto.fromEntity(entry.game)
+        },
       },
     );
   }

@@ -42,7 +42,7 @@ export class UsersService {
     return this.commonService.getPaginatedResponse(
       this.userRepository,
       paginationQueryDto,
-      { transform: PublicUserDto.fromEntity },
+      { transform: { fn: PublicUserDto.fromEntity } },
     );
   }
 

@@ -93,14 +93,14 @@ export class GamesService {
   ) {
     const { where, order } = this.getBasicSearch(options);
 
-    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order, transform: SummaryGameDto.fromEntity });
+    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order, transform: { fn: SummaryGameDto.fromEntity } });
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
     return this.commonService.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
-      { transform: SummaryGameDto.fromEntity },
+      { transform: { fn: SummaryGameDto.fromEntity } },
     );
   }
 
