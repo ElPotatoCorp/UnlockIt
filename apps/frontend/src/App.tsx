@@ -21,6 +21,7 @@ const Cookies = lazy(() => import("./pages/cookies/Cookies"));
 const Refunds = lazy(() => import("./pages/refunds/Refunds"));
 const Login = lazy(() => import("./features/login/Login"));
 const Register = lazy(() => import("./features/register/Register"));
+const Search = lazy(() => import("./pages/search/Search"));
 
 function lazyRoute(element: React.ReactNode) {
   return (
@@ -56,6 +57,8 @@ export default function App() {
             <Route path="/refunds" element={lazyRoute(<Refunds />)} />
             <Route path="/login" element={lazyRoute(<Login />)} />
             <Route path="/register" element={lazyRoute(<Register />)} />
+            <Route path="/search" element={lazyRoute(<Search />)} />
+            <Route path="/search/:term" element={lazyRoute(<Search />)} />
 
             <Route path="*" element={<NotFound />} />
           </Route>

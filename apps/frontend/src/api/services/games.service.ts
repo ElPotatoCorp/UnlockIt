@@ -3,10 +3,10 @@ import type {
     SummaryGame,
     GameDetail,
     Paginated,
-    SearchGameOptions,
     AdvancedSearchGameOptions,
     CreateGame,
     UpdateGame,
+    SearchBody,
 } from "@unlockit/shared";
 
 export const gamesService = {
@@ -35,7 +35,7 @@ export const gamesService = {
 
     search: async (
         slug: string,
-        options: SearchGameOptions,
+        options: SearchBody,
         page = 1,
         limit = 20
     ): Promise<Paginated<SummaryGame>> => {

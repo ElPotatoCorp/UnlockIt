@@ -79,6 +79,8 @@ export type SearchGameOptions = {
   }
 }
 
+export type SearchBody = Omit<SearchGameOptions, 'name'>;
+
 export type AdvancedSearchGameOptions = Simplify<SearchGameOptions & {
   tags?: number[];
   developers?: number[];
