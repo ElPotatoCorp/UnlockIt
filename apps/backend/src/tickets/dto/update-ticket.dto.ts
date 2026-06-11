@@ -4,7 +4,8 @@ import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
 
 export class UpdateTicketDto implements UpdateTicket {
   @TicketEntityDoc.Status()
-  @IsOptional() @IsEnum(TicketStatus)
+  @IsOptional()
+  @IsEnum(TicketStatus)
   status?: TicketStatus;
 }
 

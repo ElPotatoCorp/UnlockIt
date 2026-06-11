@@ -1,5 +1,5 @@
-import { ExactData, SummaryGame, Wishlist } from "@unlockit/shared";
-import { WishlistEntity } from "../entities/wishlist.entity";
+import { ExactData, SummaryGame, Wishlist } from '@unlockit/shared';
+import { WishlistEntity } from '../entities/wishlist.entity';
 
 export class WishlistDto implements Wishlist {
   game: SummaryGame;

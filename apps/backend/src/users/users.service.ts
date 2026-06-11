@@ -17,7 +17,7 @@ export class UsersService {
 
   async findPassword(identifier: string): Promise<{
     password: string;
-    createJwtPayloadDto: CreateJwtPayloadDto
+    createJwtPayloadDto: CreateJwtPayloadDto;
   } | null> {
     const user = await this.userRepository.findOne({
       where: [{ email: identifier }, { username: identifier }],
@@ -32,8 +32,7 @@ export class UsersService {
             sub: user.id,
             cartId: (await user.cart)?.id,
             permission: (await user.employee)?.role ?? null,
-          }
-          
+          },
         }
       : null;
   }

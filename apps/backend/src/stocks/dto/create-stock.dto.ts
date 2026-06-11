@@ -1,6 +1,6 @@
-import { CreateStock, ExactData } from "@unlockit/shared";
-import { Type } from "class-transformer";
-import { IsArray, IsString, Length } from "class-validator";
+import { CreateStock, ExactData } from '@unlockit/shared';
+import { Type } from 'class-transformer';
+import { IsArray, IsString, Length } from 'class-validator';
 
 export class CreateStockDto implements CreateStock {
   @IsArray()

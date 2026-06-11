@@ -1,6 +1,6 @@
-import { SummaryGameDto } from "src/games/dto/summary-game.dto";
-import { CartItemEntity } from "../entities/cart-item.entity";
-import { CartItem, ExactData } from "@unlockit/shared";
+import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
+import { CartItemEntity } from '../entities/cart-item.entity';
+import { CartItem, ExactData } from '@unlockit/shared';
 
 export class CartItemDto implements CartItem {
   game: SummaryGameDto;

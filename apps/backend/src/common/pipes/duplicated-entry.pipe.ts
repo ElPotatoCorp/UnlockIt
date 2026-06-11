@@ -28,7 +28,8 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
 
     if (exists) {
       errors.invalidFields.push(field);
-      errors.messages[field] = `The value \`${fieldValue}\` of field \`${field.toString()}\` is already used`;
+      errors.messages[field] =
+        `The value \`${fieldValue}\` of field \`${field.toString()}\` is already used`;
     }
   }
 

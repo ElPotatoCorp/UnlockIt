@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from './entities/cart.entity';
 import { Repository } from 'typeorm';
@@ -17,16 +21,21 @@ export class CartService {
   ) {}
 
   get(cartId: string, pagination: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(this.cartItemRepository, pagination, {
-      where: { cartId },
-      order: { addedAt: 'DESC' },
-      relations: { game: true },
-      transform: { fn: CartItemDto.fromEntity },
-    });
+    return this.commonService.getPaginatedResponse(
+      this.cartItemRepository,
+      pagination,
+      {
+        where: { cartId },
+        order: { addedAt: 'DESC' },
+        relations: { game: true },
+        transform: { fn: CartItemDto.fromEntity },
+      },
+    );
   }
 
   async total(cartId: string) {
-    const result = await this.cartItemRepository.createQueryBuilder('ci')
+    const result = await this.cartItemRepository
+      .createQueryBuilder('ci')
       .innerJoin('ci.game', 'game')
       .select('SUM(game.price * ci.quantity)', 'totalAmount')
       .where('ci.cartId = :cartId', { cartId })
@@ -40,7 +49,9 @@ export class CartService {
     const item = await this.cartItemRepository.findOneBy({ cartId, gameId });
 
     if (!item) {
-      throw new NotFoundException(`Game with ID ${gameId} was not found in the cart`);
+      throw new NotFoundException(
+        `Game with ID ${gameId} was not found in the cart`,
+      );
     }
 
     let newState: boolean;
@@ -50,7 +61,10 @@ export class CartService {
       newState = !item.selected;
     }
 
-    await this.cartItemRepository.update({ cartId, gameId }, { selected: newState });
+    await this.cartItemRepository.update(
+      { cartId, gameId },
+      { selected: newState },
+    );
   }
 
   async add(cartId: string, gameId: number, quantity?: number): Promise<void> {
@@ -59,24 +73,38 @@ export class CartService {
 
     if (item) {
       const newQuantity = item.quantity + (isValidQuantity ? quantity : 1);
-      await this.cartItemRepository.update({ cartId, gameId }, { quantity: newQuantity });
+      await this.cartItemRepository.update(
+        { cartId, gameId },
+        { quantity: newQuantity },
+      );
     } else {
-      await this.cartItemRepository.save({ cartId, gameId, quantity: (isValidQuantity ? quantity : 1) });
+      await this.cartItemRepository.save({
+        cartId,
+        gameId,
+        quantity: isValidQuantity ? quantity : 1,
+      });
     }
   }
 
-  async remove(cartId: string, gameId: number, quantity?: number): Promise<void> {
+  async remove(
+    cartId: string,
+    gameId: number,
+    quantity?: number,
+  ): Promise<void> {
     const item = await this.cartItemRepository.findOneBy({ cartId, gameId });
-    
+
     if (!item) {
       return;
     }
-    
+
     const isValidQuantity = isInt(quantity) && quantity > 0;
 
     if (quantity) {
       if (isValidQuantity) {
-        await this.cartItemRepository.update({ cartId, gameId }, { quantity: item.quantity - quantity });
+        await this.cartItemRepository.update(
+          { cartId, gameId },
+          { quantity: item.quantity - quantity },
+        );
       } else {
         throw new UnprocessableEntityException('The quantity is invalid');
       }

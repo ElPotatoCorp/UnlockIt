@@ -39,7 +39,7 @@ export class TicketDto implements Ticket {
     if (user) {
       dto.user = PublicUserDto.fromEntity(user);
     }
-    
+
     return dto;
   }
 }

@@ -8,7 +8,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { ExactData, UserProfileEntity as IUserProfileEntity } from '@unlockit/shared';
+import {
+  ExactData,
+  UserProfileEntity as IUserProfileEntity,
+} from '@unlockit/shared';
 
 @Entity('user_profile')
 @Check(`"country" ~ '^[A-Z]{2}$' OR "country" IS NULL`)

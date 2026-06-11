@@ -7,7 +7,13 @@ import { DeveloperEntity } from '../../src/developers/entities/developer.entity'
 import { PublisherEntity } from '../../src/publishers/entities/publisher.entity';
 import { GamePlatformEntity } from '../../src/platforms/entities/game-platform.entity';
 import { MediaEntity } from '../../src/media/entities/media.entity';
-import { EUAgeRating, GamePlatform, GameType, LangCode, MediaType } from '@unlockit/shared';
+import {
+  EUAgeRating,
+  GamePlatform,
+  GameType,
+  LangCode,
+  MediaType,
+} from '@unlockit/shared';
 import { Factory } from './base.factory';
 
 // ---------------------------------------------------------------------------
@@ -79,7 +85,7 @@ function pickRandom<T>(pool: T[], n: number): T[] {
     const idx = Math.floor(Math.random() * copy.length);
     result.push(copy.splice(idx, 1)[0]);
   }
-  
+
   return result;
 }
 
@@ -201,13 +207,17 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
     const available = await this.availableSlugs();
 
     if (available.length === 0) {
-      throw new Error('GameFactory: no more games available to create, all games available are already in the database.');
+      throw new Error(
+        'GameFactory: no more games available to create, all games available are already in the database.',
+      );
     }
 
     const actual = Math.min(count, available.length);
 
     if (actual < count) {
-      console.warn(`GameFactory: requested ${count} game(s) but only ${actual} slug(s) are available. Creating ${actual}.`);
+      console.warn(
+        `GameFactory: requested ${count} game(s) but only ${actual} slug(s) are available. Creating ${actual}.`,
+      );
     }
 
     const slugs = pickRandom(available, actual);
@@ -228,7 +238,7 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
     for (const r of resolved) {
       results.push(await this.persist(r));
     }
-    
+
     return results;
   }
 
@@ -247,12 +257,16 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
 
       const savedDevs: DeveloperEntity[] = [];
       for (const d of resolved.developers) {
-        savedDevs.push(await this.upsertByName(manager, DeveloperEntity, d.name));
+        savedDevs.push(
+          await this.upsertByName(manager, DeveloperEntity, d.name),
+        );
       }
 
       const savedPubs: PublisherEntity[] = [];
       for (const p of resolved.publishers) {
-        savedPubs.push(await this.upsertByName(manager, PublisherEntity, p.name));
+        savedPubs.push(
+          await this.upsertByName(manager, PublisherEntity, p.name),
+        );
       }
 
       const savedGame = await manager.save(GameEntity, resolved.game);
@@ -277,11 +291,18 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
 
       resolved.platforms.gameId = savedGame.id;
       resolved.platforms.game = savedGame;
-      const savedPlatforms = await manager.save(GamePlatformEntity, resolved.platforms);
+      const savedPlatforms = await manager.save(
+        GamePlatformEntity,
+        resolved.platforms,
+      );
 
       const savedMedia = await manager.save(
         MediaEntity,
-        resolved.media.map((m) => ({ ...m, game: savedGame, gameId: savedGame.id })),
+        resolved.media.map((m) => ({
+          ...m,
+          game: savedGame,
+          gameId: savedGame.id,
+        })),
       );
 
       return {
@@ -299,11 +320,9 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
   // upsertByName : find-or-create for Tag / Developer / Publisher
   // -------------------------------------------------------------------------
 
-  private async upsertByName<E extends { id: number; name: string; gamesCount: number }>(
-    manager: EntityManager,
-    target: EntityTarget<E>,
-    name: string,
-  ): Promise<E> {
+  private async upsertByName<
+    E extends { id: number; name: string; gamesCount: number },
+  >(manager: EntityManager, target: EntityTarget<E>, name: string): Promise<E> {
     const result = await manager
       .createQueryBuilder()
       .insert()

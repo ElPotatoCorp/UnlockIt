@@ -1,4 +1,7 @@
-import { ExactData, PublisherEntity as IPublisherEntity } from '@unlockit/shared';
+import {
+  ExactData,
+  PublisherEntity as IPublisherEntity,
+} from '@unlockit/shared';
 import { PublisherEntityDoc } from 'src/docs/publishers/entities/publisher.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';

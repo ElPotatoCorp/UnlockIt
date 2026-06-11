@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { MinRole } from 'src/employees/decorators/support-roles.decorator';
@@ -19,12 +28,17 @@ export class StocksController {
   }
 
   @Get(':id')
-  findAll(@Param('id') id: string, @Query() paginationQueryDto: PaginationQueryDto) {
+  findAll(
+    @Param('id') id: string,
+    @Query() paginationQueryDto: PaginationQueryDto,
+  ) {
     return this.stocksService.findAll(+id, paginationQueryDto);
   }
 
   @Get(':id/one')
-  findOne(@Param('id', EntityExistsPipe(StockEntity, 'gameId')) stock: StockEntity) {
+  findOne(
+    @Param('id', EntityExistsPipe(StockEntity, 'gameId')) stock: StockEntity,
+  ) {
     return StockDto.fromEntities([stock]);
   }
 

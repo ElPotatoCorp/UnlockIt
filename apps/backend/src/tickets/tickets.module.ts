@@ -6,12 +6,9 @@ import { TicketEntity } from './entities/ticket.entity';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TicketEntity]),
-    UserModule,
-  ],
+  imports: [TypeOrmModule.forFeature([TicketEntity]), UserModule],
   controllers: [TicketsController],
   providers: [TicketsService],
-  exports: [TicketsService, TypeOrmModule]
+  exports: [TicketsService, TypeOrmModule],
 })
 export class TicketsModule {}

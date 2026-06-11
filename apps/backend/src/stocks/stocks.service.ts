@@ -16,15 +16,23 @@ export class StocksService {
   ) {}
 
   create(gameId: number, createStockDto: CreateStockDto) {
-    const stocks = this.stockRepository.create(createStockDto.productKeys.map((productKey) => { return { productKey: productKey, gameId }; }));
+    const stocks = this.stockRepository.create(
+      createStockDto.productKeys.map((productKey) => {
+        return { productKey: productKey, gameId };
+      }),
+    );
     return this.stockRepository.save(stocks);
   }
 
   findAll(id: number, paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(this.stockRepository, paginationQueryDto, {
-      where: { gameId: id },
-      transform: { fn: StockDto.fromEntities, each: false } 
-    });
+    return this.commonService.getPaginatedResponse(
+      this.stockRepository,
+      paginationQueryDto,
+      {
+        where: { gameId: id },
+        transform: { fn: StockDto.fromEntities, each: false },
+      },
+    );
   }
 
   softRemove(stock: StockEntity) {

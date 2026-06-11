@@ -11,4 +11,5 @@ export class ModifyGamesInSerieDto implements ModifyGamesInSeries {
   gameIds: number[];
 }
 
-const _assertExact: ExactData<ModifyGamesInSeries, ModifyGamesInSerieDto> = true;
+const _assertExact: ExactData<ModifyGamesInSeries, ModifyGamesInSerieDto> =
+  true;

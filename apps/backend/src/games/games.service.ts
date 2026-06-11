@@ -3,7 +3,16 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from './entities/game.entity';
-import { Between, FindOptionsOrder, FindOptionsWhere, LessThan, Like, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
+import {
+  Between,
+  FindOptionsOrder,
+  FindOptionsWhere,
+  LessThan,
+  Like,
+  MoreThan,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
@@ -34,9 +43,7 @@ export class GamesService {
     return this.gameRepository.save(game);
   }
 
-  private getBasicSearch(
-    options: SearchGameOptionsDto
-  ) {
+  private getBasicSearch(options: SearchGameOptionsDto) {
     const where: FindOptionsWhere<GameEntity> = {};
 
     where.slug = Like(`%${options.name}%`);
@@ -58,7 +65,7 @@ export class GamesService {
         where.comingSoon = true;
       } else if (date) {
         const ISOdate = date instanceof Date ? date.toISOString() : date;
-        
+
         switch (when) {
           case 'exact':
             where.releaseDate = ISOdate;
@@ -77,7 +84,7 @@ export class GamesService {
     const orderDirection = options.order?.asc === false ? 'DESC' : 'ASC';
     switch (options.order.by) {
       case 'price':
-        order.price = orderDirection
+        order.price = orderDirection;
         break;
       default:
         order.name = orderDirection;
@@ -89,11 +96,15 @@ export class GamesService {
 
   async search(
     paginationQueryDto: PaginationQueryDto,
-    options: SearchGameOptionsDto
+    options: SearchGameOptionsDto,
   ) {
     const { where, order } = this.getBasicSearch(options);
 
-    return this.commonService.getPaginatedResponse(this.gameRepository, paginationQueryDto, { where, order, transform: { fn: SummaryGameDto.fromEntity } });
+    return this.commonService.getPaginatedResponse(
+      this.gameRepository,
+      paginationQueryDto,
+      { where, order, transform: { fn: SummaryGameDto.fromEntity } },
+    );
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
@@ -279,7 +290,7 @@ export class GamesService {
 
   // --- Media ---
   async addMedia(game: GameEntity, dto: CreateMediaDto): Promise<MediaEntity> {
-    const media = this.mediaRepository.create({ gameId: game.id, ...dto })
+    const media = this.mediaRepository.create({ gameId: game.id, ...dto });
     return this.mediaRepository.save(media);
   }
 

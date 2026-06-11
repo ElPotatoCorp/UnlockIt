@@ -1,5 +1,11 @@
 import { GameEntity } from 'src/games/entities/game.entity';
-import { EUAgeRating, ExactData, GameDetail, GameType, LangCode } from '@unlockit/shared';
+import {
+  EUAgeRating,
+  ExactData,
+  GameDetail,
+  GameType,
+  LangCode,
+} from '@unlockit/shared';
 import { SeriesDto } from 'src/series/dto/series.dto';
 import { GamePublisherDto } from 'src/publishers/dto/game-publisher.dto';
 import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';

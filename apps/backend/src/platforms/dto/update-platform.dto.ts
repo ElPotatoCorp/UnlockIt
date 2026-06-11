@@ -12,7 +12,10 @@ export class UpdatePlatformDto implements UpdatePlatform {
   @PlatformEntityDoc.Ps4() @IsOptional() @IsBoolean() ps4?: boolean;
   @PlatformEntityDoc.Ps5() @IsOptional() @IsBoolean() ps5?: boolean;
   @PlatformEntityDoc.XboxOne() @IsOptional() @IsBoolean() xboxOne?: boolean;
-  @PlatformEntityDoc.XboxSeries() @IsOptional() @IsBoolean() xboxSeries?: boolean;
+  @PlatformEntityDoc.XboxSeries()
+  @IsOptional()
+  @IsBoolean()
+  xboxSeries?: boolean;
 }
 
 const _assertExact: ExactData<UpdatePlatform, UpdatePlatformDto> = true;

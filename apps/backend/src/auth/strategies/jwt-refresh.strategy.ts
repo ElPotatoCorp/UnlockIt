@@ -33,12 +33,12 @@ export class JwtRefreshStrategy extends PassportStrategy(
       payload.sub,
     );
 
-    const { sub, sid, iat, exp, ...relevantPayload } = payload; 
+    const { sub, sid, iat, exp, ...relevantPayload } = payload;
 
     return {
       sub: session.userId,
       sid: session.id,
-      ...relevantPayload
+      ...relevantPayload,
     };
   }
 }

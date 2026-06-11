@@ -27,7 +27,10 @@ export class SeriesController {
 
   @SeriesControllerDoc.Create()
   @Post()
-  create(@Body(DuplicatedEntryPipe(SeriesEntity, 'slug')) createSeriesDto: CreateSeriesDto) {
+  create(
+    @Body(DuplicatedEntryPipe(SeriesEntity, 'slug'))
+    createSeriesDto: CreateSeriesDto,
+  ) {
     return this.seriesService.create(createSeriesDto);
   }
 

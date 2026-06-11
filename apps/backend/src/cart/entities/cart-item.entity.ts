@@ -24,7 +24,10 @@ export class CartItemEntity implements ICartItemEntity {
   @JoinColumn({ name: 'cart_id' })
   cart: CartEntity;
 
-  @ManyToOne(() => GameEntity, (game) => game.wishlists, { lazy: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => GameEntity, (game) => game.wishlists, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'game_id' })
   game: Promise<GameEntity>;
 
@@ -34,7 +37,11 @@ export class CartItemEntity implements ICartItemEntity {
   @Column('boolean', { default: true })
   selected: boolean;
 
-  @CreateDateColumn({ name: 'added_at', type: 'timestamptz', default: () => 'NOW()' })
+  @CreateDateColumn({
+    name: 'added_at',
+    type: 'timestamptz',
+    default: () => 'NOW()',
+  })
   addedAt: Date;
 }
 

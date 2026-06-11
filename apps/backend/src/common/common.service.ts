@@ -1,9 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  FindManyOptions,
-  ObjectLiteral,
-  Repository,
-} from 'typeorm';
+import { FindManyOptions, ObjectLiteral, Repository } from 'typeorm';
 import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { PaginatedDto } from './dto/paginated.dto';
 
@@ -17,9 +13,14 @@ interface TransformAll<T, U> {
   fn: (entities: T[]) => U;
 }
 
-export type PaginatedResponseTransform<T, U> = TransformEach<T, U> | TransformAll<T, U>;
+export type PaginatedResponseTransform<T, U> =
+  | TransformEach<T, U>
+  | TransformAll<T, U>;
 
-export interface PaginatedResponseOptions<T extends ObjectLiteral, U = T> extends FindManyOptions<T> {
+export interface PaginatedResponseOptions<
+  T extends ObjectLiteral,
+  U = T,
+> extends FindManyOptions<T> {
   transform?: PaginatedResponseTransform<T, U>;
 }
 
@@ -45,9 +46,10 @@ export class CommonService {
 
     let items: U[];
     if (options?.transform) {
-      items = options.transform.each === false
-        ? [options.transform.fn(data)]
-        : data.map(options.transform.fn)
+      items =
+        options.transform.each === false
+          ? [options.transform.fn(data)]
+          : data.map(options.transform.fn);
     } else {
       items = data as unknown as U[];
     }

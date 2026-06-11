@@ -12,7 +12,9 @@ const FACTORIES: [name: string, factory: any][] = [
   ['stocks', StockFactory],
 ];
 
-const FACTORY_REGISTRY: Record<string, any> = Object.fromEntries(FACTORIES.map(value => [value[0], value[1]]));
+const FACTORY_REGISTRY: Record<string, any> = Object.fromEntries(
+  FACTORIES.map((value) => [value[0], value[1]]),
+);
 
 type SpecificOptions = {
   entity: string;
@@ -21,7 +23,7 @@ type SpecificOptions = {
 };
 
 function createOverrides(rawArgs: string[]): Record<string, any> {
-  return Object.fromEntries(rawArgs.map(arg => arg.split('=').slice(0,2)));
+  return Object.fromEntries(rawArgs.map((arg) => arg.split('=').slice(0, 2)));
 }
 
 async function specific(dataSource: DataSource, options: SpecificOptions) {
@@ -101,7 +103,7 @@ async function seed() {
     }
     console.log('Connected to database');
     if (options.entity) {
-      await specific(dataSource, options)
+      await specific(dataSource, options);
     } else {
       await init(dataSource);
     }

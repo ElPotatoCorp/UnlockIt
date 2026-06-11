@@ -19,7 +19,7 @@ export class SeriesService {
 
   async create(createSeriesDto: CreateSeriesDto) {
     const { gameIds, ...seriesData } = createSeriesDto;
-    
+
     const _series = this.seriesRepository.create(seriesData);
     const series = await this.seriesRepository.save(_series);
 

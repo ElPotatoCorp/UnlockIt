@@ -1,6 +1,11 @@
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { GameEntity } from '../entities/game.entity';
-import { EUAgeRating, ExactData, GameType, SummaryGame } from '@unlockit/shared';
+import {
+  EUAgeRating,
+  ExactData,
+  GameType,
+  SummaryGame,
+} from '@unlockit/shared';
 
 export class SummaryGameDto implements SummaryGame {
   @GameEntityDoc.Id()

@@ -19,10 +19,7 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Get()
-  get(
-    @User('cartId') cartId: string,
-    @Query() pagination: PaginationQueryDto,
-  ) {
+  get(@User('cartId') cartId: string, @Query() pagination: PaginationQueryDto) {
     return this.cartService.get(cartId, pagination);
   }
 

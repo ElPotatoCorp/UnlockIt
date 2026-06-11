@@ -45,7 +45,7 @@ export abstract class Factory<T, U = T> {
   }
 
   /**
-   * Create and insert an instance in the db 
+   * Create and insert an instance in the db
    */
   async create(overrides: Partial<T> = {}): Promise<U> {
     const [result] = await this.createMany(1, overrides);
@@ -62,7 +62,9 @@ export abstract class Factory<T, U = T> {
 
     const resolvedItems = this.datasource!.manager.create(this.entity, items);
 
-    return this.datasource!.manager.save(this.entity, resolvedItems) as Promise<U[]>;
+    return this.datasource!.manager.save(this.entity, resolvedItems) as Promise<
+      U[]
+    >;
   }
 
   /**
@@ -81,7 +83,9 @@ export abstract class Factory<T, U = T> {
       throw new Error(`${this.constructor.name}: DataSource not provided.`);
     }
     if (!this.datasource.isInitialized) {
-      throw new Error(`${this.constructor.name}: DataSource is not initialized.`);
+      throw new Error(
+        `${this.constructor.name}: DataSource is not initialized.`,
+      );
     }
   }
 }

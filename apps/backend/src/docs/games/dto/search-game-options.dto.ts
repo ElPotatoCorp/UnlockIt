@@ -36,8 +36,19 @@ export const SearchGameOptionsDtoDoc = {
         type: 'object',
         required: ['min'],
         properties: {
-          min: { type: 'integer', minimum: 0, example: 0, description: 'Minimum price in euros (inclusive).' },
-          max: { type: 'integer', minimum: 0, example: 60, description: 'Maximum price in euros (inclusive). Must be &ge; min.' },
+          min: {
+            type: 'integer',
+            minimum: 0,
+            example: 0,
+            description: 'Minimum price in euros (inclusive).',
+          },
+          max: {
+            type: 'integer',
+            minimum: 0,
+            example: 60,
+            description:
+              'Maximum price in euros (inclusive). Must be &ge; min.',
+          },
         },
       }),
     ),
@@ -51,8 +62,18 @@ export const SearchGameOptionsDtoDoc = {
         type: 'object',
         selfRequired: false,
         properties: {
-          when: { type: 'string', enum: ['exact', 'before', 'after', 'coming-soon'], example: 'after', description: 'Comparison mode for the release date.' },
-          date: { type: 'string', format: 'date', example: '2024-01-01', description: 'Reference date (ISO 8601). Not used for coming-soon.' },
+          when: {
+            type: 'string',
+            enum: ['exact', 'before', 'after', 'coming-soon'],
+            example: 'after',
+            description: 'Comparison mode for the release date.',
+          },
+          date: {
+            type: 'string',
+            format: 'date',
+            example: '2024-01-01',
+            description: 'Reference date (ISO 8601). Not used for coming-soon.',
+          },
         },
       }),
     ),
@@ -66,8 +87,18 @@ export const SearchGameOptionsDtoDoc = {
         selfRequired: true,
         required: ['by'],
         properties: {
-          by: { type: 'string', enum: ['popular', 'price'], example: 'popular', description: 'Field to sort by.' },
-          asc: { type: 'boolean', example: true, description: 'Sort direction. `true` for ascending, `false` for descending.' },
+          by: {
+            type: 'string',
+            enum: ['popular', 'price'],
+            example: 'popular',
+            description: 'Field to sort by.',
+          },
+          asc: {
+            type: 'boolean',
+            example: true,
+            description:
+              'Sort direction. `true` for ascending, `false` for descending.',
+          },
         },
       }),
     ),

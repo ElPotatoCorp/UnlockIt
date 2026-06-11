@@ -44,14 +44,23 @@ export class TicketsService {
     return TicketDto.fromEntity(ticket);
   }
 
-  async createPasswordResetTicket(createPasswordResetDto: CreatePasswordResetDto): Promise<string> {
-    const user = await this.userRepository.findOne({
-      select: ['email'],
-      where: [{ username: createPasswordResetDto.identifier }, { email: createPasswordResetDto.identifier }]
-    }).then(value => value ? {id: value.id, email: value.email} : null)
+  async createPasswordResetTicket(
+    createPasswordResetDto: CreatePasswordResetDto,
+  ): Promise<string> {
+    const user = await this.userRepository
+      .findOne({
+        select: ['email'],
+        where: [
+          { username: createPasswordResetDto.identifier },
+          { email: createPasswordResetDto.identifier },
+        ],
+      })
+      .then((value) => (value ? { id: value.id, email: value.email } : null));
 
     if (!user) {
-      throw new NotFoundException(`There is no user who's email or username matches ${createPasswordResetDto.identifier}`);
+      throw new NotFoundException(
+        `There is no user who's email or username matches ${createPasswordResetDto.identifier}`,
+      );
     }
 
     const uuid = randomUUID();
@@ -61,7 +70,7 @@ export class TicketsService {
       userId: user.id,
       email: user.email,
       reason: 'RESET PASSWORD',
-      content: `This ticket has been automatically generated for a password reset request.\nPlease do not reply.\nIf you did not request a password reset, please ignore this message.\nOtherwise, please, follow <a href="https://placeholder.com/reset-password/${uuid}">this link</a> to reset your password.`
+      content: `This ticket has been automatically generated for a password reset request.\nPlease do not reply.\nIf you did not request a password reset, please ignore this message.\nOtherwise, please, follow <a href="https://placeholder.com/reset-password/${uuid}">this link</a> to reset your password.`,
     });
     this.ticketRepository.save(ticket);
 
@@ -96,7 +105,10 @@ export class TicketsService {
     return TicketDto.fromEntity(ticket);
   }
 
-  async update(ticket: TicketEntity, updateTicketDto: UpdateTicketDto): Promise<TicketDto> {
+  async update(
+    ticket: TicketEntity,
+    updateTicketDto: UpdateTicketDto,
+  ): Promise<TicketDto> {
     await this.ticketRepository.update(ticket.id, updateTicketDto);
 
     return TicketDto.fromEntity({ ...ticket, ...updateTicketDto });

@@ -1,6 +1,13 @@
-import { ExactData, StockEntity as IStockEntity } from "@unlockit/shared";
-import { GameEntity } from "src/games/entities/game.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { ExactData, StockEntity as IStockEntity } from '@unlockit/shared';
+import { GameEntity } from 'src/games/entities/game.entity';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity('stocks')
 export class StockEntity implements IStockEntity {
@@ -12,7 +19,7 @@ export class StockEntity implements IStockEntity {
 
   @ManyToOne(() => GameEntity, (game) => game.stocks, {
     lazy: true,
-    onDelete: 'RESTRICT'
+    onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;

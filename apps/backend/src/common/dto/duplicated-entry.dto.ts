@@ -40,4 +40,7 @@ export class DuplicatedEntryDto<T> implements DuplicatedEntry<T> {
   messages: Partial<Record<keyof T, string>> = {};
 }
 
-const _assertExact: ExactData<DuplicatedEntry<any>, DuplicatedEntryDto<any>> = true;
+const _assertExact: ExactData<
+  DuplicatedEntry<any>,
+  DuplicatedEntryDto<any>
+> = true;

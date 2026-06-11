@@ -1,4 +1,8 @@
-import { ExactData, TicketEntity as ITicketEntity, TicketStatus } from '@unlockit/shared';
+import {
+  ExactData,
+  TicketEntity as ITicketEntity,
+  TicketStatus,
+} from '@unlockit/shared';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,

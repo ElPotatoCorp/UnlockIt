@@ -88,11 +88,7 @@ export class AuthController {
     @UserAgent() userAgent: string,
     @Response({ passthrough: true }) res,
   ) {
-    const tokens = await this.authService.login(
-      user,
-      ip,
-      userAgent,
-    );
+    const tokens = await this.authService.login(user, ip, userAgent);
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 
@@ -109,7 +105,10 @@ export class AuthController {
   @Public()
   @Throttle({ authResetPassword: {} })
   @Post('reset-password/:ticketId')
-  resetPassword(@Param('ticketId', EntityExistsPipe(TicketEntity)) ticket: TicketEntity, @Body() resetPasswordDto: ResetPasswordDto) {
+  resetPassword(
+    @Param('ticketId', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
     return this.authService.resetPassword(ticket, resetPasswordDto);
   }
 
@@ -129,7 +128,7 @@ export class AuthController {
       createJwtPayloadDto as CreateJwtPayloadDto,
       ip,
       userAgent,
-      sid
+      sid,
     );
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }

@@ -1,4 +1,9 @@
-import { Inject, Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnauthorizedException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt-ts';
 import { SessionsService } from 'src/sessions/sessions.service';
@@ -64,10 +69,9 @@ export class AuthService {
     userAgent: string,
     sessionId?: string,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const refreshToken = this.jwtService.sign(
-      user,
-      { expiresIn: this.jwt.refreshTokenExpiresIn },
-    );
+    const refreshToken = this.jwtService.sign(user, {
+      expiresIn: this.jwt.refreshTokenExpiresIn,
+    });
 
     const session = (
       await this.sessionsService.createOrUpdate({
@@ -92,14 +96,21 @@ export class AuthService {
     };
   }
 
-  async resetPassword(ticket: TicketEntity, resetPasswordDto: ResetPasswordDto) {
+  async resetPassword(
+    ticket: TicketEntity,
+    resetPasswordDto: ResetPasswordDto,
+  ) {
     const user = await this.usersService.findOne({ email: ticket.email });
 
     if (!user) {
-      throw new UnprocessableEntityException('This user does not seem to exists')
+      throw new UnprocessableEntityException(
+        'This user does not seem to exists',
+      );
     }
 
-    this.userService.update(user.id, { password: await hashPassword(resetPasswordDto.password) });
+    this.userService.update(user.id, {
+      password: await hashPassword(resetPasswordDto.password),
+    });
   }
 
   logout(sessionId: string) {

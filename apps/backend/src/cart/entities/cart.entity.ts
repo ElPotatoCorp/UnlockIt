@@ -22,7 +22,10 @@ export class CartEntity implements ICartEntity {
   @JoinColumn({ name: 'user_id' })
   user: Promise<UserEntity>;
 
-  @OneToMany(() => CartItemEntity, (item) => item.cart, { lazy: true, onDelete: 'CASCADE' })
+  @OneToMany(() => CartItemEntity, (item) => item.cart, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'cart_id' })
   items: Promise<CartItemEntity[]>;
 }

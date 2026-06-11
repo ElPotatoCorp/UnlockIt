@@ -22,7 +22,8 @@ export class WishlistService {
         where: { userId },
         order: { addedAt: 'DESC' },
         transform: {
-          fn: async (entry: WishlistEntity) => SummaryGameDto.fromEntity(await entry.game)
+          fn: async (entry: WishlistEntity) =>
+            SummaryGameDto.fromEntity(await entry.game),
         },
       },
     );

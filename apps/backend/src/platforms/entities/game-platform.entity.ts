@@ -1,4 +1,7 @@
-import { ExactData, GamePlatformEntity as IGamePlatformEntity } from '@unlockit/shared';
+import {
+  ExactData,
+  GamePlatformEntity as IGamePlatformEntity,
+} from '@unlockit/shared';
 import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { OneToOne, JoinColumn, Entity, Column, PrimaryColumn } from 'typeorm';

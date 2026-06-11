@@ -25,7 +25,9 @@ export class TagsController {
 
   @TagsControllerDoc.Create()
   @Post()
-  create(@Body(DuplicatedEntryPipe(TagEntity, 'name')) createTagDto: CreateTagDto) {
+  create(
+    @Body(DuplicatedEntryPipe(TagEntity, 'name')) createTagDto: CreateTagDto,
+  ) {
     return this.tagsService.create(createTagDto);
   }
 

@@ -1,5 +1,10 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { CreateJwtPayload, EmployeeRole, ExactData, JwtPayload } from '@unlockit/shared';
+import {
+  CreateJwtPayload,
+  EmployeeRole,
+  ExactData,
+  JwtPayload,
+} from '@unlockit/shared';
 
 export class JwtPayloadDto implements JwtPayload {
   @ApiProperty({
@@ -23,7 +28,7 @@ export class JwtPayloadDto implements JwtPayload {
   exp: number;
 
   @ApiProperty({
-    description: 'The UUID of the currently authenticated user\'s cart',
+    description: "The UUID of the currently authenticated user's cart",
   })
   cartId: string;
 
@@ -40,7 +45,9 @@ export class JwtPayloadDto implements JwtPayload {
   permission: EmployeeRole | null;
 }
 
-export class CreateJwtPayloadDto extends OmitType(JwtPayloadDto, ['sid', 'iat', 'exp'] as const) implements CreateJwtPayload {}
+export class CreateJwtPayloadDto
+  extends OmitType(JwtPayloadDto, ['sid', 'iat', 'exp'] as const)
+  implements CreateJwtPayload {}
 
 const _assertExact: ExactData<JwtPayload, JwtPayloadDto> = true;
-const __assertExact: ExactData<CreateJwtPayload, CreateJwtPayloadDto> = true; 
+const __assertExact: ExactData<CreateJwtPayload, CreateJwtPayloadDto> = true;

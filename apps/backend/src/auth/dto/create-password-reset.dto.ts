@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { CreatePasswordReset, ExactData } from "@unlockit/shared";
-import { IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { CreatePasswordReset, ExactData } from '@unlockit/shared';
+import { IsString } from 'class-validator';
 
 export class CreatePasswordResetDto implements CreatePasswordReset {
   @ApiProperty({
@@ -11,4 +11,5 @@ export class CreatePasswordResetDto implements CreatePasswordReset {
   identifier: string;
 }
 
-const _assertExact: ExactData<CreatePasswordReset, CreatePasswordResetDto> = true;
+const _assertExact: ExactData<CreatePasswordReset, CreatePasswordResetDto> =
+  true;

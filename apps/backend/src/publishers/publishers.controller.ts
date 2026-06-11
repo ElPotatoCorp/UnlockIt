@@ -25,7 +25,10 @@ export class PublishersController {
 
   @PublishersControllerDoc.Create()
   @Post()
-  create(@Body(DuplicatedEntryPipe(PublisherEntity, 'name')) createPublisherDto: CreatePublisherDto) {
+  create(
+    @Body(DuplicatedEntryPipe(PublisherEntity, 'name'))
+    createPublisherDto: CreatePublisherDto,
+  ) {
     return this.publishersService.create(createPublisherDto);
   }
 

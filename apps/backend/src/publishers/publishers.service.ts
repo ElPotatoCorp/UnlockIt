@@ -15,8 +15,10 @@ export class PublishersService {
     private readonly commonService: CommonService,
   ) {}
 
-  async create(createPublisherDto: CreatePublisherDto): Promise<PublisherEntity> {
-    const publisher = this.publisherRepository.create(createPublisherDto)
+  async create(
+    createPublisherDto: CreatePublisherDto,
+  ): Promise<PublisherEntity> {
+    const publisher = this.publisherRepository.create(createPublisherDto);
     return this.publisherRepository.save(createPublisherDto);
   }
 
@@ -27,7 +29,10 @@ export class PublishersService {
     );
   }
 
-  async update(id: number, updatePublisherDto: UpdatePublisherDto): Promise<void> {
+  async update(
+    id: number,
+    updatePublisherDto: UpdatePublisherDto,
+  ): Promise<void> {
     await this.publisherRepository.update(id, updatePublisherDto);
   }
 
