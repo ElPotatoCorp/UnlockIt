@@ -1,6 +1,7 @@
 import { type FC } from "react";
-import { SearchGameGrid } from "../search-game-grid/SearchGameGrid";
 import { SearchGameCardSkeleton } from "./search-game-card-skeleton/SearchGameCardSkeleton";
+import styles from "./searchResults.module.css";
+import { SearchGameCard } from "./search-game-card/SearchGameCard";
 
 interface Props {
     games: any[];
@@ -17,10 +18,7 @@ export const SearchResults: FC<Props> = ({
 }) => {
     if (loading) {
         return (
-            <div style={{
-                padding: "2rem", display: "grid", gap: "1.5rem",
-                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))"
-            }}>
+            <div className={styles.grid}>
                 <SearchGameCardSkeleton />
                 <SearchGameCardSkeleton />
                 <SearchGameCardSkeleton />
@@ -34,10 +32,17 @@ export const SearchResults: FC<Props> = ({
     }
 
     return (
-        <SearchGameGrid
-            games={games}
-            onAddToCart={onAddToCart}
-            onToggleWishlist={onToggleWishlist}
-        />
+        <div className={styles.grid}>
+            {
+                games.map((g) => (
+                    <SearchGameCard
+                        key={g.id}
+                        game={g}
+                        onAddToCart={onAddToCart}
+                        onToggleWishlist={onToggleWishlist}
+                    />
+                ))
+            }
+        </div>
     );
 };
