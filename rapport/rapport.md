@@ -88,6 +88,9 @@ Les composants React contenaient parfois à la fois de la logique métier, des a
 
 ### Avant
 
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
 ```tsx
 const onSubmit = async (data: FormData) => {
     setErrorMessage(null);
@@ -138,11 +141,16 @@ const onSubmit = async (data: FormData) => {
 
 L'architecture de la première version était principalement orientée vers la mise en place rapide des fonctionnalités.
 
+</details>
+
 </div>
 
 <div class="after">
 
 ### Après
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
 
 ```tsx
 const onSubmit = async (data: FormData) => {
@@ -179,6 +187,8 @@ export const authService = {
 ```
 
 L'architecture actuelle privilégie la séparation des responsabilités, les performances et la maintenabilité.
+
+</details>
 
 </div>
 

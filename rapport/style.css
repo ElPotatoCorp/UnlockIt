@@ -227,7 +227,7 @@ h3 {
 .success {
   background: var(--accent-tertiary);
   border-radius: 12px;
-  padding: 0px 20px;
+  padding: 16px 20px;
   margin: 20px 0;
 }
 
@@ -244,10 +244,12 @@ h3 {
 
 .before h3 {
   color: #b91c1c;
+  margin-top: 0;
 }
 
 .after h3 {
   color: #15803d;
+  margin-top: 0;
 }
 
 /* ==========================================================
@@ -284,4 +286,30 @@ th {
 
 .page-break {
   page-break-after: always;
+}
+
+/* ==========================================================
+   SECTIONS
+   ========================================================== */
+
+.accordion summary {
+    cursor: pointer;
+    padding: 0px 10px;
+    background: var(--accent-secondary);
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+}
+
+.accordion[open] summary {
+    background: var(--accent-tertiary);
+    border: 1px solid var(--text-black);
+    color: black;
+}
+
+.accordion p {
+    padding: 12px 16px;
+    background: var(--accent-tertiary);
+    border-radius: 0 0 8px 8px;
+    margin: 0;
 }
