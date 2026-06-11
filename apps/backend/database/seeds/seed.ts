@@ -52,6 +52,7 @@ async function init(dataSource: DataSource) {
   // Initialize factories
   const userFactory = new UserFactory(dataSource);
   const gameFactory = new GameFactory(dataSource);
+  const stockFactory = new StockFactory(dataSource);
 
   console.log('-> Seeding batch: Users');
   const users = await userFactory.createMany(5);
@@ -60,6 +61,10 @@ async function init(dataSource: DataSource) {
   console.log('-> Seeding batch: Games');
   const games = await gameFactory.createMany(64);
   console.log(`   Created ${games.length} default games.`);
+
+  console.log('-> Seeding batch: Stocks');
+  const stocks = await stockFactory.createMany(10000);
+  console.log(`   Created ${stocks.length} default stocks.`);
 
   console.log('\nGlobal database seeding finished successfully!');
 }
