@@ -85,3 +85,7 @@ export type AdvancedSearchGameOptions = Simplify<SearchGameOptions & {
   publishers?: number[];
   platforms?: GamePlatform;
 }>
+
+export type SearchBody = Omit<SearchGameOptions, 'name'>;
+
+export type AdvancedSearchBody = Omit<AdvancedSearchGameOptions, 'name'>;

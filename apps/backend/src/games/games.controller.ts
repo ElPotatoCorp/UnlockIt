@@ -46,7 +46,11 @@ export class GamesController {
   @Public()
   @Post('search/:slug')
   @HttpCode(HttpStatus.OK)
-  search(@Param('slug') name: string, @Query() paginationQueryDto: PaginationQueryDto, @Body() searchGameOptionsDto: SearchBodyDto) {
+  search(
+    @Param('slug') name: string,
+    @Query() paginationQueryDto: PaginationQueryDto,
+    @Body() searchGameOptionsDto: SearchBodyDto,
+  ) {
     return this.gamesService.search(paginationQueryDto, { name, ...searchGameOptionsDto } as SearchGameOptionsDto);
   }
 
