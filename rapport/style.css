@@ -227,7 +227,7 @@ h3 {
 .success {
   background: var(--accent-tertiary);
   border-radius: 12px;
-  padding: 20px;
+  padding: 0px 20px;
   margin: 20px 0;
 }
 
@@ -254,17 +254,8 @@ h3 {
    CODE
    ========================================================== */
 
-code {
-  padding: 3px 6px;
-  border-radius: 4px;
-  background: var(--accent-tertiary);
-}
-
 pre {
-  border-radius: 12px;
-  padding: 20px;
-  overflow-x: auto;
-  background: var(--accent-tertiary);
+  border-radius: 16px;
 }
 
 /* ==========================================================

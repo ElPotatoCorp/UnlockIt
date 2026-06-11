@@ -84,13 +84,57 @@ Les composants React contenaient parfois à la fois de la logique métier, des a
 
 ## 2.2 Avant / Après la refonte
 
-<div class="comparison">
-
 <div class="before">
 
 ### Avant
 
-![Architecture V1](./assets/placeholder-architecture-v1.webp)
+```tsx
+const onSubmit = async (data: FormData) => {
+    setErrorMessage(null);
+    setStatus("idle");
+
+    if (!isStrong) {
+        setStatus("error");
+        setErrorMessage("Le mot de passe ne respecte pas les critères de sécurité");
+        return;
+    }
+
+    try {
+        const payload: any = {
+            username: data.username,
+            password: data.password,
+        };
+
+        if (data.contactType === "email") {
+            payload.email = data.email;
+        } else {
+            payload.phone_wzc = data.phone_wzc;
+            payload.phone_number = data.phone_number;
+        }
+
+        const res = await fetch(`/api/auth/register`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+            setStatus("success");
+            reset();
+            navigate('/');
+            window.location.reload();
+        } else if (res.status === 403) {
+            throw new Error("Un utilisateur avec ces informations existe déjà");
+        } else {
+            throw new Error(payload.message || "Échec de l'inscription");
+        }
+    } catch (err: any) {
+        setStatus("error");
+        setErrorMessage(err.message || "Erreur d'inscription");
+    }
+};
+```
 
 L'architecture de la première version était principalement orientée vers la mise en place rapide des fonctionnalités.
 
@@ -100,11 +144,41 @@ L'architecture de la première version était principalement orientée vers la m
 
 ### Après
 
-![Architecture V2](./assets/placeholder-architecture-v2.webp)
+```tsx
+const onSubmit = async (data: FormData) => {
+    try {
+      await authRegister(data.username, data.email, data.password);
+
+      navigate("/login");
+    } catch (err: any) {
+      setError("root", { message: err.message ?? "Erreur d'inscription." });
+    }
+};
+```
+```ts
+import { api } from "../axios.instance";
+
+export const authService = {
+    {...}
+
+    register: async (username: string, email: string, password: string) => {
+        try {
+            await api.post("/auth/register", { username, email, password });
+        } catch (err: any) {
+            const s = err.response?.status;
+
+            if (s === 400) throw { message: "Données invalides." };
+            if (s === 409) throw { message: "Email ou nom d'utilisateur déjà utilisé." };
+            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
+            throw { message: "Erreur serveur." };
+        }
+    }
+
+    {...}
+};
+```
 
 L'architecture actuelle privilégie la séparation des responsabilités, les performances et la maintenabilité.
-
-</div>
 
 </div>
 
