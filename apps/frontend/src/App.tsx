@@ -57,7 +57,6 @@ export default function App() {
             <Route path="/login" element={lazyRoute(<Login />)} />
             <Route path="/register" element={lazyRoute(<Register />)} />
 
-            <Route path="/playground" element={<></>} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
