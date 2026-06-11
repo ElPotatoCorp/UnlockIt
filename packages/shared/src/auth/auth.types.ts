@@ -14,3 +14,11 @@ export type JwtPayload = {
   exp: number;
   permission: EmployeeRole | null;
 };
+
+export type CreatePasswordReset = {
+  identifier: string;
+}
+
+export type ResetPasswordDto = {
+  password: string;
+}

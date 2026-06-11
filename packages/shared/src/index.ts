@@ -9,6 +9,8 @@ export * from "./employee/employee.types"
 export * from "./employee/employee.enums"
 export * from "./employee/employee.constants"
 
+export * from "./session/session.types"
+
 export * from "./ticket/ticket.types"
 export * from "./ticket/ticket.enums"
 

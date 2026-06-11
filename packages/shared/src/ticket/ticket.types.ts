@@ -9,5 +9,5 @@ export type TicketEntity = {
   status: TicketStatus;
   createdAt: Date;
   userId: string | null;
-  user: UserEntity | null;
+  user: Promise<UserEntity | null>;
 }

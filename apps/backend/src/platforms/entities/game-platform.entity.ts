@@ -1,4 +1,4 @@
-import { GamePlatformEntity as IGamePlatformEntity } from '@unlockit/shared';
+import { ExactData, GamePlatformEntity as IGamePlatformEntity } from '@unlockit/shared';
 import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { OneToOne, JoinColumn, Entity, Column, PrimaryColumn } from 'typeorm';
@@ -52,3 +52,5 @@ export class GamePlatformEntity implements IGamePlatformEntity {
   @Column('boolean', { name: 'xbox_series', default: false })
   xboxSeries: boolean;
 }
+
+const _assertExact: ExactData<IGamePlatformEntity, GamePlatformEntity> = true;

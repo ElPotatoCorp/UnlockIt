@@ -1,4 +1,4 @@
-import { StockEntity as IStockEntity } from "@unlockit/shared";
+import { ExactData, StockEntity as IStockEntity } from "@unlockit/shared";
 import { GameEntity } from "src/games/entities/game.entity";
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
@@ -21,3 +21,5 @@ export class StockEntity implements IStockEntity {
   @DeleteDateColumn({ name: 'used_at', nullable: true })
   usedAt: Date | null;
 }
+
+const _assertExact: ExactData<IStockEntity, StockEntity> = true;

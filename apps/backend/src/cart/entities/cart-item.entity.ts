@@ -9,10 +9,11 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { CartEntity } from './cart.entity';
+import { ExactData, CartItemEntity as ICartItemEntity } from '@unlockit/shared';
 
 @Check(`"quantity" > 0`)
 @Entity('cart_items')
-export class CartItemEntity {
+export class CartItemEntity implements ICartItemEntity {
   @PrimaryColumn('uuid', { name: 'cart_id' })
   cartId: string;
 
@@ -36,3 +37,5 @@ export class CartItemEntity {
   @CreateDateColumn({ name: 'added_at', type: 'timestamptz', default: () => 'NOW()' })
   addedAt: Date;
 }
+
+const _assertExact: ExactData<ICartItemEntity, CartItemEntity> = true;

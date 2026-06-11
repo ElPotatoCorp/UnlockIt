@@ -4,8 +4,8 @@ import { UserEntity } from "../user/user.types";
 export type WishlistEntity = {
   userId: string;
   gameId: number;
-  user: UserEntity;
-  game: GameEntity;
+  user: Promise<UserEntity>;
+  game: Promise<GameEntity>;
   addedAt: Date;
 }
 

@@ -1,4 +1,4 @@
-import { MediaEntity as IMediaEntity, MediaType } from '@unlockit/shared';
+import { ExactData, MediaEntity as IMediaEntity, MediaType } from '@unlockit/shared';
 import { MediaEntityDoc } from 'src/docs/media/entities/media.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import {
@@ -31,3 +31,5 @@ export class MediaEntity implements IMediaEntity {
   @Column({ type: 'enum', enum: MediaType, default: MediaType.IMAGE })
   type: MediaType;
 }
+
+const _assertExact: ExactData<IMediaEntity, MediaEntity> = true;

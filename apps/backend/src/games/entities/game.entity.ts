@@ -3,6 +3,7 @@ import {
   GameType,
   LangCode,
   GameEntity as IGameEntity,
+  ExactData,
 } from '@unlockit/shared';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
@@ -168,3 +169,5 @@ export class GameEntity implements IGameEntity {
   @OneToMany(() => StockEntity, (stock) => stock.game, { lazy: true })
   stocks: Promise<StockEntity[]>;
 }
+
+const _assertExact: ExactData<IGameEntity, GameEntity> = true;

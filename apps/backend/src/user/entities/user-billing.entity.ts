@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { UserBillingEntity as IUserBillingEntity } from '@unlockit/shared';
+import { ExactData, UserBillingEntity as IUserBillingEntity } from '@unlockit/shared';
 
 @Entity('user_billing')
 @Check(`"country" ~ '^[A-Z]{2}$'`)
@@ -48,3 +48,5 @@ export class UserBillingEntity implements IUserBillingEntity {
   @Column('varchar', { name: 'address_line_2', length: 255, nullable: true })
   addressLine2: string | null;
 }
+
+const _assertExact: ExactData<IUserBillingEntity, UserBillingEntity> = true;

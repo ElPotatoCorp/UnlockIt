@@ -1,4 +1,4 @@
-import { TicketStatus } from '@unlockit/shared';
+import { ExactData, TicketEntity as ITicketEntity, TicketStatus } from '@unlockit/shared';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,
@@ -13,7 +13,7 @@ import {
 @Entity('tickets')
 @Check(`LENGTH(TRIM(reason)) > 0`)
 @Check(`LENGTH(TRIM(content)) > 0`)
-export class TicketEntity {
+export class TicketEntity implements ITicketEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -41,5 +41,7 @@ export class TicketEntity {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity | null;
+  user: Promise<UserEntity | null>;
 }
+
+const _assertExact: ExactData<ITicketEntity, TicketEntity> = true;

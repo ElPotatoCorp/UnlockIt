@@ -1,6 +1,7 @@
 import {
   EmployeeEntity as IEmployeeEntity,
   EmployeeRole,
+  ExactData,
 } from '@unlockit/shared';
 import {
   Column,
@@ -34,3 +35,5 @@ export class EmployeeEntity implements IEmployeeEntity {
   @Column('uuid', { name: 'created_by' })
   createdBy: string;
 }
+
+const _assertExact: ExactData<IEmployeeEntity, EmployeeEntity> = true;

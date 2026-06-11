@@ -1,3 +1,4 @@
+import { ExactData, SessionEntity as ISessionEntity } from '@unlockit/shared';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,
@@ -15,7 +16,7 @@ import {
 @Check(`LENGTH(refresh_token_hash) = 64`)
 @Index('idx_sessions_user_id', ['user'])
 @Index('idx_sessions_expires_at', ['expiresAt'])
-export class SessionEntity {
+export class SessionEntity implements ISessionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -66,3 +67,5 @@ export class SessionEntity {
   @JoinColumn({ name: 'user_id' })
   user: Promise<UserEntity>;
 }
+
+const _assertExact: ExactData<ISessionEntity, SessionEntity> = true;

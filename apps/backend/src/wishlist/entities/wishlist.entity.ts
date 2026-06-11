@@ -1,4 +1,4 @@
-import { WishlistEntity as IWishlistEntity } from '@unlockit/shared';
+import { ExactData, WishlistEntity as IWishlistEntity } from '@unlockit/shared';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
@@ -19,14 +19,16 @@ export class WishlistEntity implements IWishlistEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.wishlist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  user: Promise<UserEntity>;
 
   @ManyToOne(() => GameEntity, (game) => game.wishlists, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'game_id' })
-  game: GameEntity;
+  game: Promise<GameEntity>;
 
   @CreateDateColumn({ name: 'added_at', type: 'timestamptz' })
   addedAt: Date;
 }
+
+const _assertExact: ExactData<IWishlistEntity, WishlistEntity> = true;

@@ -8,9 +8,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CartItemEntity } from './cart-item.entity';
+import { ExactData, CartEntity as ICartEntity } from '@unlockit/shared';
 
 @Entity('carts')
-export class CartEntity {
+export class CartEntity implements ICartEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,3 +26,5 @@ export class CartEntity {
   @JoinColumn({ name: 'cart_id' })
   items: Promise<CartItemEntity[]>;
 }
+
+const _assertExact: ExactData<ICartEntity, CartEntity> = true;

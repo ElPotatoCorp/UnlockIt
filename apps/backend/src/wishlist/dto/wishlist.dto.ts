@@ -5,10 +5,10 @@ export class WishlistDto implements Wishlist {
   game: SummaryGame;
   addedAt: Date;
 
-  static fromEntity(wishlist: WishlistEntity): WishlistDto {
+  static async fromEntity(wishlist: WishlistEntity): Promise<WishlistDto> {
     const dto = new WishlistDto();
 
-    dto.game = wishlist.game;
+    dto.game = await wishlist.game;
     dto.addedAt = wishlist.addedAt;
 
     return dto;
