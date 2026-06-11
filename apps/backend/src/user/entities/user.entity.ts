@@ -17,7 +17,7 @@ import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 import { EmployeeEntity } from '../../employees/entities/employee.entity';
 import { genSalt, hash } from 'bcrypt-ts';
-import { UserEntity as IUserEntity } from '@unlockit/shared';
+import { ExactData, UserEntity as IUserEntity } from '@unlockit/shared';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import { CartEntity } from 'src/cart/entities/cart.entity';
 
@@ -125,10 +125,12 @@ export class UserEntity implements IUserEntity {
   cart: Promise<CartEntity>;
 
   @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
-  wishlist: Promise<WishlistEntity[]>;
+  wishlist: Promise<WishlistEntity>;
 
   @BeforeInsert()
   async setPassword(password: string) {
     this.password = await hashPassword(password || this.password);
   }
 }
+
+const _assertExact: ExactData<IUserEntity, UserEntity> = true;

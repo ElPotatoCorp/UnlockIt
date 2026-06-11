@@ -9,6 +9,11 @@ export * from "./employee/employee.types"
 export * from "./employee/employee.enums"
 export * from "./employee/employee.constants"
 
+export * from "./ticket/ticket.types"
+export * from "./ticket/ticket.enums"
+
+export * from "./cart/cart.types"
+
 export * from "./game/game.types";
 export * from "./game/game.enums";
 

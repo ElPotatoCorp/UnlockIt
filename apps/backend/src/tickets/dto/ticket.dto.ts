@@ -1,5 +1,6 @@
 import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
-import { TicketEntity, TicketStatus } from '../entities/ticket.entity';
+import { TicketEntity } from '../entities/ticket.entity';
+import { TicketStatus } from '@unlockit/shared';
 
 export class TicketDto {
   @TicketEntityDoc.Id()

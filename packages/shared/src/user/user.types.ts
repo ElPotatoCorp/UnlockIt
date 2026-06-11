@@ -1,4 +1,8 @@
-import { Session } from "../session/session.types";
+import { CartEntity } from "../cart/cart.types";
+import { EmployeeEntity } from "../employee/employee.types";
+import { SessionEntity } from "../session/session.types";
+import { TicketEntity } from "../ticket/ticket.types";
+import { WishlistEntity } from "../wishlist/wishlist.types";
 
 export type UserEntity = {
   id: string;
@@ -15,9 +19,13 @@ export type UserEntity = {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
+  employee: Promise<EmployeeEntity | null>;
   profile: Promise<UserProfile | null>;
   billing: Promise<UserBilling | null>;
-  sessions: Promise<Session[]>;
+  sessions: Promise<SessionEntity[]>;
+  tickets: Promise<TicketEntity[]>;
+  cart: Promise<CartEntity>;
+  wishlist: Promise<WishlistEntity[]>;
 };
 
 export type UserProfileEntity = {

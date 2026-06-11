@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { TicketStatus } from 'src/tickets/entities/ticket.entity';
+import { TicketStatus } from '@unlockit/shared';
 
 export const TicketEntityDoc = {
   Id: () =>

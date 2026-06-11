@@ -1,3 +1,4 @@
+import { TicketStatus } from '@unlockit/shared';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Check,
@@ -8,13 +9,6 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-export enum TicketStatus {
-  OPEN = 'open',
-  IN_PROGRESS = 'in_progress',
-  RESOLVED = 'resolved',
-  CLOSED = 'closed',
-}
 
 @Entity('tickets')
 @Check(`LENGTH(TRIM(reason)) > 0`)

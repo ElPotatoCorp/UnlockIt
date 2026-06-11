@@ -1,6 +1,6 @@
 import { User } from "../user/user.types";
 
-export type Session = {
+export type SessionEntity = {
   id: string;
   userId: string;
   refreshTokenHash: string;
