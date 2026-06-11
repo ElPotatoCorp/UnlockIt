@@ -240,6 +240,9 @@ Le système d'arrière-plan du site a été entièrement repensé grâce à Pixi
 
 ## 3.6 Nouvelle couche API Frontend
 
+<details class="accordion">
+<summary>Voir le schéma</summary>
+
 ```mermaid
 flowchart LR
 
@@ -251,6 +254,7 @@ flowchart LR
     classDef db fill:#c6ffb3,stroke:#4fd14f,stroke-width:2px,color:#000;
     classDef cache fill:#fff2b3,stroke:#d1c24f,stroke-width:2px,color:#000;
     classDef log fill:#d6b3ff,stroke:#7a4fd1,stroke-width:2px,color:#000;
+    classDef external fill:#e0e0e0,stroke:#999,stroke-width:2px,color:#000;
 
     %% ========= Frontend =========
     subgraph FE[Frontend]
@@ -274,21 +278,45 @@ flowchart LR
     L[Logger]:::log
 
     %% ========= Service externe =========
-    X[Service Auth externe]:::service
+    X[Service Auth externe]:::external
 
     %% ========= Flux principal =========
-    A -->|Appel logique| B
-    B -->|Appel API| C
-    C -->|HTTP| D
-    D --> E
-    E --> F
-    F -->|SQL| G
+    A e1@-->|Appel logique| B
+    B e2@-->|Appel API| C
+    C e3@-->|HTTP| D
+    D e4@-->|Appel interne| E
+    E e5@-->|Requête DB| F
+    F e6@-->|SQL| G
 
     %% ========= Flux secondaires =========
-    C -->|Token| X
-    E -->|Cache| R
-    E -.->|Logs| L
+    C e7@-->|Token| X
+    E e8@-->|Cache| R
+    E e9@-.->|Logs| L
+
+    %% ========= Styles des courbes =========
+    e1@{ curve: linear }
+    e2@{ curve: linear }
+    e3@{ curve: stepBefore }
+    e4@{ curve: stepBefore }
+    e5@{ curve: linear }
+    e6@{ curve: linear }
+    e7@{ curve: natural }
+    e8@{ curve: stepAfter }
+    e9@{ curve: natural }
+
+    %% ========= Styles des liens =========
+    linkStyle 0 stroke:#1b7aa6,stroke-width:2px
+    linkStyle 1 stroke:#4fa3d1,stroke-width:2px
+    linkStyle 2 stroke:#d1a84f,stroke-width:2px
+    linkStyle 3 stroke:#d14f4f,stroke-width:2px
+    linkStyle 4 stroke:#d14f4f,stroke-width:2px
+    linkStyle 5 stroke:#4fd14f,stroke-width:2px
+    linkStyle 6 stroke:#999,stroke-width:2px
+    linkStyle 7 stroke:#d1c24f,stroke-width:2px
+    linkStyle 8 stroke:#7a4fd1,stroke-width:2px,stroke-dasharray:4 4
 ```
+
+</details>
 
 Les composants ne réalisent désormais plus directement leurs appels réseau.
 
