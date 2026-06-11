@@ -17,7 +17,7 @@ import { PaginatedDtoSchemaDoc } from 'src/docs/common/dto/paginated.dto.doc';
 import { CreateSeriesDto } from 'src/series/dto/create-series.dto';
 import { UpdateSeriesDto } from 'src/series/dto/update-series.dto';
 import { ModifyGamesInSerieDto } from 'src/series/dto/modify-games-in-serie.dto';
-import { SummarySeriesDto } from 'src/series/dto/summary-series.dto';
+import { SeriesDto } from 'src/series/dto/series.dto';
 
 const SERIES_ID_PARAM = ApiParam({
   name: 'id',
@@ -41,7 +41,7 @@ export const SeriesControllerDoc = {
       ApiBody({ type: CreateSeriesDto }),
       ApiCreatedResponse({
         description: 'Series created successfully.',
-        type: SummarySeriesDto,
+        type: SeriesDto,
       }),
       ApiBadRequestResponse({
         description: 'Validation failed.',
@@ -56,10 +56,10 @@ export const SeriesControllerDoc = {
         description:
           'Returns a paginated list of series with their associated games. Public endpoint.',
       }),
-      ApiExtraModels(PaginatedDto, SummarySeriesDto),
+      ApiExtraModels(PaginatedDto, SeriesDto),
       ApiOkResponse({
         description: 'Paginated list of series.',
-        schema: PaginatedDtoSchemaDoc(SummarySeriesDto),
+        schema: PaginatedDtoSchemaDoc(SeriesDto),
       }),
       ApiBadRequestResponse({
         description: 'Invalid pagination parameters.',
@@ -77,7 +77,7 @@ export const SeriesControllerDoc = {
       SERIES_ID_PARAM,
       ApiOkResponse({
         description: 'Series found.',
-        type: SummarySeriesDto,
+        type: SeriesDto,
       }),
       ApiNotFoundResponse({
         description: 'No series found with the specified ID.',
@@ -103,7 +103,7 @@ export const SeriesControllerDoc = {
       }),
       ApiOkResponse({
         description: 'Series found.',
-        type: SummarySeriesDto,
+        type: SeriesDto,
       }),
       ApiNotFoundResponse({
         description: 'No series found with the specified slug.',

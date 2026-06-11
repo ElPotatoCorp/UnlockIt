@@ -12,8 +12,9 @@ import {
   Min,
 } from 'class-validator';
 import { IsUsername } from 'src/common/validators/username.validator';
+import { ExactData, User } from '@unlockit/shared';
 
-export class UserDto {
+export class UserDto implements User {
   @UserEntityDoc.Id()
   @IsUUID(4)
   id: string;
@@ -71,3 +72,5 @@ export class UserDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<User, UserDto> = true;

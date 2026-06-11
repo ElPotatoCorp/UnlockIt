@@ -6,7 +6,7 @@ import { SeriesEntity } from './entities/series.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
-import { SummarySeriesDto } from './dto/summary-series.dto';
+import { SeriesDto } from './dto/series.dto';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class SeriesService {
   async findOne(
     where: FindOptionsWhere<SeriesEntity>,
     msg: string,
-  ): Promise<SummarySeriesDto> {
+  ): Promise<SeriesDto> {
     const series = await this.seriesRepository.findOne({
       where,
       relations: { games: true },
@@ -52,7 +52,7 @@ export class SeriesService {
 
     if (!series) throw new NotFoundException(msg);
 
-    return SummarySeriesDto.fromEntity(series);
+    return SeriesDto.fromEntity(series);
   }
 
   update(id: number, updateSeriesDto: UpdateSeriesDto) {

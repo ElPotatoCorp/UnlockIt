@@ -1,3 +1,4 @@
+import { ExactData, UpdateUser } from '@unlockit/shared';
 import {
   IsEmail,
   IsOptional,
@@ -9,7 +10,7 @@ import {
 import { IsUsername } from 'src/common/validators/username.validator';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 
-export class UpdateUserDto {
+export class UpdateUserDto implements UpdateUser {
   @UserEntityDoc.Username(false)
   @IsOptional()
   @IsUsername()
@@ -41,3 +42,5 @@ export class UpdateUserDto {
   @Length(0, 1000)
   bio?: string;
 }
+
+const _assertExact: ExactData<UpdateUser, UpdateUserDto> = true;

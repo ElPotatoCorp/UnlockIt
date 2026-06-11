@@ -13,7 +13,7 @@ import {
 import { IsSlug } from 'src/common/validators/slug.validator';
 import { Transform, Type } from 'class-transformer';
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
-import { CreateGame, EUAgeRating, GameType, LangCode } from '@unlockit/shared';
+import { CreateGame, EUAgeRating, ExactData, GameType, LangCode } from '@unlockit/shared';
 
 export class CreateGameDto implements CreateGame {
   @GameEntityDoc.Name()
@@ -99,3 +99,5 @@ export class CreateGameDto implements CreateGame {
   @IsEnum(LangCode, { each: true })
   supportedLanguages?: LangCode[];
 }
+
+const _assertExact: ExactData<CreateGame, CreateGameDto> = true;

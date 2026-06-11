@@ -1,4 +1,4 @@
-import { GameTag, TagEntity } from '@unlockit/shared';
+import { ExactData, GameTag, TagEntity } from '@unlockit/shared';
 
 export class GameTagDto implements GameTag {
   id: number;
@@ -13,3 +13,5 @@ export class GameTagDto implements GameTag {
     return dto;
   }
 }
+
+const _assertExact: ExactData<GameTag, GameTagDto> = true;

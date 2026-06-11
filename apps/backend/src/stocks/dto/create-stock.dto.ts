@@ -1,4 +1,4 @@
-import { CreateStock } from "@unlockit/shared";
+import { CreateStock, ExactData } from "@unlockit/shared";
 import { Type } from "class-transformer";
 import { IsArray, IsString, Length } from "class-validator";
 
@@ -9,3 +9,5 @@ export class CreateStockDto implements CreateStock {
   @Type(() => String)
   productKeys: string[];
 }
+
+const _assertExact: ExactData<CreateStock, CreateStockDto> = true;

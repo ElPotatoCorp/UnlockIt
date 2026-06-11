@@ -1,8 +1,9 @@
 import { UserBillingEntity } from '../entities/user-billing.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
+import { ExactData, UserBilling } from '@unlockit/shared';
 
-export class UserBillingDto {
+export class UserBillingDto implements UserBilling {
   @UserEntityDoc.FirstName()
   @IsString()
   @Length(1, 100)
@@ -57,3 +58,5 @@ export class UserBillingDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<UserBilling, UserBillingDto> = true;

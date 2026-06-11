@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { TicketStatus } from '@unlockit/shared';
+import { PublicUserDto } from 'src/user/dto/public-user.dto';
 
 export const TicketEntityDoc = {
   Id: () =>
@@ -83,15 +84,13 @@ export const TicketEntityDoc = {
       }),
     ),
 
-  UserId: () =>
+  User: () =>
     applyDecorators(
       ApiProperty({
-        title: 'User ID',
+        title: 'User',
         description:
-          'UUID of the user who submitted the ticket. Null for guest submissions.',
-        type: String,
-        format: 'uuid',
-        example: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
+          'The user who submitted the ticket. Null for guest submissions.',
+        type: PublicUserDto,
         nullable: true,
         required: false,
         readOnly: true,

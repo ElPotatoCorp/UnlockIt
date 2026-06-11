@@ -1,6 +1,7 @@
+import { ExactData, GamePublisher } from '@unlockit/shared';
 import { PublisherEntity as PublisherEntity } from '../entities/publisher.entity';
 
-export class GamePublisherDto implements GamePublisherDto {
+export class GamePublisherDto implements GamePublisher {
   id: number;
   name: string;
 
@@ -13,3 +14,5 @@ export class GamePublisherDto implements GamePublisherDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<GamePublisher, GamePublisherDto> = true;

@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { EmployeeRole, JwtPayload } from '@unlockit/shared';
+import { CreateJwtPayload, EmployeeRole, ExactData, JwtPayload } from '@unlockit/shared';
 
 export class JwtPayloadDto implements JwtPayload {
   @ApiProperty({
@@ -40,4 +40,7 @@ export class JwtPayloadDto implements JwtPayload {
   permission: EmployeeRole | null;
 }
 
-export class CreateJwtPayloadDto extends OmitType(JwtPayloadDto, ['sid', 'iat', 'exp'] as const) {}
+export class CreateJwtPayloadDto extends OmitType(JwtPayloadDto, ['sid', 'iat', 'exp'] as const) implements CreateJwtPayload {}
+
+const _assertExact: ExactData<JwtPayload, JwtPayloadDto> = true;
+const __assertExact: ExactData<CreateJwtPayload, CreateJwtPayloadDto> = true; 

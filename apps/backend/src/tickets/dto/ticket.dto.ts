@@ -1,8 +1,9 @@
 import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
 import { TicketEntity } from '../entities/ticket.entity';
-import { TicketStatus } from '@unlockit/shared';
+import { ExactData, Ticket, TicketStatus } from '@unlockit/shared';
+import { PublicUserDto } from 'src/user/dto/public-user.dto';
 
-export class TicketDto {
+export class TicketDto implements Ticket {
   @TicketEntityDoc.Id()
   id: string;
 
@@ -21,18 +22,26 @@ export class TicketDto {
   @TicketEntityDoc.CreatedAt()
   createdAt: Date;
 
-  @TicketEntityDoc.UserId()
-  userId: string | null;
+  @TicketEntityDoc.User()
+  user: PublicUserDto | null;
 
-  static fromEntity(ticket: TicketEntity): TicketDto {
+  static async fromEntity(ticket: TicketEntity): Promise<TicketDto> {
     const dto = new TicketDto();
+
     dto.id = ticket.id;
     dto.email = ticket.email;
     dto.reason = ticket.reason;
     dto.content = ticket.content;
     dto.status = ticket.status;
     dto.createdAt = ticket.createdAt;
-    dto.userId = ticket.userId;
+
+    const user = await ticket.user;
+    if (user) {
+      dto.user = PublicUserDto.fromEntity(user);
+    }
+    
     return dto;
   }
 }
+
+const _assertExact: ExactData<Ticket, TicketDto> = true;

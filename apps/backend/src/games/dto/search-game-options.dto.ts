@@ -1,5 +1,5 @@
 import { OmitType } from "@nestjs/swagger";
-import { GameType, SearchGameOptions, slugify } from "@unlockit/shared";
+import { ExactData, GameType, SearchBody, SearchGameOptions, slugify } from "@unlockit/shared";
 import { Transform, Type } from "class-transformer";
 import { IsBoolean, IsEnum, IsInt, IsObject, IsOptional, Min, ValidateNested } from "class-validator";
 import { SearchGameOptionsDtoDoc } from "src/docs/games/dto/search-game-options.dto";
@@ -65,4 +65,7 @@ export class SearchGameOptionsDto implements SearchGameOptions {
   order: OrderOptionsDto;
 }
 
-export class SearchBodyDto extends OmitType(SearchGameOptionsDto, ['name'] as const) {}
+export class SearchBodyDto extends OmitType(SearchGameOptionsDto, ['name'] as const) implements SearchBody {}
+
+const _assertExact: ExactData<SearchGameOptions, SearchGameOptionsDto> = true;
+const __assertExact: ExactData<SearchBody, SearchBodyDto> = true;

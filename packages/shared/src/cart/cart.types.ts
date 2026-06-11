@@ -1,5 +1,6 @@
-import { GameEntity } from "../game/game.types";
+import { GameEntity, SummaryGame } from "../game/game.types";
 import { UserEntity } from "../user/user.types";
+import { Simplify } from "../utils/types";
 
 export type CartEntity = {
   id: string;
@@ -17,3 +18,7 @@ export type CartItemEntity = {
   selected: boolean;
   addedAt: Date;
 }
+
+export type CartItem = Simplify<{
+  game: SummaryGame;
+} & Pick<CartItemEntity, 'quantity' | 'selected' | 'addedAt'>>;

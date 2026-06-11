@@ -1,4 +1,4 @@
-import { SummaryGame, Wishlist } from "@unlockit/shared";
+import { ExactData, SummaryGame, Wishlist } from "@unlockit/shared";
 import { WishlistEntity } from "../entities/wishlist.entity";
 
 export class WishlistDto implements Wishlist {
@@ -14,3 +14,5 @@ export class WishlistDto implements Wishlist {
     return dto;
   }
 }
+
+const _assertExact: ExactData<Wishlist, WishlistDto> = true;

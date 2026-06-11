@@ -1,4 +1,4 @@
-import { Paginated } from '@unlockit/shared';
+import { ExactData, Paginated } from '@unlockit/shared';
 import { IsArray, IsNumber } from 'class-validator';
 import { PaginatedDtoDoc } from 'src/docs/common/dto/paginated.dto.doc';
 
@@ -23,3 +23,5 @@ export class PaginatedDto<T> implements Paginated<T> {
     this.data = data;
   }
 }
+
+const _assertExact: ExactData<Paginated<any>, PaginatedDto<any>> = true;

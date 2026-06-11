@@ -1,9 +1,12 @@
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { SeriesEntity } from '../entities/series.entity';
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
-import { SummarySeries } from '@unlockit/shared';
+import { ExactData, Series } from '@unlockit/shared';
 
-export class SummarySeriesDto implements SummarySeries {
+export class SeriesDto implements Series {
+  @SeriesEntityDoc.Id()
+  id: number;
+
   @SeriesEntityDoc.Name()
   name: string;
 
@@ -13,9 +16,10 @@ export class SummarySeriesDto implements SummarySeries {
   @SeriesEntityDoc.Games()
   games: SummaryGameDto[];
 
-  static async fromEntity(series: SeriesEntity): Promise<SummarySeriesDto> {
-    const dto = new SummarySeriesDto();
+  static async fromEntity(series: SeriesEntity): Promise<SeriesDto> {
+    const dto = new SeriesDto();
 
+    dto.id = series.id;
     dto.name = series.name;
     dto.slug = series.slug;
     dto.games = series.games
@@ -27,3 +31,5 @@ export class SummarySeriesDto implements SummarySeries {
     return dto;
   }
 }
+
+const _assertExact: ExactData<Series, SeriesDto> = true;

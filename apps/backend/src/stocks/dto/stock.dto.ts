@@ -1,4 +1,4 @@
-import { Stock } from "@unlockit/shared";
+import { ExactData, Stock } from "@unlockit/shared";
 import { StockEntity } from "../entities/stock.entity";
 
 export class StockDto implements Stock {
@@ -12,3 +12,5 @@ export class StockDto implements Stock {
     return dto;
   }
 }
+
+const _assertExact: ExactData<Stock, StockDto> = true;

@@ -1,7 +1,8 @@
 import { SummaryGameDto } from "src/games/dto/summary-game.dto";
 import { CartItemEntity } from "../entities/cart-item.entity";
+import { CartItem, ExactData } from "@unlockit/shared";
 
-export class CartItemDto {
+export class CartItemDto implements CartItem {
   game: SummaryGameDto;
   quantity: number;
   selected: boolean;
@@ -18,3 +19,5 @@ export class CartItemDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<CartItem, CartItemDto> = true;

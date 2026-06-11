@@ -9,7 +9,7 @@ type NonFunctionKeys<T> = {
 export type ExactData<Interface, Class extends Interface> = 
   [NonFunctionKeys<Class>] extends [NonFunctionKeys<Interface>] 
     ? true 
-    : never;
+    : "Error: The class has extra fields not in schema";
 
 // Unwrap Pormises
 export type UnwrapPromises<T> = {

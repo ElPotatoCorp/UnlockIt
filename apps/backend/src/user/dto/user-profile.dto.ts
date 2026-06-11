@@ -8,8 +8,9 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { ExactData, UserProfile } from '@unlockit/shared';
 
-export class UserProfileDto {
+export class UserProfileDto implements UserProfile {
   @UserEntityDoc.FirstName()
   @IsOptional()
   @IsString()
@@ -54,3 +55,5 @@ export class UserProfileDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<UserProfile, UserProfileDto> = true;

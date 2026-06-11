@@ -1,9 +1,11 @@
-import { TicketStatus } from '@unlockit/shared';
-import { IsEnum } from 'class-validator';
+import { ExactData, TicketStatus, UpdateTicket } from '@unlockit/shared';
+import { IsEnum, IsOptional } from 'class-validator';
 import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
 
-export class UpdateTicketDto {
+export class UpdateTicketDto implements UpdateTicket {
   @TicketEntityDoc.Status()
-  @IsEnum(TicketStatus)
-  status: TicketStatus;
+  @IsOptional() @IsEnum(TicketStatus)
+  status?: TicketStatus;
 }
+
+const _assertExact: ExactData<UpdateTicket, UpdateTicketDto> = true;

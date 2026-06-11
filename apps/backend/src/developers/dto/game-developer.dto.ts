@@ -1,6 +1,7 @@
-import { DeveloperEntity } from '@unlockit/shared';
+import { ExactData, GameDeveloper } from '@unlockit/shared';
+import { DeveloperEntity } from '../entities/developer.entity';
 
-export class GameDeveloperDto implements GameDeveloperDto {
+export class GameDeveloperDto implements GameDeveloper {
   id: number;
   name: string;
 
@@ -13,3 +14,5 @@ export class GameDeveloperDto implements GameDeveloperDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<GameDeveloper, GameDeveloperDto> = true;

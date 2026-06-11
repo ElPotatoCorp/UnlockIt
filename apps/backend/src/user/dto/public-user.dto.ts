@@ -1,7 +1,8 @@
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import { UserEntity } from '../entities/user.entity';
+import { ExactData, PublicUser } from '@unlockit/shared';
 
-export class PublicUserDto {
+export class PublicUserDto implements PublicUser {
   @UserEntityDoc.Id()
   id: string;
 
@@ -29,3 +30,5 @@ export class PublicUserDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<PublicUser, PublicUserDto> = true;

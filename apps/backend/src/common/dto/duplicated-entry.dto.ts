@@ -1,5 +1,5 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
-import { DuplicatedEntry } from '@unlockit/shared';
+import { DuplicatedEntry, ExactData } from '@unlockit/shared';
 
 export const DuplicatedEntryDtoSchemaDoc = (
   itemType: any,
@@ -39,3 +39,5 @@ export class DuplicatedEntryDto<T> implements DuplicatedEntry<T> {
   })
   messages: Partial<Record<keyof T, string>> = {};
 }
+
+const _assertExact: ExactData<DuplicatedEntry<any>, DuplicatedEntryDto<any>> = true;

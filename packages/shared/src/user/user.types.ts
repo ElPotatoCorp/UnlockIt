@@ -2,6 +2,7 @@ import { CartEntity } from "../cart/cart.types";
 import { EmployeeEntity } from "../employee/employee.types";
 import { SessionEntity } from "../session/session.types";
 import { TicketEntity } from "../ticket/ticket.types";
+import { OmitPromises } from "../utils/types";
 import { WishlistEntity } from "../wishlist/wishlist.types";
 
 export type UserEntity = {
@@ -52,7 +53,7 @@ export type UserBillingEntity = {
 }
 export type UserBilling = Omit<UserBillingEntity, 'userId' | 'user'>;
 
-export type User = Omit<UserEntity, 'password' | 'profile' | 'billing' | 'sessions'>;
+export type User = Omit<OmitPromises<UserEntity>, 'password'>;
 
 export type PublicUser = Pick<UserEntity, 'id' | 'username' | 'bio' | 'avatar' | 'createdAt'>;
 

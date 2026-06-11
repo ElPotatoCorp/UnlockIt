@@ -2,7 +2,7 @@ import { DeveloperEntity, GameDeveloper } from "../developer/developer.types";
 import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
 import { GamePublisher, PublisherEntity } from "../publisher/publisher.types";
-import { SummarySeries, SeriesEntity } from "../series/series.types";
+import { Series, SeriesEntity } from "../series/series.types";
 import { StockEntity } from "../stock/stock.types";
 import { GameTag, TagEntity } from "../tag/tag.types";
 import { NullToOptional, OmitPromises, Simplify } from "../utils/types";
@@ -54,7 +54,7 @@ export type GameDetail = Simplify<OmitPromises<GameEntity> & {
   publishers: GamePublisher[];
   platforms: GamePlatform | null;
   media: Media[];
-  series: SummarySeries | null;
+  series: Series | null;
 }>;
 
 export type SearchGameOptions = {

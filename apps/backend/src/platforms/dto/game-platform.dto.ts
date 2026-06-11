@@ -1,4 +1,4 @@
-import { GamePlatform } from '@unlockit/shared';
+import { ExactData, GamePlatform } from '@unlockit/shared';
 import { PlatformEntityDoc } from 'src/docs/platforms/entities/platform.entity.doc';
 
 export class GamePlatformDto implements GamePlatform {
@@ -30,3 +30,5 @@ export class GamePlatformDto implements GamePlatform {
     return dto;
   }
 }
+
+const _assertExact: ExactData<GamePlatform, GamePlatformDto> = true;

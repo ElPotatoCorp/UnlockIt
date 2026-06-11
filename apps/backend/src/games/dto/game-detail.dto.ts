@@ -1,6 +1,6 @@
 import { GameEntity } from 'src/games/entities/game.entity';
-import { EUAgeRating, GameDetail, GameType, LangCode } from '@unlockit/shared';
-import { SummarySeriesDto } from 'src/series/dto/summary-series.dto';
+import { EUAgeRating, ExactData, GameDetail, GameType, LangCode } from '@unlockit/shared';
+import { SeriesDto } from 'src/series/dto/series.dto';
 import { GamePublisherDto } from 'src/publishers/dto/game-publisher.dto';
 import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';
 import { MediaDto } from 'src/media/dto/media.dto';
@@ -76,7 +76,7 @@ export class GameDetailDto implements GameDetail {
   media: MediaDto[];
 
   //@GameEntityDoc.Name()
-  series: SummarySeriesDto | null;
+  series: SeriesDto | null;
 
   static async fromEntity(game: GameEntity): Promise<GameDetailDto> {
     const dto = new GameDetailDto();
@@ -113,9 +113,11 @@ export class GameDetailDto implements GameDetail {
     dto.developers = developers.map(({ id, name }) => ({ id, name }));
     dto.publishers = publishers.map(({ id, name }) => ({ id, name }));
     dto.media = media.map(({ id, url, type }) => ({ id, url, type }));
-    dto.series = series ? await SummarySeriesDto.fromEntity(series) : null;
+    dto.series = series ? await SeriesDto.fromEntity(series) : null;
     dto.platforms = platforms ? GamePlatformDto.fromEntity(platforms) : null;
 
     return dto;
   }
 }
+
+const _assertExact: ExactData<GameDetail, GameDetailDto> = true;

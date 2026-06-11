@@ -1,4 +1,5 @@
 import { User } from "../user/user.types";
+import { Simplify } from "../utils/types";
 
 export type SessionEntity = {
   id: string;
@@ -17,3 +18,11 @@ export type SessionEntity = {
 
   user: Promise<User>;
 }
+
+export type CreateSession = Simplify<{
+  id?: string
+} & Omit<SessionEntity, 'id' | 'createdAt' | 'lastSeenAt' | 'flagged' | 'user' | 'expiresAt'> & {
+  expiresAt?: Date;
+}>;
+
+export type UpdateSession = Simplify<Partial<Omit<CreateSession, 'id' | 'userId' | 'expiresAt'>> & Partial<Pick<SessionEntity, 'flagged'>>>;

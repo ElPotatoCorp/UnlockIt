@@ -1,8 +1,8 @@
 import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
 import { GameEntity } from '../entities/game.entity';
-import { EUAgeRating, GameType } from '@unlockit/shared';
+import { EUAgeRating, ExactData, GameType, SummaryGame } from '@unlockit/shared';
 
-export class SummaryGameDto {
+export class SummaryGameDto implements SummaryGame {
   @GameEntityDoc.Id()
   id: number;
 
@@ -44,3 +44,5 @@ export class SummaryGameDto {
     return dto;
   }
 }
+
+const _assertExact: ExactData<SummaryGame, SummaryGameDto> = true;

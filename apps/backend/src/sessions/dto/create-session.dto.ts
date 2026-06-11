@@ -1,3 +1,4 @@
+import { CreateSession, ExactData } from '@unlockit/shared';
 import {
   IsDateString,
   IsHash,
@@ -7,7 +8,7 @@ import {
   IsUUID,
 } from 'class-validator';
 
-export class CreateSessionDto {
+export class CreateSessionDto implements CreateSession {
   @IsOptional()
   @IsUUID(4)
   id?: string;
@@ -30,3 +31,5 @@ export class CreateSessionDto {
   @IsDateString()
   expiresAt?: Date;
 }
+
+const _assertExact: ExactData<CreateSession, CreateSessionDto> = true;

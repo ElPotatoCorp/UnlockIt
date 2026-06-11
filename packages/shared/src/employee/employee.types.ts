@@ -10,3 +10,7 @@ export type EmployeeEntity = {
 }
 
 export type Employee = Omit<EmployeeEntity, 'user'>;
+
+export type CreateEmployee = Pick<EmployeeEntity, 'id' | 'role'>;
+
+export type UpdateEmployee = Partial<Omit<CreateEmployee, 'id'>>;

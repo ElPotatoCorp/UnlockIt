@@ -1,4 +1,5 @@
 import { GameEntity, SummaryGame } from "../game/game.types";
+import { OmitPromises, Simplify } from "../utils/types";
 
 export type SeriesEntity = {
   id: number;
@@ -7,8 +8,14 @@ export type SeriesEntity = {
   games: Promise<GameEntity[]>;
 }
 
-export type SummarySeries = {
-  name: string;
-  slug: string;
+export type Series = Simplify<OmitPromises<SeriesEntity> & {
   games: SummaryGame[];
-}
+}>;
+
+export type CreateSeries = Simplify<Omit<OmitPromises<SeriesEntity>, 'id'> & {
+  gameIds?: number[];
+}>
+
+export type UpdateSeries = Partial<Omit<CreateSeries, 'gameIds'>>;
+
+export type ModifyGamesInSeries = Pick<CreateSeries, 'gameIds'>;

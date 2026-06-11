@@ -1,4 +1,4 @@
-import { Media, MediaType } from '@unlockit/shared';
+import { ExactData, Media, MediaType } from '@unlockit/shared';
 import { MediaEntity } from '../entities/media.entity';
 
 export class MediaDto implements Media {
@@ -16,3 +16,5 @@ export class MediaDto implements Media {
     return dto;
   }
 }
+
+const _assertExact: ExactData<Media, MediaDto> = true;
