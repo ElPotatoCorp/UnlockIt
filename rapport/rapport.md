@@ -241,14 +241,53 @@ Le système d'arrière-plan du site a été entièrement repensé grâce à Pixi
 ## 3.6 Nouvelle couche API Frontend
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-A[Composant React]
---> B[Hook métier]
+    %% ========= Définition des styles =========
+    classDef react fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+    classDef hook fill:#b3e5ff,stroke:#4fa3d1,stroke-width:2px,color:#000;
+    classDef service fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef backend fill:#ffb3b3,stroke:#d14f4f,stroke-width:2px,color:#000;
+    classDef db fill:#c6ffb3,stroke:#4fd14f,stroke-width:2px,color:#000;
+    classDef cache fill:#fff2b3,stroke:#d1c24f,stroke-width:2px,color:#000;
+    classDef log fill:#d6b3ff,stroke:#7a4fd1,stroke-width:2px,color:#000;
 
-B --> C[Service API]
+    %% ========= Frontend =========
+    subgraph FE[Frontend]
+        A[Composant React]:::react
+        B[Hook métier]:::hook
+        C[Service API]:::service
+    end
 
-C --> D[NestJS Backend]
+    %% ========= Backend =========
+    subgraph BE[NestJS Backend]
+        D[Controller]:::backend
+        E[Service]:::backend
+        F[Repository]:::backend
+    end
+
+    %% ========= Stockage =========
+    G[(PostgreSQL)]:::db
+    R[(Redis Cache)]:::cache
+
+    %% ========= Logs =========
+    L[Logger]:::log
+
+    %% ========= Service externe =========
+    X[Service Auth externe]:::service
+
+    %% ========= Flux principal =========
+    A -->|Appel logique| B
+    B -->|Appel API| C
+    C -->|HTTP| D
+    D --> E
+    E --> F
+    F -->|SQL| G
+
+    %% ========= Flux secondaires =========
+    C -->|Token| X
+    E -->|Cache| R
+    E -.->|Logs| L
 ```
 
 Les composants ne réalisent désormais plus directement leurs appels réseau.
