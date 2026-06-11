@@ -125,7 +125,7 @@ export class UserEntity implements IUserEntity {
   cart: Promise<CartEntity>;
 
   @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
-  wishlist: Promise<WishlistEntity>;
+  wishlist: Promise<WishlistEntity[]>;
 
   @BeforeInsert()
   async setPassword(password: string) {
