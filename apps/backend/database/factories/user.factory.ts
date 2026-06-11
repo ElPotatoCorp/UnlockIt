@@ -1,4 +1,3 @@
-import { hash, genSalt } from 'bcrypt-ts';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Factory } from './base.factory';
 import { EntityTarget } from 'typeorm';
@@ -12,12 +11,11 @@ export class UserFactory extends Factory<UserEntity> {
     // Simple strong password without regex (avoids stack overflow)
     const randomStr = Math.random().toString(36).substring(2, 15);
     const password = `Test${randomStr}!Aa`;
-    const salt = await genSalt();
 
     return {
       username: this.fk.internet.username(),
       email: this.fk.internet.email(),
-      password: await hash(password, salt),
+      password,
       phoneNumber: this.fk.datatype.boolean()
         ? this.fk.phone.number({ style: 'international' })
         : null,

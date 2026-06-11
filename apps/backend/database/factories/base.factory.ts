@@ -60,7 +60,9 @@ export abstract class Factory<T, U = T> {
 
     const items = (await this.makeMany(count, overrides)) as T;
 
-    return this.datasource!.manager.save(this.entity, items) as unknown as Promise<U[]>;
+    const resolvedItems = this.datasource!.manager.create(this.entity, items);
+
+    return this.datasource!.manager.save(this.entity, resolvedItems) as Promise<U[]>;
   }
 
   /**
