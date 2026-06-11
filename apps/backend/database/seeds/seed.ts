@@ -3,11 +3,13 @@ import dataSourceConfig from '../data-source';
 import { UserFactory } from '../factories/user.factory';
 import { DataSource } from 'typeorm';
 import { GameFactory } from 'database/factories/game.factory';
+import { StockFactory } from 'database/factories/stock.factory';
 
 // I don't know how to make it absolutely dynamic so I just put every possibilities here
 const FACTORIES: [name: string, factory: any][] = [
   ['users', UserFactory],
   ['games', GameFactory],
+  ['stocks', StockFactory],
 ];
 
 const FACTORY_REGISTRY: Record<string, any> = Object.fromEntries(FACTORIES.map(value => [value[0], value[1]]));
@@ -15,7 +17,12 @@ const FACTORY_REGISTRY: Record<string, any> = Object.fromEntries(FACTORIES.map(v
 type SpecificOptions = {
   entity: string;
   count: number;
+  overrides?: Record<string, any>;
 };
+
+function createOverrides(rawArgs: string[]): Record<string, any> {
+  return Object.fromEntries(rawArgs.map(arg => arg.split('=').slice(0,2)));
+}
 
 async function specific(dataSource: DataSource, options: SpecificOptions) {
   const FactoryClass = FACTORY_REGISTRY[options.entity.toLowerCase()];
@@ -33,7 +40,7 @@ async function specific(dataSource: DataSource, options: SpecificOptions) {
     `Seeding ${options.count} individual instance(s) of "${options.entity}"...`,
   );
 
-  const results = await factory.createMany(options.count);
+  const results = await factory.createMany(options.count, options.overrides);
   console.log(
     `Successfully seeded ${results.length} row(s) into the database!`,
   );
@@ -68,13 +75,20 @@ async function seed() {
 
   const dataSource = dataSourceConfig;
 
-  // Read arguments: npm run database:seed -- [entityName] [quantity]
+  // Read arguments: npm run database:seed -- [entityName] [quantity] overrideKey1=overrideValue1 ...
   const args = process.argv.slice(2);
   const entityArg = args[0]; // e.g. "user" or undefined
   const quantityArg = parseInt(args[1], 10); // e.g. "10" or NaN
   const count = isNaN(quantityArg) ? 1 : quantityArg;
 
-  const options: SpecificOptions = { entity: entityArg, count };
+  let overrides: Record<string, any> | undefined;
+  if (args.length > 1 && !isNaN(quantityArg)) {
+    overrides = createOverrides(args.slice(2));
+  } else if (args.length > 1 && isNaN(quantityArg)) {
+    overrides = createOverrides(args.slice(1));
+  }
+
+  const options: SpecificOptions = { entity: entityArg, count, overrides };
 
   try {
     if (!dataSource.isInitialized) {
