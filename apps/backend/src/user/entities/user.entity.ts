@@ -23,7 +23,7 @@ import { CartEntity } from 'src/cart/entities/cart.entity';
 
 export async function hashPassword(password: string) {
   const salt = await genSalt(12);
-  return hash(password || this.password, salt);
+  return hash(password, salt);
 }
 
 @Entity('users')
@@ -129,6 +129,6 @@ export class UserEntity implements IUserEntity {
 
   @BeforeInsert()
   async setPassword(password: string) {
-    this.password = await hashPassword(password);
+    this.password = await hashPassword(password || this.password);
   }
 }
