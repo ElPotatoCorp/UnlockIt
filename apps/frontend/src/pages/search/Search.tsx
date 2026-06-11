@@ -41,11 +41,13 @@ const Search: FC = () => {
     setLoading(true);
 
     const run = async () => {
-      if (!debouncedTerm) {
-        await fetchGames(1, 20);
-      } else {
-        await searchGames(debouncedTerm, options, 1, 20);
-      }
+      const slug =
+        debouncedTerm && debouncedTerm.trim() !== ""
+          ? debouncedTerm
+          : "_"; // "tous les jeux"
+
+      await searchGames(slug, options, 1, 20);
+
       setLoading(false);
     };
 

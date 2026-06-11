@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { SearchGameCard } from "../search-game-card/SearchGameCard";
+import { SearchGameCard } from "./search-game-card/SearchGameCard";
 
 interface Props {
   games: any[];
@@ -9,11 +9,13 @@ interface Props {
 
 export const SearchGameGrid: FC<Props> = ({ games, onAddToCart, onToggleWishlist }) => {
   return (
-    <div style={{
-      display: "grid",
-      gap: "1.5rem",
-      gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-    }}>
+    <div
+      style={{
+        display: "grid",
+        gap: "1.5rem",
+        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+      }}
+    >
       {games.map((g) => (
         <SearchGameCard
           key={g.id}

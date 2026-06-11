@@ -1,0 +1,119 @@
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--color-tar);
+    height: 300px;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    filter: blur(6px) brightness(0.35);
+    transition: opacity 0.35s ease;
+    z-index: 1;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.imageWrapper {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    transition: height 0.35s ease;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.35s ease;
+}
+
+.card:hover .image {
+    opacity: 0;
+}
+
+.card:hover .imageWrapper {
+    height: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* indispensable pour permettre le scroll */
+    flex: 1;       /* occupe tout l’espace entre l’image et les boutons */
+    padding: 0 1rem;
+}
+
+.title {
+    font-size: var(--text-h3);
+    padding: 0.6rem 1rem 0 0rem;
+}
+
+.description {
+    flex: 1;
+    min-height: 0; /* permet le scroll naturel */
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+/* Scrollbar propre */
+.description::-webkit-scrollbar {
+    width: 6px;
+}
+.description::-webkit-scrollbar-thumb {
+    background: var(--color-carbon);
+    border-radius: 4px;
+}
+
+.card:hover .description {
+    opacity: 1;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--color-green);
+    padding: 0 1rem;
+    margin-top: auto;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem 1rem 1rem;
+}
+
+.actions button {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    background: var(--color-smoke);
+    border: none;
+    border-radius: 6px;
+    cursor: var(--cursor-pointer);
+    transition: background 0.2s ease;
+}
+
+.actions button:hover {
+    background: var(--color-carbon);
+}
+
+.viewButton {
+    flex: 2 !important;
+}
