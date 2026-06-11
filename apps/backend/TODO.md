@@ -152,10 +152,6 @@
 
 ### DTOs to create
 
-**Cart**
-- [ ] `AddToCartDto` (gameId, quantity)
-- [ ] `SetCartQuantityDto` (quantity)
-
 **Reviews**
 - [ ] `CreateReviewDto` (gameId, rating, content?)
 - [ ] `UpdateReviewDto` (rating, content?)
