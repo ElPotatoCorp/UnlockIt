@@ -1,0 +1,56 @@
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+
+    position: sticky;
+    top: 8rem;
+    height: fit-content;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem;
+}
+
+.title {
+    text-align: center;
+    font-size: var(--text-h2);
+    margin-bottom: 0.5rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.field label {
+    font-size: var(--text-body);
+    color: var(--color-mist);
+}
+
+.field input,
+.field select {
+    background: var(--color-smoke);
+    border: 1px solid var(--color-carbon);
+    border-radius: 6px;
+    padding: 0.5rem 0.6rem;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    cursor: var(--cursor-pointer);
+    transition: border 0.2s ease, background 0.2s ease;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: var(--color-green);
+    background: var(--color-onyx);
+}
+
+.field select option {
+    background: var(--color-smoke);
+    color: var(--color-white);
+}

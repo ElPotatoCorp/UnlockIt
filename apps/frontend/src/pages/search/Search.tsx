@@ -1,14 +1,20 @@
 import { type FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import { GameType } from "@unlockit/shared";
 import { useGames } from "../../api/hooks/useGames.hook";
 import { SearchFilters } from "./search-filters/SearchFilters";
 import { SearchResults } from "./search-result/SearchResults";
+import styles from "./search.module.css";
+import { useWishlist } from "../../api/hooks/useWishlist.hook";
+import { useAuth } from "../../api/hooks/useAuth.hook";
 
 const Search: FC = () => {
   const { term } = useParams<{ term: string }>();
-  const { games, searchGames, fetchGames } = useGames();
+  const { games, searchGames } = useGames();
+  const { isLogged } = useAuth();
+  const { checkWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
@@ -55,18 +61,31 @@ const Search: FC = () => {
   }, [debouncedTerm, debouncedSortBy, debouncedMinPrice, debouncedMaxPrice]);
 
   const handleAddToCart = (id: number) => {
-    console.log("Add to cart:", id);
+    console.log("TODO : ADD Cart API frontend layer:", id);
   };
 
-  const handleToggleWishlist = (id: number) => {
-    console.log("Toggle wishlist:", id);
+  const handleToggleWishlist = async (gameId: number) => {
+    if (!isLogged) {
+      navigate("/login");
+      return;
+    }
+
+    const current = await checkWishlist(gameId);
+
+    if (current) {
+      await removeFromWishlist(gameId);
+    } else {
+      await addToWishlist(gameId);
+    }
   };
 
   return (
-    <div>
-      <h1>{term ? `Résultats pour "${term}"` : "Tous les jeux"}</h1>
+    <div className={styles.searchPage}>
+      <h1 className={styles.title}>
+        {term ? `Résultats pour "${term}"` : "Tous les jeux"}
+      </h1>
 
-      <div style={{ display: "flex", gap: "2rem" }}>
+      <div className={styles.layout}>
         <SearchFilters
           sortBy={sortBy}
           setSortBy={setSortBy}
@@ -79,13 +98,12 @@ const Search: FC = () => {
         <SearchResults
           games={games?.data || []}
           loading={loading}
-          onAddToCart={handleAddToCart}
-          onToggleWishlist={handleToggleWishlist}
+          onAddToCart={(id) => console.log("Add to cart:", id)}
+          onToggleWishlist={(id) => handleToggleWishlist(id)}
         />
       </div>
     </div>
   );
 };
-
 
 export default Search;

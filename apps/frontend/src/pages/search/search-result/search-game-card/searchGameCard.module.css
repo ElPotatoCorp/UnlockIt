@@ -117,3 +117,21 @@
 .viewButton {
     flex: 2 !important;
 }
+
+.wish {
+    color: var(--color-mist);
+    transition: color 0.2s ease;
+}
+
+.wish:hover {
+    color: var(--color-white);
+}
+
+.wishActive {
+    color: var(--color-blue);
+    transition: color 0.2s ease;
+}
+
+.wishActive:hover {
+    color: var(--color-error);
+}

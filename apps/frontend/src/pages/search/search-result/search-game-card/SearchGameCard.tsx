@@ -1,5 +1,6 @@
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../../../../api/hooks/useWishlist.hook";
 import styles from "./searchGameCard.module.css";
 
 interface Props {
@@ -16,6 +17,11 @@ interface Props {
 
 export const SearchGameCard: FC<Props> = ({ game, onAddToCart, onToggleWishlist }) => {
   const navigate = useNavigate();
+  const { isInWishlist, checkWishlist } = useWishlist();
+
+  useEffect(() => {
+    checkWishlist(game.id);
+  }, [game.id]);
 
   return (
     <div
@@ -38,7 +44,12 @@ export const SearchGameCard: FC<Props> = ({ game, onAddToCart, onToggleWishlist 
       <div className={styles.actions}>
         <button onClick={() => onAddToCart?.(game.id)}>🛒</button>
         <button className={styles.viewButton} onClick={() => navigate(`/games/${game.id}`)}>👁 Voir</button>
-        <button onClick={() => onToggleWishlist?.(game.id)}>❤️</button>
+        <button
+          className={isInWishlist ? styles.wishActive : styles.wish}
+          onClick={() => onToggleWishlist?.(game.id)}
+        >
+          {isInWishlist ? "❤️" : "🤍"}
+        </button>
       </div>
     </div>
   );
