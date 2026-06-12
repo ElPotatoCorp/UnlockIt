@@ -25,6 +25,8 @@ import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { GameDetailDto } from './dto/game-detail.dto';
 import { SearchGameOptionsDto } from './dto/search-game-options.dto';
+import { StocksService } from 'src/stocks/stocks.service';
+import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 
 @Injectable()
 export class GamesService {
@@ -35,6 +37,7 @@ export class GamesService {
     private readonly platformRepository: Repository<GamePlatformEntity>,
     @InjectRepository(MediaEntity)
     private readonly mediaRepository: Repository<MediaEntity>,
+    private readonly stocksService: StocksService,
     private readonly commonService: CommonService,
   ) {}
 
@@ -296,5 +299,14 @@ export class GamesService {
 
   async removeMedia(game: GameEntity, media: MediaEntity): Promise<void> {
     await this.mediaRepository.delete(media.id);
+  }
+
+  // --- Stock ---
+  addStocks(id: number, createStockDto: CreateStockDto): void {
+    this.stocksService.create(id, createStockDto);
+  }
+
+  getStocks(id: number, paginationQueryDto: PaginationQueryDto) {
+    return this.stocksService.findAll(id, paginationQueryDto);
   }
 }

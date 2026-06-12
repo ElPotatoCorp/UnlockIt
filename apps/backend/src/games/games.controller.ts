@@ -32,11 +32,14 @@ import {
   SearchBodyDto,
   SearchGameOptionsDto,
 } from './dto/search-game-options.dto';
+import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(
+    private readonly gamesService: GamesService,
+  ) {}
 
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
@@ -221,5 +224,23 @@ export class GamesController {
     @Param('mediaId', EntityExistsPipe(MediaEntity)) media: MediaEntity,
   ) {
     return this.gamesService.removeMedia(game, media);
+  }
+
+  // --- Stocks ---
+
+  @MinRole(EmployeeRole.SUPER_ADMIN)
+  @Post(':id/stocks')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  addStocks(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity, @Body() createStockDto: CreateStockDto) {
+    this.gamesService.addStocks(game.id, createStockDto);
+  }
+
+  @MinRole(EmployeeRole.SUPER_ADMIN)
+  @Get(':id/stocks')
+  getStocks(
+    @Param('id') id: string,
+    @Query() paginationQueryDto: PaginationQueryDto,
+  ) {
+    return this.gamesService.getStocks(+id, paginationQueryDto);
   }
 }
