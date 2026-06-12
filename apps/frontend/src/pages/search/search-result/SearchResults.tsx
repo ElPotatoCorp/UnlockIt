@@ -2,9 +2,10 @@ import { type FC } from "react";
 import { SearchGameCardSkeleton } from "./search-game-card-skeleton/SearchGameCardSkeleton";
 import styles from "./searchResults.module.css";
 import { SearchGameCard } from "./search-game-card/SearchGameCard";
+import type { SummaryGame } from "@unlockit/shared";
 
 interface Props {
-    games: any[];
+    games: SummaryGame[];
     loading: boolean;
     onAddToCart?: (id: number) => void;
     onToggleWishlist?: (id: number) => void;

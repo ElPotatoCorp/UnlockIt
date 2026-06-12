@@ -1,27 +1,16 @@
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWishlist } from "../../../../api/hooks/useWishlist.hook";
 import styles from "./searchGameCard.module.css";
+import type { SummaryGame } from "@unlockit/shared";
 
 interface Props {
-  game: {
-    id: number;
-    name: string;
-    shortDescription: string;
-    price: number;
-    headerImage: string;
-  };
+  game: SummaryGame;
   onAddToCart?: (id: number) => void;
   onToggleWishlist?: (id: number) => void;
 }
 
 export const SearchGameCard: FC<Props> = ({ game, onAddToCart, onToggleWishlist }) => {
   const navigate = useNavigate();
-  const { isInWishlist, checkWishlist } = useWishlist();
-
-  useEffect(() => {
-    checkWishlist(game.id);
-  }, [game.id]);
 
   return (
     <div
@@ -45,10 +34,10 @@ export const SearchGameCard: FC<Props> = ({ game, onAddToCart, onToggleWishlist 
         <button onClick={() => onAddToCart?.(game.id)}>🛒</button>
         <button className={styles.viewButton} onClick={() => navigate(`/games/${game.id}`)}>👁 Voir</button>
         <button
-          className={isInWishlist ? styles.wishActive : styles.wish}
+          className={game.wishlisted ? styles.wishActive : styles.wish}
           onClick={() => onToggleWishlist?.(game.id)}
         >
-          {isInWishlist ? "❤️" : "🤍"}
+          {game.wishlisted ? "❤️" : "🤍"}
         </button>
       </div>
     </div>

@@ -14,7 +14,7 @@ const Search: FC = () => {
   const { term } = useParams<{ term: string }>();
   const { games, searchGames } = useGames();
   const { isLogged } = useAuth();
-  const { checkWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { addToWishlist, removeFromWishlist } = useWishlist();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -62,6 +62,11 @@ const Search: FC = () => {
   }, [debouncedTerm, debouncedSortBy, debouncedMinPrice, debouncedMaxPrice]);
 
   const handleAddToCart = (id: number) => {
+    if (!isLogged) {
+      navigate("/login");
+      return;
+    }
+
     console.log("TODO : ADD Cart API frontend layer:", id);
   };
 
@@ -71,12 +76,28 @@ const Search: FC = () => {
       return;
     }
 
-    const current = await checkWishlist(gameId);
+    if (!games?.data) return;
 
-    if (current) {
-      await removeFromWishlist(gameId);
-    } else {
-      await addToWishlist(gameId);
+    const updatedGames = [...(games?.data || [])];
+    const index = updatedGames.findIndex((g) => g.id === gameId);
+
+    if (index === -1) return;
+
+    const game = updatedGames[index];
+    const wasWishlisted = game.wishlisted === true;
+
+    updatedGames[index] = { ...game, wishlisted: !wasWishlisted };
+    games.data = updatedGames;
+
+    try {
+      if (wasWishlisted) {
+        await removeFromWishlist(gameId);
+      } else {
+        await addToWishlist(gameId);
+      }
+    } catch {
+      updatedGames[index] = { ...game, wishlisted: wasWishlisted };
+      games.data = updatedGames;
     }
   };
 
@@ -109,7 +130,7 @@ const Search: FC = () => {
         <SearchResults
           games={games?.data || []}
           loading={loading}
-          onAddToCart={(id) => console.log("Add to cart:", id)}
+          onAddToCart={(id) => handleAddToCart(id)}
           onToggleWishlist={(id) => handleToggleWishlist(id)}
         />
       </div>
