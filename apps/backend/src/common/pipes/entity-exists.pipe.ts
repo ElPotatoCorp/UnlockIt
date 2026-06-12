@@ -6,8 +6,8 @@ import {
   PipeTransform,
   Type,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectLiteral, Repository } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 
 export async function entityExists<T extends ObjectLiteral>(
   repository: Repository<T>,
@@ -34,11 +34,11 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
     constructor(
-      @InjectRepository(entity) private readonly repository: Repository<T>,
+      @InjectDataSource() private readonly dataSource: DataSource,
     ) {}
 
-    async transform(value: any, metadata: ArgumentMetadata): Promise<T> {
-      return entityExists(this.repository, field, value);
+    async transform(value: any, _metadata: ArgumentMetadata): Promise<T> {
+      return entityExists(this.dataSource.getRepository(entity), field, value);
     }
   }
 
