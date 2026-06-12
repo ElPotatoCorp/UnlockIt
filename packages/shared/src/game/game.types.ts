@@ -56,7 +56,7 @@ export type GameDetail = Simplify<OmitPromises<GameEntity> & {
   media: Media[];
   series: Series | null;
   wishlisted?: boolean;
-} >;
+}>;
 
 export type SearchGameOptions = {
   /** Will be turned into a slug */
