@@ -27,6 +27,7 @@ import { SearchGameOptionsDto } from './dto/search-game-options.dto';
 import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { WishlistService } from 'src/wishlist/wishlist.service';
+import { GameDetailDto } from './dto/game-detail.dto';
 
 @Injectable()
 export class GamesService {
@@ -133,7 +134,7 @@ export class GamesService {
   }
 
   async findOne(game: GameEntity, userId?: string) {
-    return SummaryGameDto.fromEntity(
+    return GameDetailDto.fromEntity(
       game,
       userId ? await this.wishlistService.isInWishlist(userId, game.id) : false,
     );

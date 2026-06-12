@@ -85,7 +85,9 @@ export class GameDetailDto implements GameDetail {
   @GameRelationsEntityDoc.Series()
   series: SeriesDto | null;
 
-  static async fromEntity(game: GameEntity): Promise<GameDetailDto> {
+  wishlisted?: boolean;
+
+  static async fromEntity(game: GameEntity, wishlisted?: boolean): Promise<GameDetailDto> {
     const dto = new GameDetailDto();
 
     dto.id = game.id;
@@ -122,6 +124,8 @@ export class GameDetailDto implements GameDetail {
     dto.media = media.map(({ id, url, type }) => ({ id, url, type }));
     dto.series = series ? await SeriesDto.fromEntity(series) : null;
     dto.platforms = platforms ? GamePlatformDto.fromEntity(platforms) : null;
+
+    dto.wishlisted = wishlisted;
 
     return dto;
   }
