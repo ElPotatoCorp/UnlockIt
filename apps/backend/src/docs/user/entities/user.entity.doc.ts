@@ -105,20 +105,6 @@ export const UserEntityDoc = {
       }),
     ),
 
-  Wallet: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'Wallet balance',
-        description: 'Current balance. Cannot be negative.',
-        type: Number,
-        format: 'decimal',
-        minimum: 0,
-        example: 49.99,
-        readOnly: true,
-        default: 0,
-      }),
-    ),
-
   CreatedAt: () =>
     applyDecorators(
       ApiProperty({
