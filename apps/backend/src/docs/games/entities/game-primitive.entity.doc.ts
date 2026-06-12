@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { EUAgeRating, GameType, LangCode } from '@unlockit/shared';
 
-export const GameEntityDoc = {
+export const GamePrimitiveEntityDoc = {
   // -------------------------------------------------------
   // Identity
   // -------------------------------------------------------

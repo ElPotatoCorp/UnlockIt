@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 
 export const SeriesEntityDoc = {
   Id: () =>
@@ -46,9 +47,9 @@ export const SeriesEntityDoc = {
       ApiProperty({
         title: 'Games',
         description: 'List of games belonging to this series.',
+        type: SummaryGameDto,
         isArray: true,
         required: false,
-        nullable: true,
       }),
     ),
 

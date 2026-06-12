@@ -7,7 +7,7 @@ import {
 } from '@unlockit/shared';
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
-import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
@@ -32,23 +32,23 @@ import {
 @Check(`"price" >= 0`)
 @Check(`"metacritic_score" BETWEEN 0 AND 100 OR "metacritic_score" IS NULL`)
 export class GameEntity implements IGameEntity {
-  @GameEntityDoc.Id()
+  @GamePrimitiveEntityDoc.Id()
   @PrimaryGeneratedColumn('increment', { type: 'int' })
   id: number;
 
-  @GameEntityDoc.Name()
+  @GamePrimitiveEntityDoc.Name()
   @Column('varchar', { length: 255, nullable: false })
   name: string;
 
-  @GameEntityDoc.Slug()
+  @GamePrimitiveEntityDoc.Slug()
   @Column('varchar', { length: 255, nullable: false, unique: true })
   slug: string;
 
-  @GameEntityDoc.Type()
+  @GamePrimitiveEntityDoc.Type()
   @Column('enum', { enum: GameType, default: GameType.GAME })
   type: GameType;
 
-  @GameEntityDoc.Price()
+  @GamePrimitiveEntityDoc.Price()
   @Column('decimal', {
     precision: 10,
     scale: 2,
@@ -57,7 +57,7 @@ export class GameEntity implements IGameEntity {
   })
   price: number;
 
-  @GameEntityDoc.AgeRating()
+  @GamePrimitiveEntityDoc.AgeRating()
   @Column('enum', {
     name: 'age_rating',
     enum: EUAgeRating,
@@ -65,47 +65,47 @@ export class GameEntity implements IGameEntity {
   })
   ageRating: EUAgeRating;
 
-  @GameEntityDoc.ReleaseDate()
+  @GamePrimitiveEntityDoc.ReleaseDate()
   @Column('date', { name: 'release_date', nullable: true })
   releaseDate: string | null;
 
-  @GameEntityDoc.ComingSoon()
+  @GamePrimitiveEntityDoc.ComingSoon()
   @Column('boolean', { name: 'coming_soon', default: false })
   comingSoon: boolean;
 
-  @GameEntityDoc.HeaderImage()
+  @GamePrimitiveEntityDoc.HeaderImage()
   @Column('varchar', { name: 'header_image', length: 255, nullable: false })
   headerImage: string;
 
-  @GameEntityDoc.CoverImage()
+  @GamePrimitiveEntityDoc.CoverImage()
   @Column('varchar', { name: 'cover_image', length: 255, nullable: false })
   coverImage: string;
 
-  @GameEntityDoc.BackgroundImage()
+  @GamePrimitiveEntityDoc.BackgroundImage()
   @Column('varchar', { name: 'background_image', length: 255, nullable: false })
   backgroundImage: string;
 
-  @GameEntityDoc.ShortDescription()
+  @GamePrimitiveEntityDoc.ShortDescription()
   @Column('text', { name: 'short_description', nullable: false })
   shortDescription: string;
 
-  @GameEntityDoc.DetailedDescription()
+  @GamePrimitiveEntityDoc.DetailedDescription()
   @Column('text', { name: 'detailed_description', nullable: false })
   detailedDescription: string;
 
-  @GameEntityDoc.MetacriticScore()
+  @GamePrimitiveEntityDoc.MetacriticScore()
   @Column('smallint', { name: 'metacritic_score', nullable: true })
   metacriticScore: number | null;
 
-  @GameEntityDoc.Website()
+  @GamePrimitiveEntityDoc.Website()
   @Column('varchar', { length: 255, nullable: true })
   website: string | null;
 
-  @GameEntityDoc.PcRequirements()
+  @GamePrimitiveEntityDoc.PcRequirements()
   @Column('text', { name: 'pc_requirements', nullable: true })
   pcRequirements: string | null;
 
-  @GameEntityDoc.SupportedLanguages()
+  @GamePrimitiveEntityDoc.SupportedLanguages()
   @Column('enum', {
     name: 'supported_languages',
     enum: LangCode,

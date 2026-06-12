@@ -1,4 +1,4 @@
-import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 import { GameEntity } from '../entities/game.entity';
 import {
   EUAgeRating,
@@ -8,31 +8,31 @@ import {
 } from '@unlockit/shared';
 
 export class SummaryGameDto implements SummaryGame {
-  @GameEntityDoc.Id()
+  @GamePrimitiveEntityDoc.Id()
   id: number;
 
-  @GameEntityDoc.Name()
+  @GamePrimitiveEntityDoc.Name()
   name: string;
 
-  @GameEntityDoc.Slug()
+  @GamePrimitiveEntityDoc.Slug()
   slug: string;
 
-  @GameEntityDoc.Type()
+  @GamePrimitiveEntityDoc.Type()
   type: GameType;
 
-  @GameEntityDoc.Price()
+  @GamePrimitiveEntityDoc.Price()
   price: number;
 
-  @GameEntityDoc.AgeRating()
+  @GamePrimitiveEntityDoc.AgeRating()
   ageRating: EUAgeRating;
 
-  @GameEntityDoc.ComingSoon()
+  @GamePrimitiveEntityDoc.ComingSoon()
   comingSoon: boolean;
 
-  @GameEntityDoc.HeaderImage()
+  @GamePrimitiveEntityDoc.HeaderImage()
   headerImage: string;
 
-  @GameEntityDoc.ShortDescription()
+  @GamePrimitiveEntityDoc.ShortDescription()
   shortDescription: string;
 
   static fromEntity(game: GameEntity): SummaryGameDto {

@@ -12,76 +12,77 @@ import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';
 import { MediaDto } from 'src/media/dto/media.dto';
 import { GameTagDto } from 'src/tags/dto/game-tag.dto';
 import { GamePlatformDto } from 'src/platforms/dto/game-platform.dto';
-import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
+import { GameRelationsEntityDoc } from 'src/docs/games/entities/game-relations.entity.doc';
 
 export class GameDetailDto implements GameDetail {
-  @GameEntityDoc.Id()
+  @GamePrimitiveEntityDoc.Id()
   id: number;
 
-  @GameEntityDoc.Name()
+  @GamePrimitiveEntityDoc.Name()
   name: string;
 
-  @GameEntityDoc.Slug()
+  @GamePrimitiveEntityDoc.Slug()
   slug: string;
 
-  @GameEntityDoc.Type()
+  @GamePrimitiveEntityDoc.Type()
   type: GameType;
 
-  @GameEntityDoc.Price()
+  @GamePrimitiveEntityDoc.Price()
   price: number;
 
-  @GameEntityDoc.AgeRating()
+  @GamePrimitiveEntityDoc.AgeRating()
   ageRating: EUAgeRating;
 
-  @GameEntityDoc.ReleaseDate()
+  @GamePrimitiveEntityDoc.ReleaseDate()
   releaseDate: string | null;
 
-  @GameEntityDoc.ComingSoon()
+  @GamePrimitiveEntityDoc.ComingSoon()
   comingSoon: boolean;
 
-  @GameEntityDoc.HeaderImage()
+  @GamePrimitiveEntityDoc.HeaderImage()
   headerImage: string;
 
-  @GameEntityDoc.CoverImage()
+  @GamePrimitiveEntityDoc.CoverImage()
   coverImage: string;
 
-  @GameEntityDoc.BackgroundImage()
+  @GamePrimitiveEntityDoc.BackgroundImage()
   backgroundImage: string;
 
-  @GameEntityDoc.ShortDescription()
+  @GamePrimitiveEntityDoc.ShortDescription()
   shortDescription: string;
 
-  @GameEntityDoc.DetailedDescription()
+  @GamePrimitiveEntityDoc.DetailedDescription()
   detailedDescription: string;
 
-  @GameEntityDoc.MetacriticScore()
+  @GamePrimitiveEntityDoc.MetacriticScore()
   metacriticScore: number | null;
 
-  @GameEntityDoc.Website()
+  @GamePrimitiveEntityDoc.Website()
   website: string | null;
 
-  @GameEntityDoc.PcRequirements()
+  @GamePrimitiveEntityDoc.PcRequirements()
   pcRequirements: string | null;
 
-  @GameEntityDoc.SupportedLanguages()
+  @GamePrimitiveEntityDoc.SupportedLanguages()
   supportedLanguages: LangCode[] | null;
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Tags()
   tags: GameTagDto[];
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Developers()
   developers: GameDeveloperDto[];
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Publishers()
   publishers: GamePublisherDto[];
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Platforms()
   platforms: GamePlatformDto | null;
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Media()
   media: MediaDto[];
 
-  //@GameEntityDoc.Name()
+  @GameRelationsEntityDoc.Series()
   series: SeriesDto | null;
 
   static async fromEntity(game: GameEntity): Promise<GameDetailDto> {

@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 import { IsSlug } from 'src/common/validators/slug.validator';
 import { Transform, Type } from 'class-transformer';
-import { GameEntityDoc } from 'src/docs/games/entities/game.entity.doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 import {
   CreateGame,
   EUAgeRating,
@@ -22,66 +22,66 @@ import {
 } from '@unlockit/shared';
 
 export class CreateGameDto implements CreateGame {
-  @GameEntityDoc.Name()
+  @GamePrimitiveEntityDoc.Name()
   @IsString()
   @Length(2, 255)
   name: string;
 
-  @GameEntityDoc.Slug()
+  @GamePrimitiveEntityDoc.Slug()
   @IsSlug()
   @Length(2, 255)
   slug: string;
 
-  @GameEntityDoc.Type()
+  @GamePrimitiveEntityDoc.Type()
   @IsEnum(GameType)
   type: GameType;
 
-  @GameEntityDoc.Price()
+  @GamePrimitiveEntityDoc.Price()
   @Type(() => Number)
   @IsNumber()
   @Min(0)
   price: number;
 
-  @GameEntityDoc.AgeRating()
+  @GamePrimitiveEntityDoc.AgeRating()
   @Type(() => Number)
   @IsEnum(EUAgeRating)
   ageRating: EUAgeRating;
 
-  @GameEntityDoc.ReleaseDate()
+  @GamePrimitiveEntityDoc.ReleaseDate()
   @IsDateString()
   releaseDate?: string;
 
-  @GameEntityDoc.ComingSoon()
+  @GamePrimitiveEntityDoc.ComingSoon()
   @Transform(({ value }) => value === 'true' || value === true)
   @IsBoolean()
   comingSoon: boolean;
 
-  @GameEntityDoc.HeaderImage()
+  @GamePrimitiveEntityDoc.HeaderImage()
   @IsUrl()
   @Length(0, 255)
   headerImage: string;
 
-  @GameEntityDoc.CoverImage()
+  @GamePrimitiveEntityDoc.CoverImage()
   @IsUrl()
   @Length(0, 255)
   coverImage: string;
 
-  @GameEntityDoc.BackgroundImage()
+  @GamePrimitiveEntityDoc.BackgroundImage()
   @IsUrl()
   @Length(0, 255)
   backgroundImage: string;
 
-  @GameEntityDoc.ShortDescription()
+  @GamePrimitiveEntityDoc.ShortDescription()
   @IsString()
   @Length(10, 300)
   shortDescription: string;
 
-  @GameEntityDoc.DetailedDescription()
+  @GamePrimitiveEntityDoc.DetailedDescription()
   @IsString()
   @Length(10, 5000)
   detailedDescription: string;
 
-  @GameEntityDoc.MetacriticScore()
+  @GamePrimitiveEntityDoc.MetacriticScore()
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
@@ -89,18 +89,18 @@ export class CreateGameDto implements CreateGame {
   @Max(100)
   metacriticScore?: number;
 
-  @GameEntityDoc.Website()
+  @GamePrimitiveEntityDoc.Website()
   @IsOptional()
   @IsUrl()
   website?: string;
 
-  @GameEntityDoc.PcRequirements()
+  @GamePrimitiveEntityDoc.PcRequirements()
   @IsOptional()
   @IsString()
   @Length(10, 5000)
   pcRequirements?: string;
 
-  @GameEntityDoc.SupportedLanguages()
+  @GamePrimitiveEntityDoc.SupportedLanguages()
   @IsOptional()
   @IsEnum(LangCode, { each: true })
   supportedLanguages?: LangCode[];
