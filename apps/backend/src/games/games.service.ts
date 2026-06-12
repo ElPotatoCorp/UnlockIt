@@ -318,8 +318,8 @@ export class GamesService {
   }
 
   // --- Stock ---
-  addStocks(id: number, createStockDto: CreateStockDto): void {
-    this.stocksService.create(id, createStockDto);
+  addStocks(id: number, createStockDto: CreateStockDto) {
+    return this.stocksService.create(id, createStockDto);
   }
 
   getStocks(id: number, paginationQueryDto: PaginationQueryDto) {

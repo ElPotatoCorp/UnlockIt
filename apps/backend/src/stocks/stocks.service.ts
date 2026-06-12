@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StockEntity } from './entities/stock.entity';
@@ -15,13 +15,31 @@ export class StocksService {
     private readonly commonService: CommonService,
   ) {}
 
-  create(gameId: number, createStockDto: CreateStockDto) {
-    const stocks = this.stockRepository.create(
-      createStockDto.productKeys.map((productKey) => {
-        return { productKey: productKey, gameId };
-      }),
+  async create(gameId: number, createStockDto: CreateStockDto) {
+    const productKeys = createStockDto.productKeys;
+    const productKeySet = new Set<string>();
+    const duplicatedKeys = new Set<string>();
+
+    for (const productKey of productKeys) {
+      if (productKeySet.has(productKey)) {
+        duplicatedKeys.add(productKey);
+      } else {
+        productKeySet.add(productKey);
+      }
+    }
+
+    if (duplicatedKeys.size > 0) {
+      throw new UnprocessableEntityException({
+        statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        error: 'Unprocessable Entity',
+        message: 'There are duplicated values in the payload',
+        duplicatedValues: Array.from(duplicatedKeys),
+      });
+    }
+
+    this.stockRepository.create(
+      productKeys.map(productKey => ({ productKey, gameId })),
     );
-    return this.stockRepository.save(stocks);
   }
 
   findAll(id: number, paginationQueryDto: PaginationQueryDto) {

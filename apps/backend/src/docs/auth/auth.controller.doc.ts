@@ -18,7 +18,7 @@ import {
   JWT_ACCESS_TOKEN_COOKIE_NAME,
   JWT_REFRESH_TOKEN_COOKIE_NAME,
 } from 'src/globals';
-import { DuplicatedEntryDtoSchemaDoc } from 'src/common/dto/duplicated-entry.dto';
+import { DuplicatedEntryExceptionSchemaDoc } from 'src/common/dto/duplicated-entry.dto';
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -72,7 +72,7 @@ export const AuthControllerDoc = {
       ApiBadRequestResponse({ description: 'Bad request. Validation failed.' }),
       ApiConflictResponse({
         description: 'Conflict. Email or username already taken.',
-        schema: DuplicatedEntryDtoSchemaDoc(CreateUserDto, [
+        schema: DuplicatedEntryExceptionSchemaDoc(CreateUserDto, [
           'email',
           'username',
         ]),

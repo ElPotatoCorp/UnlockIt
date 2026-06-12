@@ -6,9 +6,9 @@ import {
   PipeTransform,
   Type,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectLiteral, Repository } from 'typeorm';
-import { DuplicatedEntryDto } from '../dto/duplicated-entry.dto';
+import { InjectDataSource,  } from '@nestjs/typeorm';
+import { DataSource, ObjectLiteral, Repository } from 'typeorm';
+import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
 
 /**
  * Checks a single value against a single unique column in one query.
@@ -23,7 +23,8 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
   value: any,
   ...uniqueFields: (keyof T)[]
 ): Promise<void> {
-  const errors = new DuplicatedEntryDto<T>();
+  const invalidFields: (keyof T)[] = [];
+  const messages: Partial<Record<keyof T, string>> = {};
 
   for (const field of uniqueFields) {
     const fieldValue = value?.[field];
@@ -35,14 +36,14 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
     const exists = await repository.existsBy({ [field]: fieldValue } as any);
 
     if (exists) {
-      errors.invalidFields.push(field);
-      errors.messages[field] =
-        `The value \`${fieldValue}\` of field \`${field.toString()}\` is already used`;
+      invalidFields.push(field);
+      messages[field] =
+        `The value \`${fieldValue}\` of field \`${String(field)}\` is already used`;
     }
   }
 
-  if (errors.invalidFields.length > 0) {
-    throw new ConflictException(errors);
+  if (invalidFields.length > 0) {
+    throw new DuplicatedEntryException(invalidFields, messages);
   }
 }
 
@@ -62,11 +63,11 @@ export function DuplicatedEntryPipe<T extends ObjectLiteral>(
   @Injectable()
   class DuplicatedEntryMixin implements PipeTransform {
     constructor(
-      @InjectRepository(entity) private readonly repository: Repository<T>,
+      @InjectDataSource() private readonly dataSource: DataSource,
     ) { }
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<any> {
-      await duplicatedEntryPipe(this.repository, value, ...uniqueFields);
+      await duplicatedEntryPipe(this.dataSource.getRepository(entity), value, ...uniqueFields);
       return value;
     }
   }

@@ -3,14 +3,15 @@
 import {
   ArgumentMetadata,
   ConflictException,
+  HttpExceptionBody,
   Injectable,
   mixin,
   PipeTransform,
   Type,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { In, ObjectLiteral, Repository } from 'typeorm';
-import { DuplicatedEntryDto } from '../dto/duplicated-entry.dto';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, In, ObjectLiteral, Repository } from 'typeorm';
+import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
 
 /**
  * Checks an array of values against a single unique column in one query.
@@ -39,21 +40,24 @@ export async function bulkDuplicatedEntry<T extends ObjectLiteral>(
   }
 
   const duplicates = existing.map((row) => String(row[column]));
-  const error = new DuplicatedEntryDto<T>();
 
-  error.invalidFields = [column];
-  error.messages[column] =
-    `The following values are already in use: ${duplicates.join(', ')}`;
-
-  throw new ConflictException(error);
+  throw new DuplicatedEntryException<T>(
+    [column],
+    Object.fromEntries([
+      [column],
+      [`The following values are already in use: ${duplicates.join(', ')}`],
+    ])
+  );
 }
 
 /**
  * Pipe wrapper around {@link bulkDuplicatedEntry} for declarative use.
  *
  * Usage:
- *   @UsePipes(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))
+ *   `@Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))`
  *
+ * @todo Rework it because it sucks right now
+ * 
  * @param entity    - The TypeORM entity class to query against.
  * @param column    - The unique column on the entity to check against.
  * @param bodyField - The key on the incoming DTO that holds the array of values.
@@ -66,19 +70,17 @@ export function BulkDuplicatedEntryPipe<T extends ObjectLiteral>(
   @Injectable()
   class BulkDuplicatedEntryMixin implements PipeTransform {
     constructor(
-      @InjectRepository(entity) private readonly repository: Repository<T>,
+      @InjectDataSource() private readonly dataSource: DataSource,
     ) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<any> {
-      console.log(value);
-
       const incoming: unknown[] = value?.[bodyField];
 
       if (!Array.isArray(incoming) || incoming.length === 0) {
         return value;
       }
 
-      await bulkDuplicatedEntry(this.repository, incoming, column);
+      await bulkDuplicatedEntry(this.dataSource.getRepository(entity), incoming, column);
 
       return value;
     }

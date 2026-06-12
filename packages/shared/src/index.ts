@@ -1,5 +1,4 @@
 export * from "./common/paginated.types";
-export * from "./common/duplicated-entry.types";
 
 export * from "./auth/auth.types";
 

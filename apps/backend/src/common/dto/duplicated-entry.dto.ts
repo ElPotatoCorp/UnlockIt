@@ -1,12 +1,12 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
-import { DuplicatedEntry, ExactData } from '@unlockit/shared';
 
-export const DuplicatedEntryDtoSchemaDoc = (
+export const DuplicatedEntryExceptionSchemaDoc = (
   itemType: any,
   allowedFields: string[],
 ) => ({
   allOf: [
-    { $ref: getSchemaPath(DuplicatedEntryDto) },
+    { $ref: getSchemaPath(DuplicatedEntryException) },
     {
       properties: {
         invalidFields: {
@@ -26,21 +26,34 @@ export const DuplicatedEntryDtoSchemaDoc = (
   ],
 });
 
-export class DuplicatedEntryDto<T> implements DuplicatedEntry<T> {
+export class DuplicatedEntryException<T> extends HttpException {
   @ApiProperty({
-    description: "Every fields that does't respect the unique constraint",
-    isArray: true,
+    description: "List of fields that violated the unique constraint.",
+    example: ['email', 'username'],
   })
-  invalidFields: (keyof T)[] = [];
+  invalidFields: (keyof T)[];
 
   @ApiProperty({
-    description:
-      'Human-readable message concerning every fields contained in `invaliedFields`',
+    description: 'Human-readable error messages mapped to each invalid field.',
+    example: { email: 'Email already exists', username: 'Username is taken' },
   })
-  messages: Partial<Record<keyof T, string>> = {};
+  messages: Partial<Record<keyof T, string>>;
+
+  constructor(
+    invalidFields: (keyof T)[], 
+    messages: Partial<Record<keyof T, string>>
+  ) {
+    const responseBody = {
+      statusCode: HttpStatus.CONFLICT,
+      message: 'There are conflicts with some fields',
+      error: 'Conflict',
+      invalidFields,
+      messages,
+    };
+
+    super(responseBody, HttpStatus.CONFLICT);
+
+    this.invalidFields = invalidFields;
+    this.messages = messages;
+  }
 }
-
-const _assertExact: ExactData<
-  DuplicatedEntry<any>,
-  DuplicatedEntryDto<any>
-> = true;

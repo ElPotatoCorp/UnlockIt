@@ -11,6 +11,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -36,7 +37,8 @@ import {
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { JwtAuthOptionalGuard } from 'src/auth/guards/jwt-auth-optional.guard';
 import { User } from 'src/user/decorators/user.decorator';
-import { SummaryGameDto } from './dto/summary-game.dto';
+import { BulkDuplicatedEntryPipe } from 'src/common/pipes/bulk-duplicated-entry.pipe';
+import { StockEntity } from 'src/stocks/entities/stock.entity';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
@@ -133,9 +135,6 @@ export class GamesController {
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
-    // Resolve tag entities then bulk replace
-    // BulkIdsDto: { ids: number[] }
-    // Service resolves them and calls setTags
     return this.gamesService.setTagsById(game, dto.ids);
   }
 
@@ -238,12 +237,15 @@ export class GamesController {
   }
 
   // --- Stocks ---
-
-  @MinRole(EmployeeRole.SUPER_ADMIN)
+  //@MinRole(EmployeeRole.SUPER_ADMIN)
   @Post(':id/stocks')
+  @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
-  addStocks(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity, @Body() createStockDto: CreateStockDto) {
-    this.gamesService.addStocks(game.id, createStockDto);
+  addStocks(
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys')) createStockDto: CreateStockDto,
+  ) {
+    return this.gamesService.addStocks(game.id, createStockDto);
   }
 
   @MinRole(EmployeeRole.SUPER_ADMIN)
