@@ -10,6 +10,7 @@ import {
   Put,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -33,6 +34,9 @@ import {
   SearchGameOptionsDto,
 } from './dto/search-game-options.dto';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
+import { JwtAuthOptionalGuard } from 'src/auth/guards/jwt-auth-optional.guard';
+import { User } from 'src/user/decorators/user.decorator';
+import { SummaryGameDto } from './dto/summary-game.dto';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
@@ -50,17 +54,23 @@ export class GamesController {
 
   @GamesControllerDoc.Search()
   @Public()
+  @UseGuards(JwtAuthOptionalGuard)
   @Post('search/:slug')
   @HttpCode(HttpStatus.OK)
   search(
     @Param('slug') name: string,
     @Query() paginationQueryDto: PaginationQueryDto,
     @Body() searchGameOptionsDto: SearchBodyDto,
+    @User('sub') userId?: string, 
   ) {
-    return this.gamesService.search(paginationQueryDto, {
-      name,
-      ...searchGameOptionsDto,
-    } as SearchGameOptionsDto);
+    return this.gamesService.search(
+      paginationQueryDto,
+      {
+        name,
+        ...searchGameOptionsDto,
+      } as SearchGameOptionsDto,
+      userId
+    );
   }
 
   @GamesControllerDoc.FindAll()
@@ -72,9 +82,10 @@ export class GamesController {
 
   @GamesControllerDoc.FindOne()
   @Public()
+  @UseGuards(JwtAuthOptionalGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gamesService.findOne(+id);
+  findOne(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity, @User('sub') userId?: string) {
+    return this.gamesService.findOne(game, userId);
   }
 
   @GamesControllerDoc.Update()

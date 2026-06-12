@@ -10,6 +10,7 @@ import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity'
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { PublishersModule } from 'src/publishers/publishers.module';
 import { StocksModule } from 'src/stocks/stocks.module';
+import { WishlistModule } from 'src/wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { StocksModule } from 'src/stocks/stocks.module';
     TagsModule,
     DevelopersModule,
     PublishersModule,
+    WishlistModule,
     StocksModule,
     UploadModule,
   ],

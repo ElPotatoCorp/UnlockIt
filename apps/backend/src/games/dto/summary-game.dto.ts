@@ -35,8 +35,11 @@ export class SummaryGameDto implements SummaryGame {
   @GamePrimitiveEntityDoc.ShortDescription()
   shortDescription: string;
 
-  static fromEntity(game: GameEntity): SummaryGameDto {
+  wishlisted?: boolean;
+
+  static fromEntity(game: GameEntity, wishlisted?: boolean): SummaryGameDto {
     const dto = new SummaryGameDto();
+
     dto.id = game.id;
     dto.name = game.name;
     dto.slug = game.slug;
@@ -46,6 +49,8 @@ export class SummaryGameDto implements SummaryGame {
     dto.comingSoon = game.comingSoon;
     dto.headerImage = game.headerImage;
     dto.shortDescription = game.shortDescription;
+    dto.wishlisted = wishlisted;
+
     return dto;
   }
 }

@@ -46,7 +46,7 @@ export type CreateGame = NullToOptional<Omit<OmitPromises<GameEntity>, 'id'>>;
 
 export type UpdateGame = Partial<CreateGame>;
 
-export type SummaryGame = Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'>;
+export type SummaryGame = Simplify<Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'> & { wishlisted?: boolean }>;
 
 export type GameDetail = Simplify<OmitPromises<GameEntity> & {
   tags: GameTag[];
@@ -55,7 +55,8 @@ export type GameDetail = Simplify<OmitPromises<GameEntity> & {
   platforms: GamePlatform | null;
   media: Media[];
   series: Series | null;
-}>;
+  wishlisted?: boolean;
+} >;
 
 export type SearchGameOptions = {
   /** Will be turned into a slug */

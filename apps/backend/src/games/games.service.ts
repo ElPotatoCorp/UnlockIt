@@ -23,10 +23,10 @@ import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity'
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
-import { GameDetailDto } from './dto/game-detail.dto';
 import { SearchGameOptionsDto } from './dto/search-game-options.dto';
 import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
+import { WishlistService } from 'src/wishlist/wishlist.service';
 
 @Injectable()
 export class GamesService {
@@ -37,6 +37,7 @@ export class GamesService {
     private readonly platformRepository: Repository<GamePlatformEntity>,
     @InjectRepository(MediaEntity)
     private readonly mediaRepository: Repository<MediaEntity>,
+    private readonly wishlistService: WishlistService,
     private readonly stocksService: StocksService,
     private readonly commonService: CommonService,
   ) {}
@@ -100,14 +101,27 @@ export class GamesService {
   async search(
     paginationQueryDto: PaginationQueryDto,
     options: SearchGameOptionsDto,
+    userId?: string,
   ) {
     const { where, order } = this.getBasicSearch(options);
 
-    return this.commonService.getPaginatedResponse(
+    const res = await this.commonService.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
       { where, order, transform: { fn: SummaryGameDto.fromEntity } },
     );
+
+    if (userId) {
+      const gameIds = res.data.map(game => game.id);
+      const wishlistedSet = new Set(await this.wishlistService.getWishlistedGameIds(userId, gameIds));
+
+      res.data = res.data.map(game => {
+        game.wishlisted = wishlistedSet.has(game.id);
+        return game;
+      })
+    }
+
+    return res;
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
@@ -118,10 +132,11 @@ export class GamesService {
     );
   }
 
-  async findOne(id: number): Promise<GameDetailDto | null> {
-    const game = await this.gameRepository.findOne({ where: { id } });
-    if (!game) return null;
-    return GameDetailDto.fromEntity(game);
+  async findOne(game: GameEntity, userId?: string) {
+    return SummaryGameDto.fromEntity(
+      game,
+      userId ? await this.wishlistService.isInWishlist(userId, game.id) : false,
+    );
   }
 
   async update(id: number, updateGameDto: UpdateGameDto) {

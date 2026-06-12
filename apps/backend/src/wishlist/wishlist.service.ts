@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistEntity } from './entities/wishlist.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -32,9 +32,23 @@ export class WishlistService {
   async isInWishlist(
     userId: string,
     gameId: number,
-  ): Promise<{ wishlisted: boolean }> {
+  ): Promise<boolean> {
     const exists = await this.wishlistRepository.existsBy({ userId, gameId });
-    return { wishlisted: exists };
+    return exists;
+  }
+
+  async getWishlistedGameIds(userId: string, gameIds: number[]): Promise<number[]> {
+  if (!gameIds.length) return [];
+
+    const wishlist = await this.wishlistRepository.find({
+      where: {
+        userId,
+        gameId: In(gameIds),
+      },
+      select: ['gameId'],
+    });
+
+    return wishlist.map(w => w.gameId);
   }
 
   async add(userId: string, gameId: number): Promise<void> {
