@@ -46,10 +46,10 @@ export class UserDto implements User {
   @Length(0, 255)
   avatar: string | null;
 
-  @UserEntityDoc.Wallet()
+  /*@UserEntityDoc.Wallet()
   @IsNumber({ allowNaN: false, allowInfinity: false, maxDecimalPlaces: 2 })
   @Min(0)
-  wallet: number;
+  wallet: number;*/
 
   @UserEntityDoc.CreatedAt()
   @IsDateString()
@@ -66,7 +66,6 @@ export class UserDto implements User {
     dto.phoneNumber = user.phoneNumber;
     dto.bio = user.bio;
     dto.avatar = user.avatar;
-    dto.wallet = user.wallet;
     dto.createdAt = user.createdAt;
 
     return dto;

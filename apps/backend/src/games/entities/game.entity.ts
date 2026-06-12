@@ -33,7 +33,7 @@ import {
 @Check(`"metacritic_score" BETWEEN 0 AND 100 OR "metacritic_score" IS NULL`)
 export class GameEntity implements IGameEntity {
   @GameEntityDoc.Id()
-  @PrimaryGeneratedColumn('increment', { type: 'bigint' })
+  @PrimaryGeneratedColumn('increment', { type: 'int' })
   id: number;
 
   @GameEntityDoc.Name()

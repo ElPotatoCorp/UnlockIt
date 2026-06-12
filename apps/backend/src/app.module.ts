@@ -78,6 +78,7 @@ import { StocksModule } from './stocks/stocks.module';
         password: config.password,
         database: config.database,
         autoLoadEntities: true,
+        parseInt8: true,
 
         migrations: ['dist/database/migrations/**/*.{ts,js}'],
         migrationsRun: false, // Turn to true in prod

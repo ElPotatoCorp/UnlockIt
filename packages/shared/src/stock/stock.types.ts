@@ -1,6 +1,7 @@
 import { GameEntity } from "../game/game.types";
 
 export type StockEntity = {
+  id: number;
   productKey: string;
   gameId: number;
   game: GameEntity;

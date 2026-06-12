@@ -13,7 +13,6 @@ export type UserEntity = {
   phoneNumber: string | null;
   bio: string | null;
   avatar: string | null;
-  wallet: number;
   createdAt: Date;
 
   // -------------------------------------------------------

@@ -3,7 +3,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  Unique,
   Check,
   CreateDateColumn,
   OneToOne,
@@ -12,7 +11,6 @@ import {
 } from 'typeorm';
 import { UserProfileEntity } from './user-profile.entity';
 import { UserBillingEntity } from './user-billing.entity';
-import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { SessionEntity } from 'src/sessions/entities/session.entity';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 import { EmployeeEntity } from '../../employees/entities/employee.entity';
@@ -27,20 +25,15 @@ export async function hashPassword(password: string) {
 }
 
 @Entity('users')
-@Unique(['username'])
-@Unique(['email'])
-@Unique(['phoneNumber'])
 @Check(`"email" ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'`)
 @Check(`LENGTH(TRIM("username")) >= 3`)
-@Check(`LENGTH("bio") <= 500 OR "bio" IS NULL`)
-@Check(`"wallet" >= 0`)
 export class UserEntity implements IUserEntity {
   @UserEntityDoc.Id()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @UserEntityDoc.Username()
-  @Column({ length: 50 })
+  @Column({ length: 50, unique: true })
   username: string;
 
   @UserEntityDoc.Password()
@@ -68,15 +61,6 @@ export class UserEntity implements IUserEntity {
   @Column('varchar', { length: 255, nullable: true })
   avatar: string | null;
 
-  @UserEntityDoc.Wallet()
-  @Column('numeric', {
-    precision: 10,
-    scale: 2,
-    default: 0,
-    transformer: new DecimalColumnTransformer(),
-  })
-  wallet: number;
-
   @UserEntityDoc.CreatedAt()
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
@@ -87,7 +71,7 @@ export class UserEntity implements IUserEntity {
 
   @OneToOne(() => EmployeeEntity, (employee) => employee.user, {
     lazy: true,
-    cascade: true,
+    cascade: ['remove'],
     nullable: true,
   })
   employee: Promise<EmployeeEntity | null>;
@@ -128,8 +112,8 @@ export class UserEntity implements IUserEntity {
   wishlist: Promise<WishlistEntity[]>;
 
   @BeforeInsert()
-  async setPassword(password: string) {
-    this.password = await hashPassword(password || this.password);
+  async setPassword() {
+    this.password = await hashPassword(this.password);
   }
 }
 

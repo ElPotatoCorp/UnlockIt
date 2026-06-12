@@ -6,12 +6,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('stocks')
 export class StockEntity implements IStockEntity {
-  @PrimaryColumn('varchar', { name: 'product_key', length: 100 })
+  @PrimaryGeneratedColumn('increment', { type: 'bigint' })
+  id: number;
+
+  @Column('varchar', { name: 'product_key', length: 100, select: false, unique: true })
   productKey: string;
 
   @Column('bigint', { name: 'game_id' })
@@ -24,7 +27,7 @@ export class StockEntity implements IStockEntity {
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 
-  // This is used to soft delete using TypeORM's built-in feature
+  /** This is used to soft delete using TypeORM's built-in feature */
   @DeleteDateColumn({ name: 'used_at', nullable: true })
   usedAt: Date | null;
 }

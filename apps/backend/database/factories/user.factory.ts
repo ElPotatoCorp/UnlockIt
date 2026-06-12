@@ -21,7 +21,6 @@ export class UserFactory extends Factory<UserEntity> {
         : null,
       bio: this.fk.datatype.boolean() ? this.fk.lorem.paragraph() : null,
       avatar: null, // Skip image generation to avoid timeout
-      wallet: this.fk.number.float({ min: 0, max: 500, fractionDigits: 2 }),
     };
   }
 }

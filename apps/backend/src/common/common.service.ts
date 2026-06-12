@@ -4,7 +4,7 @@ import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { PaginatedDto } from './dto/paginated.dto';
 
 interface TransformEach<T, U> {
-  each?: true;
+  each?: true; // Transform each by default even when undefined is given
   fn: (entity: T) => U;
 }
 
