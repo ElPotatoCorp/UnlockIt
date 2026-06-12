@@ -6,7 +6,7 @@ import { Series, SeriesEntity } from "../series/series.types";
 import { StockEntity } from "../stock/stock.types";
 import { GameTag, TagEntity } from "../tag/tag.types";
 import { NullToOptional, OmitPromises, Simplify } from "../utils/types";
-import { Wishlist, WishlistEntity } from "../wishlist/wishlist.types";
+import { WishlistEntity } from "../wishlist/wishlist.types";
 import { EUAgeRating, GameType, LangCode } from "./game.enums";
 
 export type GameEntity = {
