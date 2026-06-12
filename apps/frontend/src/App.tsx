@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Layout } from "./components/layout/Layout";
 import { Loader } from "./features/loader/Loader";
 import { HelmetProvider } from "react-helmet-async";
-import { UnlockItHelmet } from "./features/helmet/UnlockItHelmet";
 import { NotFound } from "./features/not-found/NotFound";
 
 /** @ts-ignore */
@@ -21,6 +20,7 @@ const Cookies = lazy(() => import("./pages/cookies/Cookies"));
 const Refunds = lazy(() => import("./pages/refunds/Refunds"));
 const Login = lazy(() => import("./features/login/Login"));
 const Register = lazy(() => import("./features/register/Register"));
+const Home = lazy(() => import("./pages/home/Home"));
 const Search = lazy(() => import("./pages/search/Search"));
 
 function lazyRoute(element: React.ReactNode) {
@@ -37,19 +37,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route
-              index
-              element={
-                <>
-                  <UnlockItHelmet
-                    title="Accueil"
-                    path="/"
-                  />
-                </>
-              }
-            />
-
-            <Route path="/home" element={<></>} />
+            <Route index element={<Home />}/>
+            {["/home", "/store", "/shop"].map((path) => (
+              <Route key={path} path={path} element={<Navigate to="/" replace />} />
+            ))}
 
             <Route path="/privacy" element={lazyRoute(<Privacy />)} />
             <Route path="/legal" element={lazyRoute(<Legal />)} />

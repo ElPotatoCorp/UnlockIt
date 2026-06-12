@@ -5,9 +5,10 @@ import { GameType } from "@unlockit/shared";
 import { useGames } from "../../api/hooks/useGames.hook";
 import { SearchFilters } from "./search-filters/SearchFilters";
 import { SearchResults } from "./search-result/SearchResults";
-import styles from "./search.module.css";
 import { useWishlist } from "../../api/hooks/useWishlist.hook";
 import { useAuth } from "../../api/hooks/useAuth.hook";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import styles from "./search.module.css";
 
 const Search: FC = () => {
   const { term } = useParams<{ term: string }>();
@@ -81,6 +82,16 @@ const Search: FC = () => {
 
   return (
     <div className={styles.searchPage}>
+      <UnlockItHelmet
+        title={term ? `Recherche : ${term}` : "Tous les jeux"}
+        description={
+          term
+            ? `Résultats de recherche pour "${term}" sur UnlockIt. Trouvez vos jeux PC au meilleur prix.`
+            : "Découvrez tous les jeux PC disponibles sur UnlockIt."
+        }
+        path={term ? `/search/${term}` : "/search"}
+      />
+
       <h1 className={styles.title}>
         {term ? `Résultats pour "${term}"` : "Tous les jeux"}
       </h1>

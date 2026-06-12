@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useGames } from "../../api/hooks/useGames.hook";
-import styles from "./home.module.css";
 import { useNavigate } from "react-router-dom";
 import { GameScroller } from "./game-scroller/GameScroller";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import { useGames } from "../../api/hooks/useGames.hook";
+import styles from "./home.module.css";
 
 const Home = () => {
     const { games, fetchGames } = useGames();
@@ -34,6 +34,10 @@ const Home = () => {
 
     return (
         <div className={styles.home}>
+            <UnlockItHelmet
+                title="Accueil"
+                path="/"
+            />
 
             {/* BANNIÈRE */}
             {randomGame && (
