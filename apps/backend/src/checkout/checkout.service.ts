@@ -57,7 +57,7 @@ export class CheckoutService {
       // If the AI say so ¯\(ツ)/¯ :
       // Lazy relations must never be awaited inside a DataSource transaction
       // because they use the global connection pool, not the transaction
-      // manager's connection — meaning they would read outside the transaction
+      // manager's connection - meaning they would read outside the transaction
       // boundary and bypass any in-flight locks. Always use manager.find.
       const gameIds = cartItems.map((item) => item.gameId);
       const games = await manager.find(GameEntity, {

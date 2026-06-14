@@ -117,7 +117,7 @@ export const SeriesControllerDoc = {
       ApiOperation({
         summary: 'Update a series',
         description:
-          'Admin only. All fields are optional — only send what needs to change. To add or remove games, use the dedicated game management endpoints.',
+          'Admin only. All fields are optional - only send what needs to change. To add or remove games, use the dedicated game management endpoints.',
       }),
       SERIES_ID_PARAM,
       ApiBody({ type: UpdateSeriesDto }),

@@ -54,7 +54,7 @@ export class OrderEntity implements IOrderEntity {
   completedAt: Date | null;
 
   // -------------------------------------------------------
-  // Relations — not loaded unless explicitly requested
+  // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
   @ManyToOne(() => UserEntity, (user) => user.orders, {

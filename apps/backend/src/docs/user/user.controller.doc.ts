@@ -29,7 +29,7 @@ export const UserControllerDoc = {
       ApiOperation({ summary: 'Get own profile' }),
       ApiOkResponse({
         description:
-          'Core user fields. Email is partially masked. Profile and billing are not included — use their respective endpoints.',
+          'Core user fields. Email is partially masked. Profile and billing are not included - use their respective endpoints.',
         type: UserDto,
         example: {
           id: 'a3f1c2d4-b5e7-4f9c-8d3a-1e2f3b4c5d6e',
@@ -101,7 +101,7 @@ export const UserControllerDoc = {
       ApiOperation({
         summary: 'Create or replace profile details',
         description:
-          'Full upsert — all fields required. Replaces the existing profile row if one exists.',
+          'Full upsert - all fields required. Replaces the existing profile row if one exists.',
       }),
       ApiBody({ type: UpdateProfileDto }),
       ApiOkResponse({ description: 'Profile saved.' }),
@@ -113,7 +113,7 @@ export const UserControllerDoc = {
       ApiOperation({
         summary: 'Create or replace billing address',
         description:
-          'Full upsert — all fields required. Replaces the existing billing row if one exists.',
+          'Full upsert - all fields required. Replaces the existing billing row if one exists.',
       }),
       ApiBody({ type: UpdateBillingDto }),
       ApiOkResponse({ description: 'Billing address saved.' }),

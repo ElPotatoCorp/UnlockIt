@@ -176,7 +176,7 @@ export const GamesControllerDoc = {
       ApiOperation({
         summary: 'Update a game',
         description:
-          'Admin only. All fields are optional — only send what needs to change.',
+          'Admin only. All fields are optional - only send what needs to change.',
       }),
       ApiParam({
         name: 'id',
@@ -229,7 +229,7 @@ export const GamesControllerDoc = {
       ApiOperation({
         summary: 'Add a tag to a game',
         description:
-          'Admin only. Idempotent — adding an already-linked tag is a no-op.',
+          'Admin only. Idempotent - adding an already-linked tag is a no-op.',
       }),
       GAME_ID_PARAM,
       TAG_ID_PARAM_G,
@@ -357,7 +357,7 @@ export const GamesControllerDoc = {
       ApiOperation({
         summary: 'Update platform availability for a game',
         description:
-          'Admin only. Partial update — only send the flags you want to change. Creates the platform row if it does not exist yet.',
+          'Admin only. Partial update - only send the flags you want to change. Creates the platform row if it does not exist yet.',
       }),
       GAME_ID_PARAM,
       ApiBody({ type: UpdatePlatformDto }),

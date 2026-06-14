@@ -36,7 +36,7 @@ export const TicketsControllerDoc = {
       ApiOperation({
         summary: 'Submit a support ticket',
         description:
-          'Available to everyone — authenticated or not. ' +
+          'Available to everyone - authenticated or not. ' +
           'If a valid JWT is present, the ticket is automatically linked to the user account. ' +
           'Password reset tickets cannot be created through this endpoint.',
       }),

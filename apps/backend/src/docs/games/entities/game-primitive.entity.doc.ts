@@ -153,7 +153,7 @@ export const GamePrimitiveEntityDoc = {
     ),
 
   // -------------------------------------------------------
-  // Media — stored filenames, not URLs
+  // Media - stored filenames, not URLs
   // -------------------------------------------------------
 
   HeaderImage: (required = true) =>
