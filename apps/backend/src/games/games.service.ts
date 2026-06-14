@@ -113,13 +113,15 @@ export class GamesService {
     );
 
     if (userId) {
-      const gameIds = res.data.map(game => game.id);
-      const wishlistedSet = new Set(await this.wishlistService.getWishlistedGameIds(userId, gameIds));
+      const gameIds = res.data.map((game) => game.id);
+      const wishlistedSet = new Set(
+        await this.wishlistService.getWishlistedGameIds(userId, gameIds),
+      );
 
-      res.data = res.data.map(game => {
+      res.data = res.data.map((game) => {
         game.wishlisted = wishlistedSet.has(game.id);
         return game;
-      })
+      });
     }
 
     return res;

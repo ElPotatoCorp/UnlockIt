@@ -1,6 +1,6 @@
-export * from "./common/paginated.types";
+export * from "./common/paginated.types"
 
-export * from "./auth/auth.types";
+export * from "./auth/auth.types"
 
 export * from "./user/user.types"
 
@@ -15,10 +15,10 @@ export * from "./ticket/ticket.enums"
 
 export * from "./cart/cart.types"
 
-export * from "./game/game.types";
-export * from "./game/game.enums";
+export * from "./game/game.types"
+export * from "./game/game.enums"
 
-export * from "./series/series.types";
+export * from "./series/series.types"
 export * from "./developer/developer.types"
 export * from "./publisher/publisher.types"
 export * from "./tag/tag.types"
@@ -30,5 +30,11 @@ export * from "./wishlist/wishlist.types"
 
 export * from "./stock/stock.types"
 
+export * from "./order/order.types"
+export * from "./order/order.enums"
+
+export * from "./wallet-transaction/wallet-transaction.types"
+export * from "./wallet-transaction/wallet-transaction.enums"
+
 export * from "./utils/slug.formatter"
-export * from "./utils/types";
+export * from "./utils/types"

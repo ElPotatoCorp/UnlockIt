@@ -46,7 +46,7 @@ export async function bulkDuplicatedEntry<T extends ObjectLiteral>(
     Object.fromEntries([
       [column],
       [`The following values are already in use: ${duplicates.join(', ')}`],
-    ])
+    ]),
   );
 }
 
@@ -57,7 +57,7 @@ export async function bulkDuplicatedEntry<T extends ObjectLiteral>(
  *   `@Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))`
  *
  * @todo Rework it because it sucks right now
- * 
+ *
  * @param entity    - The TypeORM entity class to query against.
  * @param column    - The unique column on the entity to check against.
  * @param bodyField - The key on the incoming DTO that holds the array of values.
@@ -69,9 +69,7 @@ export function BulkDuplicatedEntryPipe<T extends ObjectLiteral>(
 ): Type<PipeTransform> {
   @Injectable()
   class BulkDuplicatedEntryMixin implements PipeTransform {
-    constructor(
-      @InjectDataSource() private readonly dataSource: DataSource,
-    ) {}
+    constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<any> {
       const incoming: unknown[] = value?.[bodyField];
@@ -80,7 +78,11 @@ export function BulkDuplicatedEntryPipe<T extends ObjectLiteral>(
         return value;
       }
 
-      await bulkDuplicatedEntry(this.dataSource.getRepository(entity), incoming, column);
+      await bulkDuplicatedEntry(
+        this.dataSource.getRepository(entity),
+        incoming,
+        column,
+      );
 
       return value;
     }

@@ -33,6 +33,9 @@ import { RolesGuard } from './employees/guards/roles.guard';
 import { EmployeesModule } from './employees/employees.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { StocksModule } from './stocks/stocks.module';
+import { OrdersModule } from './orders/orders.module';
+import { WalletModule } from './wallet/wallet.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -101,6 +104,9 @@ import { StocksModule } from './stocks/stocks.module';
     EmployeesModule,
     WishlistModule,
     StocksModule,
+    OrdersModule,
+    WalletModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [

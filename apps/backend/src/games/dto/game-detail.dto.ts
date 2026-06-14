@@ -87,7 +87,10 @@ export class GameDetailDto implements GameDetail {
 
   wishlisted?: boolean;
 
-  static async fromEntity(game: GameEntity, wishlisted?: boolean): Promise<GameDetailDto> {
+  static async fromEntity(
+    game: GameEntity,
+    wishlisted?: boolean,
+  ): Promise<GameDetailDto> {
     const dto = new GameDetailDto();
 
     dto.id = game.id;

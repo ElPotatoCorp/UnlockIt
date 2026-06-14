@@ -43,9 +43,7 @@ import { StockEntity } from 'src/stocks/entities/stock.entity';
 @GamesControllerDoc.Controller()
 @Controller('games')
 export class GamesController {
-  constructor(
-    private readonly gamesService: GamesService,
-  ) {}
+  constructor(private readonly gamesService: GamesService) {}
 
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
@@ -63,7 +61,7 @@ export class GamesController {
     @Param('slug') name: string,
     @Query() paginationQueryDto: PaginationQueryDto,
     @Body() searchGameOptionsDto: SearchBodyDto,
-    @User('sub') userId?: string, 
+    @User('sub') userId?: string,
   ) {
     return this.gamesService.search(
       paginationQueryDto,
@@ -71,7 +69,7 @@ export class GamesController {
         name,
         ...searchGameOptionsDto,
       } as SearchGameOptionsDto,
-      userId
+      userId,
     );
   }
 
@@ -86,7 +84,10 @@ export class GamesController {
   @Public()
   @UseGuards(JwtAuthOptionalGuard)
   @Get(':id')
-  findOne(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity, @User('sub') userId?: string) {
+  findOne(
+    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @User('sub') userId?: string,
+  ) {
     return this.gamesService.findOne(game, userId);
   }
 
@@ -243,7 +244,8 @@ export class GamesController {
   @HttpCode(HttpStatus.NO_CONTENT)
   addStocks(
     @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys')) createStockDto: CreateStockDto,
+    @Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))
+    createStockDto: CreateStockDto,
   ) {
     return this.gamesService.addStocks(game.id, createStockDto);
   }

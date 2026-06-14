@@ -4,7 +4,6 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CartEntity } from './entities/cart.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -15,7 +14,7 @@ import { isBoolean, isInt } from 'class-validator';
 @Injectable()
 export class CartService {
   constructor(
-    @InjectRepository(CartEntity)
+    @InjectRepository(CartItemEntity)
     private readonly cartItemRepository: Repository<CartItemEntity>,
     private readonly commonService: CommonService,
   ) {}
@@ -114,6 +113,10 @@ export class CartService {
   }
 
   async clear(cartId: string): Promise<void> {
-    await this.cartItemRepository.delete({ cartId });
+    await this.cartItemRepository.delete({ cartId, selected: true });
+    await this.cartItemRepository.update(
+      { cartId, selected: false },
+      { selected: true },
+    );
   }
 }

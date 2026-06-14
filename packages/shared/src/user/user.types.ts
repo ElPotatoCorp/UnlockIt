@@ -1,8 +1,10 @@
 import { CartEntity } from "../cart/cart.types";
 import { EmployeeEntity } from "../employee/employee.types";
+import { OrderEntity } from "../order/order.types";
 import { SessionEntity } from "../session/session.types";
 import { TicketEntity } from "../ticket/ticket.types";
 import { OmitPromises } from "../utils/types";
+import { WalletTransactionEntity } from "../wallet-transaction/wallet-transaction.types";
 import { WishlistEntity } from "../wishlist/wishlist.types";
 
 export type UserEntity = {
@@ -26,6 +28,8 @@ export type UserEntity = {
   tickets: Promise<TicketEntity[]>;
   cart: Promise<CartEntity>;
   wishlist: Promise<WishlistEntity[]>;
+  walletTransactions:  Promise<WalletTransactionEntity[]>;
+  orders: Promise<OrderEntity[]>;
 };
 
 export type UserProfileEntity = {

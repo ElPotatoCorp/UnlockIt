@@ -33,9 +33,7 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
 ): Type<PipeTransform> {
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
-    constructor(
-      @InjectDataSource() private readonly dataSource: DataSource,
-    ) {}
+    constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<T> {
       return entityExists(this.dataSource.getRepository(entity), field, value);

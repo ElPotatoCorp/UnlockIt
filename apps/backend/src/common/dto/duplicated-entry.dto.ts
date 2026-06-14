@@ -28,7 +28,7 @@ export const DuplicatedEntryExceptionSchemaDoc = (
 
 export class DuplicatedEntryException<T> extends HttpException {
   @ApiProperty({
-    description: "List of fields that violated the unique constraint.",
+    description: 'List of fields that violated the unique constraint.',
     example: ['email', 'username'],
   })
   invalidFields: (keyof T)[];
@@ -40,8 +40,8 @@ export class DuplicatedEntryException<T> extends HttpException {
   messages: Partial<Record<keyof T, string>>;
 
   constructor(
-    invalidFields: (keyof T)[], 
-    messages: Partial<Record<keyof T, string>>
+    invalidFields: (keyof T)[],
+    messages: Partial<Record<keyof T, string>>,
   ) {
     const responseBody = {
       statusCode: HttpStatus.CONFLICT,

@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StockEntity } from './entities/stock.entity';
@@ -38,7 +43,7 @@ export class StocksService {
     }
 
     this.stockRepository.create(
-      productKeys.map(productKey => ({ productKey, gameId })),
+      productKeys.map((productKey) => ({ productKey, gameId })),
     );
   }
 

@@ -1,11 +1,15 @@
 import { GameEntity } from "../game/game.types";
+import { OrderItemEntity } from "../order/order.types";
 
 export type StockEntity = {
   id: number;
   productKey: string;
   gameId: number;
-  game: GameEntity;
+  orderId: string | null;
   usedAt: Date | null;
+
+  game: Promise<GameEntity>;
+  orderItem: Promise<OrderItemEntity | null>;
 }
 
 export type Stock = {

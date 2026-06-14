@@ -29,16 +29,16 @@ export class WishlistService {
     );
   }
 
-  async isInWishlist(
-    userId: string,
-    gameId: number,
-  ): Promise<boolean> {
+  async isInWishlist(userId: string, gameId: number): Promise<boolean> {
     const exists = await this.wishlistRepository.existsBy({ userId, gameId });
     return exists;
   }
 
-  async getWishlistedGameIds(userId: string, gameIds: number[]): Promise<number[]> {
-  if (!gameIds.length) return [];
+  async getWishlistedGameIds(
+    userId: string,
+    gameIds: number[],
+  ): Promise<number[]> {
+    if (!gameIds.length) return [];
 
     const wishlist = await this.wishlistRepository.find({
       where: {
@@ -48,7 +48,7 @@ export class WishlistService {
       select: ['gameId'],
     });
 
-    return wishlist.map(w => w.gameId);
+    return wishlist.map((w) => w.gameId);
   }
 
   async add(userId: string, gameId: number): Promise<void> {

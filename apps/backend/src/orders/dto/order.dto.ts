@@ -1,0 +1,29 @@
+import { ExactData, Order, OrderItem, OrderStatus } from '@unlockit/shared';
+import { OrderEntity } from '../entities/order.entity';
+import { OrderItemDto } from './order-item.dto';
+
+export class OrderDto implements Order {
+  id: string;
+  status: OrderStatus;
+  amountPaidWallet: number;
+  amountPaidStripe: number;
+  reservedAt: Date;
+  completedAt: Date | null;
+  items: OrderItem[];
+
+  static fromEntity(order: OrderEntity, items: OrderItemDto[]): OrderDto {
+    const dto = new OrderDto();
+
+    dto.id = order.id;
+    dto.status = order.status;
+    dto.amountPaidWallet = order.amountPaidWallet;
+    dto.amountPaidStripe = order.amountPaidStripe;
+    dto.reservedAt = order.reservedAt;
+    dto.completedAt = order.completedAt;
+    dto.items = items;
+
+    return dto;
+  }
+}
+
+const _assertExact: ExactData<Order, OrderDto> = true;

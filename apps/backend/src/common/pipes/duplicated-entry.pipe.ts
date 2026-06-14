@@ -6,7 +6,7 @@ import {
   PipeTransform,
   Type,
 } from '@nestjs/common';
-import { InjectDataSource,  } from '@nestjs/typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
 
@@ -62,12 +62,14 @@ export function DuplicatedEntryPipe<T extends ObjectLiteral>(
 ): Type<PipeTransform> {
   @Injectable()
   class DuplicatedEntryMixin implements PipeTransform {
-    constructor(
-      @InjectDataSource() private readonly dataSource: DataSource,
-    ) { }
+    constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<any> {
-      await duplicatedEntryPipe(this.dataSource.getRepository(entity), value, ...uniqueFields);
+      await duplicatedEntryPipe(
+        this.dataSource.getRepository(entity),
+        value,
+        ...uniqueFields,
+      );
       return value;
     }
   }

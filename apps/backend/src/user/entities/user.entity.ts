@@ -18,6 +18,8 @@ import { genSalt, hash } from 'bcrypt-ts';
 import { ExactData, UserEntity as IUserEntity } from '@unlockit/shared';
 import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import { CartEntity } from 'src/cart/entities/cart.entity';
+import { WalletTransactionEntity } from 'src/wallet/entities/wallet-transaction.entity';
+import { OrderEntity } from 'src/orders/entities/order.entity';
 
 export async function hashPassword(password: string) {
   const salt = await genSalt(12);
@@ -102,14 +104,30 @@ export class UserEntity implements IUserEntity {
   })
   tickets: Promise<TicketEntity[]>;
 
+  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
+  wishlist: Promise<WishlistEntity[]>;
+
   @OneToOne(() => CartEntity, (cart) => cart.user, {
     lazy: true,
     cascade: true,
   })
   cart: Promise<CartEntity>;
 
-  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
-  wishlist: Promise<WishlistEntity[]>;
+  @OneToMany(
+    () => WalletTransactionEntity,
+    (walletTransaction) => walletTransaction.user,
+    {
+      lazy: true,
+      onDelete: 'SET NULL',
+    },
+  )
+  walletTransactions: Promise<WalletTransactionEntity[]>;
+
+  @OneToMany(() => OrderEntity, (order) => order.user, {
+    lazy: true,
+    onDelete: 'SET NULL',
+  })
+  orders: Promise<OrderEntity[]>;
 
   @BeforeInsert()
   async setPassword() {

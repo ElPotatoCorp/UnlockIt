@@ -1,5 +1,5 @@
-import { applyDecorators } from "@nestjs/common";
-import { ApiProperty } from "@nestjs/swagger";
+import { applyDecorators } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import { GameDeveloperDto } from 'src/developers/dto/game-developer.dto';
 import { MediaDto } from 'src/media/dto/media.dto';
 import { GamePlatformDto } from 'src/platforms/dto/game-platform.dto';
@@ -16,7 +16,7 @@ export const GameRelationsEntityDoc = {
         type: GameTagDto,
         isArray: true,
         required: true,
-      })
+      }),
     ),
 
   Developers: () =>
@@ -27,7 +27,7 @@ export const GameRelationsEntityDoc = {
         type: GameDeveloperDto,
         isArray: true,
         required: true,
-      })
+      }),
     ),
 
   Publishers: () =>
@@ -38,7 +38,7 @@ export const GameRelationsEntityDoc = {
         type: GamePublisherDto,
         isArray: true,
         required: true,
-      })
+      }),
     ),
 
   Platforms: () =>
@@ -48,7 +48,7 @@ export const GameRelationsEntityDoc = {
         description: 'List of game platforms.',
         type: GamePlatformDto,
         required: false,
-      })
+      }),
     ),
 
   Media: () =>
@@ -59,9 +59,9 @@ export const GameRelationsEntityDoc = {
         type: MediaDto,
         isArray: true,
         required: true,
-      })
+      }),
     ),
-  
+
   Series: () =>
     applyDecorators(
       ApiProperty({
@@ -69,6 +69,6 @@ export const GameRelationsEntityDoc = {
         description: 'Series the game is from.',
         type: SeriesDto,
         required: false,
-      })
+      }),
     ),
-}
+};
