@@ -60,11 +60,11 @@ export class StockFactory extends Factory<StockEntity, StockRow> {
 
     if (overrides.gameId && !gameIds.find((id) => id === overrides.gameId)) {
       throw new Error(
-        `The game of ID \"${overrides.gameId}\" you required stock on does not exist`,
+        `The game of ID "${overrides.gameId}" you required stock on does not exist`,
       );
     } else if (overrides.gameId) {
       console.log(
-        `Seeding ${count} product key for the game of ID \"${overrides.gameId}\"`,
+        `Seeding ${count} product key for the game of ID "${overrides.gameId}"`,
       );
     }
 

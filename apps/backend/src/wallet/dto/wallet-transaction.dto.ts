@@ -1,4 +1,8 @@
-import { ExactData, WalletTransaction, WalletTransactionType } from '@unlockit/shared';
+import {
+  ExactData,
+  WalletTransaction,
+  WalletTransactionType,
+} from '@unlockit/shared';
 import { WalletTransactionEntity } from '../entities/wallet-transaction.entity';
 
 export class WalletTransactionDto implements WalletTransaction {

@@ -88,7 +88,9 @@ export class CheckoutService {
       }
 
       if (stripeCoverCents > 0) {
-        throw new NotImplementedException('Stripe payment is not yet integrated.');
+        throw new NotImplementedException(
+          'Stripe payment is not yet integrated.',
+        );
       }
 
       // Lock and reserve stock (SKIP LOCKED)

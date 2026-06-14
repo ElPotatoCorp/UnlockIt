@@ -34,7 +34,12 @@ export class OrdersService {
   }
 
   async findOne(orderId: string, userId: string): Promise<OrderDto> {
-    const order = await entityExists(this.orderRepository, ['id', 'userId'], [orderId, userId], true) as unknown as OrderEntity;
+    const order = (await entityExists(
+      this.orderRepository,
+      ['id', 'userId'],
+      [orderId, userId],
+      true,
+    )) as unknown as OrderEntity;
 
     const items = await order.items;
 

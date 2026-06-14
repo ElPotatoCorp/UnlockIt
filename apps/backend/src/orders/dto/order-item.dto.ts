@@ -1,4 +1,9 @@
-import { ExactData, GameEntity, OrderItem, OrderStatus } from '@unlockit/shared';
+import {
+  ExactData,
+  GameEntity,
+  OrderItem,
+  OrderStatus,
+} from '@unlockit/shared';
 import { OrderItemEntity } from '../entities/order-item.entity';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 
@@ -8,11 +13,7 @@ export class OrderItemDto implements OrderItem {
   unitPrice: number;
   keys: string[];
 
-  static from(
-    item: OrderItemEntity,
-    game: GameEntity,
-    keys: string[],
-  ) {
+  static from(item: OrderItemEntity, game: GameEntity, keys: string[]) {
     const dto = new OrderItemDto();
 
     dto.game = SummaryGameDto.fromEntity(game);

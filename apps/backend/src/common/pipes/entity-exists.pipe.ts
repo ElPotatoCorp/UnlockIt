@@ -16,12 +16,14 @@ export async function entityExists<T extends ObjectLiteral>(
   interrupt: boolean = false,
 ): Promise<T | null> {
   const entity = await repository.findOne({
-    where: Object.fromEntries(fieldNames.map((key, idx) => [ [key], values[idx] ])),
+    where: Object.fromEntries(
+      fieldNames.map((key, idx) => [[key], values[idx]]),
+    ),
   });
 
   if (interrupt === true && !entity) {
     throw new NotFoundException(
-      `${repository.metadata.name.replace('Entity', '')} with field(s) (${fieldNames.map(key => `'${String(key)}'`).join(', ')}) and value(s) (${values.map(value => `'${String(value)}'`).join(', ')}) not found`,
+      `${repository.metadata.name.replace('Entity', '')} with field(s) (${fieldNames.map((key) => `'${String(key)}'`).join(', ')}) and value(s) (${values.map((value) => `'${String(value)}'`).join(', ')}) not found`,
     );
   }
 
@@ -37,7 +39,12 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
     constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<T> {
-      return entityExists(this.dataSource.getRepository(entity), [field], [value], true) as unknown as T;
+      return entityExists(
+        this.dataSource.getRepository(entity),
+        [field],
+        [value],
+        true,
+      ) as unknown as T;
     }
   }
 

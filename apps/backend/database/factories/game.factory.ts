@@ -131,7 +131,7 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
     return GameEntity;
   }
 
-  async definition(_slug?: string) {
+  definition(_slug?: string) {
     const slug = _slug!;
 
     const json = readGameJson(slug);

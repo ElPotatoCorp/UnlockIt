@@ -12,9 +12,7 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
 import { SeriesEntity } from 'src/series/entities/series.entity';
-import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { TagEntity } from 'src/tags/entities/tag.entity';
-import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import {
   Check,
   Column,

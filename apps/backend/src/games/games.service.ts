@@ -192,10 +192,7 @@ export class GamesService {
   }
 
   // --- Developers ---
-  async addDeveloper(
-    game: GameEntity,
-    developer: DeveloperEntity,
-  ) {
+  async addDeveloper(game: GameEntity, developer: DeveloperEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -203,10 +200,7 @@ export class GamesService {
       .add(developer.id);
   }
 
-  async removeDeveloper(
-    game: GameEntity,
-    developer: DeveloperEntity,
-  ) {
+  async removeDeveloper(game: GameEntity, developer: DeveloperEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -214,10 +208,7 @@ export class GamesService {
       .remove(developer.id);
   }
 
-  async setDevelopers(
-    game: GameEntity,
-    developers: DeveloperEntity[],
-  ) {
+  async setDevelopers(game: GameEntity, developers: DeveloperEntity[]) {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
@@ -229,10 +220,7 @@ export class GamesService {
       );
   }
 
-  async setDevelopersById(
-    game: GameEntity,
-    developerIds: number[],
-  ) {
+  async setDevelopersById(game: GameEntity, developerIds: number[]) {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
@@ -245,10 +233,7 @@ export class GamesService {
   }
 
   // --- Publishers ---
-  async addPublisher(
-    game: GameEntity,
-    publisher: PublisherEntity,
-  ) {
+  async addPublisher(game: GameEntity, publisher: PublisherEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -256,10 +241,7 @@ export class GamesService {
       .add(publisher.id);
   }
 
-  async removePublisher(
-    game: GameEntity,
-    publisher: PublisherEntity,
-  ) {
+  async removePublisher(game: GameEntity, publisher: PublisherEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -267,10 +249,7 @@ export class GamesService {
       .remove(publisher.id);
   }
 
-  async setPublishers(
-    game: GameEntity,
-    publishers: PublisherEntity[],
-  ) {
+  async setPublishers(game: GameEntity, publishers: PublisherEntity[]) {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
@@ -282,10 +261,7 @@ export class GamesService {
       );
   }
 
-  async setPublishersById(
-    game: GameEntity,
-    publisherIds: number[],
-  ) {
+  async setPublishersById(game: GameEntity, publisherIds: number[]) {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
@@ -298,10 +274,7 @@ export class GamesService {
   }
 
   // --- Platforms ---
-  async upsertPlatforms(
-    game: GameEntity,
-    dto: UpdatePlatformDto,
-  ) {
+  async upsertPlatforms(game: GameEntity, dto: UpdatePlatformDto) {
     // game_platforms row is created here if it doesn't exist yet
     await this.platformRepository.upsert(
       { gameId: game.id, ...dto },

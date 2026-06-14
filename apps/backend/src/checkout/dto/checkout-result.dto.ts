@@ -5,7 +5,10 @@ export class CheckoutResultDto implements CheckoutResult {
   order: Order;
   clientSecret: string | null;
 
-  static fromOrder(order: OrderDto, clientSecret: string | null): CheckoutResultDto {
+  static fromOrder(
+    order: OrderDto,
+    clientSecret: string | null,
+  ): CheckoutResultDto {
     const dto = new CheckoutResultDto();
     dto.order = order;
     dto.clientSecret = clientSecret;
