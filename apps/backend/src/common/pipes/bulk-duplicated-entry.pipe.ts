@@ -1,9 +1,5 @@
-// common/pipes/bulk-duplicated-entry.pipe.ts
-
 import {
   ArgumentMetadata,
-  ConflictException,
-  HttpExceptionBody,
   Injectable,
   mixin,
   PipeTransform,

@@ -4,6 +4,7 @@ import {
   ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
@@ -18,7 +19,7 @@ import {
   JWT_ACCESS_TOKEN_COOKIE_NAME,
   JWT_REFRESH_TOKEN_COOKIE_NAME,
 } from 'src/globals';
-import { DuplicatedEntryExceptionSchemaDoc } from 'src/common/dto/duplicated-entry.dto';
+import { DuplicatedEntryExceptionSchemaDoc, DuplicatedEntryException } from 'src/common/dto/duplicated-entry.dto';
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -44,6 +45,7 @@ export const AuthControllerDoc = {
 
   Register: () =>
     applyDecorators(
+      ApiExtraModels(DuplicatedEntryException),
       ApiOperation({ summary: 'Register a new user' }),
       ApiBody({
         description: 'User registration payload',

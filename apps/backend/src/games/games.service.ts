@@ -151,7 +151,7 @@ export class GamesService {
   }
 
   // --- Tags ---
-  async addTag(game: GameEntity, tag: TagEntity): Promise<void> {
+  async addTag(game: GameEntity, tag: TagEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -159,7 +159,7 @@ export class GamesService {
       .add(tag.id);
   }
 
-  async removeTag(game: GameEntity, tag: TagEntity): Promise<void> {
+  async removeTag(game: GameEntity, tag: TagEntity) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -167,7 +167,7 @@ export class GamesService {
       .remove(tag.id);
   }
 
-  async setTags(game: GameEntity, tags: TagEntity[]): Promise<void> {
+  async setTags(game: GameEntity, tags: TagEntity[]) {
     const current = await game.tags;
     await this.gameRepository
       .createQueryBuilder()
@@ -179,7 +179,7 @@ export class GamesService {
       );
   }
 
-  async setTagsById(game: GameEntity, tagIds: number[]): Promise<void> {
+  async setTagsById(game: GameEntity, tagIds: number[]) {
     const current = await game.tags;
     await this.gameRepository
       .createQueryBuilder()
@@ -195,7 +195,7 @@ export class GamesService {
   async addDeveloper(
     game: GameEntity,
     developer: DeveloperEntity,
-  ): Promise<void> {
+  ) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -206,7 +206,7 @@ export class GamesService {
   async removeDeveloper(
     game: GameEntity,
     developer: DeveloperEntity,
-  ): Promise<void> {
+  ) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -217,7 +217,7 @@ export class GamesService {
   async setDevelopers(
     game: GameEntity,
     developers: DeveloperEntity[],
-  ): Promise<void> {
+  ) {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
@@ -232,7 +232,7 @@ export class GamesService {
   async setDevelopersById(
     game: GameEntity,
     developerIds: number[],
-  ): Promise<void> {
+  ) {
     const current = await game.developers;
     await this.gameRepository
       .createQueryBuilder()
@@ -248,7 +248,7 @@ export class GamesService {
   async addPublisher(
     game: GameEntity,
     publisher: PublisherEntity,
-  ): Promise<void> {
+  ) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -259,7 +259,7 @@ export class GamesService {
   async removePublisher(
     game: GameEntity,
     publisher: PublisherEntity,
-  ): Promise<void> {
+  ) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -270,7 +270,7 @@ export class GamesService {
   async setPublishers(
     game: GameEntity,
     publishers: PublisherEntity[],
-  ): Promise<void> {
+  ) {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
@@ -285,7 +285,7 @@ export class GamesService {
   async setPublishersById(
     game: GameEntity,
     publisherIds: number[],
-  ): Promise<void> {
+  ) {
     const current = await game.publishers;
     await this.gameRepository
       .createQueryBuilder()
@@ -301,7 +301,7 @@ export class GamesService {
   async upsertPlatforms(
     game: GameEntity,
     dto: UpdatePlatformDto,
-  ): Promise<void> {
+  ) {
     // game_platforms row is created here if it doesn't exist yet
     await this.platformRepository.upsert(
       { gameId: game.id, ...dto },
@@ -310,12 +310,12 @@ export class GamesService {
   }
 
   // --- Media ---
-  async addMedia(game: GameEntity, dto: CreateMediaDto): Promise<MediaEntity> {
+  async addMedia(game: GameEntity, dto: CreateMediaDto) {
     const media = this.mediaRepository.create({ gameId: game.id, ...dto });
     return this.mediaRepository.save(media);
   }
 
-  async removeMedia(game: GameEntity, media: MediaEntity): Promise<void> {
+  async removeMedia(game: GameEntity, media: MediaEntity) {
     await this.mediaRepository.delete(media.id);
   }
 

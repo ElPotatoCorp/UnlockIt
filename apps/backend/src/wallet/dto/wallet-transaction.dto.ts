@@ -19,10 +19,6 @@ export class WalletTransactionDto implements WalletTransaction {
 
     return dto;
   }
-
-  static fromEntities(entities: WalletTransactionEntity[]): WalletTransactionDto[] {
-    return entities.map(WalletTransactionDto.fromEntity);
-  }
 }
 
 const _assertExact: ExactData<WalletTransaction, WalletTransactionDto> = true;

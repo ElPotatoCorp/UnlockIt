@@ -51,8 +51,7 @@ export class OrderItemEntity implements IOrderItemEntity {
   game: Promise<GameEntity>;
 
   /**
-   * The stock rows linked to this order item.
-   * Populated after checkout completes — these are the sold keys.
+   * This will never be populated because of the soft delete
    */
   @OneToMany(() => StockEntity, (stock) => stock.orderItem, { lazy: true })
   stocks: Promise<StockEntity[]>;

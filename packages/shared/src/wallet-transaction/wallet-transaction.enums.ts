@@ -1,5 +1,5 @@
 export enum WalletTransactionType {
-  PURCHASE = 'PURCHASE',
-  REFUND   = 'REFUND',
-  TOP_UP   = 'TOP_UP',
+  PURCHASE = 'purchase',
+  REFUND   = 'refund',
+  TOP_UP   = 'top_up',
 }

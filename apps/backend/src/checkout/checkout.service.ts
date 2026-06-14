@@ -53,7 +53,8 @@ export class CheckoutService {
         throw new BadRequestException('No items selected for checkout.');
       }
 
-      // ─── 3. Load games explicitly within the transaction ───────────────
+      // Load games explicitly within the transaction
+      // If the AI say so ¯\(ツ)/¯ :
       // Lazy relations must never be awaited inside a DataSource transaction
       // because they use the global connection pool, not the transaction
       // manager's connection — meaning they would read outside the transaction
@@ -64,14 +65,13 @@ export class CheckoutService {
       });
       const gameMap = new Map(games.map((g) => [g.id, g]));
 
-      // ─── 4. Compute order total in integer cents ────────────────────────
-      // Integer arithmetic prevents floating-point drift when summing prices.
+      // Compute order total in integer cents
       const totalCents = cartItems.reduce((sum, item) => {
         const game = gameMap.get(item.gameId)!;
         return sum + Math.round(game.price * 100) * item.quantity;
       }, 0);
 
-      // ─── 5. Compute wallet / Stripe split ─────────────────────────────
+      // Compute wallet / Stripe split
       let walletCoverCents = 0;
       let stripeCoverCents = totalCents;
 

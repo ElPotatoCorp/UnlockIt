@@ -24,9 +24,7 @@ export class WalletService {
       .where('wt.userId = :userId', { userId })
       .getRawOne<{ balance: string }>();
 
-    const dto = new WalletBalanceDto();
-    dto.balance = parseFloat(row?.balance ?? '0');
-    return dto;
+    return { balance: parseFloat(row?.balance ?? '0') };
   }
 
   getTransactions(userId: string, paginationQuery: PaginationQueryDto) {
@@ -35,19 +33,19 @@ export class WalletService {
       paginationQuery,
       {
         where: { userId },
-        order: { createdAt: 'DESC' as const },
-        transform: { fn: WalletTransactionDto.fromEntities, each: false },
+        order: { createdAt: 'DESC' },
+        transform: { fn: WalletTransactionDto.fromEntity },
       },
     );
   }
 
   async topUp(userId: string, dto: TopUpWalletDto): Promise<WalletBalanceDto> {
-    await this.walletTransactionRepository.insert({
+    const walletTransaction = this.walletTransactionRepository.create({
       userId,
-      orderId: null,
       amount: dto.amount,
       type: WalletTransactionType.TOP_UP,
     });
+    await this.walletTransactionRepository.save(walletTransaction);
 
     return this.getBalance(userId);
   }

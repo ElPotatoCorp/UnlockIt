@@ -11,7 +11,7 @@ export class OrderDto implements Order {
   completedAt: Date | null;
   items: OrderItem[];
 
-  static async fromEntity(order: OrderEntity): Promise<OrderDto> {
+  static from(order: OrderEntity, orderItemDtos: OrderItemDto[]): OrderDto {
     const dto = new OrderDto();
 
     dto.id = order.id;
@@ -20,7 +20,7 @@ export class OrderDto implements Order {
     dto.amountPaidStripe = order.amountPaidStripe;
     dto.reservedAt = order.reservedAt;
     dto.completedAt = order.completedAt;
-    dto.items = await Promise.all((await order.items).map(item => OrderItemDto.fromEntity(item)));
+    dto.items = orderItemDtos;
 
     return dto;
   }

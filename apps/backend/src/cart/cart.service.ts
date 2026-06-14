@@ -36,10 +36,10 @@ export class CartService {
     const result = await this.cartItemRepository
       .createQueryBuilder('ci')
       .innerJoin('ci.game', 'game')
-      .select('SUM(game.price * ci.quantity)', 'totalAmount')
+      .select('COALESCE(SUM(game.price * ci.quantity), 0)', 'totalAmount')
       .where('ci.cartId = :cartId', { cartId })
       .andWhere('ci.selected = TRUE')
-      .getRawOne();
+      .getRawOne<{ totalAmount: string }>();
 
     return result && result.totalAmount ? parseFloat(result.totalAmount) : 0;
   }
