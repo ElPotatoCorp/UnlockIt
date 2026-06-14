@@ -11,16 +11,17 @@ import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 
 export async function entityExists<T extends ObjectLiteral>(
   repository: Repository<T>,
-  fieldName: keyof T = 'id' as keyof T,
-  value: any,
-): Promise<T> {
+  fieldNames: (keyof T)[] = ['id'],
+  values: any[],
+  interrupt: boolean = false,
+): Promise<T | null> {
   const entity = await repository.findOne({
-    where: { [fieldName]: value } as any,
+    where: Object.fromEntries(fieldNames.map((key, idx) => [ [key], values[idx] ])),
   });
 
-  if (!entity) {
+  if (interrupt === true && !entity) {
     throw new NotFoundException(
-      `${repository.metadata.name} with ${String(fieldName)} '${value}' not found`,
+      `${repository.metadata.name.replace('Entity', '')} with field(s) (${fieldNames.map(key => `'${String(key)}'`).join(', ')}) and value(s) (${values.map(value => `'${String(value)}'`).join(', ')}) not found`,
     );
   }
 
@@ -36,7 +37,7 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
     constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<T> {
-      return entityExists(this.dataSource.getRepository(entity), field, value);
+      return entityExists(this.dataSource.getRepository(entity), [field], [value], true) as unknown as T;
     }
   }
 
