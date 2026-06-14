@@ -2,6 +2,7 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -11,6 +12,7 @@ import { OrderItemEntity } from 'src/orders/entities/order-item.entity';
 import { ExactData, StockEntity as IStockEntity } from '@unlockit/shared';
 
 @Entity('stocks')
+@Index('idx_used_at_soft_delete', ['usedAt'])
 export class StockEntity implements IStockEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
@@ -37,7 +39,7 @@ export class StockEntity implements IStockEntity {
   // Relations - lazy
   // -------------------------------------------------------
 
-  @ManyToOne(() => GameEntity, (game) => game.stocks, {
+  @ManyToOne(() => GameEntity, {
     lazy: true,
     onDelete: 'RESTRICT',
   })

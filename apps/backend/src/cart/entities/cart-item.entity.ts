@@ -24,7 +24,7 @@ export class CartItemEntity implements ICartItemEntity {
   @JoinColumn({ name: 'cart_id' })
   cart: CartEntity;
 
-  @ManyToOne(() => GameEntity, (game) => game.wishlists, {
+  @ManyToOne(() => GameEntity, {
     lazy: true,
     onDelete: 'CASCADE',
   })

@@ -26,7 +26,7 @@ export type OrderItemEntity = {
   /** Snapshot of `game.price` at the moment of purchase. */
   unitPrice: number;
 
-  order: OrderEntity;
+  order: Promise<OrderEntity>;
   game: Promise<GameEntity>;
   stocks: Promise<StockEntity[]>;
 };

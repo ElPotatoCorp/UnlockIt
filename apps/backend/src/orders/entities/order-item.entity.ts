@@ -36,14 +36,15 @@ export class OrderItemEntity implements IOrderItemEntity {
   unitPrice: number;
 
   // -------------------------------------------------------
-  // Relations — not loaded unless explicitly requested
+  // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
   @ManyToOne(() => OrderEntity, (order) => order.items, {
+    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'order_id' })
-  order: OrderEntity;
+  order: Promise<OrderEntity>;
 
   @ManyToOne(() => GameEntity, { lazy: true, onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'game_id' })

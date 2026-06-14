@@ -161,13 +161,8 @@ export class GameEntity implements IGameEntity {
     lazy: true,
     cascade: true,
   })
+  @JoinColumn({ name: 'game_id' })
   media: Promise<MediaEntity[]>;
-
-  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.game, { lazy: true })
-  wishlists: Promise<WishlistEntity[]>;
-
-  @OneToMany(() => StockEntity, (stock) => stock.game, { lazy: true })
-  stocks: Promise<StockEntity[]>;
 }
 
 const _assertExact: ExactData<IGameEntity, GameEntity> = true;

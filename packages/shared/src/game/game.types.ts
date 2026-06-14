@@ -38,8 +38,6 @@ export type GameEntity = {
   publishers: Promise<PublisherEntity[]>;
   platforms: Promise<GamePlatformEntity | null>;
   media: Promise<MediaEntity[]>;
-  wishlists: Promise<WishlistEntity[]>;
-  stocks: Promise<StockEntity[]>;
 };
 
 export type CreateGame = NullToOptional<Omit<OmitPromises<GameEntity>, 'id'>>;
