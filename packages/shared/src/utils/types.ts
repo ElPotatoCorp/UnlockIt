@@ -11,18 +11,6 @@ export type ExactData<Interface, Class extends Interface> =
     ? true 
     : "Error: The class has extra fields not in schema";
 
-// Unwrap Pormises
-export type UnwrapPromises<T> = {
-  [K in keyof T]: T[K] extends Promise<infer U> ? U : T[K];
-};
-
-// OmitPromises
-type NonPromiseKeys<T> = {
-  [K in keyof T]: T[K] extends Promise<any> ? never : K
-}[keyof T];
-
-export type OmitPromises<T> = Pick<T, NonPromiseKeys<T>>;
-
 // Nullable to Optional
 type NullableKeys<T> = {
   [K in keyof T]: null extends T[K] ? K : never;

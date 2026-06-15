@@ -1,6 +1,5 @@
 import { WalletTransactionType } from './wallet-transaction.enums';
 import { UserEntity } from '../user/user.types';
-import { OmitPromises } from '../utils/types';
 import { OrderEntity } from '../order/order.types';
 
 export type WalletTransactionEntity = {
@@ -15,12 +14,12 @@ export type WalletTransactionEntity = {
   type: WalletTransactionType;
   createdAt: Date;
 
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
-  order: Promise<OrderEntity>
+  order: OrderEntity;
 };
 
-export type WalletTransaction = Omit<OmitPromises<WalletTransactionEntity>, 'userId'>;
+export type WalletTransaction = Omit<WalletTransactionEntity, 'userId' | 'user' | 'order'>;
 
 export type WalletBalance = {
   balance: number;

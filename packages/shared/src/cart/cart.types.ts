@@ -5,15 +5,15 @@ import { Simplify } from "../utils/types";
 export type CartEntity = {
   id: string;
   userId: string;
-  user: Promise<UserEntity>;
-  items: Promise<CartItemEntity[]>;
+  user: UserEntity;
+  items: CartItemEntity[];
 }
 
 export type CartItemEntity = {
   cartId: string;
   gameId: number;
   cart: CartEntity;
-  game: Promise<GameEntity>;
+  game: GameEntity;
   quantity: number;
   selected: boolean;
   addedAt: Date;

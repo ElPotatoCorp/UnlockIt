@@ -3,7 +3,7 @@ import { GameEntity, SummaryGame } from '../game/game.types';
 import { StockEntity } from '../stock/stock.types';
 import { UserEntity } from '../user/user.types';
 import { WalletTransactionEntity } from '../wallet-transaction/wallet-transaction.types';
-import { OmitPromises, Simplify } from '../utils/types';
+import { Simplify } from '../utils/types';
 
 export type OrderEntity = {
   id: string;
@@ -14,10 +14,11 @@ export type OrderEntity = {
   reservedAt: Date;
   completedAt: Date | null;
 
-  user: Promise<UserEntity>;
-  items: Promise<OrderItemEntity[]>;
-  walletTransactions: Promise<WalletTransactionEntity[]>;
+  user: UserEntity;
+  items: OrderItemEntity[];
+  walletTransactions: WalletTransactionEntity[];
 };
+type OrderRelationKeys = 'user' | 'items' | 'walletTransactions';
 
 export type OrderItemEntity = {
   orderId: string;
@@ -26,10 +27,11 @@ export type OrderItemEntity = {
   /** Snapshot of `game.price` at the moment of purchase. */
   unitPrice: number;
 
-  order: Promise<OrderEntity>;
-  game: Promise<GameEntity>;
-  stocks: Promise<StockEntity[]>;
+  order: OrderEntity;
+  game: GameEntity;
+  stocks: StockEntity[];
 };
+type OrderItemRelationKeys = 'order' | 'game' | 'stocks';
 
 /** A single line in an order as seen by the user. */
 export type OrderItem = {
@@ -41,7 +43,7 @@ export type OrderItem = {
 };
 
 /** Full order with all line items. Used in detail views and checkout response. */
-export type Order = Simplify<Omit<OmitPromises<OrderEntity>, 'userId'> & {
+export type Order = Simplify<Omit<OrderEntity, 'userId' | OrderRelationKeys> & {
   items: OrderItem[];
 }>;
 

@@ -3,7 +3,7 @@ import { EmployeeRole } from "./employee.enums";
 
 export type EmployeeEntity = {
   id: string;
-  user: Promise<UserEntity>;
+  user: UserEntity;
   role: EmployeeRole;
   createdAt: Date;
   createdBy: string;

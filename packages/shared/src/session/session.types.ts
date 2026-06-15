@@ -1,4 +1,4 @@
-import { User } from "../user/user.types";
+import { UserEntity } from "../user/user.types";
 import { Simplify } from "../utils/types";
 
 export type SessionEntity = {
@@ -16,7 +16,7 @@ export type SessionEntity = {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  user: Promise<User>;
+  user: UserEntity;
 }
 
 export type CreateSession = Simplify<{

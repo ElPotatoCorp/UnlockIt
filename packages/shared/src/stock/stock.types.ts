@@ -8,8 +8,8 @@ export type StockEntity = {
   orderId: string | null;
   usedAt: Date | null;
 
-  game: Promise<GameEntity>;
-  orderItem: Promise<OrderItemEntity | null>;
+  game: GameEntity;
+  orderItem: OrderItemEntity | null;
 }
 
 export type Stock = {

@@ -1,5 +1,5 @@
 import { PublicUser, UserEntity } from "../user/user.types";
-import { OmitPromises, Simplify } from "../utils/types";
+import { Simplify } from "../utils/types";
 import { TicketStatus } from "./ticket.enums";
 
 export type TicketEntity = {
@@ -10,10 +10,10 @@ export type TicketEntity = {
   status: TicketStatus;
   createdAt: Date;
   userId: string | null;
-  user: Promise<UserEntity | null>;
+  user: UserEntity | null;
 }
 
-export type Ticket = Simplify<Omit<OmitPromises<TicketEntity>, 'userId'> & { user: PublicUser | null; }>;
+export type Ticket = Simplify<Omit<TicketEntity, 'userId' | 'user'> & { user: PublicUser | null; }>;
 
 export type CreateTicket = Pick<TicketEntity, 'email' | 'reason' | 'content'>;
 

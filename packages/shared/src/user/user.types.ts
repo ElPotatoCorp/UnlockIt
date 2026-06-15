@@ -3,7 +3,6 @@ import { EmployeeEntity } from "../employee/employee.types";
 import { OrderEntity } from "../order/order.types";
 import { SessionEntity } from "../session/session.types";
 import { TicketEntity } from "../ticket/ticket.types";
-import { OmitPromises } from "../utils/types";
 import { WalletTransactionEntity } from "../wallet-transaction/wallet-transaction.types";
 import { WishlistEntity } from "../wishlist/wishlist.types";
 
@@ -21,16 +20,17 @@ export type UserEntity = {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  employee: Promise<EmployeeEntity | null>;
-  profile: Promise<UserProfile | null>;
-  billing: Promise<UserBilling | null>;
-  sessions: Promise<SessionEntity[]>;
-  tickets: Promise<TicketEntity[]>;
-  cart: Promise<CartEntity>;
-  wishlist: Promise<WishlistEntity[]>;
-  walletTransactions:  Promise<WalletTransactionEntity[]>;
-  orders: Promise<OrderEntity[]>;
+  employee: EmployeeEntity | null;
+  profile: UserProfile | null;
+  billing: UserBilling | null;
+  sessions: SessionEntity[];
+  tickets: TicketEntity[];
+  cart: CartEntity;
+  wishlist: WishlistEntity[];
+  walletTransactions:  WalletTransactionEntity[];
+  orders: OrderEntity[];
 };
+type UserRelationKeys = 'employee' | 'profile' | 'billing' | 'sessions' | 'tickets' | 'cart' | 'wishlist' | 'walletTransactions' | 'orders';
 
 export type UserProfileEntity = {
   userId: string;
@@ -56,7 +56,7 @@ export type UserBillingEntity = {
 }
 export type UserBilling = Omit<UserBillingEntity, 'userId' | 'user'>;
 
-export type User = Omit<OmitPromises<UserEntity>, 'password'>;
+export type User = Omit<UserEntity, 'password' | UserRelationKeys>;
 
 export type PublicUser = Pick<UserEntity, 'id' | 'username' | 'bio' | 'avatar' | 'createdAt'>;
 

@@ -5,7 +5,7 @@ export type PublisherEntity = {
   id: number;
   name: string;
   gamesCount: number;
-  games: Promise<GameEntity[]>;
+  games: GameEntity[];
 };
 
 export type Publisher = Simplify<Omit<PublisherEntity, 'games'> & { games: SummaryGame[] }>;
