@@ -38,8 +38,6 @@ export type OrderItem = {
   game: SummaryGame;
   quantity: number;
   unitPrice: number;
-  /** Populated only when order status is COMPLETED. */
-  keys: string[];
 };
 
 /** Full order with all line items. Used in detail views and checkout response. */

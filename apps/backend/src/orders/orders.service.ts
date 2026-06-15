@@ -37,10 +37,8 @@ export class OrdersService {
         relations: {
           items: {
             game: true,
-            stocks: true,
           },
         },
-        withDeleted: true,
       }
     );
 

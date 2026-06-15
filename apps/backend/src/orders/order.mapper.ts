@@ -40,7 +40,6 @@ export class OrderMapper {
     dto.game = GameMapper.toSummary(item.game);
     dto.quantity = item.quantity;
     dto.unitPrice = item.unitPrice;
-    dto.keys = item.stocks.map(stockRow => stockRow.productKey);
 
     return dto;
   }
@@ -53,7 +52,7 @@ export class OrderMapper {
 
     dto.order = order;
     dto.clientSecret = clientSecret;
-    
+
     return dto;
   }
 }
