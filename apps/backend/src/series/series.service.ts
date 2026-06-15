@@ -1,13 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SeriesEntity } from './entities/series.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
-import { SeriesDto } from './dto/series.dto';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
+import { fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
+import { SeriesMapper } from './series.mapper';
 
 @Injectable()
 export class SeriesService {
@@ -41,18 +42,9 @@ export class SeriesService {
     );
   }
 
-  async findOne(
-    where: FindOptionsWhere<SeriesEntity>,
-    msg: string,
-  ): Promise<SeriesDto> {
-    const series = await this.seriesRepository.findOne({
-      where,
-      relations: { games: true },
-    });
-
-    if (!series) throw new NotFoundException(msg);
-
-    return SeriesDto.fromEntity(series);
+  async findBySlug(slug: string) {
+    const series = await fetchEntityOrFail(this.seriesRepository, ['slug'], [slug], { relations: { games: true } })
+    return SeriesMapper.toSeries(series);
   }
 
   update(id: number, updateSeriesDto: UpdateSeriesDto) {

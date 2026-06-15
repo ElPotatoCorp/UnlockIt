@@ -15,6 +15,7 @@ import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { CreatePasswordResetDto } from '../auth/dto/create-password-reset.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { randomUUID } from 'crypto';
+import { TicketMapper } from './ticket.mapper';
 
 // Password reset tickets are internal, never exposed via the public API
 const EXCLUDE_RESET_PASSWORD: FindOptionsWhere<TicketEntity> = {
@@ -41,7 +42,7 @@ export class TicketsService {
     });
     const ticket = await this.ticketRepository.save(_ticket);
 
-    return TicketDto.fromEntity(ticket);
+    return TicketMapper.toTicket(ticket);
   }
 
   async createPasswordResetTicket(
@@ -87,7 +88,7 @@ export class TicketsService {
       paginationQueryDto,
       {
         where: { ...ownerFilter, ...EXCLUDE_RESET_PASSWORD },
-        transform: { fn: TicketDto.fromEntity },
+        transform: { fn: TicketMapper.toTicket },
       },
     );
   }
@@ -97,7 +98,7 @@ export class TicketsService {
       throw new ForbiddenException('You do not have access to this ticket');
     }
 
-    return TicketDto.fromEntity(ticket);
+    return TicketMapper.toTicket(ticket);
   }
 
   async update(
@@ -106,7 +107,7 @@ export class TicketsService {
   ): Promise<TicketDto> {
     await this.ticketRepository.update(ticket.id, updateTicketDto);
 
-    return TicketDto.fromEntity({ ...ticket, ...updateTicketDto });
+    return TicketMapper.toTicket({ ...ticket, ...updateTicketDto });
   }
 
   async remove(id: number): Promise<void> {

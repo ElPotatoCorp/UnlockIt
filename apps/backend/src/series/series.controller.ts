@@ -21,6 +21,7 @@ import { SeriesEntity } from './entities/series.entity';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 import { SeriesControllerDoc } from 'src/docs/series/series.controller.doc';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { SeriesMapper } from './series.mapper';
 
 @Controller('series')
 export class SeriesController {
@@ -46,14 +47,14 @@ export class SeriesController {
   @Public()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe, EntityFetchPipe(SeriesEntity, 'id', { relations: { games: true } })) series: SeriesEntity) {
-    return series;
+    return SeriesMapper.toSeries(series);
   }
 
   @SeriesControllerDoc.FindOneBySlug()
   @Public()
   @Get('/by-slug/:slug')
   findOneBySlug(@Param('slug') slug: string) {
-    return this.seriesService.findOne({ slug }, `Series '${slug}' not found`);
+    return this.seriesService.findBySlug(slug);
   }
 
   @SeriesControllerDoc.Update()

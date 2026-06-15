@@ -1,5 +1,4 @@
 import {
-  HttpException,
   HttpStatus,
   Injectable,
   UnprocessableEntityException,
@@ -10,7 +9,7 @@ import { StockEntity } from './entities/stock.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { StockDto } from './dto/stock.dto';
+import { StockMapper } from './stock.mapper';
 
 @Injectable()
 export class StocksService {
@@ -53,7 +52,7 @@ export class StocksService {
       paginationQueryDto,
       {
         where: { gameId: id },
-        transform: { fn: StockDto.fromEntities, each: false },
+        transform: { fn: StockMapper.toStock, each: false },
       },
     );
   }

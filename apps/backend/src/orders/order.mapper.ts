@@ -4,6 +4,7 @@ import { GameMapper } from "src/games/game.mapper";
 import { SummaryOrderDto } from "./dto/summary-order.dto";
 import { OrderEntity } from "./entities/order.entity";
 import { OrderItemEntity } from "./entities/order-item.entity";
+import { CheckoutResultDto } from "src/checkout/dto/checkout-result.dto";
 
 export class OrderMapper {
   static toSummary(order: OrderEntity) {
@@ -41,6 +42,18 @@ export class OrderMapper {
     dto.unitPrice = item.unitPrice;
     dto.keys = item.stocks.map(stockRow => stockRow.productKey);
 
+    return dto;
+  }
+
+  static toCheckout(
+    order: OrderDetailDto,
+    clientSecret: string | null,
+  ) {
+    const dto = new CheckoutResultDto();
+
+    dto.order = order;
+    dto.clientSecret = clientSecret;
+    
     return dto;
   }
 }

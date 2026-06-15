@@ -85,16 +85,14 @@ export class GamesController {
   @UseGuards(JwtAuthOptionalGuard)
   @Get(':id')
   findOne(
-    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', {
-      relations: {
-        tags: true,
-        publishers: true,
-        developers: true,
-        platforms: true,
-        media: true,
-        series: true,
-      }
-    })) game: GameEntity,
+    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: {
+      tags: true,
+      publishers: true,
+      developers: true,
+      platforms: true,
+      media: true,
+      series: true,
+    }})) game: GameEntity,
     @User('sub') userId?: string,
   ) {
     return this.gamesService.findOne(game, userId);

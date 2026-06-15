@@ -18,6 +18,7 @@ import { CartService } from 'src/cart/cart.service';
 import { OrdersService } from 'src/orders/orders.service';
 import { InitiateCheckoutDto } from './dto/initiate-checkout.dto';
 import { CheckoutResultDto } from './dto/checkout-result.dto';
+import { OrderMapper } from 'src/orders/order.mapper';
 
 @Injectable()
 export class CheckoutService {
@@ -187,6 +188,6 @@ export class CheckoutService {
 
     // Finally return what we want
     const order = await this.ordersService.findOne(orderId, userId);
-    return CheckoutResultDto.fromOrder(order, null);
+    return OrderMapper.toCheckout(order, null);
   }
 }
