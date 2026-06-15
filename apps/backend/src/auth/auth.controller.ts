@@ -28,7 +28,7 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { TicketsService } from 'src/tickets/tickets.service';
 import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityFetchPipe } from 'src/common/pipes/entity.pipe';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 
 @AuthControllerDoc.Controller()
@@ -106,7 +106,7 @@ export class AuthController {
   @Throttle({ authResetPassword: {} })
   @Post('reset-password/:ticketId')
   resetPassword(
-    @Param('ticketId', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
+    @Param('ticketId', EntityFetchPipe(TicketEntity)) ticket: TicketEntity,
     @Body() resetPasswordDto: ResetPasswordDto,
   ) {
     return this.authService.resetPassword(ticket, resetPasswordDto);

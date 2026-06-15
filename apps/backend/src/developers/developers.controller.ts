@@ -15,7 +15,7 @@ import { DeveloperEntity } from './entities/developer.entity';
 import { DevelopersControllerDoc } from 'src/docs/developers/developers.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 
 @DevelopersControllerDoc.Controller()
 @Controller('developers')
@@ -38,17 +38,17 @@ export class DevelopersController {
   @DevelopersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
+    @Param('id', EntityExistsPipe(DeveloperEntity)) id: number,
     @Body() dto: UpdateDeveloperDto,
   ) {
-    return this.developersService.update(developer.id, dto);
+    return this.developersService.update(id, dto);
   }
 
   @DevelopersControllerDoc.Remove()
   @Delete(':id')
   remove(
-    @Param('id', EntityExistsPipe(DeveloperEntity)) developer: DeveloperEntity,
+    @Param('id', EntityExistsPipe(DeveloperEntity)) id: number,
   ) {
-    return this.developersService.remove(developer.id);
+    return this.developersService.remove(id);
   }
 }

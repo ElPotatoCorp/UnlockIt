@@ -12,7 +12,7 @@ import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { TagEntity } from './entities/tag.entity';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TagsControllerDoc } from 'src/docs/tags/tags.controller.doc';
@@ -41,15 +41,15 @@ export class TagsController {
   @TagsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(TagEntity)) tag: TagEntity,
+    @Param('id', EntityExistsPipe(TagEntity)) id: number,
     @Body() updateTagDto: UpdateTagDto,
   ) {
-    return this.tagsService.update(tag.id, updateTagDto);
+    return this.tagsService.update(id, updateTagDto);
   }
 
   @TagsControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(TagEntity)) tag: TagEntity) {
-    return this.tagsService.remove(tag.id);
+  remove(@Param('id', EntityExistsPipe(TagEntity)) id: number) {
+    return this.tagsService.remove(id);
   }
 }

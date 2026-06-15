@@ -6,7 +6,7 @@ import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { OrderDto } from './dto/order.dto';
 import { OrderListDto } from './dto/order-list.dto';
-import { entityExists } from 'src/common/pipes/entity-exists.pipe';
+import { entityExists, fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
 import { OrderStatus } from '@unlockit/shared';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { OrderItemDto } from './dto/order-item.dto';
@@ -34,12 +34,11 @@ export class OrdersService {
   }
 
   async findOne(orderId: string, userId: string): Promise<OrderDto> {
-    const order = (await entityExists(
+    const order = await fetchEntityOrFail(
       this.orderRepository,
       ['id', 'userId'],
       [orderId, userId],
-      true,
-    )) as unknown as OrderEntity;
+    );
 
     const items = await order.items;
 

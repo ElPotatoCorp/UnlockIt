@@ -20,7 +20,7 @@ import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { TicketEntity } from './entities/ticket.entity';
 
 @TicketsControllerDoc.Controller()
@@ -72,13 +72,13 @@ export class TicketsController {
   @Delete(':id')
   @HttpCode(204)
   remove(
-    @Param('id', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
+    @Param('id', EntityExistsPipe(TicketEntity)) id: number,
     @User() user: JwtPayloadDto,
   ) {
     if (user.permission === null) {
       throw new ForbiddenException('Only employees can delete tickets');
     }
 
-    return this.ticketsService.remove(ticket);
+    return this.ticketsService.remove(id);
   }
 }

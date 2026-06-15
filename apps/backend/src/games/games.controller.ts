@@ -19,7 +19,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
 import { GameEntity } from './entities/game.entity';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
 import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
@@ -42,7 +42,7 @@ import { StockEntity } from 'src/stocks/entities/stock.entity';
 @GamesControllerDoc.Controller()
 @Controller('games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(private readonly gamesService: GamesService) { }
 
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
@@ -84,7 +84,16 @@ export class GamesController {
   @UseGuards(JwtAuthOptionalGuard)
   @Get(':id')
   findOne(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityFetchPipe(GameEntity, 'id', {
+      relations: {
+        tags: true,
+        publishers: true,
+        developers: true,
+        platforms: true,
+        media: true,
+        series: true,
+      }
+    })) game: GameEntity,
     @User('sub') userId?: string,
   ) {
     return this.gamesService.findOne(game, userId);
@@ -94,17 +103,17 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Body() updateGameDto: UpdateGameDto,
   ) {
-    return this.gamesService.update(game.id, updateGameDto);
+    return this.gamesService.update(gameId, updateGameDto);
   }
 
   @GamesControllerDoc.Remove()
   @MinRole(EmployeeRole.SUPER_ADMIN)
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(GameEntity)) game: GameEntity) {
-    return this.gamesService.remove(game.id);
+  remove(@Param('id', EntityExistsPipe(GameEntity)) gameId: number) {
+    return this.gamesService.remove(gameId);
   }
 
   // --- Tags ---
@@ -112,27 +121,27 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/tags/:tagId')
   addTag(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('tagId', EntityExistsPipe(TagEntity)) tag: TagEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('tagId', EntityExistsPipe(TagEntity)) tagId: number,
   ) {
-    return this.gamesService.addTag(game, tag);
+    return this.gamesService.addTag(gameId, tagId);
   }
 
   @GamesControllerDoc.RemoveTag()
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/tags/:tagId')
   removeTag(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('tagId', EntityExistsPipe(TagEntity)) tag: TagEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('tagId', EntityExistsPipe(TagEntity)) tagId: number,
   ) {
-    return this.gamesService.removeTag(game, tag);
+    return this.gamesService.removeTag(gameId, tagId);
   }
 
   @GamesControllerDoc.SetTags()
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/tags')
   setTags(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityFetchPipe(GameEntity, 'id', { relations: { tags: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setTagsById(game, dto.ids);
@@ -143,29 +152,29 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/developers/:developerId')
   addDeveloper(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Param('developerId', EntityExistsPipe(DeveloperEntity))
-    developer: DeveloperEntity,
+    developerId: number,
   ) {
-    return this.gamesService.addDeveloper(game, developer);
+    return this.gamesService.addDeveloper(gameId, developerId);
   }
 
   @GamesControllerDoc.RemoveDeveloper()
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/developers/:developerId')
   removeDeveloper(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Param('developerId', EntityExistsPipe(DeveloperEntity))
-    developer: DeveloperEntity,
+    developerId: number,
   ) {
-    return this.gamesService.removeDeveloper(game, developer);
+    return this.gamesService.removeDeveloper(gameId, developerId);
   }
 
   @GamesControllerDoc.SetDevelopers()
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/developers')
   setDevelopers(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityFetchPipe(GameEntity, 'id', { relations: { developers: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setDevelopersById(game, dto.ids);
@@ -176,29 +185,29 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/publishers/:publisherId')
   addPublisher(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Param('publisherId', EntityExistsPipe(PublisherEntity))
-    publisher: PublisherEntity,
+    publisherId: number,
   ) {
-    return this.gamesService.addPublisher(game, publisher);
+    return this.gamesService.addPublisher(gameId, publisherId);
   }
 
   @GamesControllerDoc.RemovePublisher()
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/publishers/:publisherId')
   removePublisher(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Param('publisherId', EntityExistsPipe(PublisherEntity))
-    publisher: PublisherEntity,
+    publisherId: number,
   ) {
-    return this.gamesService.removePublisher(game, publisher);
+    return this.gamesService.removePublisher(gameId, publisherId);
   }
 
   @GamesControllerDoc.SetPublishers()
   @MinRole(EmployeeRole.MODERATOR)
   @Put(':id/publishers')
   setPublishers(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityFetchPipe(GameEntity, 'id', { relations: { publishers: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setPublishersById(game, dto.ids);
@@ -209,10 +218,10 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/platforms')
   upsertPlatforms(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Body() dto: UpdatePlatformDto,
   ) {
-    return this.gamesService.upsertPlatforms(game, dto);
+    return this.gamesService.upsertPlatforms(gameId, dto);
   }
 
   // --- Media ---
@@ -220,33 +229,32 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/media')
   addMedia(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Body() dto: CreateMediaDto,
   ) {
-    return this.gamesService.addMedia(game, dto);
+    return this.gamesService.addMedia(gameId, dto);
   }
 
   @GamesControllerDoc.RemoveMedia()
   @MinRole(EmployeeRole.MODERATOR)
   @Delete(':id/media/:mediaId')
   removeMedia(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
-    @Param('mediaId', EntityExistsPipe(MediaEntity)) media: MediaEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) _: number,
+    @Param('mediaId', EntityExistsPipe(MediaEntity)) mediaId: number,
   ) {
-    return this.gamesService.removeMedia(game, media);
+    return this.gamesService.removeMedia(mediaId);
   }
 
   // --- Stocks ---
-  //@MinRole(EmployeeRole.SUPER_ADMIN)
+  @MinRole(EmployeeRole.SUPER_ADMIN)
   @Post(':id/stocks')
-  @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
   addStocks(
-    @Param('id', EntityExistsPipe(GameEntity)) game: GameEntity,
+    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
     @Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))
     createStockDto: CreateStockDto,
   ) {
-    return this.gamesService.addStocks(game.id, createStockDto);
+    return this.gamesService.addStocks(gameId, createStockDto);
   }
 
   @MinRole(EmployeeRole.SUPER_ADMIN)

@@ -151,20 +151,20 @@ export class GamesService {
   }
 
   // --- Tags ---
-  async addTag(game: GameEntity, tag: TagEntity) {
+  async addTag(gameId: number, tagId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
-      .of(game.id)
-      .add(tag.id);
+      .of(gameId)
+      .add(tagId);
   }
 
-  async removeTag(game: GameEntity, tag: TagEntity) {
+  async removeTag(gameId: number, tagId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
-      .of(game.id)
-      .remove(tag.id);
+      .of(gameId)
+      .remove(tagId);
   }
 
   async setTags(game: GameEntity, tags: TagEntity[]) {
@@ -192,20 +192,20 @@ export class GamesService {
   }
 
   // --- Developers ---
-  async addDeveloper(game: GameEntity, developer: DeveloperEntity) {
+  async addDeveloper(gameId: number, developerId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
-      .of(game.id)
-      .add(developer.id);
+      .of(gameId)
+      .add(developerId);
   }
 
-  async removeDeveloper(game: GameEntity, developer: DeveloperEntity) {
+  async removeDeveloper(gameId: number, developerId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
-      .of(game.id)
-      .remove(developer.id);
+      .of(gameId)
+      .remove(developerId);
   }
 
   async setDevelopers(game: GameEntity, developers: DeveloperEntity[]) {
@@ -233,20 +233,20 @@ export class GamesService {
   }
 
   // --- Publishers ---
-  async addPublisher(game: GameEntity, publisher: PublisherEntity) {
+  async addPublisher(gameId: number, publisherId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
-      .of(game.id)
-      .add(publisher.id);
+      .of(gameId)
+      .add(publisherId);
   }
 
-  async removePublisher(game: GameEntity, publisher: PublisherEntity) {
+  async removePublisher(gameId: number, publisherId: number) {
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
-      .of(game.id)
-      .remove(publisher.id);
+      .of(gameId)
+      .remove(publisherId);
   }
 
   async setPublishers(game: GameEntity, publishers: PublisherEntity[]) {
@@ -274,30 +274,30 @@ export class GamesService {
   }
 
   // --- Platforms ---
-  async upsertPlatforms(game: GameEntity, dto: UpdatePlatformDto) {
+  async upsertPlatforms(gameId: number, dto: UpdatePlatformDto) {
     // game_platforms row is created here if it doesn't exist yet
     await this.platformRepository.upsert(
-      { gameId: game.id, ...dto },
+      { gameId, ...dto },
       { conflictPaths: ['gameId'], skipUpdateIfNoValuesChanged: true },
     );
   }
 
   // --- Media ---
-  async addMedia(game: GameEntity, dto: CreateMediaDto) {
-    const media = this.mediaRepository.create({ gameId: game.id, ...dto });
+  async addMedia(gameId: number, dto: CreateMediaDto) {
+    const media = this.mediaRepository.create({ gameId, ...dto });
     return this.mediaRepository.save(media);
   }
 
-  async removeMedia(game: GameEntity, media: MediaEntity) {
-    await this.mediaRepository.delete(media.id);
+  async removeMedia(mediaId: number) {
+    await this.mediaRepository.delete(mediaId);
   }
 
   // --- Stock ---
-  addStocks(id: number, createStockDto: CreateStockDto) {
-    return this.stocksService.create(id, createStockDto);
+  addStocks(gameId: number, createStockDto: CreateStockDto) {
+    return this.stocksService.create(gameId, createStockDto);
   }
 
-  getStocks(id: number, paginationQueryDto: PaginationQueryDto) {
-    return this.stocksService.findAll(id, paginationQueryDto);
+  getStocks(gameId: number, paginationQueryDto: PaginationQueryDto) {
+    return this.stocksService.findAll(gameId, paginationQueryDto);
   }
 }

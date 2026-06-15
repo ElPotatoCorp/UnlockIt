@@ -114,7 +114,7 @@ export class TicketsService {
     return TicketDto.fromEntity({ ...ticket, ...updateTicketDto });
   }
 
-  async remove(ticket: TicketEntity): Promise<void> {
-    await this.ticketRepository.delete(ticket.id);
+  async remove(id: number): Promise<void> {
+    await this.ticketRepository.delete(id);
   }
 }

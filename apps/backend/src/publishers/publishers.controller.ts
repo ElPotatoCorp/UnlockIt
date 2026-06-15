@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { EntityExistsPipe } from 'src/common/pipes/entity-exists.pipe';
+import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 
 @PublishersControllerDoc.Controller()
@@ -42,17 +42,17 @@ export class PublishersController {
   @PublishersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
+    @Param('id', EntityExistsPipe(PublisherEntity)) id: number,
     @Body() updatePublisherDto: UpdatePublisherDto,
   ) {
-    return this.publishersService.update(publisher.id, updatePublisherDto);
+    return this.publishersService.update(id, updatePublisherDto);
   }
 
   @PublishersControllerDoc.Remove()
   @Delete(':id')
   remove(
-    @Param('id', EntityExistsPipe(PublisherEntity)) publisher: PublisherEntity,
+    @Param('id', EntityExistsPipe(PublisherEntity)) id: number,
   ) {
-    return this.publishersService.remove(publisher.id);
+    return this.publishersService.remove(id);
   }
 }
