@@ -16,6 +16,7 @@ import { DevelopersControllerDoc } from 'src/docs/developers/developers.controll
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
+import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 
 @DevelopersControllerDoc.Controller()
 @Controller('developers')
@@ -24,7 +25,7 @@ export class DevelopersController {
 
   @DevelopersControllerDoc.Create()
   @Post()
-  create(@Body() dto: CreateDeveloperDto) {
+  create(@Body(DuplicatedEntryPipe(DeveloperEntity, 'name')) dto: CreateDeveloperDto) {
     return this.developersService.create(dto);
   }
 

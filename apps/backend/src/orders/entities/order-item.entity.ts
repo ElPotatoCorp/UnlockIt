@@ -44,17 +44,17 @@ export class OrderItemEntity implements IOrderItemEntity {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'order_id' })
-  order: Promise<OrderEntity>;
+  order: OrderEntity;
 
   @ManyToOne(() => GameEntity, { lazy: true, onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'game_id' })
-  game: Promise<GameEntity>;
+  game: GameEntity;
 
   /**
    * This will never be populated because of the soft delete
    */
   @OneToMany(() => StockEntity, (stock) => stock.orderItem, { lazy: true })
-  stocks: Promise<StockEntity[]>;
+  stocks: StockEntity[];
 }
 
 const _assertExact: ExactData<IOrderItemEntity, OrderItemEntity> = true;

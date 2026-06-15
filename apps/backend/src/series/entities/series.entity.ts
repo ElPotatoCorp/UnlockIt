@@ -23,7 +23,7 @@ export class SeriesEntity implements ISeriesEntity {
 
   @SeriesEntityDoc.Games()
   @OneToMany(() => GameEntity, (game) => game.series, { lazy: true })
-  games: Promise<GameEntity[]>;
+  games: GameEntity[];
 }
 
 const _assertExact: ExactData<ISeriesEntity, SeriesEntity> = true;

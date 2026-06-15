@@ -23,7 +23,7 @@ export class MediaEntity implements IMediaEntity {
   @Column('bigint', { name: 'game_id' })
   gameId: number;
 
-  @ManyToOne(() => GameEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => GameEntity, { lazy: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 

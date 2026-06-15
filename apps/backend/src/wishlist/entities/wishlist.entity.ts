@@ -19,13 +19,14 @@ export class WishlistEntity implements IWishlistEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.wishlist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
   @ManyToOne(() => GameEntity, {
+    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'game_id' })
-  game: Promise<GameEntity>;
+  game: GameEntity;
 
   @CreateDateColumn({ name: 'added_at', type: 'timestamptz' })
   addedAt: Date;

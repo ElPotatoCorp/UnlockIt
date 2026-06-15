@@ -18,16 +18,16 @@ export class CartEntity implements ICartEntity {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.cart, { onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, (user) => user.cart, { lazy: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
   @OneToMany(() => CartItemEntity, (item) => item.cart, {
     lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'cart_id' })
-  items: Promise<CartItemEntity[]>;
+  items: CartItemEntity[];
 }
 
 const _assertExact: ExactData<ICartEntity, CartEntity> = true;

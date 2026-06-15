@@ -51,13 +51,13 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
     lazy: true,
   })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
   @ManyToOne(() => OrderEntity, (order) => order.walletTransactions, {
     lazy: true,
   })
   @JoinColumn({ name: 'order_id' })
-  order: Promise<OrderEntity>;
+  order: OrderEntity;
 }
 
 const _assertExact: ExactData<

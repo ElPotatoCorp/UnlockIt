@@ -23,9 +23,7 @@ export class SeriesDto implements Series {
     dto.name = series.name;
     dto.slug = series.slug;
     dto.games = series.games
-      ? await series.games.then((games) =>
-          games.map((game: any) => SummaryGameDto.fromEntity(game)),
-        )
+      ? series.games.map((game: any) => SummaryGameDto.fromEntity(game))
       : [];
 
     return dto;

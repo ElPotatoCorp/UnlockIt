@@ -11,7 +11,7 @@ export class GamePlatformEntity implements IGamePlatformEntity {
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
-  @OneToOne(() => GameEntity, { onDelete: 'CASCADE' })
+  @OneToOne(() => GameEntity, { lazy: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 

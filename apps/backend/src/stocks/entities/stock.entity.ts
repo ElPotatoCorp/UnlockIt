@@ -44,7 +44,7 @@ export class StockEntity implements IStockEntity {
     onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'game_id' })
-  game: Promise<GameEntity>;
+  game: GameEntity;
 
   /**
    * Composite FK pointing back to the order_items row.
@@ -59,7 +59,7 @@ export class StockEntity implements IStockEntity {
     { name: 'order_id', referencedColumnName: 'orderId' },
     { name: 'game_id', referencedColumnName: 'gameId' },
   ])
-  orderItem: Promise<OrderItemEntity | null>;
+  orderItem: OrderItemEntity | null;
 }
 
 const _assertExact: ExactData<IStockEntity, StockEntity> = true;

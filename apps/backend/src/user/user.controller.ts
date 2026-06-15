@@ -15,13 +15,14 @@ import { uploadUserAvatar } from 'src/upload/upload.constants';
 import { User } from './decorators/user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserControllerDoc } from 'src/docs/user/user.controller.doc';
-import { UserDto } from './dto/user.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { UserBillingDto } from './dto/user-billing.dto';
 import jwtConfig from 'src/config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
+import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { UserEntity } from './entities/user.entity';
 
 @UserControllerDoc.Controller()
 @Controller('user')
@@ -33,8 +34,8 @@ export class UserController {
 
   @UserControllerDoc.Index()
   @Get()
-  async index(@User('sub') userId: string) {
-    return UserDto.fromEntity(await this.userService.index(userId));
+  async index(@User('sub', EntityFetchPipe(UserEntity)) user: UserEntity) {
+    return this.userService.findOne(user);
   }
 
   @UserControllerDoc.GetProfile()
@@ -77,21 +78,21 @@ export class UserController {
   @Patch('avatar')
   @UseInterceptors(FileInterceptor('avatar', uploadUserAvatar.multerOptions))
   updateAvatar(
-    @User('sub') userId: string,
+    @User('sub', EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } })) user: UserEntity,
     @UploadedFile() avatarFile: Express.Multer.File,
   ) {
-    return this.userService.updateAvatar(userId, avatarFile);
+    return this.userService.updateAvatar(user, avatarFile);
   }
 
   @UserControllerDoc.DeleteAvatar()
   @Delete('avatar')
-  deleteAvatar(@User('sub') userId: string) {
-    return this.userService.deleteAvatar(userId);
+  deleteAvatar(@User('sub', EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } })) user: UserEntity) {
+    return this.userService.deleteAvatar(user);
   }
 
   @UserControllerDoc.Delete()
   @Delete()
-  delete(@User('sub') userId: string, @Response({ passthrough: true }) res) {
+  delete(@User('sub', EntityExistsPipe(UserEntity)) userId: string, @Response({ passthrough: true }) res) {
     res.clearCookie(this.jwt.accessTokenCookieName);
     res.clearCookie(this.jwt.refreshTokenCookieName);
 

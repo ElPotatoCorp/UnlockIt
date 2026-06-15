@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
 import { DeveloperEntity } from './entities/developer.entity';
@@ -16,11 +16,6 @@ export class DevelopersService {
   ) {}
 
   async create(dto: CreateDeveloperDto): Promise<DeveloperEntity> {
-    const existing = await this.developerRepository.findOneBy({
-      name: dto.name,
-    });
-    if (existing)
-      throw new ConflictException(`Developer '${dto.name}' already exists`);
     return this.developerRepository.save(dto);
   }
 

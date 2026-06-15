@@ -11,6 +11,7 @@ import { UserBillingEntity } from './entities/user-billing.entity';
 import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UploadSubdir } from 'src/upload/upload.constants';
 import { CartEntity } from 'src/cart/entities/cart.entity';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -26,22 +27,16 @@ export class UserService {
     private readonly cartRepository: Repository<CartEntity>,
   ) {}
 
-  async index(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found.`);
-    }
-
-    return user;
+  async findOne(user: UserEntity) {
+    return UserDto.fromEntity(user);
   }
 
   async getProfile(id: string) {
-    return (await this.userProfileRepository.findOneBy({ userId: id })) ?? null;
+    return this.userProfileRepository.findOneBy({ userId: id });
   }
 
   async getBilling(id: string) {
-    return (await this.userBillingRepository.findOneBy({ userId: id })) ?? null;
+    return this.userBillingRepository.findOneBy({ userId: id });
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -72,23 +67,14 @@ export class UserService {
     );
   }
 
-  async updateAvatar(id: string, avatarFile: Express.Multer.File) {
-    const user = await this.userRepository.findOne({
-      where: { id },
-      select: ['id', 'avatar'],
-    });
+  async updateAvatar(user: UserEntity, avatarFile: Express.Multer.File) {
+    user.avatar &&
+      this.uploadService.removeObsoleteFile(
+        UploadSubdir.AVATARS,
+        user.avatar,
+      ); // Remove old avatar if it exists
 
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found.`);
-    } else {
-      user.avatar &&
-        this.uploadService.removeObsoleteFile(
-          UploadSubdir.AVATARS,
-          user.avatar,
-        ); // Remove old avatar if it exists
-    }
-
-    this.userRepository.update(id, { avatar: avatarFile.filename });
+    this.userRepository.update(user.id, { avatar: avatarFile.filename });
 
     return {
       message: 'Avatar updated successfully',
@@ -96,15 +82,11 @@ export class UserService {
     };
   }
 
-  async deleteAvatar(id: string) {
-    const user = await this.userRepository.findOne({
-      where: { id },
-      select: ['avatar'],
-    });
+  async deleteAvatar(user: UserEntity) {
 
     if (user?.avatar) {
       this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
-      await this.userRepository.update(id, { avatar: null });
+      await this.userRepository.update(user.id, { avatar: null });
     }
 
     return { message: 'Avatar removed successfully' };

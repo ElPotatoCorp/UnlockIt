@@ -62,13 +62,13 @@ export class OrderEntity implements IOrderEntity {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
   @OneToMany(() => OrderItemEntity, (item) => item.order, {
     lazy: true,
     cascade: ['insert'],
   })
-  items: Promise<OrderItemEntity[]>;
+  items: OrderItemEntity[];
 
   @OneToMany(
     () => WalletTransactionEntity,
@@ -78,7 +78,7 @@ export class OrderEntity implements IOrderEntity {
       cascade: true,
     },
   )
-  walletTransactions: Promise<WalletTransactionEntity[]>;
+  walletTransactions: WalletTransactionEntity[];
 }
 
 const _assertExact: ExactData<IOrderEntity, OrderEntity> = true;

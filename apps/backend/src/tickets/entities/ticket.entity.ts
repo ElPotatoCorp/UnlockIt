@@ -45,7 +45,7 @@ export class TicketEntity implements ITicketEntity {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity | null>;
+  user: UserEntity | null;
 }
 
 const _assertExact: ExactData<ITicketEntity, TicketEntity> = true;

@@ -20,7 +20,7 @@ import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
-import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
+import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
 import { TicketEntity } from './entities/ticket.entity';
 
 @TicketsControllerDoc.Controller()
@@ -50,8 +50,8 @@ export class TicketsController {
 
   @TicketsControllerDoc.FindOne()
   @Get(':id')
-  findOne(@Param('id') id: string, @User() user: JwtPayloadDto) {
-    return this.ticketsService.findOne(id, user);
+  findOne(@Param('id', EntityFetchPipe(TicketEntity, 'id', { relations: { user: true } })) ticket: TicketEntity, @User() user: JwtPayloadDto) {
+    return this.ticketsService.findOne(ticket, user);
   }
 
   @TicketsControllerDoc.Update()

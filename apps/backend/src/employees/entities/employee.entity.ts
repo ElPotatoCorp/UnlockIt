@@ -18,9 +18,9 @@ export class EmployeeEntity implements IEmployeeEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne(() => UserEntity, { lazy: true, onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, { lazy: true })
   @JoinColumn({ name: 'id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 
   @Column('enum', { enum: EmployeeRole, default: EmployeeRole.SUPPORT })
   role: EmployeeRole;

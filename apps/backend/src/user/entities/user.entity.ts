@@ -76,42 +76,42 @@ export class UserEntity implements IUserEntity {
     cascade: ['remove'],
     nullable: true,
   })
-  employee: Promise<EmployeeEntity | null>;
+  employee: EmployeeEntity | null;
 
   @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  profile: Promise<UserProfileEntity | null>;
+  profile: UserProfileEntity | null;
 
   @OneToOne(() => UserBillingEntity, (billing) => billing.user, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  billing: Promise<UserBillingEntity | null>;
+  billing: UserBillingEntity | null;
 
   @OneToMany(() => SessionEntity, (session) => session.user, {
     lazy: true,
     cascade: ['remove'],
   })
-  sessions: Promise<SessionEntity[]>;
+  sessions: SessionEntity[];
 
   @OneToMany(() => TicketEntity, (ticket) => ticket.user, {
     lazy: true,
     cascade: ['remove'],
   })
-  tickets: Promise<TicketEntity[]>;
+  tickets: TicketEntity[];
 
   @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
-  wishlist: Promise<WishlistEntity[]>;
+  wishlist: WishlistEntity[];
 
   @OneToOne(() => CartEntity, (cart) => cart.user, {
     lazy: true,
     cascade: true,
   })
-  cart: Promise<CartEntity>;
+  cart: CartEntity;
 
   @OneToMany(
     () => WalletTransactionEntity,
@@ -121,13 +121,13 @@ export class UserEntity implements IUserEntity {
       onDelete: 'SET NULL',
     },
   )
-  walletTransactions: Promise<WalletTransactionEntity[]>;
+  walletTransactions: WalletTransactionEntity[];
 
   @OneToMany(() => OrderEntity, (order) => order.user, {
     lazy: true,
     onDelete: 'SET NULL',
   })
-  orders: Promise<OrderEntity[]>;
+  orders: OrderEntity[];
 
   @BeforeInsert()
   async setPassword() {

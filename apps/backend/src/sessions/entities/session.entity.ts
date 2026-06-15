@@ -65,7 +65,7 @@ export class SessionEntity implements ISessionEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'user_id' })
-  user: Promise<UserEntity>;
+  user: UserEntity;
 }
 
 const _assertExact: ExactData<ISessionEntity, SessionEntity> = true;

@@ -21,8 +21,8 @@ export class UsersService {
   } | null> {
     const user = await this.userRepository.findOne({
       where: [{ email: identifier }, { username: identifier }],
+      select: { id: true, password: true, employee: true },
       relations: { employee: true },
-      select: ['id', 'password', 'employee'],
     });
 
     return user
@@ -45,15 +45,7 @@ export class UsersService {
     );
   }
 
-  findOne(where: FindOptionsWhere<UserEntity>, includeSensitive = false) {
-    return this.userRepository.findOneBy(where).then((user) => {
-      if (!user) {
-        return null;
-      }
-      if (includeSensitive) {
-        return user;
-      }
-      return user;
-    });
+  async findOne(where: FindOptionsWhere<UserEntity>) {
+    return this.userRepository.findOneBy(where);
   }
 }

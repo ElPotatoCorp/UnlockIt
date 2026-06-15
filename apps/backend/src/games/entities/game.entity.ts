@@ -122,7 +122,7 @@ export class GameEntity implements IGameEntity {
     nullable: true,
   })
   @JoinColumn({ name: 'series_id' })
-  series: Promise<SeriesEntity | null>;
+  series: SeriesEntity | null;
 
   @ManyToMany(() => TagEntity, (tag) => tag.games, { lazy: true })
   @JoinTable({
@@ -130,7 +130,7 @@ export class GameEntity implements IGameEntity {
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'tag_id', referencedColumnName: 'id' },
   })
-  tags: Promise<TagEntity[]>;
+  tags: TagEntity[];
 
   @ManyToMany(() => DeveloperEntity, (dev) => dev.games, { lazy: true })
   @JoinTable({
@@ -138,7 +138,7 @@ export class GameEntity implements IGameEntity {
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'developer_id', referencedColumnName: 'id' },
   })
-  developers: Promise<DeveloperEntity[]>;
+  developers: DeveloperEntity[];
 
   @ManyToMany(() => PublisherEntity, (pub) => pub.games, { lazy: true })
   @JoinTable({
@@ -146,21 +146,21 @@ export class GameEntity implements IGameEntity {
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'publisher_id', referencedColumnName: 'id' },
   })
-  publishers: Promise<PublisherEntity[]>;
+  publishers: PublisherEntity[];
 
   @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
     lazy: true,
     cascade: true,
     nullable: true,
   })
-  platforms: Promise<GamePlatformEntity | null>;
+  platforms: GamePlatformEntity | null;
 
   @OneToMany(() => MediaEntity, (media) => media.game, {
     lazy: true,
     cascade: true,
   })
   @JoinColumn({ name: 'game_id' })
-  media: Promise<MediaEntity[]>;
+  media: MediaEntity[];
 }
 
 const _assertExact: ExactData<IGameEntity, GameEntity> = true;

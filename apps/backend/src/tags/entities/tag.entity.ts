@@ -18,7 +18,7 @@ export class TagEntity implements ITagEntity {
   gamesCount: number;
 
   @ManyToMany(() => GameEntity, (game) => game.tags, { lazy: true })
-  games: Promise<GameEntity[]>;
+  games: GameEntity[];
 }
 
 const _assertExact: ExactData<ITagEntity, TagEntity> = true;

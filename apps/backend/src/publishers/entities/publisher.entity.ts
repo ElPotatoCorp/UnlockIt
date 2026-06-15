@@ -21,7 +21,7 @@ export class PublisherEntity implements IPublisherEntity {
   gamesCount: number;
 
   @ManyToMany(() => GameEntity, (game) => game.publishers, { lazy: true })
-  games: Promise<GameEntity[]>;
+  games: GameEntity[];
 }
 
 const _assertExact: ExactData<IPublisherEntity, PublisherEntity> = true;

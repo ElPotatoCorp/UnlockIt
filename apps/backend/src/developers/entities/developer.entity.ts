@@ -21,7 +21,7 @@ export class DeveloperEntity implements IDeveloperEntity {
   gamesCount: number;
 
   @ManyToMany(() => GameEntity, (game) => game.developers, { lazy: true })
-  games: Promise<GameEntity[]>;
+  games: GameEntity[];
 }
 
 const _assertExact: ExactData<IDeveloperEntity, DeveloperEntity> = true;

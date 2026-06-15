@@ -92,12 +92,7 @@ export class TicketsService {
     );
   }
 
-  async findOne(id: string, user: JwtPayloadDto): Promise<TicketDto> {
-    const ticket = await this.ticketRepository.findOneBy({ id });
-
-    if (!ticket) throw new NotFoundException(`Ticket ${id} not found`);
-
-    // Regular users can only see their own tickets
+  async findOne(ticket: TicketEntity, user: JwtPayloadDto): Promise<TicketDto> {
     if (user.permission === null && ticket.userId !== user.sub) {
       throw new ForbiddenException('You do not have access to this ticket');
     }

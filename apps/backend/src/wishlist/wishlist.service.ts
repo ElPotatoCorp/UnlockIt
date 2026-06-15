@@ -45,7 +45,7 @@ export class WishlistService {
         userId,
         gameId: In(gameIds),
       },
-      select: ['gameId'],
+      select: { gameId: true },
     });
 
     return wishlist.map((w) => w.gameId);
