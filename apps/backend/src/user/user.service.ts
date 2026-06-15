@@ -12,6 +12,7 @@ import { UpdateBillingDto } from './dto/update-billing.dto';
 import { UploadSubdir } from 'src/upload/upload.constants';
 import { CartEntity } from 'src/cart/entities/cart.entity';
 import { UserDto } from './dto/user.dto';
+import { UserMapper } from './user.mapper';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
   ) {}
 
   async findOne(user: UserEntity) {
-    return UserDto.fromEntity(user);
+    return UserMapper.toUser(user);
   }
 
   async getProfile(id: string) {

@@ -72,43 +72,37 @@ export class UserEntity implements IUserEntity {
   // -------------------------------------------------------
 
   @OneToOne(() => EmployeeEntity, (employee) => employee.user, {
-    lazy: true,
     cascade: ['remove'],
     nullable: true,
   })
   employee: EmployeeEntity | null;
 
   @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
-    lazy: true,
     cascade: true,
     nullable: true,
   })
   profile: UserProfileEntity | null;
 
   @OneToOne(() => UserBillingEntity, (billing) => billing.user, {
-    lazy: true,
     cascade: true,
     nullable: true,
   })
   billing: UserBillingEntity | null;
 
   @OneToMany(() => SessionEntity, (session) => session.user, {
-    lazy: true,
     cascade: ['remove'],
   })
   sessions: SessionEntity[];
 
   @OneToMany(() => TicketEntity, (ticket) => ticket.user, {
-    lazy: true,
     cascade: ['remove'],
   })
   tickets: TicketEntity[];
 
-  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, { lazy: true })
+  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user)
   wishlist: WishlistEntity[];
 
   @OneToOne(() => CartEntity, (cart) => cart.user, {
-    lazy: true,
     cascade: true,
   })
   cart: CartEntity;
@@ -117,14 +111,12 @@ export class UserEntity implements IUserEntity {
     () => WalletTransactionEntity,
     (walletTransaction) => walletTransaction.user,
     {
-      lazy: true,
-      onDelete: 'SET NULL',
+        onDelete: 'SET NULL',
     },
   )
   walletTransactions: WalletTransactionEntity[];
 
   @OneToMany(() => OrderEntity, (order) => order.user, {
-    lazy: true,
     onDelete: 'SET NULL',
   })
   orders: OrderEntity[];

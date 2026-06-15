@@ -20,7 +20,7 @@ export class DeveloperEntity implements IDeveloperEntity {
   @Column('int', { name: 'games_count', default: 0 })
   gamesCount: number;
 
-  @ManyToMany(() => GameEntity, (game) => game.developers, { lazy: true })
+  @ManyToMany(() => GameEntity, (game) => game.developers)
   games: GameEntity[];
 }
 

@@ -1,16 +1,17 @@
 import {
   Controller,
   Get,
-  NotFoundException,
   Param,
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
-import { PublicUserDto } from 'src/user/dto/public-user.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { UserMapper } from 'src/user/user.mapper';
 
 @UsersControllerDoc.Controller()
 @Public()
@@ -26,12 +27,7 @@ export class UsersController {
 
   @UsersControllerDoc.GetOne()
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    return this.usersService.findOne({ id }).then((user) => {
-      if (!user) {
-        throw new NotFoundException(`User with ID "${id}" not found`);
-      }
-      return PublicUserDto.fromEntity(user);
-    });
+  findOne(@Param('id', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(UserEntity)) user: UserEntity) {
+    return UserMapper.toPublic(user);
   }
 }

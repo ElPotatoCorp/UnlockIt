@@ -12,6 +12,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
@@ -42,7 +43,7 @@ export class PublishersController {
   @PublishersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(PublisherEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(PublisherEntity)) id: number,
     @Body() updatePublisherDto: UpdatePublisherDto,
   ) {
     return this.publishersService.update(id, updatePublisherDto);
@@ -51,7 +52,7 @@ export class PublishersController {
   @PublishersControllerDoc.Remove()
   @Delete(':id')
   remove(
-    @Param('id', EntityExistsPipe(PublisherEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(PublisherEntity)) id: number,
   ) {
     return this.publishersService.remove(id);
   }

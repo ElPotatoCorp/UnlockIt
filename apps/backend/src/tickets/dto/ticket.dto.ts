@@ -2,6 +2,7 @@ import { TicketEntityDoc } from 'src/docs/tickets/entities/ticket.entity.doc';
 import { TicketEntity } from '../entities/ticket.entity';
 import { ExactData, Ticket, TicketStatus } from '@unlockit/shared';
 import { PublicUserDto } from 'src/user/dto/public-user.dto';
+import { UserMapper } from 'src/user/user.mapper';
 
 export class TicketDto implements Ticket {
   @TicketEntityDoc.Id()
@@ -37,7 +38,7 @@ export class TicketDto implements Ticket {
 
     const user = await ticket.user;
     if (user) {
-      dto.user = PublicUserDto.fromEntity(user);
+      dto.user = UserMapper.toPublic(user);
     }
 
     return dto;

@@ -2,6 +2,7 @@ import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { SeriesEntity } from '../entities/series.entity';
 import { SeriesEntityDoc } from 'src/docs/series/entities/series.entity.doc';
 import { ExactData, Series } from '@unlockit/shared';
+import { GameMapper } from 'src/games/game.mapper';
 
 export class SeriesDto implements Series {
   @SeriesEntityDoc.Id()
@@ -23,7 +24,7 @@ export class SeriesDto implements Series {
     dto.name = series.name;
     dto.slug = series.slug;
     dto.games = series.games
-      ? series.games.map((game: any) => SummaryGameDto.fromEntity(game))
+      ? series.games.map(game => GameMapper.toSummary(game))
       : [];
 
     return dto;

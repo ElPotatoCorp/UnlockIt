@@ -8,6 +8,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TopUpWalletDto } from './dto/top-up-wallet.dto';
 import { WalletBalanceDto } from './dto/wallet-balance.dto';
 import { WalletTransactionDto } from './dto/wallet-transaction.dto';
+import { WalletMapper } from './wallet.mapper';
 
 @Injectable()
 export class WalletService {
@@ -34,7 +35,7 @@ export class WalletService {
       {
         where: { userId },
         order: { createdAt: 'DESC' },
-        transform: { fn: WalletTransactionDto.fromEntity },
+        transform: { fn: WalletMapper.toWalletTransaction },
       },
     );
   }

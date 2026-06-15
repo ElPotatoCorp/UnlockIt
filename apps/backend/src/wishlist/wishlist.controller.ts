@@ -6,6 +6,7 @@ import {
   Delete,
   Query,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
@@ -28,7 +29,7 @@ export class WishlistController {
   @Get(':id')
   isInWishlist(
     @User('sub') userId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return { wishlisted: this.wishlistService.isInWishlist(userId, gameId) };
   }
@@ -36,7 +37,7 @@ export class WishlistController {
   @Post(':id')
   add(
     @User('sub') userId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return this.wishlistService.add(userId, gameId);
   }
@@ -45,7 +46,7 @@ export class WishlistController {
   @HttpCode(204)
   remove(
     @User('sub') userId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return this.wishlistService.remove(userId, gameId);
   }

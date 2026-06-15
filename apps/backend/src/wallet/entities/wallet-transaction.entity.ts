@@ -47,15 +47,11 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  @ManyToOne(() => UserEntity, (user) => user.walletTransactions, {
-    lazy: true,
-  })
+  @ManyToOne(() => UserEntity, (user) => user.walletTransactions)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @ManyToOne(() => OrderEntity, (order) => order.walletTransactions, {
-    lazy: true,
-  })
+  @ManyToOne(() => OrderEntity, (order) => order.walletTransactions)
   @JoinColumn({ name: 'order_id' })
   order: OrderEntity;
 }

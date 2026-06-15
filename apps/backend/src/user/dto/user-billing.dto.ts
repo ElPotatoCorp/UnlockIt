@@ -1,4 +1,3 @@
-import { UserBillingEntity } from '../entities/user-billing.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
 import { ExactData, UserBilling } from '@unlockit/shared';
@@ -39,24 +38,6 @@ export class UserBillingDto implements UserBilling {
   @IsString()
   @Length(1, 255)
   addressLine2: string | null;
-
-  public static fromEntity(entity: UserBillingEntity | null) {
-    if (!entity) {
-      return null;
-    }
-
-    const dto = new UserBillingDto();
-
-    dto.firstName = entity.firstName;
-    dto.lastName = entity.lastName;
-    dto.postalCode = entity.postalCode;
-    dto.city = entity.city;
-    dto.country = entity.country;
-    dto.addressLine1 = entity.addressLine1;
-    dto.addressLine2 = entity.addressLine2;
-
-    return dto;
-  }
 }
 
 const _assertExact: ExactData<UserBilling, UserBillingDto> = true;

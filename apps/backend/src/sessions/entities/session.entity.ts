@@ -60,7 +60,6 @@ export class SessionEntity implements ISessionEntity {
   // -------------------------------------------------------
 
   @ManyToOne(() => UserEntity, (user) => user.sessions, {
-    lazy: true,
     onDelete: 'CASCADE',
     nullable: false,
   })

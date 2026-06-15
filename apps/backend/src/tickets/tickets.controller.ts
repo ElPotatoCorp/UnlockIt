@@ -6,6 +6,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -50,14 +51,17 @@ export class TicketsController {
 
   @TicketsControllerDoc.FindOne()
   @Get(':id')
-  findOne(@Param('id', EntityFetchPipe(TicketEntity, 'id', { relations: { user: true } })) ticket: TicketEntity, @User() user: JwtPayloadDto) {
+  findOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(TicketEntity, 'id', { relations: { user: true } })) ticket: TicketEntity,
+    @User() user: JwtPayloadDto
+  ) {
     return this.ticketsService.findOne(ticket, user);
   }
 
   @TicketsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
+    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
     @Body() updateTicketDto: UpdateTicketDto,
     @User() user: JwtPayloadDto,
   ) {
@@ -72,7 +76,7 @@ export class TicketsController {
   @Delete(':id')
   @HttpCode(204)
   remove(
-    @Param('id', EntityExistsPipe(TicketEntity)) id: number,
+    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) id: number,
     @User() user: JwtPayloadDto,
   ) {
     if (user.permission === null) {

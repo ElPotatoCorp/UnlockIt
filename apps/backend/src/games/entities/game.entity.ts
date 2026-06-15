@@ -117,14 +117,13 @@ export class GameEntity implements IGameEntity {
   // =====================================================
 
   @ManyToOne(() => SeriesEntity, (series) => series.games, {
-    lazy: true,
     onDelete: 'SET NULL',
     nullable: true,
   })
   @JoinColumn({ name: 'series_id' })
   series: SeriesEntity | null;
 
-  @ManyToMany(() => TagEntity, (tag) => tag.games, { lazy: true })
+  @ManyToMany(() => TagEntity, (tag) => tag.games)
   @JoinTable({
     name: 'game_tags',
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
@@ -132,7 +131,7 @@ export class GameEntity implements IGameEntity {
   })
   tags: TagEntity[];
 
-  @ManyToMany(() => DeveloperEntity, (dev) => dev.games, { lazy: true })
+  @ManyToMany(() => DeveloperEntity, (dev) => dev.games)
   @JoinTable({
     name: 'game_developers',
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
@@ -140,7 +139,7 @@ export class GameEntity implements IGameEntity {
   })
   developers: DeveloperEntity[];
 
-  @ManyToMany(() => PublisherEntity, (pub) => pub.games, { lazy: true })
+  @ManyToMany(() => PublisherEntity, (pub) => pub.games)
   @JoinTable({
     name: 'game_publishers',
     joinColumn: { name: 'game_id', referencedColumnName: 'id' },
@@ -149,14 +148,12 @@ export class GameEntity implements IGameEntity {
   publishers: PublisherEntity[];
 
   @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
-    lazy: true,
     cascade: true,
     nullable: true,
   })
   platforms: GamePlatformEntity | null;
 
   @OneToMany(() => MediaEntity, (media) => media.game, {
-    lazy: true,
     cascade: true,
   })
   @JoinColumn({ name: 'game_id' })

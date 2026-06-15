@@ -9,6 +9,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { SeriesService } from './series.service';
 import { CreateSeriesDto } from './dto/create-series.dto';
@@ -44,7 +45,7 @@ export class SeriesController {
   @SeriesControllerDoc.FindOne()
   @Public()
   @Get(':id')
-  findOne(@Param('id', EntityFetchPipe(SeriesEntity, 'id', { relations: { games: true } })) series: SeriesEntity) {
+  findOne(@Param('id', ParseIntPipe, EntityFetchPipe(SeriesEntity, 'id', { relations: { games: true } })) series: SeriesEntity) {
     return series;
   }
 
@@ -59,7 +60,7 @@ export class SeriesController {
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   update(
-    @Param('id', EntityExistsPipe(SeriesEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
     @Body() updateSeriesDto: UpdateSeriesDto,
   ) {
     return this.seriesService.update(id, updateSeriesDto);
@@ -69,7 +70,7 @@ export class SeriesController {
   @Patch(':id/games')
   @HttpCode(HttpStatus.NO_CONTENT)
   modifyGames(
-    @Param('id', EntityExistsPipe(SeriesEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
     return this.seriesService.modifyGames(
@@ -82,7 +83,7 @@ export class SeriesController {
   @SeriesControllerDoc.Remove()
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', EntityExistsPipe(SeriesEntity)) id: number) {
+  remove(@Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number) {
     return this.seriesService.remove(id);
   }
 
@@ -90,7 +91,7 @@ export class SeriesController {
   @Delete(':id/games')
   @HttpCode(HttpStatus.NO_CONTENT)
   removeGames(
-    @Param('id', EntityExistsPipe(SeriesEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
     return this.seriesService.modifyGames(

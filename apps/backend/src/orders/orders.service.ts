@@ -4,20 +4,15 @@ import { Repository } from 'typeorm';
 import { OrderEntity } from './entities/order.entity';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { OrderDto } from './dto/order.dto';
-import { OrderListDto } from './dto/order-list.dto';
-import { entityExists, fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
-import { OrderStatus } from '@unlockit/shared';
-import { StockEntity } from 'src/stocks/entities/stock.entity';
-import { OrderItemDto } from './dto/order-item.dto';
+import { OrderDetailDto } from './dto/order-detail.dto';
+import { fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
+import { OrderMapper } from './order.mapper';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(OrderEntity)
     private readonly orderRepository: Repository<OrderEntity>,
-    @InjectRepository(StockEntity)
-    private readonly stockRepository: Repository<StockEntity>,
     private readonly commonService: CommonService,
   ) {}
 
@@ -28,39 +23,27 @@ export class OrdersService {
       {
         where: { userId },
         order: { reservedAt: 'DESC' },
-        transform: { fn: OrderListDto.fromEntity },
+        transform: { fn: OrderMapper.toSummary },
       },
     );
   }
 
-  async findOne(orderId: string, userId: string): Promise<OrderDto> {
+  async findOne(orderId: string, userId: string): Promise<OrderDetailDto> {
     const order = await fetchEntityOrFail(
       this.orderRepository,
       ['id', 'userId'],
       [orderId, userId],
+      {
+        relations: {
+          items: {
+            game: true,
+            stocks: true,
+          },
+        },
+        withDeleted: true,
+      }
     );
 
-    const items = await order.items;
-
-    const orderItemDtos = await Promise.all(
-      items.map(async (item) => {
-        const game = await item.game;
-        let keys: string[] = [];
-
-        if (order.status === OrderStatus.COMPLETED) {
-          const stocks = await this.stockRepository.find({
-            select: { productKey: true },
-            where: { orderId, gameId: item.gameId },
-            withDeleted: true,
-          });
-
-          keys = stocks.map((s) => s.productKey);
-        }
-
-        return OrderItemDto.from(item, game, keys);
-      }),
-    );
-
-    return OrderDto.from(order, orderItemDtos);
+    return OrderMapper.toDetail(order);
   }
 }

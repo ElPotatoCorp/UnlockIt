@@ -22,7 +22,7 @@ export class SeriesEntity implements ISeriesEntity {
   // =====================================================
 
   @SeriesEntityDoc.Games()
-  @OneToMany(() => GameEntity, (game) => game.series, { lazy: true })
+  @OneToMany(() => GameEntity, (game) => game.series)
   games: GameEntity[];
 }
 

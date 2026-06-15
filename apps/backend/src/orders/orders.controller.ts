@@ -9,7 +9,7 @@ export class OrdersController {
 
   @Get()
   findAll(
-    @User('sub', ParseUUIDPipe) userId: string,
+    @User('sub', new ParseUUIDPipe({ version: '4' })) userId: string,
     @Query() paginationQuery: PaginationQueryDto,
   ) {
     return this.ordersService.findAll(userId, paginationQuery);
@@ -17,8 +17,8 @@ export class OrdersController {
 
   @Get(':id')
   findOne(
-    @User('sub', ParseUUIDPipe) userId: string,
-    @Param('id', ParseUUIDPipe) orderId: string,
+    @User('sub', new ParseUUIDPipe({ version: '4' })) userId: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) orderId: string,
   ) {
     return this.ordersService.findOne(orderId, userId);
   }

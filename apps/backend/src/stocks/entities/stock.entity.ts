@@ -40,7 +40,6 @@ export class StockEntity implements IStockEntity {
   // -------------------------------------------------------
 
   @ManyToOne(() => GameEntity, {
-    lazy: true,
     onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'game_id' })
@@ -51,7 +50,6 @@ export class StockEntity implements IStockEntity {
    * Only set once the order transitions to COMPLETED.
    */
   @ManyToOne(() => OrderItemEntity, (item) => item.stocks, {
-    lazy: true,
     nullable: true,
     onDelete: 'SET NULL',
   })

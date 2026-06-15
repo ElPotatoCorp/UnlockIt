@@ -22,7 +22,6 @@ export class WishlistEntity implements IWishlistEntity {
   user: UserEntity;
 
   @ManyToOne(() => GameEntity, {
-    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'game_id' })

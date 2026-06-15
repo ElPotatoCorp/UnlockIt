@@ -23,6 +23,9 @@ import jwtConfig from 'src/config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
 import { UserEntity } from './entities/user.entity';
+import { UserMapper } from './user.mapper';
+import { UserProfileEntity } from './entities/user-profile.entity';
+import { UserBillingEntity } from './entities/user-billing.entity';
 
 @UserControllerDoc.Controller()
 @Controller('user')
@@ -40,14 +43,14 @@ export class UserController {
 
   @UserControllerDoc.GetProfile()
   @Get('profile')
-  async getProfile(@User('sub') userId: string) {
-    return UserProfileDto.fromEntity(await this.userService.getProfile(userId));
+  async getProfile(@User('sub', EntityFetchPipe(UserProfileEntity)) userProfile: UserProfileEntity) {
+    return UserMapper.toProfile(userProfile);
   }
 
   @UserControllerDoc.GetBilling()
   @Get('billing')
-  async getBilling(@User('sub') userId: string) {
-    return UserBillingDto.fromEntity(await this.userService.getBilling(userId));
+  async getBilling(@User('sub', EntityFetchPipe(UserBillingEntity)) userBilling: UserBillingEntity) {
+    return UserMapper.toBilling(userBilling);
   }
 
   @UserControllerDoc.Patch()

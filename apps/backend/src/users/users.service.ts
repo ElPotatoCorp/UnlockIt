@@ -6,6 +6,7 @@ import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { CreateJwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
+import { UserMapper } from 'src/user/user.mapper';
 
 @Injectable()
 export class UsersService {
@@ -41,7 +42,7 @@ export class UsersService {
     return this.commonService.getPaginatedResponse(
       this.userRepository,
       paginationQueryDto,
-      { transform: { fn: PublicUserDto.fromEntity } },
+      { transform: { fn: UserMapper.toPublic } },
     );
   }
 

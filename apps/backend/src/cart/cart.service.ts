@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CartItemEntity } from './entities/cart-item.entity';
-import { CartItemDto } from './dto/cart-items.dto';
 import { isBoolean, isInt } from 'class-validator';
+import { CartMapper } from './cart.mapper';
 
 @Injectable()
 export class CartService {
@@ -27,7 +27,7 @@ export class CartService {
         where: { cartId },
         order: { addedAt: 'DESC' },
         relations: { game: true },
-        transform: { fn: CartItemDto.fromEntity },
+        transform: { fn: CartMapper.toItem },
       },
     );
   }

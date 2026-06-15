@@ -5,6 +5,7 @@ import { In, Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { GameMapper } from 'src/games/game.mapper';
 
 @Injectable()
 export class WishlistService {
@@ -20,11 +21,9 @@ export class WishlistService {
       pagination,
       {
         where: { userId },
+        relations: { game: true },
         order: { addedAt: 'DESC' },
-        transform: {
-          fn: async (entry: WishlistEntity) =>
-            SummaryGameDto.fromEntity(await entry.game),
-        },
+        transform: { fn: (wishlist: WishlistEntity) => GameMapper.toSummary(wishlist.game) },
       },
     );
   }

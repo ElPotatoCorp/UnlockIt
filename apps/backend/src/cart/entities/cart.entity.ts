@@ -18,12 +18,11 @@ export class CartEntity implements ICartEntity {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.cart, { lazy: true, onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, (user) => user.cart, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
   @OneToMany(() => CartItemEntity, (item) => item.cart, {
-    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'cart_id' })

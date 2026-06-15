@@ -20,7 +20,7 @@ export class PublisherEntity implements IPublisherEntity {
   @Column('int', { name: 'games_count', default: 0 })
   gamesCount: number;
 
-  @ManyToMany(() => GameEntity, (game) => game.publishers, { lazy: true })
+  @ManyToMany(() => GameEntity, (game) => game.publishers)
   games: GameEntity[];
 }
 

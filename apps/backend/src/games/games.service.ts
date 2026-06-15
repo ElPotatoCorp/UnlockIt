@@ -28,6 +28,7 @@ import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { WishlistService } from 'src/wishlist/wishlist.service';
 import { GameDetailDto } from './dto/game-detail.dto';
+import { GameMapper } from './game.mapper';
 
 @Injectable()
 export class GamesService {
@@ -109,7 +110,7 @@ export class GamesService {
     const res = await this.commonService.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
-      { where, order, transform: { fn: SummaryGameDto.fromEntity } },
+      { where, order, transform: { fn: GameMapper.toSummary } },
     );
 
     if (userId) {
@@ -131,14 +132,16 @@ export class GamesService {
     return this.commonService.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
-      { transform: { fn: SummaryGameDto.fromEntity } },
+      { transform: { fn: GameMapper.toSummary } },
     );
   }
 
   async findOne(game: GameEntity, userId?: string) {
-    return GameDetailDto.fromEntity(
+    return GameMapper.toDetail(
       game,
-      userId ? await this.wishlistService.isInWishlist(userId, game.id) : false,
+      userId
+        ? await this.wishlistService.isInWishlist(userId, game.id)
+        : false,
     );
   }
 

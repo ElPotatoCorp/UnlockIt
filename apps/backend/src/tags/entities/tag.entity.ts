@@ -17,7 +17,7 @@ export class TagEntity implements ITagEntity {
   @Column('int', { name: 'games_count', default: 0 })
   gamesCount: number;
 
-  @ManyToMany(() => GameEntity, (game) => game.tags, { lazy: true })
+  @ManyToMany(() => GameEntity, (game) => game.tags)
   games: GameEntity[];
 }
 

@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DevelopersService } from './developers.service';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
@@ -39,7 +40,7 @@ export class DevelopersController {
   @DevelopersControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(DeveloperEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(DeveloperEntity)) id: number,
     @Body() dto: UpdateDeveloperDto,
   ) {
     return this.developersService.update(id, dto);
@@ -48,7 +49,7 @@ export class DevelopersController {
   @DevelopersControllerDoc.Remove()
   @Delete(':id')
   remove(
-    @Param('id', EntityExistsPipe(DeveloperEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(DeveloperEntity)) id: number,
   ) {
     return this.developersService.remove(id);
   }

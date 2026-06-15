@@ -58,14 +58,12 @@ export class OrderEntity implements IOrderEntity {
   // -------------------------------------------------------
 
   @ManyToOne(() => UserEntity, (user) => user.orders, {
-    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
   @OneToMany(() => OrderItemEntity, (item) => item.order, {
-    lazy: true,
     cascade: ['insert'],
   })
   items: OrderItemEntity[];
@@ -74,8 +72,7 @@ export class OrderEntity implements IOrderEntity {
     () => WalletTransactionEntity,
     (walletTransaction) => walletTransaction.order,
     {
-      lazy: true,
-      cascade: true,
+        cascade: true,
     },
   )
   walletTransactions: WalletTransactionEntity[];

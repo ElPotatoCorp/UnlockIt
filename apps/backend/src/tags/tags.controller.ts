@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -41,7 +42,7 @@ export class TagsController {
   @TagsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', EntityExistsPipe(TagEntity)) id: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(TagEntity)) id: number,
     @Body() updateTagDto: UpdateTagDto,
   ) {
     return this.tagsService.update(id, updateTagDto);
@@ -49,7 +50,7 @@ export class TagsController {
 
   @TagsControllerDoc.Remove()
   @Delete(':id')
-  remove(@Param('id', EntityExistsPipe(TagEntity)) id: number) {
+  remove(@Param('id', ParseIntPipe, EntityExistsPipe(TagEntity)) id: number) {
     return this.tagsService.remove(id);
   }
 }

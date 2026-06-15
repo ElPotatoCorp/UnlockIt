@@ -1,5 +1,4 @@
 import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
-import { GameEntity } from '../entities/game.entity';
 import {
   EUAgeRating,
   ExactData,
@@ -36,23 +35,6 @@ export class SummaryGameDto implements SummaryGame {
   shortDescription: string;
 
   wishlisted?: boolean;
-
-  static fromEntity(game: GameEntity, wishlisted?: boolean): SummaryGameDto {
-    const dto = new SummaryGameDto();
-
-    dto.id = game.id;
-    dto.name = game.name;
-    dto.slug = game.slug;
-    dto.type = game.type;
-    dto.price = game.price;
-    dto.ageRating = game.ageRating;
-    dto.comingSoon = game.comingSoon;
-    dto.headerImage = game.headerImage;
-    dto.shortDescription = game.shortDescription;
-    dto.wishlisted = wishlisted;
-
-    return dto;
-  }
 }
 
 const _assertExact: ExactData<SummaryGame, SummaryGameDto> = true;

@@ -7,6 +7,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
@@ -31,7 +32,7 @@ export class CartController {
   @Post(':id/toggle')
   toggle(
     @User('cartId') cartId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('state') state?: boolean,
   ) {
     return this.cartService.toggle(cartId, gameId, state);
@@ -41,7 +42,7 @@ export class CartController {
   @HttpCode(HttpStatus.NO_CONTENT)
   add(
     @User('cartId') cartId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('quantity') quantity?: number,
   ) {
     return this.cartService.add(cartId, gameId, quantity);
@@ -51,7 +52,7 @@ export class CartController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(
     @User('cartId') cartId: string,
-    @Param('id', EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('quantity') quantity?: number,
   ) {
     return this.cartService.remove(cartId, gameId, quantity);

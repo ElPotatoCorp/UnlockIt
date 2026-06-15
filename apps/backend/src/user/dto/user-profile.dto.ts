@@ -1,4 +1,3 @@
-import { UserProfileEntity } from '../entities/user-profile.entity';
 import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 import {
   IsBoolean,
@@ -38,22 +37,6 @@ export class UserProfileDto implements UserProfile {
   @IsOptional()
   @IsBoolean()
   newsletter: boolean;
-
-  public static fromEntity(entity: UserProfileEntity | null) {
-    if (!entity) {
-      return null;
-    }
-
-    const dto = new UserProfileDto();
-
-    dto.firstName = entity.firstName;
-    dto.lastName = entity.lastName;
-    dto.birthdate = entity.birthdate;
-    dto.country = entity.country;
-    dto.newsletter = entity.newsletter;
-
-    return dto;
-  }
 }
 
 const _assertExact: ExactData<UserProfile, UserProfileDto> = true;

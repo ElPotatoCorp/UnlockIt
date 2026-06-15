@@ -18,7 +18,7 @@ export class EmployeeEntity implements IEmployeeEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne(() => UserEntity, { lazy: true })
+  @OneToOne(() => UserEntity)
   @JoinColumn({ name: 'id' })
   user: UserEntity;
 

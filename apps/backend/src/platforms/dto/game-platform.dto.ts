@@ -12,23 +12,6 @@ export class GamePlatformDto implements GamePlatform {
   @PlatformEntityDoc.Ps5() ps5: boolean;
   @PlatformEntityDoc.XboxOne() xboxOne: boolean;
   @PlatformEntityDoc.XboxSeries() xboxSeries: boolean;
-
-  static fromEntity(gamePlatform: GamePlatform): GamePlatformDto {
-    const dto = new GamePlatformDto();
-
-    dto.windows = gamePlatform.windows;
-    dto.mac = gamePlatform.mac;
-    dto.linux = gamePlatform.linux;
-    dto.ios = gamePlatform.ios;
-    dto.android = gamePlatform.android;
-    dto.switch = gamePlatform.switch;
-    dto.ps4 = gamePlatform.ps4;
-    dto.ps5 = gamePlatform.ps5;
-    dto.xboxOne = gamePlatform.xboxOne;
-    dto.xboxSeries = gamePlatform.xboxSeries;
-
-    return dto;
-  }
 }
 
 const _assertExact: ExactData<GamePlatform, GamePlatformDto> = true;

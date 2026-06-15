@@ -10,6 +10,7 @@ import {
   Inject,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -106,7 +107,7 @@ export class AuthController {
   @Throttle({ authResetPassword: {} })
   @Post('reset-password/:ticketId')
   resetPassword(
-    @Param('ticketId', EntityFetchPipe(TicketEntity)) ticket: TicketEntity,
+    @Param('ticketId', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(TicketEntity)) ticket: TicketEntity,
     @Body() resetPasswordDto: ResetPasswordDto,
   ) {
     return this.authService.resetPassword(ticket, resetPasswordDto);

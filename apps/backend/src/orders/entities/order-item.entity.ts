@@ -40,20 +40,19 @@ export class OrderItemEntity implements IOrderItemEntity {
   // -------------------------------------------------------
 
   @ManyToOne(() => OrderEntity, (order) => order.items, {
-    lazy: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'order_id' })
   order: OrderEntity;
 
-  @ManyToOne(() => GameEntity, { lazy: true, onDelete: 'RESTRICT' })
+  @ManyToOne(() => GameEntity, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 
   /**
    * This will never be populated because of the soft delete
    */
-  @OneToMany(() => StockEntity, (stock) => stock.orderItem, { lazy: true })
+  @OneToMany(() => StockEntity, (stock) => stock.orderItem)
   stocks: StockEntity[];
 }
 
