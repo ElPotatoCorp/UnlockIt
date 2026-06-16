@@ -1,17 +1,19 @@
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="hljs.css">
+<link rel="stylesheet" href="./src/style.css">
+<link rel="stylesheet" href="./src/hljs.css">
+
+<script src="./src/mermaid.min.js"></script> + rm styles
 
 <header class="sticky-header">
-    <span class="header-title">Rapport Qualité et Refonte Architecturale</span>
-    <img src="./assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
+    <span class="header-title">Rapport SAÉ 4.01 - Qualité</span>
+    <img src="src/assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
 </header>
 
 <div class="false-body">
 
 <div class="cover-page">
-    <h1>Rapport Qualité et Refonte Architecturale</h1>
+    <h1>Rapport SAÉ 4.01 - Qualité</h1>
     <a href="https://github.com/ElPotatoCorp/UnlockIt" target="_blank">
-        <img src="./assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
+        <img src="src/assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
     </a>
     <div class="cover-authors">
         <div class="info-line">Mars – Juin 2026</div>
@@ -64,15 +66,106 @@
 
 ## 1.1 Présentation du projet
 
-UnlockIt est une plateforme de distribution de jeux vidéo dématérialisés inspirée des principaux acteurs du marché. Le projet permet la consultation d'un catalogue, la gestion d'une bibliothèque personnelle, l'ajout de jeux dans une liste de souhaits ainsi que l'achat de clés numériques.
+UnlockIt est une plateforme web de distribution de jeux vidéo dématérialisés, s'inspirant des principales plateformes du marché telles que Steam, Instant Gaming ou Epic Games Store. Le projet a pour objectif de reproduire une partie de leurs fonctionnalités à travers une architecture full-stack moderne.
 
-La première version du projet avait permis de valider les fonctionnalités essentielles attendues. Cependant, au fil du développement, plusieurs limites techniques sont apparues et ont rendu l'évolution du projet plus difficile.
+La première version du projet, durant la SAÉ 3.01, avait pour ambition de proposer une expérience complète autour de l'achat et de la gestion de jeux numériques. Les utilisateurs pouvaient consulter un catalogue de jeux, rechercher des produits, créer un compte, gérer leur panier d'achat, constituer une liste de souhaits et accéder à leur bibliothèque personnelle après l'achat.
+
+L'objectif académique de cette première version était avant tout de nous confronter à la réalisation d'une application web de grande ampleur, nécessitant la conception d'un frontend moderne, d'une API backend ainsi que d'une base de données relationnelle relativement complexe. Ce projet nous a également permis d'expérimenter le travail en équipe, la gestion d'une architecture multi-couches et la mise en place de méthodologies de développement proches du monde professionnel.
+
+<div class="card">
+
+![Page d'accueil de UnlockIt V1](src/assets/old-homepage.png)
+
+*Figure 1 – Capture de la page d'accueil de UnlockIt (SAÉ 3.01).*
+
+</div>
+
+D'un point de vue fonctionnel, UnlockIt (SAÉ 3.01) proposait déjà la majorité des fonctionnalités attendues pour une plateforme de distribution numérique :
+
+* consultation du catalogue de jeux
+* recherche et filtrage avancés
+* authentification et gestion de compte
+* système de panier et de wishlist
+* historique d'achats
+* récupération des clés d'activation
+* système de commentaires et d'avis
+
+Ces fonctionnalités ont permis de valider la faisabilité du projet et de produire une première version entièrement fonctionnelle.
+
+<div class="card">
+
+![Page produit de UnlockIt V1](src/assets/old-game-page.png)
+
+*Figure 2 – Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).*
+
+</div>
+
+L'architecture technique de cette première version reposait sur une séparation classique entre trois couches :
+
+* un frontend développé avec **React**, **TypeScript** et **Vite**
+* un backend développé en **PHP** suivant une architecture inspirée du modèle MVC
+* une base de données **PostgreSQL** exploitant de nombreuses fonctionnalités natives, notamment les fonctions stockées et les triggers.
+
+<div class="card">
+
+<div class="mermaid-center" style="text-align:center;">
+
+```mermaid
+flowchart TB
+
+    classDef front fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef back fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+    classDef db fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+    A["Frontend React"]:::front
+    B["Backend (API PHP)"]:::back
+    C["Database (PostgreSQL)"]:::db
+
+    A -->|HTTP/REST| B
+    B -->|JSON| A
+    B -->|PDO| C
+    C -->|SQL/PlpgSQL| B
+```
+
+</div>
+
+*Figure 3 – Architecture simplifiée de UnlockIt (SAÉ 3.01).*
+
+\* Si du code s'affiche à la place du schéma, rafraichissez la page.
+
+</div>
+
+Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. L’absence d’outils d’analyse et de tests automatisés compliquait également la détection des régressions et l’optimisation des performances.
+
+Bien que fonctionnelle et suffisamment robuste pour être présentée lors de la première soutenance, cette version s’apparentait davantage à un produit minimum viable (MVP) qu’à une base technique durable. Avec la montée en compétences de l’équipe, les parties les plus anciennes du code nous sont apparues comme insuffisamment structurées, parfois mal écrites, voire difficilement lisibles en comparaison des fonctionnalités plus récentes. Le projet tenait, mais ses fondations étaient fragiles. Pour envisager une évolution pérenne, une refonte devenait nécessaire.
+
+Ces constats nous ont naturellement conduits à envisager une seconde itération du projet, non plus centrée sur l’ajout de fonctionnalités, mais sur une amélioration profonde de sa qualité technique et de son architecture.
 
 ## 1.2 Objectifs de la refonte
 
-L'objectif de cette seconde itération n'était plus uniquement d'ajouter des fonctionnalités mais de reconstruire le projet sur des bases plus saines.
+L'objectif de cette seconde itération n'était plus uniquement de développer de nouvelles fonctionnalités. Nous avons fait le choix d'entreprendre une **refonte complète** du projet en repartant de zéro afin de corriger les faiblesses identifiées lors du développement de la première version.
 
-Cette refonte avait pour objectif principal d'améliorer la qualité globale du logiciel, la maintenabilité du code, les performances de l'application et la capacité du projet à évoluer dans le temps.
+Cette nouvelle version, nommée **UnlockIt V2**, poursuit plusieurs objectifs :
+
+* améliorer la qualité globale du code ;
+* renforcer la maintenabilité de l'application ;
+* améliorer les performances côté client ;
+* faciliter les évolutions futures ;
+* mettre en place de meilleures pratiques de développement ;
+* introduire des outils de mesure, de tests et d'analyse ;
+* moderniser l'architecture frontend et backend.
+
+L'un des principaux axes de travail de cette refonte a été la volonté de construire une base technique plus propre et plus durable, capable de supporter de futures fonctionnalités sans nécessiter de nouvelles reconstructions majeures.
+
+<div class="card">
+
+![Comparaison entre UnlockIt V1 et UnlockIt V2](src/assets/placeholder-v1-v2-comparison.webp)
+
+*Figure 4 – Évolution globale du projet entre la première et la seconde version.*
+
+</div>
+
+Ainsi, UnlockIt V2 ne constitue pas simplement une nouvelle version du site, mais représente une véritable démarche d'amélioration continue visant à transformer un projet fonctionnel en une application plus professionnelle, plus performante et plus facilement maintenable.
 
 # 2. Analyse de l'ancien projet
 
@@ -315,6 +408,7 @@ flowchart LR
     linkStyle 7 stroke:#d1c24f,stroke-width:2px
     linkStyle 8 stroke:#7a4fd1,stroke-width:2px,stroke-dasharray:4 4
 ```
+\* Si seul le code du schéma s'affiche, rafraichissez la page pour voir le schéma. 
 
 </details>
 
