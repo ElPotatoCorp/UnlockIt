@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./src/style.css">
 <link rel="stylesheet" href="./src/hljs.css">
 
-<script src="./src/mermaid.min.js"></script> + rm styles
+<script src="./src/mermaid.min.js"></script> + rm styles + pseudo ref name
 
 <header class="sticky-header">
     <span class="header-title">Rapport SAÉ 4.01 - Qualité</span>
@@ -141,31 +141,83 @@ Bien que fonctionnelle et suffisamment robuste pour être présentée lors de la
 
 Ces constats nous ont naturellement conduits à envisager une seconde itération du projet, non plus centrée sur l’ajout de fonctionnalités, mais sur une amélioration profonde de sa qualité technique et de son architecture.
 
-## 1.2 Objectifs de la refonte
-
-L'objectif de cette seconde itération n'était plus uniquement de développer de nouvelles fonctionnalités. Nous avons fait le choix d'entreprendre une **refonte complète** du projet en repartant de zéro afin de corriger les faiblesses identifiées lors du développement de la première version.
-
-Cette nouvelle version, nommée **UnlockIt V2**, poursuit plusieurs objectifs :
-
-* améliorer la qualité globale du code ;
-* renforcer la maintenabilité de l'application ;
-* améliorer les performances côté client ;
-* faciliter les évolutions futures ;
-* mettre en place de meilleures pratiques de développement ;
-* introduire des outils de mesure, de tests et d'analyse ;
-* moderniser l'architecture frontend et backend.
-
-L'un des principaux axes de travail de cette refonte a été la volonté de construire une base technique plus propre et plus durable, capable de supporter de futures fonctionnalités sans nécessiter de nouvelles reconstructions majeures.
+## 1.2 Présentation des membres
 
 <div class="card">
 
-![Comparaison entre UnlockIt V1 et UnlockIt V2](src/assets/placeholder-v1-v2-comparison.webp)
+<a href="https://github.com/Frozen1753" target="_blank">
+    <h3>Frozen1753</h3>
+</a>
 
-*Figure 4 – Évolution globale du projet entre la première et la seconde version.*
+**Compétences techniques**
+
+- **Développement & Programmation :** Java • C • C++ • C# • Bash • Python
+- **Développement Web :** JavaScript • TypeScript • React • Vite • Playwright • PHP • NestJS • TypeORM
+- **Design & Interfaces :**  XAML • HTML • CSS • Figma
+- **Bases de données :**  SQL • PostgreSQL
+- **Réseaux & Systèmes :** TCP/IP • Cisco Packet Tracer • Windows • Linux
+- **Outils & Environnements :** Visual Studio • IntelliJ • Git • GitHub • PowerBI • PhpMyAdmin • MySQL • Workbench • Docker
+
+**Formation**  
+Étudiant en 2ᵉ année de BUT Informatique (formation initiale)
+
+**Rôles dans le projet**  
+Frontend • UX/UI Design • Design graphique • Optimisation • Testing
 
 </div>
 
-Ainsi, UnlockIt V2 ne constitue pas simplement une nouvelle version du site, mais représente une véritable démarche d'amélioration continue visant à transformer un projet fonctionnel en une application plus professionnelle, plus performante et plus facilement maintenable.
+<div class="card">
+
+<a href="https://github.com/ElPotatoCorp" target="_blank">
+    <h3>ElPotato</h3>
+</a>
+
+**Compétences techniques**
+
+- **Développement & Programmation :** Rust • C • C++ • C# • Bash • Python
+- **Développement Web :** JavaScript • TypeScript • React • PHP • Swagger • Vite • NestJS • TypeORM
+- **Design & Interfaces :** XAML • XML • HTML • CSS
+- **Bases de données :** SQL • PostgreSQL
+- **Réseaux & Systèmes :** TCP/IP • Cisco Packet Tracer • Windows • Linux
+- **Outils & Environnements :** Visual Studio • IntelliJ • Git • GitHub • PowerBI • PhpMyAdmin • MySQL • Workbench • Docker
+
+**Formation**  
+Étudiant en 2ᵉ année de BUT Informatique (formation initiale)
+
+**Rôles dans le projet**  
+Backend • Base de données • Documentation • Optimisation • Scripts
+
+</div>
+
+## 1.3 Pourquoi une refonte complète ?
+
+À l'issue de la SAÉ 3.01, nous disposions d'une application fonctionnelle répondant à la majorité des objectifs initiaux. Malgré ce résultat satisfaisant, nous avions pleinement conscience des limites de notre implémentation. Une grande partie de l'architecture avait été construite progressivement, au fur et à mesure de l'ajout de nouvelles fonctionnalités et de notre montée en compétences durant le projet.
+
+Avec le recul, certaines décisions techniques prises au début du développement ne correspondaient plus à nos besoins actuels. Plusieurs composants étaient devenus trop volumineux, certaines responsabilités étaient mal réparties et une partie du code était devenue difficile à maintenir. Ajouter une nouvelle fonctionnalité nécessitait parfois de modifier plusieurs zones de l'application, augmentant le risque d'introduire des régressions.
+
+De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, les tests automatisés, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.
+
+La SAÉ 4.01 nous a offert l'opportunité de revenir sur ce projet avec un regard plus critique et davantage d'expérience. Plutôt que d'ajouter de nouvelles fonctionnalités sur des fondations que nous jugions désormais fragiles, nous avons fait le choix de repartir de zéro.
+
+Cette décision peut sembler radicale, mais elle nous a permis de repenser entièrement l'application :
+
+* en adoptant une architecture plus propre et plus maintenable
+* en améliorant les performances globales du site
+* en modernisant les outils utilisés
+* en introduisant des pratiques de développement plus professionnelles
+* en préparant le projet à de futures évolutions
+
+L'objectif de cette seconde version n'était donc pas simplement de produire un « UnlockIt plus complet », mais de transformer un premier prototype fonctionnel en une base technique plus robuste, plus cohérente et davantage orientée vers la qualité logicielle.
+
+<div class="card">
+
+![Évolution de UnlockIt entre la SAÉ 3.01 et la SAÉ 4.01](src/assets/placeholder-v1-v2-comparison.webp)
+
+*Figure 4 – Passage d'un premier prototype fonctionnel à une refonte complète orientée qualité.*
+
+</div>
+
+Avant de présenter les changements apportés dans cette nouvelle version, il est nécessaire d'analyser plus en détail les principales limites de UnlockIt (SAÉ 3.01). Cette analyse permettra de comprendre les choix techniques effectués au cours de cette refonte et de justifier les différentes décisions présentées dans la suite de ce rapport.
 
 # 2. Analyse de l'ancien projet
 
@@ -289,49 +341,459 @@ L'architecture actuelle privilégie la séparation des responsabilités, les per
 
 ## 3.1 Refonte de l'architecture React
 
-...
+L'un des principaux objectifs de cette seconde version de UnlockIt a été de revoir entièrement l'architecture du frontend. La première version du projet avait été développée de manière progressive, au fur et à mesure de l'ajout de nouvelles fonctionnalités et de notre montée en compétences. Bien que fonctionnelle, cette approche avait progressivement conduit à une certaine dette technique.
+
+Certains composants regroupaient simultanément l'affichage, la gestion de l'état, les appels API et une partie de la logique métier. Cette organisation rendait le code plus difficile à maintenir et augmentait le risque d'introduire des régressions lors de l'ajout de nouvelles fonctionnalités.
+
+La refonte du frontend a donc été l'occasion de repartir sur des bases plus saines. L'application a été réorganisée autour d'une architecture plus modulaire, privilégiant une séparation claire des responsabilités entre les composants de présentation, les hooks métiers, les services d'accès aux données et les utilitaires partagés.
+
+```mermaid
+treeView-beta
+    "packages"
+        "mermaid"
+            "src"
+        "parser"
+```
+
+<div class="card">
+
+![Nouvelle architecture frontend](src/assets/frontend-architecture-placeholder.webp)
+
+*Figure X – Nouvelle organisation du frontend après la refonte.*
+
+</div>
+
+Cette nouvelle organisation permet aujourd'hui de faire évoluer le projet plus sereinement et facilite grandement l'intégration de nouvelles fonctionnalités.
+
+---
 
 ## 3.2 Référencement et indexation
 
 ### 3.2.1 React Helmet
 
-Parmi les améliorations apportées, une attention particulière a été portée au référencement naturel. React Helmet a été utilisé afin de générer dynamiquement les balises meta de chaque page du site.
+Lors du développement de la première version de UnlockIt, très peu d’attention avait été portée aux problématiques de référencement naturel. Comme dans la plupart des applications React, l’architecture reposait sur le principe d’une **Single Page Application (SPA)** : un unique fichier **`index.html`** sert de point d’entrée, puis React prend le relais pour générer et mettre à jour l’interface.
+
+Le fonctionnement suit une chaîne simple :
+
+- **index.html** — contient uniquement la structure minimale et un conteneur `<div id="root">`
+- **main.tsx** — monte l’application React dans `#root`.
+- **App.tsx** — constitue le composant racine et gère le routage.
+- **Composants** — chaque page ou section du site est rendue dynamiquement à l’intérieur de `App`.
+
+Dans ce modèle, changer de page ne provoque pas le chargement d'un nouveau document HTML. Seul le contenu affiché à l'écran est modifié par JavaScript, ce qui empêche naturellement chaque page de disposer de ses propres métadonnées.
+
+<details class="accordion">
+<summary>Exemple</summary>
+
+```mermaid
+treeView-beta
+    "index.html"
+    "public"
+        "favicon.svg"
+    "src"
+        "main.tsx"
+        "App.tsx"
+        "App.css"
+        "assets"
+            "logo.svg"
+            "..."
+        "components"
+            "Button"
+            "Navbar"
+            "..."
+        "..."
+```
+
+```html
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    ...
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+```tsx
+// main.tsx
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+```
+
+```tsx
+// App.tsx
+export default function App() {
+  return (
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<Home />}/>
+            <Route ... />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+  );
+}
+```
+
+</details>
+
+En nous intéressant davantage au fonctionnement des moteurs de recherche et aux recommandations fournies par Lighthouse, nous avons constaté que l'absence de métadonnées adaptées à chaque page pénalisait le référencement du site ainsi que le partage de son contenu sur les réseaux sociaux.
+
+Pour répondre à cette problématique, nous avons intégré la bibliothèque **React Helmet Async**, qui permet de modifier dynamiquement le contenu de l'élément `<head>` en fonction de la page actuellement affichée.
+
+Plutôt que de dupliquer les mêmes balises dans chaque composant, nous avons créé un composant réutilisable nommé `UnlockItHelmet`, appliquant le principe DRY (Don't Repeat Yourself).  Celui-ci centralise la gestion :
+
+* du titre de la page ;
+* de la description ;
+* des balises `OpenGraph` ;
+* des métadonnées Twitter ;
+* de l'URL canonique ;
+* des consignes d'indexation.
+
+```tsx
+<UnlockItHelmet
+    title="Accueil"
+    path="/"
+/>
+```
+
+À partir de cette simple déclaration, le composant génère automatiquement l'ensemble des métadonnées nécessaires.
+
+<details class="accordion">
+<summary>Résultats</summary>
+
+```html
+<head>
+    <...>
+    <title>UnlockIt – Accueil</title>
+    <meta name="description" content="UnlockIt : achetez vos jeux PC moins cher. Clés Steam, Origin et Uplay livrées instantanément au meilleur prix.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="UnlockIt – Accueil">
+    <meta ...>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta ...>
+    <link rel="canonical" href="https://unlock-it.com/">
+    <...>
+</head>
+```
+
+</details>
+
+L'approche devient encore plus intéressante pour les pages dynamiques. Une recherche sur le terme `test` génère automatiquement un titre et une description adaptés au contenu affiché.
+
+```tsx
+<UnlockItHelmet
+    title={`Recherche : ${term}`}
+    description={`Résultats de recherche pour "${term}"`}
+    path={`/search/${term}`}
+/>
+```
+
+<details class="accordion">
+<summary>Résultats</summary>
+
+```html
+<head>
+    <...>
+    <title>UnlockIt – Recherche : test</title>
+    <meta name="description" content="Résultats de recherche pour &quot;test&quot; sur UnlockIt. Trouvez vos jeux PC au meilleur prix.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="UnlockIt – Recherche : test">
+    <meta ...>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta ...>
+    <link rel="canonical" href="https://unlock-it.com/search/test">
+    <...>
+</head>
+```
+
+</details>
+
+Cette amélioration, relativement simple à mettre en œuvre, rapproche davantage UnlockIt du fonctionnement d'un véritable site de production. Elle améliore les scores de référencement fournis par Lighthouse, facilite l'indexation par les moteurs de recherche et permet également un meilleur rendu lors du partage des pages sur les réseaux sociaux.
+
+Au-delà de l'aspect technique, cette démarche nous a permis de mieux comprendre le fonctionnement du web moderne et de découvrir des problématiques que nous n'avions encore jamais abordées dans le cadre des précédentes SAÉ.
+
+---
 
 ### 3.2.2 Robots.txt
 
-Un fichier robots.txt a été ajouté afin de guider les robots d'indexation et d'améliorer la visibilité du projet.
+Lors des différents audits réalisés avec Lighthouse, nous avons découvert plusieurs recommandations liées au référencement naturel et à l'indexation du site. Parmi celles-ci figurait la présence d'un fichier <code class="c">robots.txt</code>, mécanisme que nous ne connaissions pas avant cette refonte.
+
+En nous documentant davantage, notamment à l'aide de la documentation officielle et de l'intelligence artificielle, nous avons découvert qu'il s'agissait d'un fichier standard du Web permettant de communiquer certaines informations aux robots d'exploration des moteurs de recherche.
+
+Encore une fois, même si UnlockIt reste un projet académique et n'a pas vocation à être réellement indexé (surtout avec le marché actuel et des géant comme Steam et Instant Gaming, on coulerait instantanément), nous avons souhaité reproduire le fonctionnement d'une application de production en mettant en place ce mécanisme.
+
+Le fichier <code class="c">robots.txt</code> est placé dans le dossier <code class="c">public</code> afin d'être directement accessible à l'adresse :
+
+<a>https://unlock-it.com/robots.txt</a>
+
+Son contenu est volontairement simple :
+
+```txt
+User-agent: *
+Allow: /
+
+Sitemap: https://unlock-it.com/sitemap.xml
+```
+
+Ce fichier indique que l'ensemble du site peut être exploré par les robots d'indexation et leur fournit également l'emplacement du sitemap de l'application.
+
+<details class="accordion">
+<summary>Pourquoi le placer dans public ?</summary>
+
+Le dossier <code class="c">public</code> de Vite contient les ressources statiques qui doivent être servies directement par le serveur sans être traitées par le bundler. Les fichiers <code class="c">robots.txt</code>, <code class="c">sitemap.xml</code> ou encore <code class="c">favicon.ico</code> sont donc naturellement placés dans ce répertoire afin d'être accessibles depuis la racine du site.
+
+```
+public/
+├── favicon.ico
+├── robots.txt
+└── sitemap.xml
+```
+
+</details>
+
+L'ajout de ce fichier participe à rendre le projet plus conforme aux standards actuels du Web et nous a permis de mieux comprendre le fonctionnement de l'exploration et de l'indexation des sites internet.
+
+Le fichier robots.txt ne garantit pas qu'une page sera indexée ou non par un moteur de recherche. Il constitue uniquement une convention permettant de donner des indications aux robots d'exploration.
+
+---
 
 ### 3.2.3 Sitemap XML
 
-La génération d'un sitemap.xml permet aux moteurs de recherche d'identifier rapidement les différentes pages disponibles.
+Si le fichier <code class="c">robots.txt</code> indique aux robots d'exploration où trouver certaines informations, le fichier <code class="c">sitemap.xml</code> leur fournit quant à lui la liste des pages disponibles sur le site ainsi que certaines informations complémentaires concernant leur importance et leur fréquence de mise à jour.
+
+<details class="accordion">
+<summary>Grosso modo</summary>
+
+> <code class="c">robots.txt</code> dit aux robots « où regarder ».
+>
+> <code class="c">sitemap.xml</code> dit aux robots « quelles pages existent ».
+
+</details>
+
+Lors de nos recherches sur le référencement naturel et après plusieurs audits réalisés avec Lighthouse, nous avons découvert qu'il était courant pour les sites de production de mettre à disposition un sitemap afin de faciliter leur indexation.
+
+Nous avons donc décidé d'ajouter un fichier <code class="c">sitemap.xml</code> à la racine du projet, également placé dans le dossier <code class="c">public</code> afin qu'il soit accessible à l'adresse :
+
+<a>https://unlock-it.com/sitemap.xml</a>
+
+Le sitemap contient les principales pages publiques du site, accompagnées de plusieurs informations :
+
+* <code class="c">loc</code> : l'adresse de la page ;
+* <code class="c">changefreq</code> : la fréquence estimée des modifications ;
+* <code class="c">priority</code> : l'importance relative de la page au sein du site.
+
+L'extrait suivant présente quelques entrées du fichier :
+
+```xml
+<url>
+    <loc>https://unlock-it.com/login</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+</url>
+
+<url>
+    <loc>https://unlock-it.com/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+</url>
+```
+
+Même si UnlockIt comporte actuellement un nombre relativement limité de pages, la mise en place de ce mécanisme permet de reproduire le comportement d'un véritable site de production et de mieux comprendre la manière dont les moteurs de recherche découvrent et parcourent un site web.
+
+Cette fonctionnalité constitue finalement un excellent exercice de compréhension des mécanismes d'indexation modernes et nous a permis de découvrir un aspect du développement web que nous n'avions encore jamais abordé au cours des précédentes SAÉ.
+
+<div class="success">
+
+Bien qu'un sitemap soit principalement utile pour les sites de grande taille, sa mise en place nous a permis d'adopter une démarche plus professionnelle et de nous rapprocher du fonctionnement réel d'une application web en production.
+
+</div>
+
+---
 
 ## 3.3 Optimisation des performances
 
+L'amélioration des performances a constitué l'un des principaux axes de travail de cette nouvelle version. Contrairement à la première itération du projet, plusieurs outils de mesure et de profilage ont été utilisés afin d'identifier les points de ralentissement et de mesurer objectivement les gains obtenus.
+
+<div class="card">
+
+![Scores Lighthouse](src/assets/lighthouse-score-placeholder.webp)
+
+*Figure X – Exemple de rapport Lighthouse après optimisation.*
+
+</div>
+
 ### 3.3.1 React Scan
 
-React Scan a été utilisé afin d'identifier les composants effectuant des rendus inutiles.
+L'introduction de React Scan a permis de visualiser en temps réel les composants effectuant des rendus inutiles.
+
+Au fur et à mesure du développement, cet outil nous a permis de mieux comprendre le cycle de rendu de React et d'identifier plusieurs composants dont les performances pouvaient être améliorées.
+
+Cette démarche a notamment conduit à simplifier certaines dépendances et à limiter plusieurs re-rendus superflus.
+
+<div class="card">
+
+![React Scan](src/assets/react-scan-placeholder.webp)
+
+*Figure X – Analyse des rendus avec React Scan.*
+
+</div>
+
+---
 
 ### 3.3.2 Lighthouse
 
-Lighthouse a permis de mesurer objectivement les performances, l'accessibilité et le référencement du site.
+Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs :
+
+* performances
+* accessibilité
+* référencement
+* bonnes pratiques.
+
+Ces mesures nous ont permis de valider objectivement l'impact de certaines optimisations et de guider les améliorations à apporter au site.
+
+---
 
 ### 3.3.3 Firefox Profiler
 
-Firefox Profiler a été utilisé pour analyser les temps d'exécution JavaScript et identifier les opérations coûteuses.
+En complément de Lighthouse, Firefox Profiler a été utilisé afin d'obtenir une vision plus détaillée du comportement de l'application.
+
+L'outil permet notamment d'analyser :
+
+* le temps passé dans certaines fonctions
+* le coût des opérations JavaScript
+* les phases de rendu
+* certaines opérations particulièrement coûteuses.
+
+Cette analyse a été particulièrement utile lors de l'optimisation de certaines animations et de l'arrière-plan du site.
+
+---
 
 ### 3.3.4 Lazy Loading et Suspense
 
-L'utilisation de React.lazy et Suspense permet désormais de charger certaines pages uniquement lorsqu'elles sont nécessaires.
+L'une des principales optimisations apportées concerne le chargement des pages.
+
+Dans la première version du projet, une partie importante du code JavaScript était chargée dès l'ouverture du site. Cette approche augmentait inutilement la taille du bundle initial.
+
+La seconde version utilise désormais `React.lazy` et `Suspense` afin de charger certaines pages uniquement lorsqu'elles sont réellement nécessaires.
+
+Cette technique de découpage du code permet de :
+
+* réduire le temps de chargement initial
+* diminuer la quantité de JavaScript téléchargée
+* améliorer les scores de performance
+* offrir une expérience plus fluide à l'utilisateur.
+
+<div class="card">
+
+![Code splitting](src/assets/lazy-loading-placeholder.webp)
+
+*Figure X – Illustration du chargement différé des pages.*
+
+</div>
+
+---
 
 ## 3.4 Refonte graphique
 
-Une partie importante de la refonte a consisté à remplacer plusieurs ressources PNG par des équivalents SVG afin de réduire le poids des pages tout en améliorant la qualité visuelle.
+La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
+
+Plusieurs éléments graphiques ont été redessinés et certaines ressources PNG ont été remplacées par des équivalents SVG. Cette démarche permet de réduire significativement le poids des ressources tout en améliorant leur qualité d'affichage sur les écrans haute définition.
+
+Parallèlement, plusieurs composants ont été entièrement repensés afin d'offrir une interface plus cohérente et plus homogène.
+
+<div class="card">
+
+![Ancien et nouveau design](src/assets/redesign-comparison-placeholder.webp)
+
+*Figure X – Comparaison entre certains composants avant et après la refonte.*
+
+</div>
+
+---
 
 ## 3.5 PixiJS
 
-Le système d'arrière-plan du site a été entièrement repensé grâce à PixiJS.
+Le système d'arrière-plan du site a été entièrement réécrit à l'aide de PixiJS.
+
+Cette bibliothèque permet de s'appuyer sur l'accélération matérielle du navigateur afin de produire des animations plus fluides et moins coûteuses en ressources.
+
+L'utilisation de PixiJS a également été l'occasion d'expérimenter de nouvelles technologies et d'approfondir notre compréhension du rendu graphique dans un environnement web.
+
+<div class="card">
+
+![Background PixiJS](src/assets/pixijs-background-placeholder.webp)
+
+*Figure X – Nouvel arrière-plan développé avec PixiJS.*
+
+</div>
+
+---
 
 ## 3.6 Nouvelle couche API Frontend
+
+L'un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.
+
+Dans la première version, plusieurs composants réalisaient directement leurs appels réseau, mélangeant parfois logique métier, gestion des erreurs et rendu visuel.
+
+La seconde version introduit une véritable couche d'abstraction composée :
+
+* de hooks métiers
+* de services d'accès aux données
+* de modèles de données partagés.
+
+Cette architecture permet d'obtenir un code plus lisible, plus facilement testable et beaucoup plus simple à maintenir.
+
+Elle facilite également l'écriture de tests automatisés et réduit fortement le couplage entre l'interface utilisateur et l'API.
+
+---
+
+## 3.7 Tests automatisés
+
+La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait.
+
+Afin de sécuriser davantage le développement, nous avons intégré Playwright et mis en place plusieurs scénarios automatisés couvrant les fonctionnalités essentielles du site.
+
+Les tests permettent notamment de vérifier :
+
+* l'authentification
+* la navigation
+* la gestion du panier
+* la wishlist
+* l'historique d'achats
+* certains parcours utilisateurs critiques.
+
+<div class="card">
+
+![Tests Playwright](src/assets/playwright-placeholder.webp)
+
+*Figure X – Exemple d'exécution d'un scénario de tests automatisés.*
+
+</div>
+
+L'introduction de ces tests constitue un véritable gain de temps lors du développement et réduit considérablement le risque de réintroduire d'anciens bugs.
+
+---
+
+## 3.8 Difficultés rencontrées et solutions
+
+La principale difficulté rencontrée durant cette refonte a été de déterminer jusqu'où pousser la reconstruction de l'application. Repartir de zéro impliquait de réimplémenter de nombreuses fonctionnalités déjà existantes, tout en cherchant à améliorer leur qualité.
+
+L'introduction de nouveaux outils, l'optimisation des performances et la réorganisation complète de l'architecture ont également nécessité une importante phase d'apprentissage.
+
+Malgré ces difficultés, cette refonte nous a permis d'acquérir une meilleure compréhension des bonnes pratiques de développement frontend et de construire une base technique beaucoup plus saine pour les futures évolutions de UnlockIt.
+
+
+## 3.X Exemple mermaid
 
 <details class="accordion">
 <summary>Voir le schéma</summary>
@@ -412,16 +874,6 @@ flowchart LR
 
 </details>
 
-Les composants ne réalisent désormais plus directement leurs appels réseau.
-
-## 3.7 Tests automatisés
-
-Playwright a été intégré afin de mettre en place des tests unitaires et des scénarios End-to-End couvrant les fonctionnalités essentielles.
-
-## 3.8 Difficultés rencontrées et solutions
-
-Détailler ici les problèmes rencontrés durant la refonte React.
-
 # 4. Backend
 
 ## 4.1 Migration vers NestJS
@@ -467,11 +919,3 @@ Repository
 ## 5.2 Perspectives
 
 ...
-
----
-
-# Table des matières détaillée
-
-(reprise automatique de toutes les sections du rapport)
-
-</div>

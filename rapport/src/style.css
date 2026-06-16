@@ -1,6 +1,5 @@
 /* ==========================================================
-   UNLOCKIT V2 - RAPPORT QUALITE (THEME CLAIR PRO)
-   Palette fournie par l'utilisateur
+   UNLOCKIT SAE 4.01 - RAPPORT QUALITE (THEME CLAIR PRO)
    ========================================================== */
 
 :root {
@@ -93,7 +92,6 @@ h2 {
 
 h3 {
   color: var(--accent-primary);
-  margin-top: 30px;
   font-weight: 700;
   padding-left: 12px;
 }
@@ -231,6 +229,14 @@ h3 {
   margin: 20px 0;
 }
 
+.card h3,
+.before h3,
+.after h3,
+.note h3,
+.success h3 {
+  margin-top: 0;
+}
+
 /* ==========================================================
    COMPARAISON
    ========================================================== */
@@ -244,12 +250,10 @@ h3 {
 
 .before h3 {
   color: #b91c1c;
-  margin-top: 0;
 }
 
 .after h3 {
   color: #15803d;
-  margin-top: 0;
 }
 
 /* ==========================================================
@@ -311,4 +315,18 @@ th {
     background: var(--accent-tertiary);
     border: 1px solid var(--text-black);
     color: black;
+}
+
+/* ==========================================================
+   CODE
+   ========================================================== */
+
+/* Style inline pour `code` */
+.c {
+  background: #ececec;
+  color: #0149ad !important;
+  padding: 1px 3px;
+  border-radius: 6px;
+  font-family: "Consolas", "Fira Code", "Courier New", monospace;
+  border: 1px solid #d0d0d0;
 }
