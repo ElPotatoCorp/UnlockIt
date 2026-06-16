@@ -8,7 +8,6 @@
 
 ### To create
 - [ ] `ReviewsModule`
-- [ ] `PurchasesModule` (owned games)
 
 ---
 
@@ -40,19 +39,12 @@
 - [ ] `voteReview(userId, reviewId, isHelpful)` — upsert `review_votes`
 - [ ] `removeVote(userId, reviewId)` — delete from `review_votes`
 
-### PurchasesService (owned games)
-- [ ] `getLibrary(userId, page, limit)` — list purchases with game info
-- [ ] `getPurchase(userId, purchaseId)` — single purchase detail
-- [ ] `getProductKey(userId, purchaseId)` — return `product_key`
-- [ ] `ownsGame(userId, gameId)` — boolean check (used by ReviewsService)
-
 ---
 
 ## 7. DTOs & Entities
 
 ### Entities to create (TypeORM)
 
-- [ ] `Purchase` entity
 - [ ] `Review` entity
 - [ ] `ReviewVote` entity
 
