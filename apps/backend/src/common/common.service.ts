@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FindManyOptions, ObjectLiteral, Repository } from 'typeorm';
+import { FindOneOptions, ObjectLiteral, Repository } from 'typeorm';
 import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { PaginatedDto } from './dto/paginated.dto';
 
@@ -20,7 +20,7 @@ export type PaginatedResponseTransform<T, U> =
 export interface PaginatedResponseOptions<
   T extends ObjectLiteral,
   U = T,
-> extends FindManyOptions<T> {
+> extends FindOneOptions<T> {
   transform?: PaginatedResponseTransform<T, U>;
 }
 
@@ -32,10 +32,10 @@ export class CommonService {
     options?: PaginatedResponseOptions<T, U>,
   ): Promise<PaginatedDto<U>> {
     const { page, limit } = paginationQueryDto;
+    const { transform, ...findOptions } = options!;
+
     const [data, total] = await repository.findAndCount({
-      where: options?.where,
-      order: options?.order,
-      relations: options?.relations,
+      ...findOptions,
       skip: (page - 1) * limit,
       take: limit,
     });
@@ -45,11 +45,11 @@ export class CommonService {
     }
 
     let items: U[];
-    if (options?.transform) {
+    if (transform) {
       items =
-        options.transform.each === false
-          ? [options.transform.fn(data)]
-          : data.map(options.transform.fn);
+        transform.each === false
+          ? [transform.fn(data)]
+          : data.map(transform.fn);
     } else {
       items = data as unknown as U[];
     }
