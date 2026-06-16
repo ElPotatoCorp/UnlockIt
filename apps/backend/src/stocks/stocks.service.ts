@@ -47,7 +47,7 @@ export class StocksService {
   }
 
   findAll(id: number, paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.stockRepository,
       paginationQueryDto,
       {

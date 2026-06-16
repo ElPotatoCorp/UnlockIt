@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistEntity } from './entities/wishlist.entity';
 import { In, Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
-import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { GameMapper } from 'src/games/game.mapper';
 
@@ -16,7 +15,7 @@ export class WishlistService {
   ) {}
 
   findAll(userId: string, pagination: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.wishlistRepository,
       pagination,
       {

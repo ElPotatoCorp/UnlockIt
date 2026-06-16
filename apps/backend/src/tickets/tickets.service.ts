@@ -83,7 +83,7 @@ export class TicketsService {
     const ownerFilter: FindOptionsWhere<TicketEntity> =
       user.permission !== null ? {} : { userId: user.sub };
 
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.ticketRepository,
       paginationQueryDto,
       {

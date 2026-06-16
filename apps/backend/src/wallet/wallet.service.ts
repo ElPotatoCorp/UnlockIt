@@ -29,7 +29,7 @@ export class WalletService {
   }
 
   getTransactions(userId: string, paginationQuery: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.walletTransactionRepository,
       paginationQuery,
       {

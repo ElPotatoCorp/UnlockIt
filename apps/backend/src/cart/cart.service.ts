@@ -20,7 +20,7 @@ export class CartService {
   ) {}
 
   get(cartId: string, pagination: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.cartItemRepository,
       pagination,
       {

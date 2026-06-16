@@ -56,7 +56,7 @@ export class UsersService {
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.userRepository,
       paginationQueryDto,
       { transform: { fn: UserMapper.toPublic } },

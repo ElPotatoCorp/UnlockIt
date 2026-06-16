@@ -14,7 +14,6 @@ import {
   Repository,
 } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { SummaryGameDto } from './dto/summary-game.dto';
 import { CommonService } from 'src/common/common.service';
 import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
@@ -27,7 +26,6 @@ import { SearchGameOptionsDto } from './dto/search-game-options.dto';
 import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { WishlistService } from 'src/wishlist/wishlist.service';
-import { GameDetailDto } from './dto/game-detail.dto';
 import { GameMapper } from './game.mapper';
 
 @Injectable()
@@ -107,7 +105,7 @@ export class GamesService {
   ) {
     const { where, order } = this.getBasicSearch(options);
 
-    const res = await this.commonService.getPaginatedResponse(
+    const res = await this.commonService.pagination.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
       { where, order, transform: { fn: GameMapper.toSummary } },
@@ -129,7 +127,7 @@ export class GamesService {
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.gameRepository,
       paginationQueryDto,
       { transform: { fn: GameMapper.toSummary } },

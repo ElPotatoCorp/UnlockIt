@@ -23,7 +23,7 @@ export class PublishersService {
   }
 
   findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.publisherRepository,
       paginationQueryDto,
     );

@@ -5,7 +5,6 @@ import {
   Type,
 } from '@nestjs/common';
 import { PipeTransform } from '@nestjs/common';
-import { InjectDataSource } from '@nestjs/typeorm';
 import {
   DataSource,
   FindOneOptions,
@@ -54,10 +53,9 @@ function buildWhere<T extends ObjectLiteral>(
  */
 export async function entityExists<T extends ObjectLiteral>(
   repository: Repository<T>,
-  fields: (keyof T)[],
-  values: unknown[],
+  where: FindOptionsWhere<T>,
 ): Promise<boolean> {
-  return repository.existsBy(buildWhere(fields, values));
+  return repository.existsBy(where);
 }
 
 /**
@@ -68,16 +66,17 @@ export async function entityExists<T extends ObjectLiteral>(
  */
 export async function fetchEntityOrFail<T extends ObjectLiteral>(
   repository: Repository<T>,
-  fields: (keyof T)[],
-  values: unknown[],
-  options?: Omit<FindOneOptions<T>, 'where'>,
+  options: FindOneOptions<T>,
 ): Promise<T> {
-  const where = buildWhere<T>(fields, values);
-  const entity = await repository.findOne({ where, ...options });
+  const entity = await repository.findOne(options);
 
   if (!entity) {
     throw new NotFoundException(
-      buildNotFoundMessage(repository, fields, values),
+      buildNotFoundMessage(
+        repository, 
+        Object.keys(options.where ?? {}), 
+        Object.values(options.where ?? {})
+      ),
     );
   }
 
@@ -106,11 +105,12 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
 ): Type<PipeTransform> {
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
-    constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
+    constructor(private readonly dataSource: DataSource) { }
 
     async transform(value: unknown, _metadata: ArgumentMetadata): Promise<unknown> {
       const repository = this.dataSource.getRepository(entityClass);
-      const found = await entityExists(repository, [field], [value]);
+      const where = buildWhere<T>([field], [value]);
+      const found = await entityExists(repository, where);
 
       if (!found) {
         throw new NotFoundException(
@@ -154,15 +154,14 @@ export function EntityFetchPipe<T extends ObjectLiteral>(
 ): Type<PipeTransform> {
   @Injectable()
   class EntityFetchMixin implements PipeTransform {
-    constructor(@InjectDataSource() private readonly dataSource: DataSource) { }
+    constructor(private readonly dataSource: DataSource) { }
 
     async transform(value: unknown, _metadata: ArgumentMetadata): Promise<T> {
-      return fetchEntityOrFail(
-        this.dataSource.getRepository(entityClass),
-        [field],
-        [value],
-        options,
-      );
+      const where = buildWhere<T>([field], [value]);
+      return fetchEntityOrFail(this.dataSource.getRepository(entityClass), {
+        where,
+        ...options
+      });
     }
   }
 

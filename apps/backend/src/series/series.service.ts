@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
-import { fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
 import { SeriesMapper } from './series.mapper';
 
 @Injectable()
@@ -36,14 +35,14 @@ export class SeriesService {
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.seriesRepository,
       paginationQueryDto,
     );
   }
 
   async findBySlug(slug: string) {
-    const series = await fetchEntityOrFail(this.seriesRepository, ['slug'], [slug], { relations: { games: true } })
+    const series = await this.commonService.entities.fetchEntityOrFail(this.seriesRepository, { where: { slug }, relations: { games: true } })
     return SeriesMapper.toSeries(series);
   }
 

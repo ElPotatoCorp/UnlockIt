@@ -5,7 +5,6 @@ import { OrderEntity } from './entities/order.entity';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { OrderDetailDto } from './dto/order-detail.dto';
-import { fetchEntityOrFail } from 'src/common/pipes/entity.pipe';
 import { OrderMapper } from './order.mapper';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class OrdersService {
   ) {}
 
   findAll(userId: string, paginationQuery: PaginationQueryDto) {
-    return this.commonService.getPaginatedResponse(
+    return this.commonService.pagination.getPaginatedResponse(
       this.orderRepository,
       paginationQuery,
       {
@@ -29,11 +28,13 @@ export class OrdersService {
   }
 
   async findOne(orderId: string, userId: string): Promise<OrderDetailDto> {
-    const order = await fetchEntityOrFail(
+    const order = await this.commonService.entities.fetchEntityOrFail(
       this.orderRepository,
-      ['id', 'userId'],
-      [orderId, userId],
       {
+        where: {
+          id: orderId,
+          userId,
+        },
         relations: {
           items: {
             game: true,
