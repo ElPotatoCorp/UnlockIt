@@ -101,7 +101,7 @@ const AGE_RATING_MAP: Record<number, EUAgeRating> = {
 // GameFactory
 // ---------------------------------------------------------------------------
 
-export class GameFactory extends Factory<GameEntity, ResolvedGame> {
+export class GameFactory extends Factory<GameEntity> {
   // -------------------------------------------------------------------------
   // Guard: filter out slugs already present in the DB
   // -------------------------------------------------------------------------
@@ -157,33 +157,32 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
     game.supportedLanguages = (json.supportedLanguages as LangCode[]) ?? null;
 
     // --- Platforms ----------------------------------------------------------
-    const platforms = new GamePlatformEntity();
-    platforms.game = game;
-    Object.assign(platforms, json.platforms);
+    game.platforms = new GamePlatformEntity();
+    Object.assign(game.platforms, json.platforms);
 
     // --- Tags ---------------------------------------------------------------
-    const tags = json.tags.map((name) => {
+    game.tags = json.tags.map((name) => {
       const tag = new TagEntity();
       tag.name = name;
       return tag;
     });
 
     // --- Developers ---------------------------------------------------------
-    const developers = json.developers.map((name) => {
+    game.developers = json.developers.map((name) => {
       const dev = new DeveloperEntity();
       dev.name = name;
       return dev;
     });
 
     // --- Publishers ---------------------------------------------------------
-    const publishers = json.publishers.map((name) => {
+    game.publishers = json.publishers.map((name) => {
       const pub = new PublisherEntity();
       pub.name = name;
       return pub;
     });
 
     // --- Media (screenshots only for now) -----------------------------------
-    const media = json.screenshotUrls.map((url) => {
+    game.media = json.screenshotUrls.map((url) => {
       const m = new MediaEntity();
       m.game = game;
       m.url = url;
@@ -191,7 +190,7 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
       return m;
     });
 
-    return { game, platforms, media, tags, developers, publishers };
+    return game;
   }
 
   // -------------------------------------------------------------------------
@@ -234,7 +233,7 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
 
     const resolved = await this.makeMany(count);
 
-    const results: ResolvedGame[] = [];
+    const results: GameEntity[] = [];
     for (const r of resolved) {
       results.push(await this.persist(r));
     }
@@ -246,30 +245,30 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
   // persist : upsert all entities for one game inside a transaction
   // -------------------------------------------------------------------------
 
-  private async persist(resolved: ResolvedGame): Promise<ResolvedGame> {
+  private async persist(game: GameEntity): Promise<GameEntity> {
     const ds = this.datasource!;
 
     return ds.transaction(async (manager) => {
       const savedTags: TagEntity[] = [];
-      for (const t of resolved.tags) {
+      for (const t of game.tags) {
         savedTags.push(await this.upsertByName(manager, TagEntity, t.name));
       }
 
       const savedDevs: DeveloperEntity[] = [];
-      for (const d of resolved.developers) {
+      for (const d of game.developers) {
         savedDevs.push(
           await this.upsertByName(manager, DeveloperEntity, d.name),
         );
       }
 
       const savedPubs: PublisherEntity[] = [];
-      for (const p of resolved.publishers) {
+      for (const p of game.publishers) {
         savedPubs.push(
           await this.upsertByName(manager, PublisherEntity, p.name),
         );
       }
 
-      const savedGame = await manager.save(GameEntity, resolved.game);
+      const savedGame = await manager.save(GameEntity, game);
 
       await manager
         .createQueryBuilder()
@@ -289,30 +288,16 @@ export class GameFactory extends Factory<GameEntity, ResolvedGame> {
         .of(savedGame.id)
         .add(savedPubs.map((p) => p.id));
 
-      resolved.platforms.gameId = savedGame.id;
-      resolved.platforms.game = savedGame;
-      const savedPlatforms = await manager.save(
-        GamePlatformEntity,
-        resolved.platforms,
-      );
-
       const savedMedia = await manager.save(
         MediaEntity,
-        resolved.media.map((m) => ({
+        game.media.map((m) => ({
           ...m,
           game: savedGame,
           gameId: savedGame.id,
         })),
       );
 
-      return {
-        game: savedGame,
-        platforms: savedPlatforms,
-        media: savedMedia,
-        tags: savedTags,
-        developers: savedDevs,
-        publishers: savedPubs,
-      } as ResolvedGame;
+      return game;
     });
   }
 

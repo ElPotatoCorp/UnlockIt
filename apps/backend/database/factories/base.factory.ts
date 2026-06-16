@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { DataSource, EntityTarget } from 'typeorm';
+import { DataSource, DeepPartial, EntityTarget } from 'typeorm';
 
 /**
  * Base Factory class for generating test data with faker
  * Use: const user = userFactory.make(); or userFactory.create() for persistence
  */
-export abstract class Factory<T, U = T> {
+export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
   protected datasource: DataSource | null;
 
   constructor(datasource?: DataSource) {
@@ -55,16 +55,14 @@ export abstract class Factory<T, U = T> {
   /**
    * Create and insert multiple instances
    */
-  async createMany(count: number, overrides: Partial<T> = {}): Promise<U[]> {
+  async createMany(count: number, overrides: Partial<T> = {} ): Promise<U[]> {
     this.assertDatasource();
 
-    const items = (await this.makeMany(count, overrides)) as T;
+    const rawItems = await this.makeMany(count, overrides);
 
-    const resolvedItems = this.datasource!.manager.create(this.entity, items);
+    const items = this.datasource!.manager.create(this.entity, rawItems as DeepPartial<T>);
 
-    return this.datasource!.manager.save(this.entity, resolvedItems) as Promise<
-      U[]
-    >;
+    return this.datasource!.manager.save(this.entity, items) as Promise<U[]>;
   }
 
   /**

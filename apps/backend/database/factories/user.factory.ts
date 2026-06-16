@@ -1,6 +1,7 @@
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Factory } from './base.factory';
 import { EntityTarget } from 'typeorm';
+import { CartEntity } from 'src/cart/entities/cart.entity';
 
 export class UserFactory extends Factory<UserEntity> {
   get entity(): EntityTarget<UserEntity> {
@@ -20,7 +21,8 @@ export class UserFactory extends Factory<UserEntity> {
         ? this.fk.phone.number({ style: 'international' })
         : null,
       bio: this.fk.datatype.boolean() ? this.fk.lorem.paragraph() : null,
-      avatar: null, // Skip image generation to avoid timeout
+      avatar: null, // Skip image generation to avoid timeout,
+      cart: {} as CartEntity,
     };
   }
 }
