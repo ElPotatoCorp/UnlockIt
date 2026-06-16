@@ -213,14 +213,14 @@ export class GamesController {
   }
 
   // --- Platforms ---
-  @GamesControllerDoc.UpsertPlatforms()
+  @GamesControllerDoc.UpdatePlatforms()
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/platforms')
-  upsertPlatforms(
+  updatePlatforms(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Body() dto: UpdatePlatformDto,
   ) {
-    return this.gamesService.upsertPlatforms(gameId, dto);
+    return this.gamesService.updatePlatforms(gameId, dto);
   }
 
   // --- Media ---

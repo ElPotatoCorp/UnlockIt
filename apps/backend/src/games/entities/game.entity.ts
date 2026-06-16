@@ -148,15 +148,14 @@ export class GameEntity implements IGameEntity {
   publishers: PublisherEntity[];
 
   @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
-    cascade: true,
+    cascade: ['insert', 'update'],
     nullable: true,
   })
-  platforms: GamePlatformEntity | null;
+  platforms: GamePlatformEntity;
 
   @OneToMany(() => MediaEntity, (media) => media.game, {
     cascade: ['remove'],
   })
-  @JoinColumn({ name: 'game_id' })
   media: MediaEntity[];
 }
 

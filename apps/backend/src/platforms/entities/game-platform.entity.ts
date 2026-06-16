@@ -8,7 +8,7 @@ import { OneToOne, JoinColumn, Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('game_platforms')
 export class GamePlatformEntity implements IGamePlatformEntity {
-  @PrimaryColumn('bigint', { name: 'game_id' })
+  @PrimaryColumn('int', { name: 'game_id' })
   gameId: number;
 
   @OneToOne(() => GameEntity, { onDelete: 'CASCADE' })

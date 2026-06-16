@@ -351,13 +351,13 @@ export const GamesControllerDoc = {
     ),
 
   // Platforms
-  UpsertPlatforms: () =>
+  UpdatePlatforms: () =>
     applyDecorators(
       ApiAuth(),
       ApiOperation({
         summary: 'Update platform availability for a game',
         description:
-          'Admin only. Partial update - only send the flags you want to change. Creates the platform row if it does not exist yet.',
+          'Admin only. Partial update - only send the flags you want to change.',
       }),
       GAME_ID_PARAM,
       ApiBody({ type: UpdatePlatformDto }),

@@ -34,7 +34,7 @@ export type GameEntity = {
   tags: TagEntity[];
   developers: DeveloperEntity[];
   publishers: PublisherEntity[];
-  platforms: GamePlatformEntity | null;
+  platforms: GamePlatformEntity;
   media: MediaEntity[];
 };
 type GameRelationKeys = 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media';

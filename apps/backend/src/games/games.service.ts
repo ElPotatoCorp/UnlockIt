@@ -44,6 +44,8 @@ export class GamesService {
 
   create(createGameDto: CreateGameDto) {
     const game = this.gameRepository.create(createGameDto);
+    game.platforms = {} as GamePlatformEntity;
+    
     return this.gameRepository.save(game);
   }
 
@@ -275,12 +277,8 @@ export class GamesService {
   }
 
   // --- Platforms ---
-  async upsertPlatforms(gameId: number, dto: UpdatePlatformDto) {
-    // game_platforms row is created here if it doesn't exist yet
-    await this.platformRepository.upsert(
-      { gameId, ...dto },
-      { conflictPaths: ['gameId'], skipUpdateIfNoValuesChanged: true },
-    );
+  async updatePlatforms(gameId: number, dto: UpdatePlatformDto) {
+    await this.platformRepository.update({ gameId }, dto);
   }
 
   // --- Media ---
