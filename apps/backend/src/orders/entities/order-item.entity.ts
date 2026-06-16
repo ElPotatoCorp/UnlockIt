@@ -49,9 +49,6 @@ export class OrderItemEntity implements IOrderItemEntity {
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 
-  /**
-   * This will never be populated because of the soft delete
-   */
   @OneToMany(() => StockEntity, (stock) => stock.orderItem)
   stocks: StockEntity[];
 }
