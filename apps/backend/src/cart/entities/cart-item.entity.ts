@@ -20,7 +20,9 @@ export class CartItemEntity implements ICartItemEntity {
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
-  @ManyToOne(() => CartEntity, (cart) => cart.items, { onDelete: 'CASCADE' })
+  @ManyToOne(() => CartEntity, (cart) => cart.items, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'cart_id' })
   cart: CartEntity;
 

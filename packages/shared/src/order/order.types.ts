@@ -2,7 +2,7 @@ import { OrderStatus } from './order.enums';
 import { GameEntity, SummaryGame } from '../game/game.types';
 import { StockEntity } from '../stock/stock.types';
 import { UserEntity } from '../user/user.types';
-import { WalletTransactionEntity } from '../wallet-transaction/wallet-transaction.types';
+import { WalletTransactionEntity } from '../wallet/wallet.types';
 import { Simplify } from '../utils/types';
 
 export type OrderEntity = {
@@ -14,7 +14,7 @@ export type OrderEntity = {
   reservedAt: Date;
   completedAt: Date | null;
 
-  user: UserEntity;
+  user: UserEntity | null;
   items: OrderItemEntity[];
   walletTransactions: WalletTransactionEntity[];
 };

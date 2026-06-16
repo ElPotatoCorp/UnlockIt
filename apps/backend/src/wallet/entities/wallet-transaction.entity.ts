@@ -21,7 +21,7 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   id: string;
 
   @Column('uuid', { name: 'user_id' })
-  userId: string;
+  userId: string | null;
 
   @Column('uuid', { name: 'order_id', nullable: true })
   orderId: string | null;
@@ -47,7 +47,9 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   // Relations - not loaded unless explicitly requested
   // -------------------------------------------------------
 
-  @ManyToOne(() => UserEntity, (user) => user.walletTransactions)
+  @ManyToOne(() => UserEntity, (user) => user.walletTransactions, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

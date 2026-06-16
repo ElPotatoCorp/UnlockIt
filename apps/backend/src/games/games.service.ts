@@ -169,7 +169,7 @@ export class GamesService {
   }
 
   async setTags(game: GameEntity, tags: TagEntity[]) {
-    const current = await game.tags;
+    const current = game.tags;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -181,7 +181,7 @@ export class GamesService {
   }
 
   async setTagsById(game: GameEntity, tagIds: number[]) {
-    const current = await game.tags;
+    const current = game.tags;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'tags')
@@ -210,7 +210,7 @@ export class GamesService {
   }
 
   async setDevelopers(game: GameEntity, developers: DeveloperEntity[]) {
-    const current = await game.developers;
+    const current = game.developers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -222,7 +222,7 @@ export class GamesService {
   }
 
   async setDevelopersById(game: GameEntity, developerIds: number[]) {
-    const current = await game.developers;
+    const current = game.developers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'developers')
@@ -251,7 +251,7 @@ export class GamesService {
   }
 
   async setPublishers(game: GameEntity, publishers: PublisherEntity[]) {
-    const current = await game.publishers;
+    const current = game.publishers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')
@@ -263,7 +263,7 @@ export class GamesService {
   }
 
   async setPublishersById(game: GameEntity, publisherIds: number[]) {
-    const current = await game.publishers;
+    const current = game.publishers;
     await this.gameRepository
       .createQueryBuilder()
       .relation(GameEntity, 'publishers')

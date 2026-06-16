@@ -1,10 +1,10 @@
-import { WalletTransactionType } from './wallet-transaction.enums';
+import { WalletTransactionType } from './wallet.enums';
 import { UserEntity } from '../user/user.types';
 import { OrderEntity } from '../order/order.types';
 
 export type WalletTransactionEntity = {
   id: string;
-  userId: string;
+  userId: string | null;
   orderId: string | null;
   /**
    * Positive = credit (TOP_UP, REFUND)

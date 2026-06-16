@@ -154,7 +154,7 @@ export class GameEntity implements IGameEntity {
   platforms: GamePlatformEntity | null;
 
   @OneToMany(() => MediaEntity, (media) => media.game, {
-    cascade: true,
+    cascade: ['remove'],
   })
   @JoinColumn({ name: 'game_id' })
   media: MediaEntity[];

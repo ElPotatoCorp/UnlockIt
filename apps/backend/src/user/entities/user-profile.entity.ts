@@ -21,7 +21,9 @@ export class UserProfileEntity implements IUserProfileEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.profile)
+  @OneToOne(() => UserEntity, (user) => user.profile, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

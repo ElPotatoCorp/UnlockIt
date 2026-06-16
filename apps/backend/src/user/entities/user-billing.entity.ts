@@ -19,7 +19,9 @@ export class UserBillingEntity implements IUserBillingEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.billing)
+  @OneToOne(() => UserEntity, (user) => user.billing, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

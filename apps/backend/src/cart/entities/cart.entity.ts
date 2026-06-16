@@ -23,7 +23,7 @@ export class CartEntity implements ICartEntity {
   user: UserEntity;
 
   @OneToMany(() => CartItemEntity, (item) => item.cart, {
-    onDelete: 'CASCADE',
+    cascade: true,
   })
   @JoinColumn({ name: 'cart_id' })
   items: CartItemEntity[];

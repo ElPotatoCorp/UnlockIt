@@ -3,7 +3,7 @@ import { EmployeeEntity } from "../employee/employee.types";
 import { OrderEntity } from "../order/order.types";
 import { SessionEntity } from "../session/session.types";
 import { TicketEntity } from "../ticket/ticket.types";
-import { WalletTransactionEntity } from "../wallet-transaction/wallet-transaction.types";
+import { WalletTransactionEntity } from "../wallet/wallet.types";
 import { WishlistEntity } from "../wishlist/wishlist.types";
 
 export type UserEntity = {

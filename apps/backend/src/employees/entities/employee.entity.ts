@@ -18,7 +18,7 @@ export class EmployeeEntity implements IEmployeeEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne(() => UserEntity)
+  @OneToOne(() => UserEntity, (user) => user.employee ,{ onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id' })
   user: UserEntity;
 

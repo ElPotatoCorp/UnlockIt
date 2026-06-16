@@ -72,19 +72,19 @@ export class UserEntity implements IUserEntity {
   // -------------------------------------------------------
 
   @OneToOne(() => EmployeeEntity, (employee) => employee.user, {
-    cascade: ['remove'],
+    cascade: ['insert', 'remove'],
     nullable: true,
   })
   employee: EmployeeEntity | null;
 
   @OneToOne(() => UserProfileEntity, (profile) => profile.user, {
-    cascade: true,
+    cascade: ['insert', 'update'],
     nullable: true,
   })
   profile: UserProfileEntity | null;
 
   @OneToOne(() => UserBillingEntity, (billing) => billing.user, {
-    cascade: true,
+    cascade: ['insert', 'update'],
     nullable: true,
   })
   billing: UserBillingEntity | null;
@@ -99,26 +99,22 @@ export class UserEntity implements IUserEntity {
   })
   tickets: TicketEntity[];
 
-  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user)
+  @OneToMany(() => WishlistEntity, (wishlist) => wishlist.user, {
+    cascade: ['insert', 'remove'],
+  })
   wishlist: WishlistEntity[];
 
   @OneToOne(() => CartEntity, (cart) => cart.user, {
-    cascade: true,
+    cascade: ['insert'],
   })
   cart: CartEntity;
 
-  @OneToMany(
-    () => WalletTransactionEntity,
-    (walletTransaction) => walletTransaction.user,
-    {
-        onDelete: 'SET NULL',
-    },
-  )
-  walletTransactions: WalletTransactionEntity[];
-
-  @OneToMany(() => OrderEntity, (order) => order.user, {
+  @OneToMany(() => WalletTransactionEntity, (walletTransaction) => walletTransaction.user, {
     onDelete: 'SET NULL',
   })
+  walletTransactions: WalletTransactionEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
 
   @BeforeInsert()
