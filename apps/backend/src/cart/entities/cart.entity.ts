@@ -25,7 +25,6 @@ export class CartEntity implements ICartEntity {
   @OneToMany(() => CartItemEntity, (item) => item.cart, {
     cascade: true,
   })
-  @JoinColumn({ name: 'cart_id' })
   items: CartItemEntity[];
 }
 
