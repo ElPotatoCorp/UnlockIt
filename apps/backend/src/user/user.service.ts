@@ -42,7 +42,7 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
-    user.cart = this.cartRepository.create();
+    user.cart = {} as CartEntity;
 
     return this.userRepository.save(user);
   }
