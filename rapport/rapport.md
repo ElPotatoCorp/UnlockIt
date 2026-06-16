@@ -371,19 +371,19 @@ Cette nouvelle organisation permet aujourd'hui de faire évoluer le projet plus 
 
 ### 3.2.1 React Helmet
 
-Lors du développement de la première version de UnlockIt, très peu d’attention avait été portée aux problématiques de référencement naturel. Comme dans la plupart des applications React, l’architecture reposait sur le principe d’une **Single Page Application (SPA)** : un unique fichier **`index.html`** sert de point d’entrée, puis React prend le relais pour générer et mettre à jour l’interface.
+Lors du développement de la première version de UnlockIt, très peu d’attention avait été portée aux problématiques de référencement naturel. Comme dans la plupart des applications React, l’architecture reposait sur le principe d’une **Single Page Application (SPA)** : un unique fichier <code class="c">index.html</code> sert de point d’entrée, puis React prend le relais pour générer et mettre à jour l’interface.
 
 Le fonctionnement suit une chaîne simple :
 
-- **index.html** — contient uniquement la structure minimale et un conteneur <code class="c">\<div id="root"\></code>.
-- **main.tsx** — monte l’application React dans <code class="c">#root</code>.
-- **App.tsx** — constitue le composant racine et gère le routage.
-- **Composants** — chaque page ou section du site est rendue dynamiquement à l’intérieur de <code class="c">App</code>.
+- **index.html :** contient uniquement la structure minimale et un conteneur <code class="c">\<div id="root"\></code>.
+- **main.tsx :** monte l’application React dans <code class="c">#root</code>.
+- **App.tsx :** constitue le composant racine et gère le routage.
+- **Composants :** chaque page ou section du site est rendue dynamiquement à l’intérieur de <code class="c">App</code>.
 
 Dans ce modèle, changer de page ne provoque pas le chargement d'un nouveau document HTML. Seul le contenu affiché à l'écran est modifié par JavaScript, ce qui empêche naturellement chaque page de disposer de ses propres métadonnées.
 
 <details class="accordion">
-<summary>Exemple</summary>
+<summary>Exemple de SPA React</summary>
 
 ```mermaid
 treeView-beta
@@ -530,7 +530,7 @@ Lors des différents audits réalisés avec Lighthouse, nous avons découvert pl
 
 En nous documentant davantage, notamment à l'aide de la documentation officielle et de l'intelligence artificielle, nous avons découvert qu'il s'agissait d'un fichier standard du Web permettant de communiquer certaines informations aux robots d'exploration des moteurs de recherche.
 
-Encore une fois, même si UnlockIt reste un projet académique et n'a pas vocation à être réellement indexé (surtout avec le marché actuel et des géant comme Steam et Instant Gaming, on coulerait instantanément), nous avons souhaité reproduire le fonctionnement d'une application de production en mettant en place ce mécanisme.
+Encore une fois, même si UnlockIt reste un projet académique et n’a pas vocation à être réellement indexé (surtout avec le marché actuel et des géants comme Steam ou Instant Gaming… on ne ferait pas long feu), nous avons tout de même souhaité reproduire le fonctionnement d’une application de production en mettant en place ce fichier.
 
 Le fichier <code class="c">robots.txt</code> est placé dans le dossier <code class="c">public</code> afin d'être directement accessible à l'adresse :
 
