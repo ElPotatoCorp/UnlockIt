@@ -375,10 +375,10 @@ Lors du développement de la première version de UnlockIt, très peu d’attent
 
 Le fonctionnement suit une chaîne simple :
 
-- **index.html** — contient uniquement la structure minimale et un conteneur `<div id="root">`
-- **main.tsx** — monte l’application React dans `#root`.
+- **index.html** — contient uniquement la structure minimale et un conteneur <code class="c">\<div id="root"\></code>.
+- **main.tsx** — monte l’application React dans <code class="c">#root</code>.
 - **App.tsx** — constitue le composant racine et gère le routage.
-- **Composants** — chaque page ou section du site est rendue dynamiquement à l’intérieur de `App`.
+- **Composants** — chaque page ou section du site est rendue dynamiquement à l’intérieur de <code class="c">App</code>.
 
 Dans ce modèle, changer de page ne provoque pas le chargement d'un nouveau document HTML. Seul le contenu affiché à l'écran est modifié par JavaScript, ce qui empêche naturellement chaque page de disposer de ses propres métadonnées.
 
@@ -448,13 +448,13 @@ export default function App() {
 
 En nous intéressant davantage au fonctionnement des moteurs de recherche et aux recommandations fournies par Lighthouse, nous avons constaté que l'absence de métadonnées adaptées à chaque page pénalisait le référencement du site ainsi que le partage de son contenu sur les réseaux sociaux.
 
-Pour répondre à cette problématique, nous avons intégré la bibliothèque **React Helmet Async**, qui permet de modifier dynamiquement le contenu de l'élément `<head>` en fonction de la page actuellement affichée.
+Pour répondre à cette problématique, nous avons intégré la bibliothèque **React Helmet Async**, qui permet de modifier dynamiquement le contenu de l'élément <code class="c">\<head\></code> en fonction de la page actuellement affichée.
 
-Plutôt que de dupliquer les mêmes balises dans chaque composant, nous avons créé un composant réutilisable nommé `UnlockItHelmet`, appliquant le principe DRY (Don't Repeat Yourself).  Celui-ci centralise la gestion :
+Plutôt que de dupliquer les mêmes balises dans chaque composant, nous avons créé un composant réutilisable nommé <code class="c">UnlockItHelmet</code>, appliquant le principe DRY (Don't Repeat Yourself).  Celui-ci centralise la gestion :
 
 * du titre de la page ;
 * de la description ;
-* des balises `OpenGraph` ;
+* des balises <code class="c">OpenGraph</code> ;
 * des métadonnées Twitter ;
 * de l'URL canonique ;
 * des consignes d'indexation.
@@ -488,7 +488,7 @@ Plutôt que de dupliquer les mêmes balises dans chaque composant, nous avons cr
 
 </details>
 
-L'approche devient encore plus intéressante pour les pages dynamiques. Une recherche sur le terme `test` génère automatiquement un titre et une description adaptés au contenu affiché.
+L'approche devient encore plus intéressante pour les pages dynamiques. Une recherche sur le terme <code class="c">test</code> génère automatiquement un titre et une description adaptés au contenu affiché.
 
 ```tsx
 <UnlockItHelmet
@@ -684,7 +684,7 @@ L'une des principales optimisations apportées concerne le chargement des pages.
 
 Dans la première version du projet, une partie importante du code JavaScript était chargée dès l'ouverture du site. Cette approche augmentait inutilement la taille du bundle initial.
 
-La seconde version utilise désormais `React.lazy` et `Suspense` afin de charger certaines pages uniquement lorsqu'elles sont réellement nécessaires.
+La seconde version utilise désormais <code class="c">React.lazy</code> et <code class="c">Suspense</code> afin de charger certaines pages uniquement lorsqu'elles sont réellement nécessaires.
 
 Cette technique de découpage du code permet de :
 
