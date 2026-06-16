@@ -36,6 +36,7 @@ import { StocksModule } from './stocks/stocks.module';
 import { OrdersModule } from './orders/orders.module';
 import { WalletModule } from './wallet/wallet.module';
 import { CheckoutModule } from './checkout/checkout.module';
+import { PurchasesModule } from './purchases/purchases.module';
 
 @Module({
   imports: [
@@ -107,6 +108,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     OrdersModule,
     WalletModule,
     CheckoutModule,
+    PurchasesModule,
   ],
   controllers: [AppController],
   providers: [

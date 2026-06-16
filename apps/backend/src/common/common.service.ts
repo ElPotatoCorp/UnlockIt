@@ -70,9 +70,9 @@ export class CommonService {
 
     async entityExists<T extends ObjectLiteral>(
       repository: Repository<T>,
-      where: FindOptionsWhere<T>,
+      options: FindOneOptions<T>,
     ): Promise<boolean> {
-      return entityExists(repository, where);
+      return entityExists(repository, options);
     },
   }
 }

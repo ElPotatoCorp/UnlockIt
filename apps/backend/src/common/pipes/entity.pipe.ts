@@ -53,9 +53,9 @@ function buildWhere<T extends ObjectLiteral>(
  */
 export async function entityExists<T extends ObjectLiteral>(
   repository: Repository<T>,
-  where: FindOptionsWhere<T>,
+  options: FindOneOptions<T>,
 ): Promise<boolean> {
-  return repository.existsBy(where);
+  return repository.exists(options);
 }
 
 /**

@@ -30,11 +30,13 @@ export * from "./wishlist/wishlist.types"
 
 export * from "./stock/stock.types"
 
+export * from "./wallet-transaction/wallet-transaction.types"
+export * from "./wallet-transaction/wallet-transaction.enums"
+
 export * from "./order/order.types"
 export * from "./order/order.enums"
 
-export * from "./wallet-transaction/wallet-transaction.types"
-export * from "./wallet-transaction/wallet-transaction.enums"
+export * from "./purchase/purchase.types"
 
 export * from "./utils/slug.formatter"
 export * from "./utils/types"
