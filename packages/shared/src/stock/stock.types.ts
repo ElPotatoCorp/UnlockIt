@@ -6,7 +6,7 @@ export type StockEntity = {
   productKey: string;
   gameId: number;
   orderId: string | null;
-  usedAt: Date | null;
+  soldAt: Date | null;
 
   game: GameEntity;
   orderItem: OrderItemEntity | null;

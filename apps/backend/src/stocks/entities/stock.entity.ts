@@ -12,7 +12,7 @@ import { OrderItemEntity } from 'src/orders/entities/order-item.entity';
 import { ExactData, StockEntity as IStockEntity } from '@unlockit/shared';
 
 @Entity('stocks')
-@Index('idx_soft_delete', ['usedAt'])
+@Index('idx_soft_delete', ['soldAt'])
 export class StockEntity implements IStockEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
@@ -32,8 +32,8 @@ export class StockEntity implements IStockEntity {
   orderId: string | null;
 
   /** Soft-delete timestamp. Non-null = key has been delivered (sold). */
-  @DeleteDateColumn({ name: 'used_at', nullable: true })
-  usedAt: Date | null;
+  @DeleteDateColumn({ type: 'timestamptz', name: 'sold_at', nullable: true })
+  soldAt: Date | null;
 
   // -------------------------------------------------------
   // Relations - lazy
