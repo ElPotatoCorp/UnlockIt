@@ -4,38 +4,11 @@
 
 ---
 
-## Table of Contents
-
-1. [Database / Schema Changes](#1-database--schema-changes)
-2. [Triggers to Keep](#2-triggers-to-keep)
-3. [Modules to Create](#3-modules-to-create)
-4. [Endpoints](#4-endpoints)
-5. [Services / Business Logic](#5-services--business-logic)
-6. [Guards, Decorators & Middleware](#6-guards-decorators--middleware)
-7. [DTOs & Entities](#7-dtos--entities)
-8. [Misc / Infrastructure](#8-misc--infrastructure)
-
----
-
-## 1. Database / Schema Changes
-
-- [ ] Fix `stocks` trigger for `UPDATE` — current condition `OLD.is_sold IS NULL` is wrong; replace with `OLD.is_sold = FALSE AND NEW.is_sold = TRUE`
-- [ ] Soft-delete stocks instead of hard-delete: add `is_archived BOOLEAN DEFAULT FALSE` to `stocks`, add FK `purchases.product_key → stocks.product_key ON DELETE RESTRICT`, never hard-delete stock rows (they are financial records)
-- [ ] Fix `purchases.discount_applied`: rename to `discount_id`, change type to `BIGINT`, add `FOREIGN KEY (discount_id) REFERENCES discounts(id) ON DELETE SET NULL`
-- [ ] Remove `games.quantity` denormalized column — derive from `COUNT(stocks WHERE is_sold = FALSE AND is_archived = FALSE)` at query time, or keep but add a periodic reconciliation job and fix the trigger bug first
-- [ ] Add rate limiting to auth endpoints — install `@nestjs/throttler` and apply to `/auth/login`, `/auth/register`, `/auth/password-reset/request`
-- [ ] Document the `discounts.condition` JSONB schema (e.g. `{ min_order_amount?: number, min_quantity?: number }`) and enforce it in the DTO layer
-
----
-
 ## 3. Modules to Create
 
 ### To create
 - [ ] `ReviewsModule`
 - [ ] `PurchasesModule` (owned games)
-- [ ] `DiscountsModule` (admin)
-- [ ] `PaymentModule` (Stripe integration via `payment_methods` table)
-- [ ] `BundlesModule` (optional / later)
 
 ---
 
@@ -50,42 +23,6 @@
 | [ ] todo | DELETE | `/api/reviews/:id` | Delete own review |
 | [ ] todo | POST | `/api/reviews/:id/vote` | Vote helpful/not-helpful |
 | [ ] todo | DELETE | `/api/reviews/:id/vote` | Remove vote |
-
----
-
-### Purchase / Checkout — `/api/checkout`
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | POST | `/api/checkout/reserve` | Reserve cart for purchase (checks stock, adjusts quantities) |
-| [ ] todo | POST | `/api/checkout/confirm` | Complete purchase (grant keys, mark stock sold) |
-| [ ] todo | POST | `/api/checkout/cancel` | Cancel pending reservation |
-
----
-
-### Discounts — `/api/discounts` (admin)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/discounts` | List all discounts |
-| [ ] todo | POST | `/api/discounts` | Create a discount |
-| [ ] todo | PATCH | `/api/discounts/:id` | Update a discount |
-| [ ] todo | DELETE | `/api/discounts/:id` | Delete a discount |
-| [ ] todo | POST | `/api/discounts/:id/games/:gameId` | Assign discount to a game |
-| [ ] todo | DELETE | `/api/discounts/:id/games/:gameId` | Remove discount from a game |
-
-
----
-
-### Bundles — `/api/bundles` (optional / later)
-
-| Status | Method | Path | Description |
-|--------|--------|------|-------------|
-| [ ] todo | GET | `/api/bundles` | List bundles |
-| [ ] todo | GET | `/api/bundles/:id` | Get bundle details |
-| [ ] todo | POST | `/api/bundles` | Create bundle (admin) |
-| [ ] todo | PATCH | `/api/bundles/:id` | Update bundle (admin) |
-| [ ] todo | DELETE | `/api/bundles/:id` | Delete bundle (admin) |
 
 ---
 
@@ -109,44 +46,13 @@
 - [ ] `getProductKey(userId, purchaseId)` — return `product_key`
 - [ ] `ownsGame(userId, gameId)` — boolean check (used by ReviewsService)
 
-### CheckoutService
-- [ ] `reserveCart(cartId)` — mirror `reserve_cart_for_purchase` procedure logic in TypeScript:
-  - check cart exists and not reserved
-  - for each item, count unsold stock; remove/reduce if insufficient
-  - if modified, return early with flag and new total
-  - otherwise update cart `is_reserved = true, transaction_status = 'pending'` (trigger deducts quantities)
-- [ ] `completePurchase(userId, cartId, paymentMethodId?)` — mirror `complete_purchase_transaction`:
-  - validate cart is reserved + pending
-  - for each item, lock unsold stock rows (FOR UPDATE SKIP LOCKED)
-  - insert `purchases` rows
-  - mark `stocks.is_sold = true`
-  - update cart `transaction_status = 'completed'`, clear `carts_games`, unreserve
-- [ ] `cancelReservation(cartId)` — unreserve cart (trigger restores quantities)
-- [ ] `cleanupExpiredReservations(timeoutMinutes)` — scheduled job, cancel all carts reserved > N minutes ago
-
-### DiscountsService (admin)
-- [ ] `findAll()` — list all discounts
-- [ ] `create(dto)` — insert discount
-- [ ] `update(id, dto)` — partial update
-- [ ] `remove(id)` — delete
-- [ ] `assignToGame(discountId, gameId, scope)` — insert `games_discounts`
-- [ ] `removeFromGame(discountId, gameId)` — delete
-- [ ] `computeEffectivePrice(gameId, discountId?)` — replicate `GetEffectivePrice` logic in TS
-
 ---
 
 ## 7. DTOs & Entities
 
 ### Entities to create (TypeORM)
 
-- [ ] `Bundle` entity + `BundleGame` junction
-- [ ] `Discount` entity
-- [ ] `GameDiscount` entity
-- [ ] `Cart` entity
-- [ ] `CartGame` entity
 - [ ] `Purchase` entity
-- [ ] `PaymentMethod` entity
-- [ ] `SavedPaymentMethod` entity
 - [ ] `Review` entity
 - [ ] `ReviewVote` entity
 
@@ -157,13 +63,6 @@
 - [ ] `UpdateReviewDto` (rating, content?)
 - [ ] `VoteReviewDto` (isHelpful: boolean)
 
-**Checkout**
-- [ ] `ConfirmPurchaseDto` (paymentMethodId?)
-
-**Discounts**
-- [ ] `CreateDiscountDto` (code?, amount, type, condition?, target, expirationDate)
-- [ ] `AssignDiscountDto` (scope: 'public' | 'private')
-
 ---
 
 ## 8. Misc / Infrastructure
@@ -172,10 +71,7 @@
   - `CleanupExpiredReservations` — every 5 minutes, cancel carts reserved > 15 min ago
   - `CleanupOldSessions` — daily, delete sessions where `expires_at < NOW()`
 - [ ] **Swagger / OpenAPI** — wire up all new controllers to the existing doc structure in `src/docs/`
-- [ ] **Error handling** — standardize HTTP error responses (404, 403, 409 conflict for duplicate reviews, etc.)
-- [ ] **Payment integration** — Stripe: create payment intent, save `pm_*` IDs into `payment_methods`, link to `saved_payment_methods`
 - [ ] **Upload — image resizing** — install `sharp`, resize avatar to max 512×512 before saving to disk; prevents image-bomb attacks and reduces storage
 - [ ] **Upload — file deletion reliability** — replace fire-and-forget `unlink` callback with a proper async/await + structured error logging in `UploadService.removeObsoleteFile()`
-- [ ] **Environment config** — ensure all secrets (JWT secret, DB creds, Stripe key) are in `.env` and validated at startup with `@nestjs/config` + Joi schema
 - [ ] **Unit tests** — `.spec.ts` files exist for some modules; fill out tests for all services
 - [ ] **E2E tests** — cover the main purchase flow end-to-end
