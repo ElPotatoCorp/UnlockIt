@@ -51,11 +51,11 @@ export class OrdersService {
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   deleteCancelledOrders() {
     const thirtyDaysLater = new Date();
-    thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
+    thirtyDaysLater.setDate(thirtyDaysLater.getDate() - 30);
     
     this.orderRepository.delete({
       status: OrderStatus.CANCELLED,
-      createdAt: LessThan(thirtyDaysLater)
+      createdAt: LessThan(thirtyDaysLater),
     });
   }
 }
