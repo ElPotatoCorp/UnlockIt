@@ -37,28 +37,25 @@
     <li><a href="#1-introduction">1. Introduction</a></li>
     <li class="lvl2"><a href="#11-présentation-du-projet">1.1 Présentation du projet</a></li>
     <li class="lvl2"><a href="#12-présentation-des-membres">1.2 Présentation des membres</a></li>
-    <li class="lvl2"><a href="#13-objectifs-de-la-refonte">1.3 Objectifs de la refonte</a></li>
-    <li><a href="#2-analyse-de-lancien-projet">2. Analyse de l'ancien projet</a></li>
-    <li class="lvl2"><a href="#21-constats">2.1 Constats</a></li>
-    <li class="lvl2"><a href="#22-avant--après-la-refonte">2.2 Avant / Après la refonte</a></li>
-    <li><a href="#3-frontend">3. Frontend</a></li>
-    <li class="lvl2"><a href="#31-refonte-de-larchitecture-react">3.1 Refonte de l'architecture React</a></li>
-    <li class="lvl2"><a href="#32-référencement-et-indexation">3.2 Référencement et indexation</a></li>
-    <li class="lvl2"><a href="#33-optimisation-des-performances">3.3 Optimisation des performances</a></li>
-    <li class="lvl2"><a href="#34-refonte-graphique">3.4 Refonte graphique</a></li>
-    <li class="lvl2"><a href="#35-pixijs">3.5 PixiJS</a></li>
-    <li class="lvl2"><a href="#36-nouvelle-couche-api-frontend">3.6 Nouvelle couche API Frontend</a></li>
-    <li class="lvl2"><a href="#37-tests-automatisés">3.7 Tests automatisés</a></li>
-    <li class="lvl2"><a href="#38-difficultés-rencontrées-et-solutions">3.8 Difficultés rencontrées et solutions</a></li>
-    <li><a href="#4-backend">4. Backend</a></li>
-    <li class="lvl2"><a href="#41-migration-vers-nestjs">4.1 Migration vers NestJS</a></li>
-    <li class="lvl2"><a href="#42-architecture-modulaire">4.2 Architecture modulaire</a></li>
-    <li class="lvl2"><a href="#43-validation-et-sécurité">4.3 Validation et sécurité</a></li>
-    <li class="lvl2"><a href="#44-maintenabilité">4.4 Maintenabilité</a></li>
-    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
-    <li><a href="#5-conclusion">5. Conclusion</a></li>
-    <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
-    <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
+    <li class="lvl2"><a href="#13-pourquoi-une-refonte-complète-">1.3 Pourquoi une refonte complète ?</a></li>
+    <li class="lvl2"><a href="#14-avertissements-et-déclarations">1.4 Avertissements et déclarations</a></li>
+    <li><a href="#2-frontend">2. Frontend</a></li>
+    <li class="lvl2"><a href="#21-refonte-de-larchitecture-react">2.1 Refonte de l'architecture React</a></li>
+    <li class="lvl2"><a href="#22-référencement-et-indexation">2.2 Référencement et indexation</a></li>
+    <li class="lvl2"><a href="#23-optimisation-des-performances">2.3 Optimisation des performances</a></li>
+    <li class="lvl2"><a href="#24-refonte-graphique">2.4 Refonte graphique</a></li>
+    <li class="lvl2"><a href="#25-nouvelle-couche-api-frontend">2.5 Nouvelle couche API Frontend</a></li>
+    <li class="lvl2"><a href="#26-tests-automatisés">2.6 Tests automatisés</a></li>
+    <li class="lvl2"><a href="#27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#3-backend">3. Backend</a></li>
+    <li class="lvl2"><a href="#31-migration-vers-nestjs">3.1 Migration vers NestJS</a></li>
+    <li class="lvl2"><a href="#32-architecture-modulaire">3.2 Architecture modulaire</a></li>
+    <li class="lvl2"><a href="#33-validation-et-sécurité">3.3 Validation et sécurité</a></li>
+    <li class="lvl2"><a href="#34-maintenabilité">3.4 Maintenabilité</a></li>
+    <li class="lvl2"><a href="#35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#4-conclusion">4. Conclusion</a></li>
+    <li class="lvl2"><a href="#41-bilan">4.1 Bilan</a></li>
+    <li class="lvl2"><a href="#42-perspectives">4.2 Perspectives</a></li>
 </ul>
 
 </div>
@@ -144,6 +141,16 @@ Ces constats nous ont naturellement conduits à envisager une seconde itération
 
 ## 1.2 Présentation des membres
 
+### 1.2.1 Organisation
+
+Notre équipe était composée de deux membres, chacun avec un domaine principal : le frontend pour l’un, le backend pour l’autre. Malgré cette répartition naturelle, notre manière de travailler n’a jamais été cloisonnée. Nous échangions en permanence sur nos avancées, nos idées, nos essais et nos ajustements, et chaque décision importante était discutée ensemble, même lorsqu’elle concernait un domaine attribué à l’autre. Cette communication continue nous a permis de conserver une vision commune du projet et d’assurer une cohérence globale entre toutes ses couches, du design de l’interface jusqu’à la structure de la base de données.
+
+Pour organiser notre travail, nous nous appuyions sur trois outils complémentaires : Git pour le versionnement, Trello pour le suivi des tâches et Discord pour la communication quotidienne. Notre workflow Git était volontairement simple : nous ne travaillions pas avec des branches séparées, car nos fichiers ne se chevauchaient pas et les types étaient centralisés dans un module partagé compilé automatiquement. Cette approche, combinée à une communication fluide, nous a permis d’éviter les conflits et de maintenir un rythme de développement efficace. Nous nous synchronisions régulièrement sur l’avancement des fonctionnalités, en nous attendant mutuellement lorsque l’un avait besoin d’un ajustement côté front ou d’une nouvelle route côté back.
+
+Lors des périodes de télétravail, nous travaillions dans le même salon vocal Discord, ce qui recréait une véritable proximité malgré la distance. Nous développions en direct, partagions nos écrans lorsque nécessaire et prenions même nos pauses ensemble. Cette dynamique a rendu le travail plus agréable et a renforcé notre coordination. Elle a également permis de résoudre rapidement les problèmes, d’ajuster les fonctionnalités au fur et à mesure et de maintenir une cohésion forte tout au long du projet.
+
+### 1.2.2 Les membres
+
 <div class="card">
 
 <a href="https://github.com/Frozen1753" target="_blank">
@@ -220,19 +227,27 @@ L'objectif de cette seconde version n'était donc pas simplement de produire un 
 
 Avant de présenter les changements apportés dans cette nouvelle version, il est nécessaire d'analyser plus en détail les principales limites de UnlockIt (SAÉ 3.01). Cette analyse permettra de comprendre les choix techniques effectués au cours de cette refonte et de justifier les différentes décisions présentées dans la suite de ce rapport.
 
-# 2. Analyse de l'ancien projet
+## 1.4 Avertissements et déclarations
 
-## 2.1 Constats
+### **1.4.1 Utilisation de l’intelligence artificielle**
 
-La première version du projet remplissait correctement son rôle fonctionnel. Néanmoins, son développement s'étant effectué de manière itérative, certaines décisions techniques prises en début de projet ne répondaient plus aux besoins apparus par la suite.
+L’intelligence artificielle n’a été utilisée dans ce projet qu’à des fins ponctuelles et strictement encadrées. Elle a servi principalement à automatiser certaines tâches répétitives, à reformuler ou clarifier certains passages, et surtout à répondre à des questions techniques précises lorsque cela permettait d’éviter de longues recherches documentaires. Les sollicitations de l’IA portaient essentiellement sur des interrogations ciblées du type : « Existe‑t‑il une manière plus propre de faire X en Y ? » ou « Comment aborder tel problème sans passer par telle solution ? ». Dès lors qu’une réponse pouvait être trouvée rapidement dans la documentation officielle, nous privilégions systématiquement cette voie plutôt que l’IA.
 
-Les composants React contenaient parfois à la fois de la logique métier, des appels API et du rendu visuel. Cette situation compliquait la lecture du code et rendait les tests plus difficiles.
+Toutes les suggestions générées ont été systématiquement vérifiées, corrigées ou réécrites par les membres de l’équipe, et aucune partie du code métier, des algorithmes ou des décisions techniques n’a été produite automatiquement sans supervision humaine. Toute erreur restante sera donc authentiquement humaine, probablement due à notre maladresse ou à notre incompétence personnelle.
 
-# 3. Frontend
+### **1.4.2 Images, médias et éléments graphiques**
 
-## 3.1 Refonte de l'architecture React
+L’ensemble des éléments visuels présents dans le projet — images, icônes, illustrations, SVG, animations ou compositions graphiques — a été soit réalisé manuellement, soit récupéré depuis des plateformes proposant des licences autorisant explicitement leur utilisation. Aucun média n’a été intégré sans vérification préalable de ses droits d’usage. Les ressources graphiques externes ont été sélectionnées avec soin afin de respecter les contraintes légales et d’assurer une cohérence esthétique avec l’identité visuelle du projet.
 
-### 3.1.1 Le problème
+### **1.4.3 Ressources externes et données utilisées**
+
+Toutes les données exploitées dans l’application proviennent de sources publiques ou ouvertes. Les informations relatives aux jeux vidéo, par exemple, ont été récupérées via l’API officielle de Steam, qui met ces données à disposition de manière publique. Elles ont ensuite été retraitées, filtrées et enrichies pour améliorer leur qualité et leur pertinence, ce qui explique leur quantité réduite par rapport à la version précédente du projet. De la même manière, les bibliothèques logicielles utilisées dans le code sont exclusivement des solutions publiques, open‑source ou librement accessibles, sélectionnées pour leur fiabilité et leur compatibilité avec les besoins du projet.
+
+# 2. Frontend
+
+## 2.1 Refonte de l'architecture React
+
+### 2.1.1 Le problème
 
 L’un des objectifs majeurs de cette seconde version d’UnlockIt a été d’améliorer et de clarifier l’architecture du frontend. La première version reposait déjà sur une base solide : une structure modulaire, organisée autour de composants réutilisables, de pages fonctionnelles et de dossiers bien séparés. Cette organisation était tout à fait exploitable et scalable, mais elle montrait ses limites à mesure que le projet grandissait.
 
@@ -254,7 +269,7 @@ La refonte n’a donc pas consisté à repartir de zéro, mais à rendre l’arc
 
 L’objectif global était de **lever les ambiguïtés**, d’améliorer la lisibilité et de rendre l’architecture plus intuitive pour toute l’équipe. Cette nouvelle organisation facilite aujourd’hui l’intégration de nouvelles fonctionnalités, limite les risques de confusion et renforce la cohérence du projet sur le long terme.
 
-### 3.1.2 Nouvelle architecture 
+### 2.1.2 Nouvelle architecture 
 
 <div class="before">
 
@@ -360,9 +375,9 @@ treeView-beta
 
 </div>
 
-## 3.2 Référencement et indexation
+## 2.2 Référencement et indexation
 
-### 3.2.1 React Helmet
+### 2.2.1 React Helmet
 
 Lors du développement de la première version de UnlockIt, très peu d’attention avait été portée aux problématiques de référencement naturel. Comme dans la plupart des applications React, l’architecture reposait sur le principe d’une **Single Page Application (SPA)** : un unique fichier <code class="c">index.html</code> sert de point d’entrée, puis React prend le relais pour générer et mettre à jour l’interface.
 
@@ -517,7 +532,7 @@ Au-delà de l'aspect technique, cette démarche nous a permis de mieux comprendr
 
 ---
 
-### 3.2.2 Robots.txt
+### 2.2.2 Robots.txt
 
 Lors des différents audits réalisés avec Lighthouse, nous avons découvert plusieurs recommandations liées au référencement naturel et à l'indexation du site. Parmi celles-ci figurait la présence d'un fichier <code class="c">robots.txt</code>, mécanisme que nous ne connaissions pas avant cette refonte.
 
@@ -577,7 +592,7 @@ Le fichier <code class="c">robots.txt</code> ne garantit pas qu'une page sera in
 
 ---
 
-### 3.2.3 Sitemap XML
+### 2.2.3 Sitemap XML
 
 Si le fichier <code class="c">robots.txt</code> indique aux robots d'exploration où trouver certaines informations, le fichier <code class="c">sitemap.xml</code> leur fournit quant à lui la liste des pages disponibles sur le site ainsi que certaines informations complémentaires concernant leur importance et leur fréquence de mise à jour.
 
@@ -656,7 +671,7 @@ Le sitemap actuel d’UnlockIt ne contient donc que les pages statiques et publi
 Cette réflexion autour du sitemap nous a permis de mieux comprendre les mécanismes d’indexation modernes et de découvrir un aspect du développement web que nous n’avions encore jamais abordé au cours des précédentes SAÉ.  
 Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un excellent exercice pour adopter une démarche plus professionnelle et se rapprocher du fonctionnement réel d’une application web en production.
 
-## 3.3 Optimisation des performances
+## 2.3 Optimisation des performances
 
 L’optimisation des performances a constitué l’un des principaux axes de travail de cette nouvelle version de l’application. Lors du développement de la SAÉ 3.01, notre démarche reposait essentiellement sur une évaluation subjective : tant que l’interface semblait fluide et réactive, nous considérions que les performances étaient satisfaisantes. Avec davantage d’expérience, nous avons compris que cette approche était insuffisante. Une application peut en effet paraître rapide tout en exécutant des traitements inutiles, en chargeant des ressources superflues ou en déclenchant des rendus React non nécessaires.
 
@@ -666,7 +681,7 @@ Les outils utilisés couvrent différents aspects de la performance : certains s
 
 ---
 
-### 3.3.1 Profilage et optimisation du rendu React
+### 2.3.1 Profilage et optimisation du rendu React
 
 Au cours du développement de la seconde version de UnlockIt, nous nous sommes rapidement aperçus qu'il était difficile de savoir précisément quels composants React étaient réaffichés et à quel moment.
 
@@ -676,7 +691,7 @@ Nous avons donc cherché à mieux comprendre le fonctionnement interne de React 
 
 ---
 
-#### 3.3.1.1 React Scan
+#### 2.3.1.1 React Scan
 
 L’outil principal utilisé durant cette phase a été **React Scan**, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent.  
 Son fonctionnement est extrêmement simple : une seule ligne suffit pour l’activer.
@@ -771,7 +786,7 @@ nom-composant/
 
 ---
 
-#### 3.3.1.2 React Developer Tools
+#### 2.3.1.2 React Developer Tools
 
 En complément de React Scan, nous avons utilisé **React Developer Tools**, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox.
 
@@ -793,7 +808,7 @@ React Developer Tools s’est révélé particulièrement utile pour comprendre 
 
 ---
 
-#### 3.3.1.3 React Doctor
+#### 2.3.1.3 React Doctor
 
 Nous avons également étudié l’utilisation de **React Doctor**, un outil plus avancé capable de détecter automatiquement :
 
@@ -807,7 +822,7 @@ Cette phase de veille technologique reste néanmoins intéressante, car elle nou
 
 ---
 
-### 3.3.2 Lighthouse
+### 2.3.2 Lighthouse
 
 Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs :
 
@@ -844,7 +859,7 @@ Les scores fluctuent legerement en fonction de la page et des circonstances de l
 
 ---
 
-### 3.3.3 Firefox Profiler
+### 2.3.3 Firefox Profiler
 
 En complément de Lighthouse, Firefox Profiler a été utilisé afin d'obtenir une vision plus détaillée du comportement de l'application.
 
@@ -859,7 +874,7 @@ Cette analyse a été particulièrement utile lors de l'optimisation de certaine
 
 ---
 
-### 3.3.4 Lazy Loading et Suspense
+### 2.3.4 Lazy Loading et Suspense
 
 L'une des principales optimisations apportées concerne le chargement des pages.
 
@@ -882,34 +897,9 @@ Cette technique de découpage du code permet de :
 
 </div>
 
-
 ---
 
-### 3.3.5 Terser
-
-// TODO parler de terser
-
----
-
-## 3.4 Refonte graphique
-
-### SVGR
-
-La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
-
-Plusieurs éléments graphiques ont été redessinés et certaines ressources PNG ont été remplacées par des équivalents SVG. Cette démarche permet de réduire significativement le poids des ressources tout en améliorant leur qualité d'affichage sur les écrans haute définition.
-
-Parallèlement, plusieurs composants ont été entièrement repensés afin d'offrir une interface plus cohérente et plus homogène.
-
-<div class="card">
-
-![Ancien et nouveau design](src/assets/redesign-comparison-placeholder.webp)
-
-*Figure X – Comparaison entre certains composants avant et après la refonte.*
-
-</div>
-
-### 3.5 PixiJS
+### 2.3.5 PixiJS
 
 Le système d'arrière-plan du site a été entièrement réécrit à l'aide de PixiJS.
 
@@ -927,7 +917,33 @@ L'utilisation de PixiJS a également été l'occasion d'expérimenter de nouvell
 
 ---
 
-## 3.6 Nouvelle couche API Frontend
+### 2.3.6 Terser
+
+// TODO parler de terser
+
+---
+
+## 2.4 Refonte graphique
+
+### SVGR
+
+La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
+
+Plusieurs éléments graphiques ont été redessinés et certaines ressources PNG ont été remplacées par des équivalents SVG. Cette démarche permet de réduire significativement le poids des ressources tout en améliorant leur qualité d'affichage sur les écrans haute définition.
+
+Parallèlement, plusieurs composants ont été entièrement repensés afin d'offrir une interface plus cohérente et plus homogène.
+
+<div class="card">
+
+![Ancien et nouveau design](src/assets/redesign-comparison-placeholder.webp)
+
+*Figure X – Comparaison entre certains composants avant et après la refonte.*
+
+</div>
+
+---
+
+## 2.5 Nouvelle couche API Frontend
 
 L'un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.
 
@@ -1053,45 +1069,6 @@ L'architecture actuelle privilégie la séparation des responsabilités, les per
 
 </div>
 
----
-
-## 3.7 Tests automatisés
-
-La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait.
-
-Afin de sécuriser davantage le développement, nous avons intégré Playwright et mis en place plusieurs scénarios automatisés couvrant les fonctionnalités essentielles du site.
-
-Les tests permettent notamment de vérifier :
-
-* l'authentification
-* la navigation
-* la gestion du panier
-* la wishlist
-* l'historique d'achats
-* certains parcours utilisateurs critiques.
-
-<div class="card">
-
-![Tests Playwright](src/assets/playwright-placeholder.webp)
-
-*Figure X – Exemple d'exécution d'un scénario de tests automatisés.*
-
-</div>
-
-L'introduction de ces tests constitue un véritable gain de temps lors du développement et réduit considérablement le risque de réintroduire d'anciens bugs.
-
----
-
-## 3.8 Difficultés rencontrées et solutions
-
-La principale difficulté rencontrée durant cette refonte a été de déterminer jusqu'où pousser la reconstruction de l'application. Repartir de zéro impliquait de réimplémenter de nombreuses fonctionnalités déjà existantes, tout en cherchant à améliorer leur qualité.
-
-L'introduction de nouveaux outils, l'optimisation des performances et la réorganisation complète de l'architecture ont également nécessité une importante phase d'apprentissage.
-
-Malgré ces difficultés, cette refonte nous a permis d'acquérir une meilleure compréhension des bonnes pratiques de développement frontend et de construire une base technique beaucoup plus saine pour les futures évolutions de UnlockIt.
-
-
-## 3.X Exemple mermaid
 
 <details class="accordion">
 <summary>Voir le schéma</summary>
@@ -1172,13 +1149,50 @@ flowchart LR
 
 </details>
 
-# 4. Backend
+---
 
-## 4.1 Migration vers NestJS
+## 2.6 Tests automatisés
+
+La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait.
+
+Afin de sécuriser davantage le développement, nous avons intégré Playwright et mis en place plusieurs scénarios automatisés couvrant les fonctionnalités essentielles du site.
+
+Les tests permettent notamment de vérifier :
+
+* l'authentification
+* la navigation
+* la gestion du panier
+* la wishlist
+* l'historique d'achats
+* certains parcours utilisateurs critiques.
+
+<div class="card">
+
+![Tests Playwright](src/assets/playwright-placeholder.webp)
+
+*Figure X – Exemple d'exécution d'un scénario de tests automatisés.*
+
+</div>
+
+L'introduction de ces tests constitue un véritable gain de temps lors du développement et réduit considérablement le risque de réintroduire d'anciens bugs.
+
+---
+
+## 2.7 Difficultés rencontrées et solutions
+
+La principale difficulté rencontrée durant cette refonte a été de déterminer jusqu'où pousser la reconstruction de l'application. Repartir de zéro impliquait de réimplémenter de nombreuses fonctionnalités déjà existantes, tout en cherchant à améliorer leur qualité.
+
+L'introduction de nouveaux outils, l'optimisation des performances et la réorganisation complète de l'architecture ont également nécessité une importante phase d'apprentissage.
+
+Malgré ces difficultés, cette refonte nous a permis d'acquérir une meilleure compréhension des bonnes pratiques de développement frontend et de construire une base technique beaucoup plus saine pour les futures évolutions de UnlockIt.
+
+# 3. Backend
+
+## 3.1 Migration vers NestJS
 
 ...
 
-## 4.2 Architecture modulaire
+## 3.2 Architecture modulaire
 
 ```mermaid
 flowchart LR
@@ -1196,15 +1210,15 @@ Repository
 --> PostgreSQL
 ```
 
-## 4.3 Validation et sécurité
+## 3.3 Validation et sécurité
 
 ...
 
-## 4.4 Maintenabilité
+## 3.4 Maintenabilité
 
 ...
 
-## 4.5 Difficultés rencontrées et solutions
+## 3.5 Difficultés rencontrées et solutions
 
 ...
 
