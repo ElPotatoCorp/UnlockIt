@@ -11,13 +11,19 @@ export const RightPanel: FC = () => {
   const { user } = useUser();
 
   const isAuthenticated = Boolean(session && user);
-  const wallet = user?.wallet ?? 0;
+  // const wallet = user?.wallet ?? 0; TODO replace when API layer is done
+  const wallet = 0;
   const profilePic = user?.avatar ?? "";
 
   return (
     <div className={styles.rightPanel}>
       {isAuthenticated && (
-        <Link id="cart" to="/cart" className={styles.imgBasket}>
+        <Link
+          id="cart"
+          to="/cart"
+          className={styles.imgBasket}
+          aria-label="Voir le panier"
+        >
           <div className={styles.cartWrapper}>
             <CartIcon className={styles.cart} size={32} />
           </div>

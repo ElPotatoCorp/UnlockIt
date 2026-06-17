@@ -25,7 +25,7 @@ export const SearchBar: FC = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button type="submit" className={styles.button}>
+      <button type="submit" aria-label="Search" className={styles.button}>
         <SearchIcon size={22} color="white" />
       </button>
     </form>

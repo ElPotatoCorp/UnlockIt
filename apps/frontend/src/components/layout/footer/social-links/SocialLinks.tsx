@@ -54,18 +54,36 @@ type LogoProps = {
 
 export function SocialLinks({ color = "white", size = 42, className }: LogoProps) {
   return (
-    <div className={`${styles.social} ${className}`}>
-      <a href="https://discord.com/login" target="_blank" rel="noopener noreferrer">
+    <div
+      className={`${styles.social} ${className}`}
+      aria-label="Liens vers les réseaux sociaux"
+    >
+      <a
+        href="https://discord.com/login"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ouvrir Discord"
+      >
         <DiscordIcon size={size} color={color} className={styles.icon} />
       </a>
 
-      <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://x.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ouvrir X (anciennement Twitter)"
+      >
         <XIcon size={size} color={color} className={styles.icon} />
       </a>
 
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://www.youtube.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ouvrir YouTube"
+      >
         <YouTubeIcon size={size} color={color} className={styles.icon} />
       </a>
     </div>
   );
-};
+}

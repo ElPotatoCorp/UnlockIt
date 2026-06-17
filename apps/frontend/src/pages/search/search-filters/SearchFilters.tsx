@@ -39,13 +39,15 @@ export const SearchFilters: FC<Props> = ({
     };
 
     return (
-        <aside className={styles.sidebar}>
+        <aside className={styles.sidebar} aria-label="Filtres de recherche">
             <Card className={styles.card}>
                 <h2 className={styles.title}>Filtres</h2>
 
                 <div className={styles.field}>
-                    <label>Trier</label>
+                    <label htmlFor="sort-select">Trier</label>
                     <select
+                        id="sort-select"
+                        aria-label="Choisir l'ordre de tri"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as any)}
                     >
@@ -56,8 +58,10 @@ export const SearchFilters: FC<Props> = ({
                 </div>
 
                 <div className={styles.field}>
-                    <label>Prix min</label>
+                    <label htmlFor="min-price">Prix min</label>
                     <input
+                        id="min-price"
+                        aria-label="Prix minimum"
                         type="number"
                         min={0}
                         value={minPrice}
@@ -66,8 +70,10 @@ export const SearchFilters: FC<Props> = ({
                 </div>
 
                 <div className={styles.field}>
-                    <label>Prix max</label>
+                    <label htmlFor="max-price">Prix max</label>
                     <input
+                        id="max-price"
+                        aria-label="Prix maximum"
                         type="number"
                         min={0}
                         value={maxPrice}

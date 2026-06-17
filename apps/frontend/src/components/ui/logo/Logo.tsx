@@ -194,10 +194,15 @@ export function Logo({ color = "white", size = 64, link, className }: LogoProps)
             </defs>
         </svg>
     );
-        
+
     if (link) {
         return (
-            <Link id="logo" to={link} className={styles.logoWrapper}>
+            <Link
+                id="logo"
+                to={link}
+                className={styles.logoWrapper}
+                aria-label="Aller à l'accueil"
+            >
                 {svg}
             </Link>
         );

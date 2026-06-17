@@ -61,11 +61,14 @@ export const SessionStatusPanel: FC = () => {
   };
 
   const isAuthenticated = Boolean(session && user);
+  // const wallet = user?.wallet ?? 0; TODO replace when API layer is done
+  const wallet = 0;
 
   return (
     <>
       <button
         className={styles.toggleBtn}
+        aria-label="debug-panel"
         onClick={() => setVisible(v => !v)}
       >
         {visible ? "→" : "←"} 
@@ -129,7 +132,7 @@ export const SessionStatusPanel: FC = () => {
                   <p><strong>Username:</strong> <span className={styles.valueBox}>{user?.username}</span></p>
                   <p><strong>Email:</strong> <span className={styles.valueBox}>{user?.email}</span></p>
                   <p><strong>Avatar:</strong> <span className={styles.valueBox}>{user?.avatar ?? "none"}</span></p>
-                  <p><strong>Wallet:</strong> <span className={styles.valueBox}>{user?.wallet.toFixed(2)} €</span></p>
+                  <p><strong>Wallet:</strong> <span className={styles.valueBox}>{wallet.toFixed(2)} €</span></p>
                   <p>
                     <strong>Created At:</strong>{" "}
                     <span className={styles.valueBox}>{user?.createdAt ? new Date(user.createdAt).toLocaleString() : "—"}</span>
