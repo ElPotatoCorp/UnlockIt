@@ -11,6 +11,7 @@ import { PurchaseDto } from './dto/purchase.dto';
 import { PurchaseKeysDto } from './dto/purchase-keys.dto';
 import { PurchaseMapper } from './purchase.mapper';
 import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
+import { ReviewsService } from 'src/reviews/reviews.service';
 
 @Injectable()
 export class PurchasesService {
@@ -19,6 +20,7 @@ export class PurchasesService {
     private readonly orderItemRepository: Repository<OrderItemEntity>,
     @InjectRepository(StockEntity)
     private readonly stockRepository: Repository<StockEntity>,
+    private readonly reviewsService: ReviewsService,
     private readonly commonService: CommonService,
   ) { }
 
@@ -54,7 +56,9 @@ export class PurchasesService {
       relations: { order: true, game: true },
     });
 
-    return PurchaseMapper.toPurchase(item);
+    const review = await this.reviewsService.findOne(userId, gameId);
+
+    return PurchaseMapper.toPurchase(item, review);
   }
 
   async findKeys(

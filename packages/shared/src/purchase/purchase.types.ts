@@ -1,5 +1,5 @@
 import { SummaryGame } from '../game/game.types';
-import { Review, ReviewEntity } from '../review/review.types';
+import { Review } from '../review/review.types';
 import { Simplify } from '../utils/types';
 
 export type PurchaseSummary = {
