@@ -41,22 +41,6 @@
 
 ---
 
-## 7. DTOs & Entities
-
-### Entities to create (TypeORM)
-
-- [ ] `Review` entity
-- [ ] `ReviewVote` entity
-
-### DTOs to create
-
-**Reviews**
-- [ ] `CreateReviewDto` (gameId, rating, content?)
-- [ ] `UpdateReviewDto` (rating, content?)
-- [ ] `VoteReviewDto` (isHelpful: boolean)
-
----
-
 ## 8. Misc / Infrastructure
 
 - [ ] **Scheduled jobs** — install `@nestjs/schedule`, create a `TasksModule` with:
