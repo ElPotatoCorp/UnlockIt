@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Query,
-  Put,
   HttpCode,
   HttpStatus,
   UseGuards,
@@ -136,7 +135,7 @@ export class GamesController {
 
   @GamesControllerDoc.SetTags()
   @MinRole(EmployeeRole.MODERATOR)
-  @Put(':id/tags')
+  @Patch(':id/tags')
   setTags(
     @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { tags: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
@@ -169,7 +168,7 @@ export class GamesController {
 
   @GamesControllerDoc.SetDevelopers()
   @MinRole(EmployeeRole.MODERATOR)
-  @Put(':id/developers')
+  @Patch(':id/developers')
   setDevelopers(
     @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { developers: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
@@ -202,7 +201,7 @@ export class GamesController {
 
   @GamesControllerDoc.SetPublishers()
   @MinRole(EmployeeRole.MODERATOR)
-  @Put(':id/publishers')
+  @Patch(':id/publishers')
   setPublishers(
     @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { publishers: true } })) game: GameEntity,
     @Body() dto: BulkIdsDto,
