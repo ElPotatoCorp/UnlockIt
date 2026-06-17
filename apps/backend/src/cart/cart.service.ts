@@ -19,10 +19,10 @@ export class CartService {
     private readonly commonService: CommonService,
   ) {}
 
-  get(cartId: string, pagination: PaginationQueryDto) {
+  get(cartId: string, paginationQueryDto: PaginationQueryDto) {
     return this.commonService.pagination.getPaginatedResponse(
       this.cartItemRepository,
-      pagination,
+      paginationQueryDto,
       {
         where: { cartId },
         order: { addedAt: 'DESC' },
