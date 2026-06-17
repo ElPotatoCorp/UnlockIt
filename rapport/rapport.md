@@ -362,7 +362,7 @@ treeView-beta
             "main.tsx"
 ```
 
-La structure d'un composant n'a pas réellement changer, sauf que cette fois ci, il n'y a pas de fallback locaux car tout marche bien :
+La structure d'un composant n'a pas réellement changé, sauf que cette fois ci, il n'y a pas de fallback locaux car tout marche bien :
 
 ```mermaid
 treeView-beta
