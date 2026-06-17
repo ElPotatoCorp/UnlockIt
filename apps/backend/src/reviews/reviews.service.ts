@@ -51,7 +51,7 @@ export class ReviewsService {
   }
 
   update(userId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
-    return this.reviewRepository.update({ userId, gameId }, updateReviewDto);
+    return this.reviewRepository.update({ userId, gameId }, { ...updateReviewDto, lastEdited: new Date() });
   }
 
   remove(userId: string, gameId: number) {
