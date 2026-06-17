@@ -53,9 +53,9 @@ export class OrderEntity implements IOrderEntity {
   @Column({ name: 'completed_at', type: 'timestamptz', nullable: true })
   completedAt: Date | null;
 
-  // -------------------------------------------------------
-  // Relations - not loaded unless explicitly requested
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @ManyToOne(() => UserEntity, (user) => user.orders, {
     onDelete: 'SET NULL',

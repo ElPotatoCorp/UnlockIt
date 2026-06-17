@@ -67,9 +67,9 @@ export class UserEntity implements IUserEntity {
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
-  // -------------------------------------------------------
-  // Relations - not loaded unless explicitly requested
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @OneToOne(() => EmployeeEntity, (employee) => employee.user, {
     cascade: ['insert', 'remove'],
