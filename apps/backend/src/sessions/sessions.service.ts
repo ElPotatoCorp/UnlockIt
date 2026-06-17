@@ -48,7 +48,7 @@ export class SessionsService {
   }
 
   @Cron(CronExpression.EVERY_5_MINUTES)
-  deleteAllExpired() {
+  private _deleteAllExpired() {
     this.sessionRepository.delete({ expiresAt: LessThan(new Date()) });
   }
 }
