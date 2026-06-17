@@ -21,8 +21,9 @@ import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
-import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { TicketEntity } from './entities/ticket.entity';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @TicketsControllerDoc.Controller()
 @Controller('tickets')

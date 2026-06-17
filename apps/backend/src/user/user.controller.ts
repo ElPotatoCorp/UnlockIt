@@ -17,15 +17,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UserControllerDoc } from 'src/docs/user/user.controller.doc';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateBillingDto } from './dto/update-billing.dto';
-import { UserProfileDto } from './dto/user-profile.dto';
-import { UserBillingDto } from './dto/user-billing.dto';
 import jwtConfig from 'src/config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
-import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { UserEntity } from './entities/user.entity';
 import { UserMapper } from './user.mapper';
 import { UserProfileEntity } from './entities/user-profile.entity';
 import { UserBillingEntity } from './entities/user-billing.entity';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @UserControllerDoc.Controller()
 @Controller('user')

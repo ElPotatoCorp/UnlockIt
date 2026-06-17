@@ -16,8 +16,8 @@ import { DeveloperEntity } from './entities/developer.entity';
 import { DevelopersControllerDoc } from 'src/docs/developers/developers.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
-import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
-import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { DuplicatedEntryPipe } from 'src/common/entities/pipes/duplicated-entry.pipe';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @DevelopersControllerDoc.Controller()
 @Controller('developers')

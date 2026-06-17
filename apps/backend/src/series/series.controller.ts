@@ -16,12 +16,13 @@ import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
-import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { SeriesEntity } from './entities/series.entity';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 import { SeriesControllerDoc } from 'src/docs/series/series.controller.doc';
-import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { DuplicatedEntryPipe } from 'src/common/entities/pipes/duplicated-entry.pipe';
 import { SeriesMapper } from './series.mapper';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @Controller('series')
 export class SeriesController {

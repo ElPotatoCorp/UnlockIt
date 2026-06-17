@@ -16,8 +16,8 @@ import {
 } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
-import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
-import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { DuplicatedEntryPipe } from 'src/common/entities/pipes/duplicated-entry.pipe';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @PublishersControllerDoc.Controller()
 @Controller('publishers')

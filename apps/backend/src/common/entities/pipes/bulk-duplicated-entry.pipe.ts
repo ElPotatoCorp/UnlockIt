@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, In, ObjectLiteral, Repository } from 'typeorm';
-import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
+import { DuplicatedEntryException } from '../../dto/duplicated-entry.dto';
 
 /**
  * Checks an array of values against a single unique column in one query.
@@ -17,7 +17,7 @@ import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
  * @param values     - The array of values to check.
  * @param column     - The unique column on the entity to check against.
  */
-export async function bulkDuplicatedEntry<T extends ObjectLiteral>(
+export async function manyFailIfDuplicated<T extends ObjectLiteral>(
   repository: Repository<T>,
   values: unknown[],
   column: keyof T,
@@ -47,7 +47,7 @@ export async function bulkDuplicatedEntry<T extends ObjectLiteral>(
 }
 
 /**
- * Pipe wrapper around {@link bulkDuplicatedEntry} for declarative use.
+ * Pipe wrapper around {@link manyFailIfDuplicated} for declarative use.
  *
  * Usage:
  *   `@Body(BulkDuplicatedEntryPipe(StockEntity, 'productKey', 'productKeys'))`
@@ -74,7 +74,7 @@ export function BulkDuplicatedEntryPipe<T extends ObjectLiteral>(
         return value;
       }
 
-      await bulkDuplicatedEntry(
+      await manyFailIfDuplicated(
         this.dataSource.getRepository(entity),
         incoming,
         column,

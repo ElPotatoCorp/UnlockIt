@@ -24,12 +24,12 @@ import { ConfigService, type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import jwtConfig from '../config/jwt.config';
-import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
+import { DuplicatedEntryPipe } from 'src/common/entities/pipes/duplicated-entry.pipe';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { TicketsService } from 'src/tickets/tickets.service';
 import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 
 @AuthControllerDoc.Controller()

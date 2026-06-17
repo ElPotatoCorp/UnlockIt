@@ -20,7 +20,7 @@ import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.d
 import { Public } from 'src/auth/decorators/public.decorator';
 import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
 import { GameEntity } from './entities/game.entity';
-import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
@@ -34,8 +34,9 @@ import { SearchBodyDto } from './dto/search-game-options.dto';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { JwtAuthOptionalGuard } from 'src/auth/guards/jwt-auth-optional.guard';
 import { User } from 'src/user/decorators/user.decorator';
-import { BulkDuplicatedEntryPipe } from 'src/common/pipes/bulk-duplicated-entry.pipe';
+import { BulkDuplicatedEntryPipe } from 'src/common/entities/pipes/bulk-duplicated-entry.pipe';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @GamesControllerDoc.Controller()
 @Controller('games')

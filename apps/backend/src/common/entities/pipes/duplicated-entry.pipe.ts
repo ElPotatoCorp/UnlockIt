@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, ObjectLiteral, Repository } from 'typeorm';
-import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
+import { DuplicatedEntryException } from '../../dto/duplicated-entry.dto';
 
 /**
  * Checks a single value against a single unique column in one query.
@@ -17,7 +17,7 @@ import { DuplicatedEntryException } from '../dto/duplicated-entry.dto';
  * @param values       - The array of values to check.
  * @param uniqueFields - The unique columns on the entity to check against.
  */
-export async function duplicatedEntryPipe<T extends ObjectLiteral>(
+export async function failIfDuplicated<T extends ObjectLiteral>(
   repository: Repository<T>,
   value: any,
   ...uniqueFields: (keyof T)[]
@@ -47,7 +47,7 @@ export async function duplicatedEntryPipe<T extends ObjectLiteral>(
 }
 
 /**
- * Pipe wrapper around {@link duplicatedEntryPipe} for declarative use.
+ * Pipe wrapper around {@link failIfDuplicated} for declarative use.
  *
  * Usage:
  *   @Body(DuplicatedEntryPipe(UserEntity, 'email', 'username'))
@@ -64,7 +64,7 @@ export function DuplicatedEntryPipe<T extends ObjectLiteral>(
     constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
     async transform(value: any, _metadata: ArgumentMetadata): Promise<any> {
-      await duplicatedEntryPipe(
+      await failIfDuplicated(
         this.dataSource.getRepository(entity),
         value,
         ...uniqueFields,

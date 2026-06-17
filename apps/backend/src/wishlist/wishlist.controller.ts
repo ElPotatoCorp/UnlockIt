@@ -9,10 +9,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
-import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
+import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 
 @Controller('wishlist')
 export class WishlistController {

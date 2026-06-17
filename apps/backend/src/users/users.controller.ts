@@ -9,7 +9,7 @@ import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
-import { EntityFetchPipe } from 'src/common/pipes/entity.pipe';
+import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { UserMapper } from 'src/user/user.mapper';
 
