@@ -330,3 +330,11 @@ th {
   font-size: 16px !important;
   border: 1px solid #d0d0d0;
 }
+
+/* ==========================================================
+   DISTANCE DE SCROLL
+   ========================================================== */
+
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+    scroll-margin-top: 80px;
+}
