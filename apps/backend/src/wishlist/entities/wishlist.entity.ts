@@ -17,6 +17,13 @@ export class WishlistEntity implements IWishlistEntity {
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
+  @CreateDateColumn({ name: 'added_at', type: 'timestamptz' })
+  addedAt: Date;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
   @ManyToOne(() => UserEntity, (user) => user.wishlist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
@@ -26,9 +33,6 @@ export class WishlistEntity implements IWishlistEntity {
   })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
-
-  @CreateDateColumn({ name: 'added_at', type: 'timestamptz' })
-  addedAt: Date;
 }
 
 const _assertExact: ExactData<IWishlistEntity, WishlistEntity> = true;

@@ -26,10 +26,6 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   @Column('uuid', { name: 'order_id', nullable: true })
   orderId: string | null;
 
-  /**
-   * Signed amount. Positive = credit, negative = debit.
-   * A CHECK constraint at the DB level enforces the sign per transaction type.
-   */
   @Column('numeric', {
     precision: 10,
     scale: 2,
@@ -43,9 +39,9 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
-  // -------------------------------------------------------
-  // Relations - not loaded unless explicitly requested
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @ManyToOne(() => UserEntity, (user) => user.walletTransactions, {
     onDelete: 'SET NULL',

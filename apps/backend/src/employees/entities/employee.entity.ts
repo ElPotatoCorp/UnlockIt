@@ -18,10 +18,6 @@ export class EmployeeEntity implements IEmployeeEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne(() => UserEntity, (user) => user.employee ,{ onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'id' })
-  user: UserEntity;
-
   @Column('enum', { enum: EmployeeRole, default: EmployeeRole.SUPPORT })
   role: EmployeeRole;
 
@@ -34,6 +30,14 @@ export class EmployeeEntity implements IEmployeeEntity {
 
   @Column('uuid', { name: 'created_by' })
   createdBy: string;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @OneToOne(() => UserEntity, (user) => user.employee ,{ onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'id' })
+  user: UserEntity;
 }
 
 const _assertExact: ExactData<IEmployeeEntity, EmployeeEntity> = true;

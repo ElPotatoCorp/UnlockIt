@@ -55,9 +55,9 @@ export class SessionEntity implements ISessionEntity {
   @Column('boolean', { name: 'flagged', default: false })
   flagged: boolean;
 
-  // -------------------------------------------------------
-  // Relations - not loaded unless explicitly requested
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @ManyToOne(() => UserEntity, (user) => user.sessions, {
     onDelete: 'CASCADE'

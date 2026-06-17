@@ -16,21 +16,9 @@ import { ExactData, CartItemEntity as ICartItemEntity } from '@unlockit/shared';
 export class CartItemEntity implements ICartItemEntity {
   @PrimaryColumn('uuid', { name: 'cart_id' })
   cartId: string;
-
+  
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
-
-  @ManyToOne(() => CartEntity, (cart) => cart.items, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'cart_id' })
-  cart: CartEntity;
-
-  @ManyToOne(() => GameEntity, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'game_id' })
-  game: GameEntity;
 
   @Column('int', { default: 1 })
   quantity: number;
@@ -44,6 +32,22 @@ export class CartItemEntity implements ICartItemEntity {
     default: () => 'NOW()',
   })
   addedAt: Date;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @ManyToOne(() => CartEntity, (cart) => cart.items, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'cart_id' })
+  cart: CartEntity;
+  
+  @ManyToOne(() => GameEntity, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'game_id' })
+  game: GameEntity;
 }
 
 const _assertExact: ExactData<ICartItemEntity, CartItemEntity> = true;

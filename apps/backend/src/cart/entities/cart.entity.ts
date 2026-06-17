@@ -18,6 +18,10 @@ export class CartEntity implements ICartEntity {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 
+  // =====================================================
+  // Relations
+  // =====================================================
+
   @OneToOne(() => UserEntity, (user) => user.cart, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
@@ -26,6 +30,7 @@ export class CartEntity implements ICartEntity {
     cascade: true,
   })
   items: CartItemEntity[];
+
 }
 
 const _assertExact: ExactData<ICartEntity, CartEntity> = true;

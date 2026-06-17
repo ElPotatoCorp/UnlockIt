@@ -21,12 +21,6 @@ export class UserProfileEntity implements IUserProfileEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.profile, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
-
   @UserEntityDoc.FirstName(true)
   @Column('varchar', { name: 'first_name', length: 100, nullable: true })
   firstName: string | null;
@@ -46,6 +40,16 @@ export class UserProfileEntity implements IUserProfileEntity {
   @UserEntityDoc.Newsletter()
   @Column({ default: false })
   newsletter: boolean;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @OneToOne(() => UserEntity, (user) => user.profile, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 }
 
 const _assertExact: ExactData<IUserProfileEntity, UserProfileEntity> = true;

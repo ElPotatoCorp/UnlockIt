@@ -19,12 +19,6 @@ export class UserBillingEntity implements IUserBillingEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @OneToOne(() => UserEntity, (user) => user.billing, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
-
   @UserEntityDoc.FirstName(false)
   @Column('varchar', { name: 'first_name', length: 100 })
   firstName: string;
@@ -52,6 +46,16 @@ export class UserBillingEntity implements IUserBillingEntity {
   @UserEntityDoc.AddressLine2()
   @Column('varchar', { name: 'address_line_2', length: 255, nullable: true })
   addressLine2: string | null;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @OneToOne(() => UserEntity, (user) => user.billing, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 }
 
 const _assertExact: ExactData<IUserBillingEntity, UserBillingEntity> = true;

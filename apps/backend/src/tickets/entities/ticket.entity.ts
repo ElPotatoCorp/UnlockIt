@@ -40,6 +40,10 @@ export class TicketEntity implements ITicketEntity {
   @Column('uuid', { name: 'user_id', nullable: true })
   userId: string | null;
 
+  // =====================================================
+  // Relations
+  // =====================================================
+
   @ManyToOne(() => UserEntity, (user) => user.tickets, {
     nullable: true,
     onDelete: 'SET NULL',

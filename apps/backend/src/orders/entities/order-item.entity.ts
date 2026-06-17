@@ -35,9 +35,9 @@ export class OrderItemEntity implements IOrderItemEntity {
   })
   unitPrice: number;
 
-  // -------------------------------------------------------
-  // Relations - not loaded unless explicitly requested
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @ManyToOne(() => OrderEntity, (order) => order.items, {
     onDelete: 'CASCADE',

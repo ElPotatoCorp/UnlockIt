@@ -35,9 +35,9 @@ export class StockEntity implements IStockEntity {
   @DeleteDateColumn({ type: 'timestamptz', name: 'sold_at', nullable: true })
   soldAt: Date | null;
 
-  // -------------------------------------------------------
-  // Relations - lazy
-  // -------------------------------------------------------
+  // =====================================================
+  // Relations
+  // =====================================================
 
   @ManyToOne(() => GameEntity, {
     onDelete: 'RESTRICT',
@@ -45,10 +45,6 @@ export class StockEntity implements IStockEntity {
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 
-  /**
-   * Composite FK pointing back to the order_items row.
-   * Only set once the order transitions to COMPLETED.
-   */
   @ManyToOne(() => OrderItemEntity, (item) => item.stocks, {
     nullable: true,
     onDelete: 'SET NULL',

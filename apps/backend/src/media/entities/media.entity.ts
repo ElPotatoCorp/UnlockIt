@@ -23,10 +23,6 @@ export class MediaEntity implements IMediaEntity {
   @Column('bigint', { name: 'game_id' })
   gameId: number;
 
-  @ManyToOne(() => GameEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'game_id' })
-  game: GameEntity;
-
   @MediaEntityDoc.Url()
   @Column('varchar', { length: 255 })
   url: string;
@@ -34,6 +30,14 @@ export class MediaEntity implements IMediaEntity {
   @MediaEntityDoc.Type()
   @Column({ type: 'enum', enum: MediaType, default: MediaType.IMAGE })
   type: MediaType;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @ManyToOne(() => GameEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'game_id' })
+  game: GameEntity;
 }
 
 const _assertExact: ExactData<IMediaEntity, MediaEntity> = true;

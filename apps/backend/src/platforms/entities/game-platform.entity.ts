@@ -11,10 +11,6 @@ export class GamePlatformEntity implements IGamePlatformEntity {
   @PrimaryColumn('int', { name: 'game_id' })
   gameId: number;
 
-  @OneToOne(() => GameEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'game_id' })
-  game: GameEntity;
-
   @PlatformEntityDoc.Windows()
   @Column('boolean', { default: false })
   windows: boolean;
@@ -54,6 +50,14 @@ export class GamePlatformEntity implements IGamePlatformEntity {
   @PlatformEntityDoc.XboxSeries()
   @Column('boolean', { name: 'xbox_series', default: false })
   xboxSeries: boolean;
+
+  // =====================================================
+  // Relations
+  // =====================================================
+
+  @OneToOne(() => GameEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'game_id' })
+  game: GameEntity;
 }
 
 const _assertExact: ExactData<IGamePlatformEntity, GamePlatformEntity> = true;
