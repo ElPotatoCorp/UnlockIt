@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../user/entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { PublicUserDto } from '../user/dto/public-user.dto';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { CreateJwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
