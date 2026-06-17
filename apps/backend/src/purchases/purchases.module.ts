@@ -4,11 +4,13 @@ import { PurchasesService } from './purchases.service';
 import { PurchasesController } from './purchases.controller';
 import { OrderItemEntity } from 'src/orders/entities/order-item.entity';
 import { StocksModule } from 'src/stocks/stocks.module';
+import { ReviewsModule } from 'src/reviews/reviews.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderItemEntity]),
     StocksModule,
+    ReviewsModule,
   ],
   controllers: [PurchasesController],
   providers: [PurchasesService],
