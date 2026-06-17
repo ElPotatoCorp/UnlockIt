@@ -48,7 +48,7 @@ export class OrderEntity implements IOrderEntity {
   amountPaidStripe: number;
 
   @CreateDateColumn({ name: 'reserved_at', type: 'timestamptz' })
-  reservedAt: Date;
+  createdAt: Date;
 
   @Column({ name: 'completed_at', type: 'timestamptz', nullable: true })
   completedAt: Date | null;

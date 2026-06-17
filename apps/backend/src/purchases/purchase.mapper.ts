@@ -13,7 +13,7 @@ export class PurchaseMapper {
     dto.game = GameMapper.toSummary(item.game);
     dto.unitPrice = item.unitPrice;
     dto.quantity = item.quantity;
-    dto.orderedAt = item.order.reservedAt;
+    dto.orderedAt = item.order.createdAt;
     dto.review = null;
 
     return dto;
@@ -26,7 +26,7 @@ export class PurchaseMapper {
     dto.game = GameMapper.toSummary(item.game);
     dto.unitPrice = item.unitPrice;
     dto.quantity = item.quantity;
-    dto.orderedAt = item.order.reservedAt;
+    dto.orderedAt = item.order.createdAt;
 
     return dto;
   }

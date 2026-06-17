@@ -6,7 +6,7 @@ export class OrderDetailDto implements Order {
   status: OrderStatus;
   amountPaidWallet: number;
   amountPaidStripe: number;
-  reservedAt: Date;
+  createdAt: Date;
   completedAt: Date | null;
   items: OrderItemDto[];
 }

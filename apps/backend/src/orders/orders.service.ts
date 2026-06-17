@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { OrderEntity } from './entities/order.entity';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { OrderDetailDto } from './dto/order-detail.dto';
 import { OrderMapper } from './order.mapper';
+import { OrderStatus } from '@unlockit/shared';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class OrdersService {
@@ -21,7 +23,7 @@ export class OrdersService {
       paginationQuery,
       {
         where: { userId },
-        order: { reservedAt: 'DESC' },
+        order: { createdAt: 'DESC' },
         transform: { fn: OrderMapper.toSummary },
       },
     );
@@ -44,5 +46,16 @@ export class OrdersService {
     );
 
     return OrderMapper.toDetail(order);
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_3AM)
+  deleteCancelledOrders() {
+    const thirtyDaysLater = new Date();
+    thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
+    
+    this.orderRepository.delete({
+      status: OrderStatus.CANCELLED,
+      createdAt: LessThan(thirtyDaysLater)
+    });
   }
 }

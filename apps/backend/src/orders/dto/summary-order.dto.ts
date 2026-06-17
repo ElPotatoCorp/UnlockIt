@@ -5,7 +5,7 @@ export class SummaryOrderDto implements OrderSummary {
   status: OrderStatus;
   amountPaidWallet: number;
   amountPaidStripe: number;
-  reservedAt: Date;
+  createdAt: Date;
   completedAt: Date | null;
 }
 

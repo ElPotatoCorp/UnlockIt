@@ -14,7 +14,7 @@ export class OrderMapper {
     dto.status = order.status;
     dto.amountPaidWallet = order.amountPaidWallet;
     dto.amountPaidStripe = order.amountPaidStripe;
-    dto.reservedAt = order.reservedAt;
+    dto.createdAt = order.createdAt;
     dto.completedAt = order.completedAt;
 
     return dto;
@@ -27,7 +27,7 @@ export class OrderMapper {
     dto.status = order.status;
     dto.amountPaidWallet = order.amountPaidWallet;
     dto.amountPaidStripe = order.amountPaidStripe;
-    dto.reservedAt = order.reservedAt;
+    dto.createdAt = order.createdAt;
     dto.completedAt = order.completedAt;
     dto.items = order.items.map(item => this.toItem(item));
 

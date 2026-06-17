@@ -32,7 +32,7 @@ export class PurchasesService {
           order: { userId, status: OrderStatus.COMPLETED },
         },
         order: {
-          order: { reservedAt: 'DESC' },
+          order: { createdAt: 'DESC' },
           game: { name: 'ASC' },
         },
         transform: { fn: PurchaseMapper.toSummary },
