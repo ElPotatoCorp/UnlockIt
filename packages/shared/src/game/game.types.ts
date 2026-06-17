@@ -2,6 +2,7 @@ import { DeveloperEntity, GameDeveloper } from "../developer/developer.types";
 import { GamePlatform, GamePlatformEntity, PartialGamePlatform } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
 import { GamePublisher, PublisherEntity } from "../publisher/publisher.types";
+import { ReviewEntity } from "../review/review.types";
 import { Series, SeriesEntity } from "../series/series.types";
 import { GameTag, TagEntity } from "../tag/tag.types";
 import { NullToOptional, Simplify } from "../utils/types";
@@ -36,8 +37,9 @@ export type GameEntity = {
   publishers: PublisherEntity[];
   platforms: GamePlatformEntity;
   media: MediaEntity[];
+  reviews: ReviewEntity[];
 };
-type GameRelationKeys = 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media';
+type GameRelationKeys = 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media' | 'reviews';
 
 export type CreateGame = Simplify<NullToOptional<Omit<GameEntity, 'id' | GameRelationKeys>> & { platforms?: PartialGamePlatform; }>;
 

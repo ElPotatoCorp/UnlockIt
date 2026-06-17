@@ -11,6 +11,7 @@ import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.e
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
 import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
+import { ReviewEntity } from 'src/reviews/entities/review.entity';
 import { SeriesEntity } from 'src/series/entities/series.entity';
 import { TagEntity } from 'src/tags/entities/tag.entity';
 import {
@@ -149,7 +150,6 @@ export class GameEntity implements IGameEntity {
 
   @OneToOne(() => GamePlatformEntity, (gp) => gp.game, {
     cascade: ['insert', 'update'],
-    nullable: true,
   })
   platforms: GamePlatformEntity;
 
@@ -157,6 +157,9 @@ export class GameEntity implements IGameEntity {
     cascade: ['remove'],
   })
   media: MediaEntity[];
+
+  @OneToMany(() => ReviewEntity, review => review.gameId)
+  reviews: ReviewEntity[];
 }
 
 const _assertExact: ExactData<IGameEntity, GameEntity> = true;

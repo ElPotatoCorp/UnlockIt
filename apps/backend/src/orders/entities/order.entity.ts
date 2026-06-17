@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -15,6 +16,8 @@ import { OrderStatus } from '@unlockit/shared';
 import { ExactData, OrderEntity as IOrderEntity } from '@unlockit/shared';
 
 @Entity('orders')
+@Index(['userId'])
+@Index(['status'])
 export class OrderEntity implements IOrderEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

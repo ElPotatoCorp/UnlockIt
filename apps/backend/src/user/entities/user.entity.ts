@@ -20,6 +20,7 @@ import { WishlistEntity } from 'src/wishlist/entities/wishlist.entity';
 import { CartEntity } from 'src/cart/entities/cart.entity';
 import { WalletTransactionEntity } from 'src/wallet/entities/wallet-transaction.entity';
 import { OrderEntity } from 'src/orders/entities/order.entity';
+import { ReviewEntity } from 'src/reviews/entities/review.entity';
 
 export async function hashPassword(password: string) {
   const salt = await genSalt(12);
@@ -116,6 +117,9 @@ export class UserEntity implements IUserEntity {
 
   @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
+
+  @OneToMany(() => ReviewEntity, (review) => review.user)
+  reviews: ReviewEntity[];
 
   @BeforeInsert()
   async setPassword() {

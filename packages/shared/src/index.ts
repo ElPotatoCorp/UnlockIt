@@ -25,6 +25,7 @@ export * from "./tag/tag.types"
 export * from "./game-platform/game-platform.types"
 export * from "./media/media.types"
 export * from "./media/media.enums"
+export * from "./review/review.types"
 
 export * from "./wishlist/wishlist.types"
 

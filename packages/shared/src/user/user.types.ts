@@ -1,6 +1,7 @@
 import { CartEntity } from "../cart/cart.types";
 import { EmployeeEntity } from "../employee/employee.types";
 import { OrderEntity } from "../order/order.types";
+import { ReviewEntity } from "../review/review.types";
 import { SessionEntity } from "../session/session.types";
 import { TicketEntity } from "../ticket/ticket.types";
 import { WalletTransactionEntity } from "../wallet/wallet.types";
@@ -29,8 +30,9 @@ export type UserEntity = {
   wishlist: WishlistEntity[];
   walletTransactions:  WalletTransactionEntity[];
   orders: OrderEntity[];
+  reviews: ReviewEntity[];
 };
-type UserRelationKeys = 'employee' | 'profile' | 'billing' | 'sessions' | 'tickets' | 'cart' | 'wishlist' | 'walletTransactions' | 'orders';
+type UserRelationKeys = 'employee' | 'profile' | 'billing' | 'sessions' | 'tickets' | 'cart' | 'wishlist' | 'walletTransactions' | 'orders' | 'reviews';
 
 export type UserProfileEntity = {
   userId: string;

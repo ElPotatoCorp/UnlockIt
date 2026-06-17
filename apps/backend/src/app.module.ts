@@ -38,6 +38,7 @@ import { OrdersModule } from './orders/orders.module';
 import { WalletModule } from './wallet/wallet.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { PurchasesModule } from './purchases/purchases.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -113,6 +114,7 @@ import { PurchasesModule } from './purchases/purchases.module';
     WalletModule,
     CheckoutModule,
     PurchasesModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [
