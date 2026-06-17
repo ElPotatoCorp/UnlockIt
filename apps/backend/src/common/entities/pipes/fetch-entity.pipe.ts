@@ -8,6 +8,7 @@ import { PipeTransform } from '@nestjs/common';
 import {
   DataSource,
   FindOneOptions,
+  FindOptionsWhere,
   ObjectLiteral,
   Repository,
 } from 'typeorm';
@@ -30,8 +31,7 @@ export async function fetchEntityOrFail<T extends ObjectLiteral>(
     throw new NotFoundException(
       buildNotFoundMessage(
         repository, 
-        Object.keys(options.where ?? {}), 
-        Object.values(options.where ?? {})
+        options.where as FindOptionsWhere<T> ?? {},
       ),
     );
   }

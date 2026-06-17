@@ -13,7 +13,6 @@ export async function entityExists<T extends ObjectLiteral>(
   return repository.existsBy(options);
 }
 
-
 /**
  * Validates that an entity identified by `field` exists.
  * Passes the **raw param value** through unchanged — no entity is returned.
@@ -41,7 +40,7 @@ export function EntityExistsPipe<T extends ObjectLiteral>(
 
       if (!found) {
         throw new NotFoundException(
-          buildNotFoundMessage(repository, [field], [value]),
+          buildNotFoundMessage(repository, where),
         );
       }
 

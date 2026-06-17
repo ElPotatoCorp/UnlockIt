@@ -10,8 +10,15 @@ export class EntitiesService {
   public entityExists<T extends ObjectLiteral>(
     repository: Repository<T>,
     where: FindOptionsWhere<T>,
+    throwIfNotExists: boolean = false,
   ): Promise<boolean> {
-    return entityExists(repository, where);
+    const exists = entityExists(repository, where);
+
+    if (throwIfNotExists === true) {
+      throw new NotFoundException(buildNotFoundMessage(repository, where));
+    }
+
+    return exists;
   }
 
   public fetchEntityOrFail<T extends ObjectLiteral>(
@@ -39,9 +46,8 @@ export class EntitiesService {
 
   public throwNotFound<T extends ObjectLiteral>(
     repository: Repository<T>,
-    fields: (keyof T)[],
-    values: unknown[],
+    where: FindOptionsWhere<T>,
   ): void {
-    throw new NotFoundException(buildNotFoundMessage(repository, fields, values));
+    throw new NotFoundException(buildNotFoundMessage(repository, where));
   }
 }
