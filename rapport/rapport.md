@@ -231,31 +231,196 @@ Les composants React contenaient parfois à la fois de la logique métier, des a
 
 ## 3.1 Refonte de l'architecture React
 
-L'un des principaux objectifs de cette seconde version de UnlockIt a été de revoir entièrement l'architecture du frontend. La première version du projet avait été développée de manière progressive, au fur et à mesure de l'ajout de nouvelles fonctionnalités et de notre montée en compétences. Bien que fonctionnelle, cette approche avait progressivement conduit à une certaine dette technique.
+L’un des objectifs majeurs de cette seconde version d’UnlockIt a été d’améliorer et de clarifier l’architecture du frontend. La première version reposait déjà sur une base solide : une structure modulaire, organisée autour de composants réutilisables, de pages fonctionnelles et de dossiers bien séparés. Cette organisation était tout à fait exploitable et scalable, mais elle montrait ses limites à mesure que le projet grandissait.
 
-Certains composants regroupaient simultanément l'affichage, la gestion de l'état, les appels API et une partie de la logique métier. Cette organisation rendait le code plus difficile à maintenir et augmentait le risque d'introduire des régressions lors de l'ajout de nouvelles fonctionnalités.
+Le principal défi ne venait donc pas d’un manque de modularité, mais plutôt de la **classification des composants et des fichiers**. Il devenait parfois difficile de déterminer où placer un nouvel élément :  
+- un composant était‑il propre au projet ou suffisamment générique pour être réutilisable ailleurs ?  
+- un hook relevait‑il de la logique métier, d’un helper ou d’un validateur ?  
+- où ranger les refactors liés à l’API sans mélanger logique et présentation ?  
 
-La refonte du frontend a donc été l'occasion de repartir sur des bases plus saines. L'application a été réorganisée autour d'une architecture plus modulaire, privilégiant une séparation claire des responsabilités entre les composants de présentation, les hooks métiers, les services d'accès aux données et les utilitaires partagés.
+Ces zones grises entraînaient des hésitations, des réorganisations ponctuelles et une perte de cohérence dans la structure globale.
 
-```mermaid
-treeView-beta
-    "packages"
-        "mermaid"
-            "src"
-        "parser"
+La refonte a donc consisté non pas à tout reconstruire, mais à **rendre l’architecture plus explicite, plus cohérente et plus prévisible**. Plusieurs dossiers ont été introduits ou repensés pour clarifier les responsabilités :
+
+- <code class="c">**layout/**</code> regroupe désormais tous les composants qui encadrent ou se superposent aux pages (header, footer, background, panneau de debug, etc.). Le layout est ensuite appliqué globalement dans <code class="c">App.tsx</code>, ce qui simplifie la structure des pages.  
+- <code class="c">**common/**</code> accueille les composants génériques et réutilisables indépendamment du projet : systèmes de skeleton, modals, alertes, providers, etc. Ce sont des briques transversales que l’on pourrait réutiliser dans d’autres applications.  
+- <code class="c">**api/**</code> centralise toute la logique liée aux appels API : hooks dédiés, services, stores Zustand, types, mocks, et l’instance Axios. Les composants n’ont plus aucune logique API : ils se contentent d’appeler un hook métier.  
+- <code class="c">**utils/**</code> regroupe tous les refactors logiques qui ne relèvent pas de l’API : formatteurs, validateurs, helpers, hooks transversaux, stores globaux (langue, thème, etc.).
+
+L’objectif n’était donc pas de repartir de zéro, mais de **lever les ambiguïtés**, d’améliorer la lisibilité et de rendre l’architecture plus intuitive pour toute l’équipe. Cette nouvelle organisation facilite aujourd’hui l’intégration de nouvelles fonctionnalités, limite les risques de confusion et renforce la cohérence du projet sur le long terme.
+
+
+<div class="before">
+
+### Router avant
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```tsx
+export function App() {
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Header />
+
+        <main>
+          <Background />
+          <Routes>
+            <Route path="/" element={<Shop />} />
+            ...
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <Footer />
+        <SessionTest />
+      </div>
+    </BrowserRouter>
+  );
+}
 ```
 
-<div class="card">
-
-![Nouvelle architecture frontend](src/assets/frontend-architecture-placeholder.webp)
-
-*Figure X – Nouvelle organisation du frontend après la refonte.*
+</details>
 
 </div>
 
-Cette nouvelle organisation permet aujourd'hui de faire évoluer le projet plus sereinement et facilite grandement l'intégration de nouvelles fonctionnalités.
+<div class="after">
+
+### Router après
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```tsx
+export const Layout = () => {
+    return (
+        <div>
+            <Header />
+
+            <main>
+                <Background />
+                <Outlet />
+                <SessionStatusPanel />
+            </main>
+
+            <Footer />
+        </div>
+    );
+};
+```
+
+```tsx
+export default function App() {
+  return (
+    <...>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<Home />}/>
+            ...
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    <...>
+  );
+}
+```
+
+</details>
+
+</div>
 
 ---
+
+### **Ancienne architecture**
+
+L’ancienne structure, bien que simple, mélangeait souvent logique, UI et données dans les mêmes dossiers :
+
+```
+frontend/
+├── index.html
+├── vite.config.ts
+├── package.json
+├── public/
+│   ├── fonts/
+│   └── images/
+└── src/
+    ├── components/
+    ├── features/
+    ├── pages/
+    ├── styles/
+    ├── App.tsx
+    └── main.tsx
+```
+
+Les composants étaient parfois volumineux, et les dossiers `features/` et `components/` contenaient des responsabilités hétérogènes.  
+Les composants pouvaient ressembler à ceci :
+
+```
+nom-composant/
+├── nom-sous-composant-1/
+├── nom-sous-composant-2/
+├── nomComposant.module.css
+├── NomComposant.tsx
+├── fallback-api-offline-1.json
+└── fallback-api-offline-2.json
+```
+
+---
+
+### **Nouvelle architecture**
+
+La nouvelle organisation clarifie les rôles de chaque dossier et sépare nettement la logique métier, l’UI, les services API et les utilitaires. Elle est pensée pour être **scalable**, c’est‑à‑dire capable de supporter la croissance du projet sans se dégrader.
+
+```
+frontend/
+├── index.html
+├── vite.config.ts
+├── package.json
+├── public/
+│   ├── fonts/
+│   └── media/
+│       ├── img/
+│       ├── vid/
+│       ├── ico/
+│       └── autres/
+└── src/
+    ├── components/
+    │   ├── layout/
+    │   ├── ui/
+    │   ├── common/
+    ├── features/
+    ├── pages/
+    ├── styles/
+    ├── api/
+    │   ├── hook/
+    │   ├── mock/
+    │   ├── services/
+    │   ├── stores/
+    │   ├── types/
+    │   └── axios.instance.ts
+    ├── utils/
+    │   ├── formatters/
+    │   ├── helpers/
+    │   ├── hooks/
+    │   ├── stores/
+    │   └── validators/
+    ├── App.tsx
+    └── main.tsx
+```
+
+Les composants suivent désormais une structure plus simple et plus cohérente :
+
+```
+nom-composant/
+├── nom-sous-composant-1/
+├── nom-sous-composant-2/
+├── nomComposant.module.css
+└── NomComposant.tsx
+```
 
 ## 3.2 Référencement et indexation
 
@@ -555,19 +720,11 @@ Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un exc
 
 ## 3.3 Optimisation des performances
 
-L'amélioration des performances a constitué l'un des principaux axes de travail de cette nouvelle version. Lors du développement de la SAÉ 3.01, les performances de l'application reposaient essentiellement sur notre ressenti utilisateur : si le site semblait fluide et réactif, nous considérions qu'il était suffisamment optimisé.
+L’optimisation des performances a constitué l’un des principaux axes de travail de cette nouvelle version de l’application. Lors du développement de la SAÉ 3.01, notre démarche reposait essentiellement sur une évaluation subjective : tant que l’interface semblait fluide et réactive, nous considérions que les performances étaient satisfaisantes. Avec davantage d’expérience, nous avons compris que cette approche était insuffisante. Une application peut en effet paraître rapide tout en exécutant des traitements inutiles, en chargeant des ressources superflues ou en déclenchant des rendus React non nécessaires.
 
-Avec davantage d'expérience, nous avons réalisé que cette approche était insuffisante. Une application peut sembler performante tout en effectuant de nombreux traitements inutiles, en chargeant des ressources excessives ou en réalisant des rendus superflus.
+Afin d’adopter une démarche plus rigoureuse et professionnelle, nous avons choisi de mesurer avant d’optimiser. Nous avons ainsi intégré plusieurs outils de profilage, d’audit et d’analyse permettant d’identifier objectivement les points de ralentissement, de comprendre leur origine et de valider l’impact réel des optimisations apportées. Cette approche nous a également permis de mieux appréhender le fonctionnement interne de React, du moteur JavaScript et du navigateur, révélant des problématiques que l’on ne perçoit pas sans instrumentation adaptée.
 
-Nous avons donc adopté une démarche plus rigoureuse consistant à mesurer avant d'optimiser. Plusieurs outils de profilage et d'analyse ont été introduits afin d'identifier objectivement les points de ralentissement et de valider l'impact des améliorations apportées.
-
-Ces outils nous ont permis de mieux comprendre le fonctionnement interne de React et du navigateur, mais également de découvrir de nouvelles problématiques liées aux performances d'une application web moderne.
-
-<div class="card">
-
-Figure X – Exemple d'audit de performances réalisé avec Lighthouse.
-
-</div>
+Les outils utilisés couvrent différents aspects de la performance : certains se concentrent sur le rendu React, d’autres analysent le comportement global du navigateur, tandis que des outils comme Lighthouse évaluent la qualité générale de l’application (accessibilité, bonnes pratiques, poids des ressources, etc.). Les sections suivantes détaillent ces outils et expliquent comment ils nous ont guidés dans l’amélioration de l’application.
 
 ---
 
@@ -579,16 +736,12 @@ Dans une application de petite taille, ces rendus supplémentaires ont général
 
 Nous avons donc cherché à mieux comprendre le fonctionnement interne de React en utilisant plusieurs outils de diagnostic et de profilage.
 
+---
+
 #### 3.3.1.1 React Scan
 
-// TODO parler du comportement avec React Router et les Link et mentionner les memo (mais en indiquant qu'on a reparlera juste apres)
-
-L'outil principal utilisé durant cette phase a été **React Scan**.
-
-Celui-ci permet de visualiser directement dans l'interface les composants qui se réaffichent, ainsi que la fréquence de ces rendus.
-
-<details class="accordion">
-<summary>Intégration de React Scan</summary>
+L’outil principal utilisé durant cette phase a été **React Scan**, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent.  
+Son fonctionnement est extrêmement simple : une seule ligne suffit pour l’activer.
 
 ```html
 <!-- placé dans le <head> du index.html -->
@@ -598,60 +751,48 @@ Celui-ci permet de visualiser directement dans l'interface les composants qui se
 </script>
 ```
 
-</details>
+React Scan met en évidence :
+
+- les composants réaffichés ;
+- la fréquence des re-rendus ;
+- les zones de l’interface les plus coûteuses.
 
 <div class="card">
 
-Figure X – Exemple de diagnostic avec React Scan.
+**Figure X – Exemple de diagnostic avec React Scan.**  
+*(placeholder capture d’écran)*
 
 </div>
 
-React Scan nous a permis de mieux comprendre plusieurs concepts fondamentaux de React :
+L’outil nous a permis d’identifier rapidement plusieurs comportements inattendus, notamment liés à **React Router**.
 
-* le cycle de rendu des composants ;
-* la propagation des changements d'état ;
-* l'impact des propriétés ;
-* le coût de certains calculs.
+En effet, nous avons observé que certains composants se réaffichaient lors de simples navigations, même lorsque leur contenu ne dépendait pas de l’URL.  
+Par exemple :
 
-Plus que les optimisations elles-mêmes, cet outil a eu un important intérêt pédagogique en nous permettant de visualiser concrètement le fonctionnement interne de React.
+- les composants contenant des <code class="c">\<Link\></code> étaient réaffichés à cause de la mise à jour du contexte interne de React Router ;
+- certains layouts se réaffichaient alors qu’ils ne dépendaient d’aucune donnée dynamique ;
+- des composants structurels (header, footer…) étaient recalculés inutilement à chaque changement de route.
 
-#### 3.3.1.2 React Developer Tools
+Ces observations nous ont permis de mieux comprendre le fonctionnement interne de React, notamment :
 
-En complément de React Scan, nous avons utilisé **React Developer Tools**, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox.
+- la propagation des changements d’état ;
+- l’impact des contextes globaux ;
+- le coût des composants “structurels” dans l’arbre React ;
+- l’importance de stabiliser les props et les références.
 
-Cet outil nous a permis d'inspecter :
-
-* l'arbre des composants ;
-* les propriétés et états en temps réel ;
-* les contextes React ;
-* certaines causes de re-rendus grâce à l'onglet *Profiler*.
-
-<div class="card">
-
-Figure X – Analyse de l'arbre des composants avec React Developer Tools.
-
-</div>
-
-React Developer Tools s'est révélé particulièrement utile pour comprendre l'impact de certains états globaux et vérifier que certaines optimisations produisaient bien les effets attendus.
-
-#### 3.3.1.3 Optimisations mises en place
-
-Les informations fournies par ces outils nous ont permis d'identifier plusieurs composants qui se réaffichaient alors que leurs propriétés n'avaient pas changé.
-
-Afin de limiter ces rendus inutiles, nous avons introduit plusieurs mécanismes de stabilisation, notamment l'utilisation de `React.memo`.
+Suite à ces diagnostics, nous avons introduit l’utilisation de <code class="c">React.memo()</code> pour stabiliser certains composants structurels comme le header, le footer ou le layout global.
 
 ```tsx
 export const Layout = memo(() => {
-  const sid = useAuthStore((s) => s.session?.sid);
-
   return (
-    <div className={styles.pageWrapper}>
+    <div>
       <Header />
-      <main className={styles.mainContent}>
-        <Background seedOverride={sid} />
+
+      <main>
+        <Background />
         <Outlet />
-        <SessionStatusPanel />
       </main>
+
       <Footer />
     </div>
   );
@@ -660,33 +801,69 @@ export const Layout = memo(() => {
 
 <div class="card">
 
-Figure X – Exemple de composant stabilisé avec `React.memo()`.
+**Figure X – Exemple d'avant-après.**  
+*(placeholder capture d’écran)*
 
 </div>
 
-Cette approche a permis :
+Cette optimisation a permis :
 
-* d'éviter certains re-rendus inutiles ;
-* de réduire le coût de rendu de certaines pages ;
-* d'améliorer la fluidité générale de l'application.
+- d’éviter des re-rendus inutiles ;
+- de réduire le coût global du rendu sur les pages complexes ;
+- d’améliorer la fluidité générale de l’application.
 
-<div class="note">
+Au-delà des optimisations, React Scan nous a surtout permis de **visualiser concrètement** ce qui se passe dans React :
 
-L'utilisation de `memo()` doit rester mesurée. Une mémorisation excessive peut parfois augmenter la complexité du code sans apporter de gain significatif.
+- pourquoi certains composants se réaffichent ;
+- comment les changements d’état se propagent ;
+- quels composants sont réellement coûteux.
+
+Cela nous a aidés à adopter de meilleurs réflexes lors de la conception de nouveaux composants, notamment en limitant les dépendances inutiles et en structurant plus clairement les responsabilités de chaque élément.
+
+Sinder les grand composants aide aussi, par exemple avoir 1 page = 1 composant veut dire que si de la logique TS dois faire apparaitre une dive a une toute petite section de la page alors le composant entier sera rendu. On fais attention a casser un composant en plus petit quand il atteint un grand nombre de ligne ou beaucoup de logique, ca rends ca plus lisible et littérelement plus performant!
+
+```
+nom-composant/
+├── nom-sous-composant-1/         # Décomposition en sous-composants,
+├── nom-sous-composant-2/         # Peuvent eux-même avoir des sous-composants,
+├── nom-sous-composant-n/         # Autant de sous-composants que nécessaire, etc.
+├── nomComposant.module.css       # Style local, grâce aux CSS Modules
+└── NomComposant.tsx              # Composant principal(logique + rendu)
+```
+
+---
+
+#### 3.3.1.2 React Developer Tools
+
+En complément de React Scan, nous avons utilisé **React Developer Tools**, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox.
+
+Cet outil nous a permis d'inspecter :
+
+- l'arbre des composants ;
+- les propriétés et états en temps réel ;
+- les contextes React ;
+- certaines causes de re-rendus grâce à l’onglet *Profiler*.
+
+<div class="card">
+
+**Figure X – Analyse de l'arbre des composants avec React Developer Tools.**  
+*(placeholder capture d’écran)*
 
 </div>
 
-Cette phase de profilage nous a également sensibilisés à l'importance de concevoir des composants ayant des responsabilités limitées et des dépendances clairement identifiées.
+React Developer Tools s’est révélé particulièrement utile pour comprendre l’impact de certains états globaux (comme ceux provenant de notre store) et vérifier que certaines optimisations produisaient bien les effets attendus.
 
-#### 3.3.1.4 React Doctor
+---
 
-Nous avons également étudié l'utilisation de **React Doctor**, un outil plus avancé capable de détecter automatiquement :
+#### 3.3.1.3 React Doctor
 
-* les re-rendus inutiles ;
-* certaines dépendances incorrectes ;
-* des composants potentiellement trop coûteux.
+Nous avons également étudié l’utilisation de **React Doctor**, un outil plus avancé capable de détecter automatiquement :
 
-Cependant, l'outil étant encore relativement récent et parfois instable, nous avons préféré ne pas l'intégrer directement au projet.
+- les re-rendus inutiles ;
+- certaines dépendances incorrectes dans les hooks ;
+- des composants potentiellement trop coûteux.
+
+Cependant, l’outil étant encore relativement récent et parfois instable, nous avons préféré ne pas l’intégrer directement au projet.
 
 Cette phase de veille technologique reste néanmoins intéressante, car elle nous a permis de découvrir de nouveaux outils de diagnostic qui pourront être envisagés dans de futurs projets.
 
@@ -702,6 +879,30 @@ Lighthouse a été utilisé tout au long du développement afin de mesurer plusi
 * bonnes pratiques.
 
 Ces mesures nous ont permis de valider objectivement l'impact de certaines optimisations et de guider les améliorations à apporter au site.
+
+
+<div class="card">
+
+![Score de l'audit Lighthouse](src/assets/lighthouse-audit.png)
+
+Figure X – Exemple d'audit de performances réalisé avec Lighthouse.
+
+Les critiques qui reviennent sont :
+- **Accessibility** : Certains contrastes de couleur ne sont pas respecté
+- **Performance** : Les fonts locales sont trop nested par rapport a ce qu'il est conseillé
+- **Best Practices** : Des warnings sont log, mais ces derniers viennent malheresement d'autre api comme celle de youtube qui nous permet de lire les trailer pour les jeux, on ne peux pas les retirer.
+
+Les scores fluctuent legerement en fonction de la page et des circonstances de l'audit (surtout le Performance), mais en build les score restent généralement toujours au dessus de 95.
+
+<details class="accordion">
+<summary>Les 4 notations </summary>
+
+// TODO expliquer + des exemples
+
+</details>
+
+</div>
+
 
 ---
 
@@ -742,6 +943,13 @@ Cette technique de découpage du code permet de :
 *Figure X – Illustration du chargement différé des pages.*
 
 </div>
+
+
+---
+
+### 3.3.5 Terser
+
+// TODO parler de terser
 
 ---
 
