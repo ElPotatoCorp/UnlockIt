@@ -12,9 +12,11 @@
 
 <div class="cover-page">
     <h1>Rapport SAÉ 4.01 - Qualité</h1>
-    <a href="https://github.com/ElPotatoCorp/UnlockIt" target="_blank">
-        <img src="src/assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
-    </a>
+    <div>
+        <a href="https://github.com/ElPotatoCorp/UnlockIt" target="_blank">
+            <img src="src/assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
+        </a>
+    </div>
     <div class="cover-authors">
         <div class="info-line">Mars – Juin 2026</div>
         <div class="info-line authors">
