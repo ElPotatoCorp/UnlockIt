@@ -227,116 +227,6 @@ La première version du projet remplissait correctement son rôle fonctionnel. N
 
 Les composants React contenaient parfois à la fois de la logique métier, des appels API et du rendu visuel. Cette situation compliquait la lecture du code et rendait les tests plus difficiles.
 
-## 2.2 Avant / Après la refonte
-
-<div class="before">
-
-### Avant
-
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-
-```tsx
-const onSubmit = async (data: FormData) => {
-    setErrorMessage(null);
-    setStatus("idle");
-
-    if (!isStrong) {
-        setStatus("error");
-        setErrorMessage("Le mot de passe ne respecte pas les critères de sécurité");
-        return;
-    }
-
-    try {
-        const payload: any = {
-            username: data.username,
-            password: data.password,
-        };
-
-        if (data.contactType === "email") {
-            payload.email = data.email;
-        } else {
-            payload.phone_wzc = data.phone_wzc;
-            payload.phone_number = data.phone_number;
-        }
-
-        const res = await fetch(`/api/auth/register`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-            setStatus("success");
-            reset();
-            navigate('/');
-            window.location.reload();
-        } else if (res.status === 403) {
-            throw new Error("Un utilisateur avec ces informations existe déjà");
-        } else {
-            throw new Error(payload.message || "Échec de l'inscription");
-        }
-    } catch (err: any) {
-        setStatus("error");
-        setErrorMessage(err.message || "Erreur d'inscription");
-    }
-};
-```
-
-L'architecture de la première version était principalement orientée vers la mise en place rapide des fonctionnalités.
-
-</details>
-
-</div>
-
-<div class="after">
-
-### Après
-
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-
-```tsx
-const onSubmit = async (data: FormData) => {
-    try {
-      await authRegister(data.username, data.email, data.password);
-
-      navigate("/login");
-    } catch (err: any) {
-      setError("root", { message: err.message ?? "Erreur d'inscription." });
-    }
-};
-```
-```ts
-import { api } from "../axios.instance";
-
-export const authService = {
-    {...}
-
-    register: async (username: string, email: string, password: string) => {
-        try {
-            await api.post("/auth/register", { username, email, password });
-        } catch (err: any) {
-            const s = err.response?.status;
-
-            if (s === 400) throw { message: "Données invalides." };
-            if (s === 409) throw { message: "Email ou nom d'utilisateur déjà utilisé." };
-            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
-            throw { message: "Erreur serveur." };
-        }
-    }
-
-    {...}
-};
-```
-
-L'architecture actuelle privilégie la séparation des responsabilités, les performances et la maintenabilité.
-
-</details>
-
-</div>
-
 # 3. Frontend
 
 ## 3.1 Refonte de l'architecture React
@@ -663,8 +553,6 @@ Le sitemap actuel d’UnlockIt ne contient donc que les pages statiques et publi
 Cette réflexion autour du sitemap nous a permis de mieux comprendre les mécanismes d’indexation modernes et de découvrir un aspect du développement web que nous n’avions encore jamais abordé au cours des précédentes SAÉ.  
 Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un excellent exercice pour adopter une démarche plus professionnelle et se rapprocher du fonctionnement réel d’une application web en production.
 
----
-
 ## 3.3 Optimisation des performances
 
 L'amélioration des performances a constitué l'un des principaux axes de travail de cette nouvelle version. Lors du développement de la SAÉ 3.01, les performances de l'application reposaient essentiellement sur notre ressenti utilisateur : si le site semblait fluide et réactif, nous considérions qu'il était suffisamment optimisé.
@@ -681,43 +569,29 @@ Figure X – Exemple d'audit de performances réalisé avec Lighthouse.
 
 </div>
 
-### 3.3.1 React Scan
+---
 
-// TODO parler de React Doctor (pas utilisé mais considéré), React Developper Tools (utilisé en plus du menu F12 classique), des memoised :
-
-export const Layout = memo(() => {
-    const sid = useAuthStore((s) => s.session?.sid);
-
-    return (
-        <div className={styles.pageWrapper}>
-            <Header />
-
-            <main className={styles.mainContent}>
-                <Background seedOverride={sid} />
-                <Outlet />
-                <SessionStatusPanel />
-            </main>
-
-            <Footer />
-        </div>
-    );
-});
-
-//
+### 3.3.1 Profilage et optimisation du rendu React
 
 Au cours du développement de la seconde version de UnlockIt, nous nous sommes rapidement aperçus qu'il était difficile de savoir précisément quels composants React étaient réaffichés et à quel moment.
 
-Dans une application de taille modeste, ces rendus supplémentaires ont généralement peu d'impact. Cependant, lorsque le nombre de composants augmente et que certaines pages deviennent plus complexes, ces réaffichages inutiles peuvent progressivement dégrader les performances de l'application.
+Dans une application de petite taille, ces rendus supplémentaires ont généralement peu d'impact. Cependant, lorsque le nombre de composants augmente et que certaines pages deviennent plus complexes, ces réaffichages inutiles peuvent progressivement dégrader les performances de l'application.
 
-Afin de mieux comprendre le comportement de React, nous avons intégré l'outil React Scan.
+Nous avons donc cherché à mieux comprendre le fonctionnement interne de React en utilisant plusieurs outils de diagnostic et de profilage.
 
-Celui-ci permet de visualiser en temps réel les composants qui se réaffichent et d'identifier ceux qui effectuent des rendus potentiellement inutiles.
+#### 3.3.1.1 React Scan
+
+// TODO parler du comportement avec React Router et les Link et mentionner les memo (mais en indiquant qu'on a reparlera juste apres)
+
+L'outil principal utilisé durant cette phase a été **React Scan**.
+
+Celui-ci permet de visualiser directement dans l'interface les composants qui se réaffichent, ainsi que la fréquence de ces rendus.
 
 <details class="accordion">
 <summary>Intégration de React Scan</summary>
 
 ```html
-<!-- dans <head> d'index.html -->
+<!-- placé dans le <head> du index.html -->
 <script
   crossorigin="anonymous"
   src="//unpkg.com/react-scan/dist/auto.global.js">
@@ -726,35 +600,95 @@ Celui-ci permet de visualiser en temps réel les composants qui se réaffichent 
 
 </details>
 
-Une fois activé, React Scan affiche directement dans l'interface les composants concernés et fournit différentes informations permettant d'analyser leur comportement.
-
 <div class="card">
 
-Figure X – Exemple de composants analysés avec React Scan.
+Figure X – Exemple de diagnostic avec React Scan.
 
 </div>
 
-Cet outil nous a permis de mieux comprendre plusieurs concepts fondamentaux de React :
+React Scan nous a permis de mieux comprendre plusieurs concepts fondamentaux de React :
 
 * le cycle de rendu des composants ;
 * la propagation des changements d'état ;
-* l'impact des propriétés et des contextes ;
-* le coût de certains calculs effectués lors du rendu.
+* l'impact des propriétés ;
+* le coût de certains calculs.
 
-L'utilisation de React Scan a notamment conduit à :
+Plus que les optimisations elles-mêmes, cet outil a eu un important intérêt pédagogique en nous permettant de visualiser concrètement le fonctionnement interne de React.
 
-* supprimer certains re-rendus inutiles ;
-* simplifier plusieurs dépendances ;
-* déplacer certaines logiques de calcul ;
-* améliorer la stabilité de certains composants.
+#### 3.3.1.2 React Developer Tools
 
-Plus que les optimisations elles-mêmes, l'intérêt principal de cet outil a été pédagogique. Il nous a permis de visualiser concrètement le fonctionnement interne de React et d'acquérir de meilleurs réflexes lors de la conception de nouveaux composants.
+En complément de React Scan, nous avons utilisé **React Developer Tools**, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox.
+
+Cet outil nous a permis d'inspecter :
+
+* l'arbre des composants ;
+* les propriétés et états en temps réel ;
+* les contextes React ;
+* certaines causes de re-rendus grâce à l'onglet *Profiler*.
+
+<div class="card">
+
+Figure X – Analyse de l'arbre des composants avec React Developer Tools.
+
+</div>
+
+React Developer Tools s'est révélé particulièrement utile pour comprendre l'impact de certains états globaux et vérifier que certaines optimisations produisaient bien les effets attendus.
+
+#### 3.3.1.3 Optimisations mises en place
+
+Les informations fournies par ces outils nous ont permis d'identifier plusieurs composants qui se réaffichaient alors que leurs propriétés n'avaient pas changé.
+
+Afin de limiter ces rendus inutiles, nous avons introduit plusieurs mécanismes de stabilisation, notamment l'utilisation de `React.memo`.
+
+```tsx
+export const Layout = memo(() => {
+  const sid = useAuthStore((s) => s.session?.sid);
+
+  return (
+    <div className={styles.pageWrapper}>
+      <Header />
+      <main className={styles.mainContent}>
+        <Background seedOverride={sid} />
+        <Outlet />
+        <SessionStatusPanel />
+      </main>
+      <Footer />
+    </div>
+  );
+});
+```
+
+<div class="card">
+
+Figure X – Exemple de composant stabilisé avec `React.memo()`.
+
+</div>
+
+Cette approche a permis :
+
+* d'éviter certains re-rendus inutiles ;
+* de réduire le coût de rendu de certaines pages ;
+* d'améliorer la fluidité générale de l'application.
 
 <div class="note">
 
-React Scan ne remplace pas une analyse complète des performances, mais constitue un excellent outil de diagnostic pour comprendre rapidement pourquoi certains composants se réaffichent.
+L'utilisation de `memo()` doit rester mesurée. Une mémorisation excessive peut parfois augmenter la complexité du code sans apporter de gain significatif.
 
 </div>
+
+Cette phase de profilage nous a également sensibilisés à l'importance de concevoir des composants ayant des responsabilités limitées et des dépendances clairement identifiées.
+
+#### 3.3.1.4 React Doctor
+
+Nous avons également étudié l'utilisation de **React Doctor**, un outil plus avancé capable de détecter automatiquement :
+
+* les re-rendus inutiles ;
+* certaines dépendances incorrectes ;
+* des composants potentiellement trop coûteux.
+
+Cependant, l'outil étant encore relativement récent et parfois instable, nous avons préféré ne pas l'intégrer directement au projet.
+
+Cette phase de veille technologique reste néanmoins intéressante, car elle nous a permis de découvrir de nouveaux outils de diagnostic qui pourront être envisagés dans de futurs projets.
 
 ---
 
@@ -813,7 +747,7 @@ Cette technique de découpage du code permet de :
 
 ## 3.4 Refonte graphique
 
-vite-plugin-svgr et SVGR
+### SVGR
 
 La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
 
@@ -829,9 +763,7 @@ Parallèlement, plusieurs composants ont été entièrement repensés afin d'off
 
 </div>
 
----
-
-## 3.5 PixiJS
+### 3.5 PixiJS
 
 Le système d'arrière-plan du site a été entièrement réécrit à l'aide de PixiJS.
 
@@ -864,6 +796,116 @@ La seconde version introduit une véritable couche d'abstraction composée :
 Cette architecture permet d'obtenir un code plus lisible, plus facilement testable et beaucoup plus simple à maintenir.
 
 Elle facilite également l'écriture de tests automatisés et réduit fortement le couplage entre l'interface utilisateur et l'API.
+
+### Avant / Après la refonte
+
+<div class="before">
+
+### Avant
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```tsx
+const onSubmit = async (data: FormData) => {
+    setErrorMessage(null);
+    setStatus("idle");
+
+    if (!isStrong) {
+        setStatus("error");
+        setErrorMessage("Le mot de passe ne respecte pas les critères de sécurité");
+        return;
+    }
+
+    try {
+        const payload: any = {
+            username: data.username,
+            password: data.password,
+        };
+
+        if (data.contactType === "email") {
+            payload.email = data.email;
+        } else {
+            payload.phone_wzc = data.phone_wzc;
+            payload.phone_number = data.phone_number;
+        }
+
+        const res = await fetch(`/api/auth/register`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+            setStatus("success");
+            reset();
+            navigate('/');
+            window.location.reload();
+        } else if (res.status === 403) {
+            throw new Error("Un utilisateur avec ces informations existe déjà");
+        } else {
+            throw new Error(payload.message || "Échec de l'inscription");
+        }
+    } catch (err: any) {
+        setStatus("error");
+        setErrorMessage(err.message || "Erreur d'inscription");
+    }
+};
+```
+
+L'architecture de la première version était principalement orientée vers la mise en place rapide des fonctionnalités.
+
+</details>
+
+</div>
+
+<div class="after">
+
+### Après
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```tsx
+const onSubmit = async (data: FormData) => {
+    try {
+      await authRegister(data.username, data.email, data.password);
+
+      navigate("/login");
+    } catch (err: any) {
+      setError("root", { message: err.message ?? "Erreur d'inscription." });
+    }
+};
+```
+```ts
+import { api } from "../axios.instance";
+
+export const authService = {
+    {...}
+
+    register: async (username: string, email: string, password: string) => {
+        try {
+            await api.post("/auth/register", { username, email, password });
+        } catch (err: any) {
+            const s = err.response?.status;
+
+            if (s === 400) throw { message: "Données invalides." };
+            if (s === 409) throw { message: "Email ou nom d'utilisateur déjà utilisé." };
+            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
+            throw { message: "Erreur serveur." };
+        }
+    }
+
+    {...}
+};
+```
+
+L'architecture actuelle privilégie la séparation des responsabilités, les performances et la maintenabilité.
+
+</details>
+
+</div>
 
 ---
 
