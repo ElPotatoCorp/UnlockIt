@@ -48,6 +48,17 @@ export class OrdersService {
     return OrderMapper.toDetail(order);
   }
 
+  @Cron(CronExpression.EVERY_5_MINUTES)
+  deleteStaleOrders() {
+    const quarterOfHourLater = new Date();
+    quarterOfHourLater.setMinutes(quarterOfHourLater.getMinutes() - 15);
+
+    this.orderRepository.delete({
+      status: OrderStatus.PENDING_PAYMENT,
+      createdAt: quarterOfHourLater,
+    });
+  }
+
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   deleteCancelledOrders() {
     const thirtyDaysLater = new Date();
