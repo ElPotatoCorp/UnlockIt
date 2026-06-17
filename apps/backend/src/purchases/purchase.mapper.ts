@@ -4,9 +4,11 @@ import { PurchaseKeysDto } from "./dto/purchase-keys.dto";
 import { PurchaseSummaryDto } from "./dto/purchase-summary.dto";
 import { OrderItemEntity } from "src/orders/entities/order-item.entity";
 import { StockEntity } from "src/stocks/entities/stock.entity";
+import { ReviewMapper } from "src/reviews/review.mapper";
+import { ReviewEntity } from "src/reviews/entities/review.entity";
 
 export class PurchaseMapper {
-  static toPurchase(item: OrderItemEntity): PurchaseDto {
+  static toPurchase(item: OrderItemEntity, review?: ReviewEntity): PurchaseDto {
     const dto = new PurchaseDto();
 
     dto.orderId = item.orderId;
@@ -14,7 +16,7 @@ export class PurchaseMapper {
     dto.unitPrice = item.unitPrice;
     dto.quantity = item.quantity;
     dto.orderedAt = item.order.createdAt;
-    dto.review = null;
+    dto.review = review ? ReviewMapper.toReview(review) : null;
 
     return dto;
   }

@@ -26,6 +26,8 @@ export type ReviewVoteEntity = {
   review: ReviewEntity;
 }
 
+export type Review = Omit<ReviewEntity, 'user' | 'game'>;
+
 export type CreateReview = Pick<ReviewEntity, 'content' | 'score'>;
 
 export type UpdateReview = Partial<CreateReview>;

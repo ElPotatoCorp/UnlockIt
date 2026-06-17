@@ -1,4 +1,6 @@
 import { SummaryGame } from '../game/game.types';
+import { Review, ReviewEntity } from '../review/review.types';
+import { Simplify } from '../utils/types';
 
 export type PurchaseSummary = {
   orderId: string;
@@ -8,10 +10,9 @@ export type PurchaseSummary = {
   orderedAt: Date;
 };
 
-export type Purchase = PurchaseSummary & {
-  /** Reserved for the reviews module. Always null until implemented. */
-  review: null;
-};
+export type Purchase = Simplify<PurchaseSummary & {
+  review: Review | null;
+}>;
 
 export type PurchaseKeys = {
   keys: string[];
