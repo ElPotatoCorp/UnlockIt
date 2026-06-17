@@ -536,16 +536,33 @@ Le fichier <code class="c">robots.txt</code> est placé dans le dossier <code cl
 
 <a>https://unlock-it.com/robots.txt</a>
 
-Son contenu est volontairement simple :
+Son contenu a été enrichi afin de refléter les bonnes pratiques d’un site e‑commerce moderne :
 
 ```txt
 User-agent: *
 Allow: /
 
+Disallow: /settings
+Disallow: /login
+Disallow: /register
+Disallow: /purchases
+Disallow: /purchases/
+Disallow: /purchases/*
+Disallow: /wishlist
+
 Sitemap: https://unlock-it.com/sitemap.xml
 ```
 
-Ce fichier indique que l'ensemble du site peut être exploré par les robots d'indexation et leur fournit également l'emplacement du sitemap de l'application.
+Ce fichier indique que l'ensemble du site peut être exploré, à l’exception des pages sensibles.
+Nous avons choisi de bloquer explicitement :
+
+* <code class="c">/login</code>, <code class="c">/register</code> et <code class="c">/settings</code> : pages strictement personnelles, sans intérêt SEO.
+* <code class="c">/wishlist</code> : page liée au compte utilisateur, non destinée à être publique.
+* <code class="c">/purchases</code> et <code class="c">/purchases/:id</code> : pages critiques contenant l’historique d’achat et les clés de jeux.
+
+Même si ces pages sont protégées côté serveur, les exposer aux robots pourrait révéler des identifiants sensibles ou provoquer une indexation accidentelle, ce qui serait contraire aux bonnes pratiques de sécurité et de confidentialité.
+
+Ainsi, le fichier robots.txt contribue à protéger les zones privées du site tout en guidant correctement les moteurs de recherche vers les pages réellement destinées à être explorées.
 
 <details class="accordion">
 <summary>Pourquoi le placer dans public ?</summary>
@@ -563,7 +580,7 @@ public/
 
 L'ajout de ce fichier participe à rendre le projet plus conforme aux standards actuels du Web et nous a permis de mieux comprendre le fonctionnement de l'exploration et de l'indexation des sites internet.
 
-Le fichier robots.txt ne garantit pas qu'une page sera indexée ou non par un moteur de recherche. Il constitue uniquement une convention permettant de donner des indications aux robots d'exploration.
+Le fichier <code class="c">robots.txt</code> ne garantit pas qu'une page sera indexée ou non par un moteur de recherche. Il constitue uniquement une convention permettant de donner des indications aux robots d'exploration.
 
 ---
 
@@ -574,9 +591,9 @@ Si le fichier <code class="c">robots.txt</code> indique aux robots d'exploration
 <details class="accordion">
 <summary>Grosso modo</summary>
 
-> <code class="c">robots.txt</code> dit aux robots « où regarder ».
+> <code class="c">robots.txt</code> dit aux robots "où regarder".
 >
-> <code class="c">sitemap.xml</code> dit aux robots « quelles pages existent ».
+> <code class="c">sitemap.xml</code> dit aux robots "quelles pages existent".
 
 </details>
 
@@ -595,56 +612,147 @@ Le sitemap contient les principales pages publiques du site, accompagnées de pl
 L'extrait suivant présente quelques entrées du fichier :
 
 ```xml
-<url>
-    <loc>https://unlock-it.com/login</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
+  <url>
+    <loc>https://unlock-it.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://unlock-it.com/search</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  ...
+
+  <url>
     <loc>https://unlock-it.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
-</url>
+  </url>
+
+  <url>
+    <loc>https://unlock-it.com/login</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>
+
+  ...
+
+</urlset>
 ```
 
-Même si UnlockIt comporte actuellement un nombre relativement limité de pages, la mise en place de ce mécanisme permet de reproduire le comportement d'un véritable site de production et de mieux comprendre la manière dont les moteurs de recherche découvrent et parcourent un site web.
+Concernant les pages dynamiques, même si UnlockIt (SAÉ 4.01) ne comporte actuellement qu’une soixantaine de jeux issus de l’API Steam, l’application a été pensée pour évoluer. Dans un contexte réel, un site de vente de licences pourrait facilement proposer **plusieurs milliers de jeux**, chacun accessible via une URL de type : <code class="c">/games/:slug</code>
 
-Cette fonctionnalité constitue finalement un excellent exercice de compréhension des mécanismes d'indexation modernes et nous a permis de découvrir un aspect du développement web que nous n'avions encore jamais abordé au cours des précédentes SAÉ.
+Dans ce cas, il serait évidemment **impossible et totalement irréaliste** de maintenir manuellement une entrée dans le sitemap pour chaque jeu.  
+C’est d’ailleurs pour cette raison que les sites e‑commerce professionnels (Steam, Instant Gaming, Eneba, Amazon…) génèrent leurs sitemaps automatiquement, à l’aide d’un script.
 
-<div class="success">
+Un tel script peut être exécuté :
 
-Bien qu'un sitemap soit principalement utile pour les sites de grande taille, sa mise en place nous a permis d'adopter une démarche plus professionnelle et de nous rapprocher du fonctionnement réel d'une application web en production.
+* à partir de la base de données (pour lister tous les jeux disponibles)
+* à chaque déploiement
+* ou encore une fois par jour, afin de refléter les ajouts ou suppressions de produits
 
-</div>
+Cette approche garantit que le sitemap reste toujours à jour, sans intervention manuelle, même lorsque le catalogue atteint plusieurs milliers d’entrées.  
+Le sitemap actuel d’UnlockIt ne contient donc que les pages statiques et publiques, mais sa structure a été pensée pour être compatible avec une génération dynamique future, comme cela se ferait dans un environnement de production.
+
+Cette réflexion autour du sitemap nous a permis de mieux comprendre les mécanismes d’indexation modernes et de découvrir un aspect du développement web que nous n’avions encore jamais abordé au cours des précédentes SAÉ.  
+Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un excellent exercice pour adopter une démarche plus professionnelle et se rapprocher du fonctionnement réel d’une application web en production.
 
 ---
 
 ## 3.3 Optimisation des performances
 
-L'amélioration des performances a constitué l'un des principaux axes de travail de cette nouvelle version. Contrairement à la première itération du projet, plusieurs outils de mesure et de profilage ont été utilisés afin d'identifier les points de ralentissement et de mesurer objectivement les gains obtenus.
+L'amélioration des performances a constitué l'un des principaux axes de travail de cette nouvelle version. Lors du développement de la SAÉ 3.01, les performances de l'application reposaient essentiellement sur notre ressenti utilisateur : si le site semblait fluide et réactif, nous considérions qu'il était suffisamment optimisé.
+
+Avec davantage d'expérience, nous avons réalisé que cette approche était insuffisante. Une application peut sembler performante tout en effectuant de nombreux traitements inutiles, en chargeant des ressources excessives ou en réalisant des rendus superflus.
+
+Nous avons donc adopté une démarche plus rigoureuse consistant à mesurer avant d'optimiser. Plusieurs outils de profilage et d'analyse ont été introduits afin d'identifier objectivement les points de ralentissement et de valider l'impact des améliorations apportées.
+
+Ces outils nous ont permis de mieux comprendre le fonctionnement interne de React et du navigateur, mais également de découvrir de nouvelles problématiques liées aux performances d'une application web moderne.
 
 <div class="card">
 
-![Scores Lighthouse](src/assets/lighthouse-score-placeholder.webp)
-
-*Figure X – Exemple de rapport Lighthouse après optimisation.*
+Figure X – Exemple d'audit de performances réalisé avec Lighthouse.
 
 </div>
 
 ### 3.3.1 React Scan
 
-L'introduction de React Scan a permis de visualiser en temps réel les composants effectuant des rendus inutiles.
+// TODO parler de React Doctor (pas utilisé mais considéré), React Developper Tools (utilisé en plus du menu F12 classique), des memoised :
 
-Au fur et à mesure du développement, cet outil nous a permis de mieux comprendre le cycle de rendu de React et d'identifier plusieurs composants dont les performances pouvaient être améliorées.
+export const Layout = memo(() => {
+    const sid = useAuthStore((s) => s.session?.sid);
 
-Cette démarche a notamment conduit à simplifier certaines dépendances et à limiter plusieurs re-rendus superflus.
+    return (
+        <div className={styles.pageWrapper}>
+            <Header />
+
+            <main className={styles.mainContent}>
+                <Background seedOverride={sid} />
+                <Outlet />
+                <SessionStatusPanel />
+            </main>
+
+            <Footer />
+        </div>
+    );
+});
+
+//
+
+Au cours du développement de la seconde version de UnlockIt, nous nous sommes rapidement aperçus qu'il était difficile de savoir précisément quels composants React étaient réaffichés et à quel moment.
+
+Dans une application de taille modeste, ces rendus supplémentaires ont généralement peu d'impact. Cependant, lorsque le nombre de composants augmente et que certaines pages deviennent plus complexes, ces réaffichages inutiles peuvent progressivement dégrader les performances de l'application.
+
+Afin de mieux comprendre le comportement de React, nous avons intégré l'outil React Scan.
+
+Celui-ci permet de visualiser en temps réel les composants qui se réaffichent et d'identifier ceux qui effectuent des rendus potentiellement inutiles.
+
+<details class="accordion">
+<summary>Intégration de React Scan</summary>
+
+```html
+<!-- dans <head> d'index.html -->
+<script
+  crossorigin="anonymous"
+  src="//unpkg.com/react-scan/dist/auto.global.js">
+</script>
+```
+
+</details>
+
+Une fois activé, React Scan affiche directement dans l'interface les composants concernés et fournit différentes informations permettant d'analyser leur comportement.
 
 <div class="card">
 
-![React Scan](src/assets/react-scan-placeholder.webp)
+Figure X – Exemple de composants analysés avec React Scan.
 
-*Figure X – Analyse des rendus avec React Scan.*
+</div>
+
+Cet outil nous a permis de mieux comprendre plusieurs concepts fondamentaux de React :
+
+* le cycle de rendu des composants ;
+* la propagation des changements d'état ;
+* l'impact des propriétés et des contextes ;
+* le coût de certains calculs effectués lors du rendu.
+
+L'utilisation de React Scan a notamment conduit à :
+
+* supprimer certains re-rendus inutiles ;
+* simplifier plusieurs dépendances ;
+* déplacer certaines logiques de calcul ;
+* améliorer la stabilité de certains composants.
+
+Plus que les optimisations elles-mêmes, l'intérêt principal de cet outil a été pédagogique. Il nous a permis de visualiser concrètement le fonctionnement interne de React et d'acquérir de meilleurs réflexes lors de la conception de nouveaux composants.
+
+<div class="note">
+
+React Scan ne remplace pas une analyse complète des performances, mais constitue un excellent outil de diagnostic pour comprendre rapidement pourquoi certains composants se réaffichent.
 
 </div>
 
@@ -704,6 +812,8 @@ Cette technique de découpage du code permet de :
 ---
 
 ## 3.4 Refonte graphique
+
+vite-plugin-svgr et SVGR
 
 La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
 
