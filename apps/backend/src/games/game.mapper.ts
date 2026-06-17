@@ -30,7 +30,10 @@ export class GameMapper {
     dto.publishers = game.publishers;
     dto.media = game.media;
     dto.platforms = game.platforms;
-    dto.series = game.series;
+    dto.reviews = game.reviews;
+    
+    if (game.series)
+      dto.series = game.series;
 
     dto.wishlisted = wishlisted;
 

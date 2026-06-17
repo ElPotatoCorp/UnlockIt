@@ -13,6 +13,7 @@ import { GameTagDto } from 'src/tags/dto/game-tag.dto';
 import { GamePlatformDto } from 'src/platforms/dto/game-platform.dto';
 import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 import { GameRelationsEntityDoc } from 'src/docs/games/entities/game-relations.entity.doc';
+import { ReviewDto } from 'src/reviews/dto/review.dto';
 
 export class GameDetailDto implements GameDetail {
   @GamePrimitiveEntityDoc.Id()
@@ -64,7 +65,7 @@ export class GameDetailDto implements GameDetail {
   pcRequirements: string | null;
 
   @GamePrimitiveEntityDoc.SupportedLanguages()
-  supportedLanguages: LangCode[] | null;
+  supportedLanguages: LangCode[];
 
   @GameRelationsEntityDoc.Tags()
   tags: GameTagDto[];
@@ -76,13 +77,15 @@ export class GameDetailDto implements GameDetail {
   publishers: GamePublisherDto[];
 
   @GameRelationsEntityDoc.Platforms()
-  platforms: GamePlatformDto | null;
+  platforms: GamePlatformDto;
 
   @GameRelationsEntityDoc.Media()
   media: MediaDto[];
 
   @GameRelationsEntityDoc.Series()
-  series: SeriesDto | null;
+  series?: SeriesDto;
+
+  reviews: ReviewDto[];
 
   wishlisted?: boolean;
 }

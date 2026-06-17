@@ -111,7 +111,7 @@ export class GameEntity implements IGameEntity {
     array: true,
     nullable: true,
   })
-  supportedLanguages: LangCode[] | null;
+  supportedLanguages: LangCode[];
 
   // =====================================================
   // Relations
