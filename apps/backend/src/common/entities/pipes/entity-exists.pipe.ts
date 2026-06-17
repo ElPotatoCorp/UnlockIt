@@ -1,5 +1,5 @@
 import { Type, PipeTransform, Injectable, ArgumentMetadata, NotFoundException, mixin } from '@nestjs/common';
-import { ObjectLiteral, FindOneOptions, DataSource, Repository } from 'typeorm';
+import { ObjectLiteral, DataSource, Repository, FindOptionsWhere } from 'typeorm';
 import { buildNotFoundMessage, buildWhere } from '../utils/helper';
 
 /**
@@ -8,9 +8,9 @@ import { buildNotFoundMessage, buildWhere } from '../utils/helper';
  */
 export async function entityExists<T extends ObjectLiteral>(
   repository: Repository<T>,
-  options: FindOneOptions<T>,
+  options: FindOptionsWhere<T>,
 ): Promise<boolean> {
-  return repository.exists(options);
+  return repository.existsBy(options);
 }
 
 

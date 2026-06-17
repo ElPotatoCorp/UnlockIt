@@ -1,4 +1,4 @@
-import { ObjectLiteral, Repository, FindOneOptions } from 'typeorm';
+import { ObjectLiteral, Repository, FindOneOptions, FindOptionsWhere } from 'typeorm';
 import { fetchEntityOrFail } from './pipes/fetch-entity.pipe';
 import { failIfDuplicated } from './pipes/duplicated-entry.pipe';
 import { entityExists } from './pipes/entity-exists.pipe';
@@ -9,9 +9,9 @@ import { buildNotFoundMessage } from './utils/helper';
 export class EntitiesService {
   public entityExists<T extends ObjectLiteral>(
     repository: Repository<T>,
-    options: FindOneOptions<T>,
+    where: FindOptionsWhere<T>,
   ): Promise<boolean> {
-    return entityExists(repository, options);
+    return entityExists(repository, where);
   }
 
   public fetchEntityOrFail<T extends ObjectLiteral>(
