@@ -31,19 +31,20 @@ import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
+import coreConfig from 'src/config/core.config';
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly config: ConfigService,
     private readonly authService: AuthService,
     private readonly ticketService: TicketsService,
+    @Inject(coreConfig.KEY) private readonly config: ConfigType<typeof coreConfig>,
     @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
 
   private setAuthCookies(res: any, accessToken: string, refreshToken: string) {
-    const isHttps = this.config.get('HTTPS', 'false') === 'true';
+    const isHttps = this.config.https;
 
     res.cookie(this.jwt.accessTokenCookieName, accessToken, {
       httpOnly: true,

@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 import { ENV_FILES_PATHS, UPLOADS_DIR } from './globals';
-import throttlerConfig from './config/throttler.config';
-import jwtConfig from './config/jwt.config';
+import coreConfig from './config/core.config';
 import databaseConfig from './config/database.config';
+import jwtConfig from './config/jwt.config';
+import throttlerConfig from './config/throttler.config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -43,7 +44,7 @@ import { PurchasesModule } from './purchases/purchases.module';
     ConfigModule.forRoot({
       envFilePath: ENV_FILES_PATHS,
       isGlobal: true,
-      load: [throttlerConfig, jwtConfig, databaseConfig],
+      load: [coreConfig, databaseConfig, jwtConfig, throttlerConfig],
     }),
     ThrottlerModule.forRootAsync({
       inject: [throttlerConfig.KEY],
@@ -73,20 +74,23 @@ import { PurchasesModule } from './purchases/purchases.module';
       useGlobalPrefix: true,
     }),
     TypeOrmModule.forRootAsync({
-      inject: [databaseConfig.KEY],
-      useFactory: (config: ConfigType<typeof databaseConfig>) => ({
+      inject: [coreConfig.KEY, databaseConfig.KEY],
+      useFactory: (
+        config: ConfigType<typeof coreConfig>,
+        dbConfig: ConfigType<typeof databaseConfig>,
+      ) => ({
         type: 'postgres',
-        host: config.host,
-        port: config.port,
-        username: config.username,
-        password: config.password,
-        database: config.database,
+        host: dbConfig.host,
+        port: dbConfig.port,
+        username: dbConfig.username,
+        password: dbConfig.password,
+        database: dbConfig.database,
         autoLoadEntities: true,
         parseInt8: true,
 
         migrations: ['dist/database/migrations/**/*.{ts,js}'],
-        migrationsRun: false, // Turn to true in prod
-        synchronize: true, // Turn to false in prod
+        migrationsRun: config.env === 'production' ? true : false,
+        synchronize: config.env === 'production' ? false : true,
       }),
     }),
     UsersModule,
