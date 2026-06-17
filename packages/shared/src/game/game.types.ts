@@ -1,5 +1,5 @@
 import { DeveloperEntity, GameDeveloper } from "../developer/developer.types";
-import { GamePlatform, GamePlatformEntity } from "../game-platform/game-platform.types";
+import { GamePlatform, GamePlatformEntity, PartialGamePlatform } from "../game-platform/game-platform.types";
 import { Media, MediaEntity } from "../media/media.types";
 import { GamePublisher, PublisherEntity } from "../publisher/publisher.types";
 import { Series, SeriesEntity } from "../series/series.types";
@@ -39,7 +39,7 @@ export type GameEntity = {
 };
 type GameRelationKeys = 'series' | 'tags' | 'developers' | 'publishers' | 'platforms' | 'media';
 
-export type CreateGame = NullToOptional<Omit<GameEntity, 'id' | GameRelationKeys>>;
+export type CreateGame = Simplify<NullToOptional<Omit<GameEntity, 'id' | GameRelationKeys>> & { platforms?: PartialGamePlatform; }>;
 
 export type UpdateGame = Partial<CreateGame>;
 
@@ -59,6 +59,7 @@ export type SearchGameOptions = {
   /** Will be turned into a slug */
   name: string;
   type?: GameType;
+
   price?: {
     /** 
      * Minimum: 0
@@ -66,24 +67,22 @@ export type SearchGameOptions = {
      **/
     min: number;
     max?: number;
-  }
+  };
+
   release?: {
     when?: 'exact' | 'before' | 'after' | 'coming-soon';
     date?: Date;
-  }
+  };
+
   order: {
     by: 'popular' | 'price';
     asc?: boolean;
-  }
-}
+  };
 
-export type AdvancedSearchGameOptions = Simplify<SearchGameOptions & {
   tags?: number[];
   developers?: number[];
   publishers?: number[];
-  platforms?: GamePlatform;
-}>
+  platforms?: PartialGamePlatform;
+}
 
 export type SearchBody = Omit<SearchGameOptions, 'name'>;
-
-export type AdvancedSearchBody = Omit<AdvancedSearchGameOptions, 'name'>;

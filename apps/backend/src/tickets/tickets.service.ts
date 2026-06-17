@@ -10,7 +10,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { TicketDto } from './dto/ticket.dto';
 import { CommonService } from 'src/common/common.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { CreatePasswordResetDto } from '../auth/dto/create-password-reset.dto';
 import { UserEntity } from 'src/user/entities/user.entity';

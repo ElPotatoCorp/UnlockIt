@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { User } from 'src/user/decorators/user.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { TopUpWalletDto } from './dto/top-up-wallet.dto';
 
 @Controller('wallet')

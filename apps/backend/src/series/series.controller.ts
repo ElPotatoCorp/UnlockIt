@@ -15,7 +15,7 @@ import { SeriesService } from './series.service';
 import { CreateSeriesDto } from './dto/create-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
 import { SeriesEntity } from './entities/series.entity';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';

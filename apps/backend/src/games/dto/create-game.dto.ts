@@ -9,6 +9,7 @@ import {
   Length,
   Max,
   Min,
+  ValidateNested,
 } from 'class-validator';
 import { IsSlug } from 'src/common/validators/slug.validator';
 import { Transform, Type } from 'class-transformer';
@@ -20,6 +21,8 @@ import {
   GameType,
   LangCode,
 } from '@unlockit/shared';
+import { GameRelationsEntityDoc } from 'src/docs/games/entities/game-relations.entity.doc';
+import { PartialGamePlatformDto } from 'src/platforms/dto/partial-game-platform.dto';
 
 export class CreateGameDto implements CreateGame {
   @GamePrimitiveEntityDoc.Name()
@@ -104,6 +107,12 @@ export class CreateGameDto implements CreateGame {
   @IsOptional()
   @IsEnum(LangCode, { each: true })
   supportedLanguages?: LangCode[];
+
+  @GameRelationsEntityDoc.Platforms()
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PartialGamePlatformDto)
+  platforms?: PartialGamePlatformDto;
 }
 
 const _assertExact: ExactData<CreateGame, CreateGameDto> = true;

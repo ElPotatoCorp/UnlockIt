@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { WalletTransactionType } from '@unlockit/shared';
 import { WalletTransactionEntity } from './entities/wallet-transaction.entity';
 import { CommonService } from 'src/common/common.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { TopUpWalletDto } from './dto/top-up-wallet.dto';
 import { WalletBalanceDto } from './dto/wallet-balance.dto';
 import { WalletTransactionDto } from './dto/wallet-transaction.dto';

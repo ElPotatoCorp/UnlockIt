@@ -4,16 +4,20 @@ import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from './entities/game.entity';
 import {
+  And,
   Between,
+  Equal,
   FindOptionsOrder,
   FindOptionsWhere,
+  In,
   LessThan,
   Like,
   MoreThan,
   MoreThanOrEqual,
+  Or,
   Repository,
 } from 'typeorm';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { TagEntity } from 'src/tags/entities/tag.entity';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
@@ -49,55 +53,97 @@ export class GamesService {
     return this.gameRepository.save(game);
   }
 
-  private getBasicSearch(options: SearchGameOptionsDto) {
-    const where: FindOptionsWhere<GameEntity> = {};
+  private getSearchQuery(options: SearchGameOptionsDto) {
+    const orderDirection = options.order?.asc === false ? 'DESC' : 'ASC';
 
-    where.slug = Like(`%${options.name}%`);
-    where.type = options.type;
+    const qb = this.gameRepository.createQueryBuilder('game');
+
+    // Basic filters from getBasicSearch — map FindOptionsWhere back to QB
+    qb.where('game.slug LIKE :slug', { slug: `%${options.name}%` });
+
+    if (options.type) {
+      qb.andWhere('game.type = :type', { type: options.type });
+    }
 
     if (options.price) {
       const { min, max } = options.price;
       if (max !== undefined) {
-        where.price = Between(min, Math.max(min, max));
+        qb.andWhere('game.price BETWEEN :min AND :max', {
+          min,
+          max: Math.max(min, max),
+        });
       } else {
-        where.price = MoreThanOrEqual(min);
+        qb.andWhere('game.price >= :min', { min });
       }
     }
 
     if (options.release) {
       const { when, date } = options.release;
-
       if (when === 'coming-soon') {
-        where.comingSoon = true;
+        qb.andWhere('game.coming_soon = true');
       } else if (date) {
         const ISOdate = date instanceof Date ? date.toISOString() : date;
-
         switch (when) {
           case 'exact':
-            where.releaseDate = ISOdate;
+            qb.andWhere('game.release_date = :date', { date: ISOdate });
             break;
           case 'before':
-            where.releaseDate = LessThan(ISOdate);
+            qb.andWhere('game.release_date < :date', { date: ISOdate });
             break;
           case 'after':
-            where.releaseDate = MoreThan(ISOdate);
+            qb.andWhere('game.release_date > :date', { date: ISOdate });
             break;
         }
       }
     }
 
-    const order: FindOptionsOrder<GameEntity> = {};
-    const orderDirection = options.order?.asc === false ? 'DESC' : 'ASC';
-    switch (options.order.by) {
+    if (options.tags?.length) {
+      qb.innerJoin('game.tags', 'tag')
+        .andWhere('tag.id IN (:...tagIds)', { tagIds: options.tags })
+        .groupBy('game.id')
+        .having('COUNT(DISTINCT tag.id) = :tagCount', {
+          tagCount: options.tags.length,
+        });
+    }
+
+    if (options.developers?.length) {
+      qb.innerJoin('game.developers', 'developer').andWhere(
+        'developer.id IN (:...developerIds)',
+        { developerIds: options.developers },
+      );
+    }
+
+    if (options.publishers?.length) {
+      qb.innerJoin('game.publishers', 'publisher').andWhere(
+        'publisher.id IN (:...publisherIds)',
+        { publisherIds: options.publishers },
+      );
+    }
+
+    if (options.platforms) {
+      const activePlatforms = Object.keys(options.platforms);
+
+      if (activePlatforms.length) {
+        qb.innerJoin('game.platforms', 'platform');
+        activePlatforms.forEach((col) => {
+          qb.andWhere(`platform.${col} = :${col}`, {
+            [col]: options.platforms![col],
+          });
+        });
+      }
+    }
+
+    // Order
+    switch (options.order?.by) {
       case 'price':
-        order.price = orderDirection;
+        qb.orderBy('game.price', orderDirection);
         break;
       default:
-        order.name = orderDirection;
+        qb.orderBy('game.name', orderDirection);
         break;
     }
 
-    return { where, order };
+    return qb;
   }
 
   async search(
@@ -105,12 +151,10 @@ export class GamesService {
     options: SearchGameOptionsDto,
     userId?: string,
   ) {
-    const { where, order } = this.getBasicSearch(options);
-
     const res = await this.commonService.pagination.getPaginatedResponse(
-      this.gameRepository,
+      this.getSearchQuery(options),
       paginationQueryDto,
-      { where, order, transform: { fn: GameMapper.toSummary } },
+      { fn: GameMapper.toSummary },
     );
 
     if (userId) {
@@ -118,11 +162,10 @@ export class GamesService {
       const wishlistedSet = new Set(
         await this.wishlistService.getWishlistedGameIds(userId, gameIds),
       );
-
-      res.data = res.data.map((game) => {
-        game.wishlisted = wishlistedSet.has(game.id);
-        return game;
-      });
+      res.data = res.data.map((game) => ({
+        ...game,
+        wishlisted: wishlistedSet.has(game.id),
+      }));
     }
 
     return res;

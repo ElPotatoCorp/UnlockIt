@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WishlistEntity } from './entities/wishlist.entity';
 import { In, Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { GameMapper } from 'src/games/game.mapper';
 
 @Injectable()

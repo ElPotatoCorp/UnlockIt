@@ -8,7 +8,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { PublicUserDto } from 'src/user/dto/public-user.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
 

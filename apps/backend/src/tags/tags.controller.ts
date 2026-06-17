@@ -15,7 +15,7 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { TagEntity } from './entities/tag.entity';
 import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { TagsControllerDoc } from 'src/docs/tags/tags.controller.doc';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 

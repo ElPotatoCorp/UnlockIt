@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe, ParseUUIDPipe, Query } from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { User } from 'src/user/decorators/user.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 
 @Controller('purchases')
 export class PurchasesController {

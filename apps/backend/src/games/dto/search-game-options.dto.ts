@@ -8,6 +8,7 @@ import {
 } from '@unlockit/shared';
 import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
@@ -17,6 +18,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { SearchGameOptionsDtoDoc } from 'src/docs/games/dto/search-game-options.dto';
+import { PartialGamePlatformDto } from 'src/platforms/dto/partial-game-platform.dto';
 
 export class PriceFilterDto {
   @IsInt()
@@ -76,6 +78,26 @@ export class SearchGameOptionsDto implements SearchGameOptions {
   @ValidateNested()
   @Type(() => OrderOptionsDto)
   order: OrderOptionsDto;
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  tags?: number[];
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  developers?: number[];
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  publishers?: number[];
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PartialGamePlatformDto)
+  platforms?: PartialGamePlatformDto;
 }
 
 export class SearchBodyDto

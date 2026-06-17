@@ -19,4 +19,5 @@ export class PaginationQueryDto implements PaginationQuery {
   @Max(100)
   limit: number = 20;
 }
+
 const _assertExact: ExactData<PaginationQuery, PaginationQueryDto> = true;

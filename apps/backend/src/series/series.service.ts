@@ -4,7 +4,7 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SeriesEntity } from './entities/series.entity';
 import { Repository } from 'typeorm';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { ModifyGamesInSerieDto } from './dto/modify-games-in-serie.dto';
 import { SeriesMapper } from './series.mapper';

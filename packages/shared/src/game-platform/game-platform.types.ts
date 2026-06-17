@@ -17,4 +17,6 @@ export type GamePlatformEntity = {
 
 export type GamePlatform = Omit<GamePlatformEntity, 'gameId' | 'game'>;
 
+export type PartialGamePlatform = Partial<GamePlatform>;
+
 export type UpdatePlatform = Partial<GamePlatform>;

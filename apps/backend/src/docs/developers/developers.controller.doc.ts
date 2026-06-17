@@ -13,7 +13,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
 import { DeveloperEntity } from 'src/developers/entities/developer.entity';
 import { CreateDeveloperDto } from 'src/developers/dto/create-developer.dto';

@@ -16,7 +16,7 @@ import {
 import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { GamesControllerDoc } from 'src/docs/games/games.controller.doc';
 import { GameEntity } from './entities/game.entity';
@@ -30,10 +30,7 @@ import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { MinRole } from 'src/employees/decorators/support-roles.decorator';
 import { EmployeeRole } from '@unlockit/shared';
-import {
-  SearchBodyDto,
-  SearchGameOptionsDto,
-} from './dto/search-game-options.dto';
+import { SearchBodyDto } from './dto/search-game-options.dto';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { JwtAuthOptionalGuard } from 'src/auth/guards/jwt-auth-optional.guard';
 import { User } from 'src/user/decorators/user.decorator';
@@ -68,7 +65,7 @@ export class GamesController {
       {
         name,
         ...searchGameOptionsDto,
-      } as SearchGameOptionsDto,
+      },
       userId,
     );
   }

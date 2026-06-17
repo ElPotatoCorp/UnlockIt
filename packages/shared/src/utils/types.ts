@@ -20,7 +20,6 @@ type NonNullableKeys<T> = {
   [K in keyof T]: null extends T[K] ? never : K;
 }[keyof T];
 
-export type NullToOptional<T> = Simplify<
+export type NullToOptional<T> = 
   { [K in NonNullableKeys<T>]: T[K] } & 
-  { [K in NullableKeys<T>]?: Exclude<T[K], null> }
->;
+  { [K in NullableKeys<T>]?: Exclude<T[K], null> };

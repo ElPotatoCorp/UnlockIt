@@ -5,12 +5,12 @@ import { OrderStatus } from '@unlockit/shared';
 import { OrderItemEntity } from 'src/orders/entities/order-item.entity';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { CommonService } from 'src/common/common.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { PurchaseSummaryDto } from './dto/purchase-summary.dto';
 import { PurchaseDto } from './dto/purchase.dto';
 import { PurchaseKeysDto } from './dto/purchase-keys.dto';
 import { PurchaseMapper } from './purchase.mapper';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 
 @Injectable()
 export class PurchasesService {

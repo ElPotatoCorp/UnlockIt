@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { StockEntity } from './entities/stock.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { StockMapper } from './stock.mapper';
 
 @Injectable()

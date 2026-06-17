@@ -13,7 +13,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiAuth } from 'src/docs/auth/decorators/api-auth.decorator';
-import { PaginatedDto } from 'src/common/dto/paginated.dto';
+import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { CreateGameDto } from 'src/games/dto/create-game.dto';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { UpdateGameDto } from 'src/games/dto/update-game.dto';

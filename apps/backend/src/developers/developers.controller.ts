@@ -15,7 +15,7 @@ import { UpdateDeveloperDto } from './dto/update-developer.dto';
 import { DeveloperEntity } from './entities/developer.entity';
 import { DevelopersControllerDoc } from 'src/docs/developers/developers.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { EntityExistsPipe } from 'src/common/pipes/entity.pipe';
 import { DuplicatedEntryPipe } from 'src/common/pipes/duplicated-entry.pipe';
 

@@ -18,7 +18,7 @@ import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthOptionalGuard } from 'src/auth/guards/jwt-auth-optional.guard';
 import { User } from 'src/user/decorators/user.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
 import { TicketsControllerDoc } from 'src/docs/tickets/tickets.controller.doc';
 import { EntityExistsPipe, EntityFetchPipe } from 'src/common/pipes/entity.pipe';
