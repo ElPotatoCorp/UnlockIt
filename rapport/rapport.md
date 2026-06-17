@@ -36,7 +36,8 @@
 <ul>
     <li><a href="#1-introduction">1. Introduction</a></li>
     <li class="lvl2"><a href="#11-présentation-du-projet">1.1 Présentation du projet</a></li>
-    <li class="lvl2"><a href="#12-objectifs-de-la-refonte">1.2 Objectifs de la refonte</a></li>
+    <li class="lvl2"><a href="#12-présentation-des-membres">1.2 Présentation des membres</a></li>
+    <li class="lvl2"><a href="#13-objectifs-de-la-refonte">1.3 Objectifs de la refonte</a></li>
     <li><a href="#2-analyse-de-lancien-projet">2. Analyse de l'ancien projet</a></li>
     <li class="lvl2"><a href="#21-constats">2.1 Constats</a></li>
     <li class="lvl2"><a href="#22-avant--après-la-refonte">2.2 Avant / Après la refonte</a></li>
@@ -231,56 +232,68 @@ Les composants React contenaient parfois à la fois de la logique métier, des a
 
 ## 3.1 Refonte de l'architecture React
 
+### 3.1.1 Le problème
+
 L’un des objectifs majeurs de cette seconde version d’UnlockIt a été d’améliorer et de clarifier l’architecture du frontend. La première version reposait déjà sur une base solide : une structure modulaire, organisée autour de composants réutilisables, de pages fonctionnelles et de dossiers bien séparés. Cette organisation était tout à fait exploitable et scalable, mais elle montrait ses limites à mesure que le projet grandissait.
 
 Le principal défi ne venait donc pas d’un manque de modularité, mais plutôt de la **classification des composants et des fichiers**. Il devenait parfois difficile de déterminer où placer un nouvel élément :  
 - un composant était‑il propre au projet ou suffisamment générique pour être réutilisable ailleurs ?  
 - un hook relevait‑il de la logique métier, d’un helper ou d’un validateur ?  
 - où ranger les refactors liés à l’API sans mélanger logique et présentation ?  
+- comment éviter que certains dossiers deviennent des “fourre‑tout” au fil du temps ?  
 
 Ces zones grises entraînaient des hésitations, des réorganisations ponctuelles et une perte de cohérence dans la structure globale.
 
-La refonte a donc consisté non pas à tout reconstruire, mais à **rendre l’architecture plus explicite, plus cohérente et plus prévisible**. Plusieurs dossiers ont été introduits ou repensés pour clarifier les responsabilités :
+La refonte n’a donc pas consisté à repartir de zéro, mais à rendre l’architecture plus explicite, plus cohérente et plus prévisible. Plusieurs dossiers ont été introduits ou repensés pour clarifier les responsabilités et éviter les ambiguïtés :
 
-- <code class="c">**layout/**</code> regroupe désormais tous les composants qui encadrent ou se superposent aux pages (header, footer, background, panneau de debug, etc.). Le layout est ensuite appliqué globalement dans <code class="c">App.tsx</code>, ce qui simplifie la structure des pages.  
-- <code class="c">**common/**</code> accueille les composants génériques et réutilisables indépendamment du projet : systèmes de skeleton, modals, alertes, providers, etc. Ce sont des briques transversales que l’on pourrait réutiliser dans d’autres applications.  
-- <code class="c">**api/**</code> centralise toute la logique liée aux appels API : hooks dédiés, services, stores Zustand, types, mocks, et l’instance Axios. Les composants n’ont plus aucune logique API : ils se contentent d’appeler un hook métier.  
-- <code class="c">**utils/**</code> regroupe tous les refactors logiques qui ne relèvent pas de l’API : formatteurs, validateurs, helpers, hooks transversaux, stores globaux (langue, thème, etc.).
+- <code class="c">layout/</code> regroupe désormais tous les composants qui encadrent ou se superposent aux pages (header, footer, background, panneau de debug, etc.). Le layout est ensuite appliqué globalement dans <code class="c">App.tsx</code>, ce qui simplifie la structure des pages.  
+- <code class="c">common/</code> accueille les composants génériques et réutilisables indépendamment du projet : systèmes de skeleton, modals, alertes, providers, etc. Ce sont des briques transversales que l’on pourrait réutiliser dans d’autres applications.  
+- <code class="c">api/</code> centralise toute la logique liée aux appels API : hooks dédiés, services, stores Zustand, types, mocks, et l’instance Axios. Les composants n’ont plus aucune logique API : ils se contentent d’appeler un hook métier.  
+- <code class="c">utils/</code> regroupe tous les refactors logiques qui ne relèvent pas de l’API : formatteurs, validateurs, helpers, hooks transversaux, stores globaux (langue, thème, etc.).  
+- <code class="c">public/media/</code> remplace l’ancien dossier <code class="c">images/</code>, qui servait parfois de fourre‑tout. Les médias sont désormais classés par type (images, vidéos, icônes, etc.), ce qui améliore la lisibilité et la maintenance.
 
-L’objectif n’était donc pas de repartir de zéro, mais de **lever les ambiguïtés**, d’améliorer la lisibilité et de rendre l’architecture plus intuitive pour toute l’équipe. Cette nouvelle organisation facilite aujourd’hui l’intégration de nouvelles fonctionnalités, limite les risques de confusion et renforce la cohérence du projet sur le long terme.
+L’objectif global était de **lever les ambiguïtés**, d’améliorer la lisibilité et de rendre l’architecture plus intuitive pour toute l’équipe. Cette nouvelle organisation facilite aujourd’hui l’intégration de nouvelles fonctionnalités, limite les risques de confusion et renforce la cohérence du projet sur le long terme.
 
+### 3.1.2 Nouvelle architecture 
 
 <div class="before">
 
-### Router avant
+<h3>Avant</h3>
 
 <details class="accordion">
 <summary>Voir plus d'informations</summary>
 
-```tsx
-export function App() {
-
-  return (
-    <BrowserRouter>
-      <div>
-        <Header />
-
-        <main>
-          <Background />
-          <Routes>
-            <Route path="/" element={<Shop />} />
-            ...
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-
-        <Footer />
-        <SessionTest />
-      </div>
-    </BrowserRouter>
-  );
-}
+```mermaid
+treeView-beta
+    "frontend"
+        "index.html"
+        "vite.config.ts"
+        "package.json"
+        "public"
+            "fonts"
+            "images"
+        "src"
+            "components"
+            "features"
+            "pages"
+            "styles"
+            "App.tsx"
+            "main.tsx"
 ```
+
+Les composants pouvaient ressembler à ceci :
+
+```mermaid
+treeView-beta
+    "nom-composant"
+        "nom-sous-composant-1"
+        "nom-sous-composant-2"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
+        "fallback-api-offline-1.json"
+        "fallback-api-offline-2.json"
+```
+
 
 </details>
 
@@ -288,139 +301,64 @@ export function App() {
 
 <div class="after">
 
-### Router après
+<h3>Après</h3>
 
 <details class="accordion">
 <summary>Voir plus d'informations</summary>
 
-```tsx
-export const Layout = () => {
-    return (
-        <div>
-            <Header />
 
-            <main>
-                <Background />
-                <Outlet />
-                <SessionStatusPanel />
-            </main>
-
-            <Footer />
-        </div>
-    );
-};
+```mermaid
+treeView-beta
+    "frontend"
+        "index.html"
+        "vite.config.ts"
+        "package.json"
+        "public"
+            "fonts"
+            "media"
+                "img"
+                "vid"
+                "ico"
+                "autres"
+        "src"
+            "components"
+                "layout"
+                "ui"
+                "common"
+            "features"
+            "pages"
+            "styles"
+            "api"
+                "hook"
+                "mock"
+                "services"
+                "stores"
+                "types"
+                "axios.instance.ts"
+            "utils"
+                "formatters"
+                "helpers"
+                "hooks"
+                "stores"
+                "validators"
+            "App.tsx"
+            "main.tsx"
 ```
 
-```tsx
-export default function App() {
-  return (
-    <...>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<Home />}/>
-            ...
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    <...>
-  );
-}
+La structure d'un composant n'a pas réellement changer, sauf que cette fois ci, il n'y a pas de fallback locaux car tout marche bien :
+
+```mermaid
+treeView-beta
+    "nom-composant"
+        "nom-sous-composant-1"
+        "nom-sous-composant-2"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
 ```
 
 </details>
 
 </div>
-
----
-
-### **Ancienne architecture**
-
-L’ancienne structure, bien que simple, mélangeait souvent logique, UI et données dans les mêmes dossiers :
-
-```
-frontend/
-├── index.html
-├── vite.config.ts
-├── package.json
-├── public/
-│   ├── fonts/
-│   └── images/
-└── src/
-    ├── components/
-    ├── features/
-    ├── pages/
-    ├── styles/
-    ├── App.tsx
-    └── main.tsx
-```
-
-Les composants étaient parfois volumineux, et les dossiers `features/` et `components/` contenaient des responsabilités hétérogènes.  
-Les composants pouvaient ressembler à ceci :
-
-```
-nom-composant/
-├── nom-sous-composant-1/
-├── nom-sous-composant-2/
-├── nomComposant.module.css
-├── NomComposant.tsx
-├── fallback-api-offline-1.json
-└── fallback-api-offline-2.json
-```
-
----
-
-### **Nouvelle architecture**
-
-La nouvelle organisation clarifie les rôles de chaque dossier et sépare nettement la logique métier, l’UI, les services API et les utilitaires. Elle est pensée pour être **scalable**, c’est‑à‑dire capable de supporter la croissance du projet sans se dégrader.
-
-```
-frontend/
-├── index.html
-├── vite.config.ts
-├── package.json
-├── public/
-│   ├── fonts/
-│   └── media/
-│       ├── img/
-│       ├── vid/
-│       ├── ico/
-│       └── autres/
-└── src/
-    ├── components/
-    │   ├── layout/
-    │   ├── ui/
-    │   ├── common/
-    ├── features/
-    ├── pages/
-    ├── styles/
-    ├── api/
-    │   ├── hook/
-    │   ├── mock/
-    │   ├── services/
-    │   ├── stores/
-    │   ├── types/
-    │   └── axios.instance.ts
-    ├── utils/
-    │   ├── formatters/
-    │   ├── helpers/
-    │   ├── hooks/
-    │   ├── stores/
-    │   └── validators/
-    ├── App.tsx
-    └── main.tsx
-```
-
-Les composants suivent désormais une structure plus simple et plus cohérente :
-
-```
-nom-composant/
-├── nom-sous-composant-1/
-├── nom-sous-composant-2/
-├── nomComposant.module.css
-└── NomComposant.tsx
-```
 
 ## 3.2 Référencement et indexation
 
