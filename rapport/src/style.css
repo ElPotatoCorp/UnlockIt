@@ -35,6 +35,14 @@ body {
   color: var(--text-black);
   background: var(--bg-white);
   min-height: 100vh;
+  text-align: justify;
+}
+
+.false-body img {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+  height: auto;
 }
 
 /* ==========================================================
