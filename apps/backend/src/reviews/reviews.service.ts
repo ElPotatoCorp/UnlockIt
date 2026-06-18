@@ -9,6 +9,7 @@ import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.d
 import { ReviewVoteEntity } from './entities/review-vote.entity';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ReviewVoteDto } from './dto/review-vote.dto';
+import { ReviewMapper } from './review.mapper';
 
 @Injectable()
 export class ReviewsService {
@@ -29,7 +30,10 @@ export class ReviewsService {
     return this.commonService.pagination.getPaginatedResponse(
       this.reviewRepository,
       paginationQueryDto,
-      { where: { gameId } },
+      {
+        where: { gameId },
+        transform: { fn: ReviewMapper.toReview },
+      },
     );
   }
 

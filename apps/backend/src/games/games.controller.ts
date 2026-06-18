@@ -36,6 +36,7 @@ import { User } from 'src/user/decorators/user.decorator';
 import { BulkDuplicatedEntryPipe } from 'src/common/entities/pipes/bulk-duplicated-entry.pipe';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
+import { ReviewVoteDto } from 'src/reviews/dto/review-vote.dto';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
@@ -239,6 +240,25 @@ export class GamesController {
     @Param('mediaId', ParseIntPipe, EntityExistsPipe(MediaEntity)) mediaId: number,
   ) {
     return this.gamesService.removeMedia(mediaId);
+  }
+
+  // --- Reviews ---
+  @Public()
+  @Get(':id/reviews')
+  getReviews(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() paginationQueryDto: PaginationQueryDto,
+  ) {
+    return this.gamesService.getReviews(id, paginationQueryDto);
+  }
+
+  @Post(':id/reviews/vote')
+  reviewVote(
+    @User('sub') userId: string,
+    @Param('id', ParseIntPipe) gameId: number,
+    @Body() reviewVoteDto: ReviewVoteDto,
+  ) {
+    return this.gamesService.reviewVote(userId, gameId, reviewVoteDto);
   }
 
   // --- Stocks ---

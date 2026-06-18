@@ -31,6 +31,9 @@ import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { WishlistService } from 'src/wishlist/wishlist.service';
 import { GameMapper } from './game.mapper';
+import { ReviewMapper } from 'src/reviews/review.mapper';
+import { ReviewsService } from 'src/reviews/reviews.service';
+import { ReviewVoteDto } from 'src/reviews/dto/review-vote.dto';
 
 @Injectable()
 export class GamesService {
@@ -42,6 +45,7 @@ export class GamesService {
     @InjectRepository(MediaEntity)
     private readonly mediaRepository: Repository<MediaEntity>,
     private readonly wishlistService: WishlistService,
+    private readonly reviewsService: ReviewsService,
     private readonly stocksService: StocksService,
     private readonly commonService: CommonService,
   ) {}
@@ -335,6 +339,15 @@ export class GamesService {
 
   async removeMedia(mediaId: number) {
     await this.mediaRepository.delete(mediaId);
+  }
+
+  // --- Reviews ---
+  getReviews(gameId: number, paginationQueryDto: PaginationQueryDto) {
+    return this.reviewsService.findAll(gameId, paginationQueryDto);
+  }
+
+  reviewVote(userId: string, gameId: number, reviewVoteDto: ReviewVoteDto) {
+    return this.reviewsService.vote(userId, gameId, reviewVoteDto);
   }
 
   // --- Stock ---

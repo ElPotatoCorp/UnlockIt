@@ -11,6 +11,7 @@ import { MediaEntity } from 'src/media/entities/media.entity';
 import { PublishersModule } from 'src/publishers/publishers.module';
 import { StocksModule } from 'src/stocks/stocks.module';
 import { WishlistModule } from 'src/wishlist/wishlist.module';
+import { ReviewsModule } from 'src/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { WishlistModule } from 'src/wishlist/wishlist.module';
     DevelopersModule,
     PublishersModule,
     WishlistModule,
+    ReviewsModule,
     StocksModule,
     UploadModule,
   ],
