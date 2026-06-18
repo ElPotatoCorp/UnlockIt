@@ -1,7 +1,9 @@
-import { Controller, Get, Param, ParseIntPipe, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
+import { CreateReviewDto } from 'src/reviews/dto/create-review.dto';
+import { UpdateReviewDto } from 'src/reviews/dto/update-review.dto';
 
 @Controller('purchases')
 export class PurchasesController {
@@ -31,5 +33,35 @@ export class PurchasesController {
     @Param('gameId', ParseIntPipe) gameId: number,
   ) {
     return this.purchasesService.findKeys(userId, orderId, gameId);
+  }
+
+  // --- Reviews ---
+  @Post(':orderId/:gameId/review')
+  addReview(
+    @User('sub') userId: string,
+    @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
+    @Param('gameId', ParseIntPipe) gameId: number,
+    @Body() createReviewDto: CreateReviewDto,
+  ) {
+    this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
+  }
+
+  @Patch(':orderId/:gameId/review')
+  async updateReview(
+    @User('sub') userId: string,
+    @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
+    @Param('gameId', ParseIntPipe) gameId: number,
+    @Body() updateReviewDto: UpdateReviewDto,
+  ) {
+    await this.purchasesService.updateReview(userId, orderId, gameId, updateReviewDto);
+  }
+
+  @Delete(':orderId/:gameId/review')
+  async removeReview(
+    @User('sub') userId: string,
+    @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
+    @Param('gameId', ParseIntPipe) gameId: number,
+  ) {
+    await this.purchasesService.removeReview(userId, orderId, gameId);
   }
 }

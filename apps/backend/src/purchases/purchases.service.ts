@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderStatus } from '@unlockit/shared';
@@ -12,6 +12,8 @@ import { PurchaseKeysDto } from './dto/purchase-keys.dto';
 import { PurchaseMapper } from './purchase.mapper';
 import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { ReviewsService } from 'src/reviews/reviews.service';
+import { CreateReviewDto } from 'src/reviews/dto/create-review.dto';
+import { UpdateReviewDto } from 'src/reviews/dto/update-review.dto';
 
 @Injectable()
 export class PurchasesService {
@@ -68,12 +70,9 @@ export class PurchasesService {
   ): Promise<PurchaseKeysDto> {
     // Verify the caller owns this purchase before exposing keys.
     await this.commonService.entities.entityExists(this.orderItemRepository, {
-      where: {
-        orderId,
-        gameId,
-        order: { userId, status: OrderStatus.COMPLETED },
-      },
-      relations: { order: true },
+      orderId,
+      gameId,
+      order: { userId, status: OrderStatus.COMPLETED },
     });
 
     const stocks = await this.stockRepository.find({
@@ -83,5 +82,24 @@ export class PurchasesService {
     });
 
     return PurchaseMapper.toKeys(stocks);
+  }
+
+  // --- Reviews ---
+  async addReview(userId: string, orderId: string, gameId: number, createReviewDto: CreateReviewDto) {
+    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+
+    this.reviewsService.create(userId, gameId, createReviewDto);
+  }
+
+  async updateReview(userId: string, orderId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
+    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+
+    this.reviewsService.update(userId, gameId, updateReviewDto);
+  }
+
+  async removeReview(userId: string, orderId: string, gameId: number) {
+    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+
+    this.reviewsService.remove(userId, gameId);
   }
 }
