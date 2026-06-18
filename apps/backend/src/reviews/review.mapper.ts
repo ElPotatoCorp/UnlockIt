@@ -8,7 +8,7 @@ export class ReviewMapper {
     dto.userId = review.userId;
     dto.gameId = review.gameId;
     dto.content = review.content;
-    dto.score = review.score;
+    dto.rate = review.rate;
     dto.helpfulCount = review.helpfulCount;
     dto.unhelpfulCount = review.unhelpfulCount;
 

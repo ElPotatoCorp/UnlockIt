@@ -5,7 +5,7 @@ export class ReviewDto implements Review {
   gameId: number;
 
   content: string;
-  score: number;
+  rate: number;
 
   helpfulCount: number;
   unhelpfulCount: number;

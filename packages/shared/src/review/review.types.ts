@@ -9,7 +9,7 @@ export type ReviewEntity = {
   game: GameEntity;
 
   content: string;
-  score: number;
+  rate: number;
 
   helpfulCount: number;
   unhelpfulCount: number;
@@ -28,7 +28,7 @@ export type ReviewVoteEntity = {
 
 export type Review = Omit<ReviewEntity, 'user' | 'game'>;
 
-export type CreateReview = Pick<ReviewEntity, 'content' | 'score'>;
+export type CreateReview = Pick<ReviewEntity, 'content' | 'rate'>;
 
 export type UpdateReview = Partial<CreateReview>;
 

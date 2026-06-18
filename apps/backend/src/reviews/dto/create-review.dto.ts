@@ -10,7 +10,7 @@ export class CreateReviewDto implements CreateReview {
   @IsInt()
   @Length(0, 10)
   @Type(() => Number)
-  score: number;
+  rate: number;
 }
 
 const _assertExact: ExactData<CreateReview, CreateReviewDto> = true;

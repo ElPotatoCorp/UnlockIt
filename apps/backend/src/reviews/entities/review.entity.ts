@@ -15,7 +15,7 @@ export class ReviewEntity implements IReviewEntity {
   content: string;
 
   @Column('smallint')
-  score: number;
+  rate: number;
 
   @Column('int', { default: 0 })
   helpfulCount: number;
