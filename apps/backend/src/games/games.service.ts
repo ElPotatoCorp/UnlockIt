@@ -58,8 +58,11 @@ export class GamesService {
 
     const qb = this.gameRepository.createQueryBuilder('game');
 
-    // Basic filters from getBasicSearch — map FindOptionsWhere back to QB
-    qb.where('game.slug LIKE :slug', { slug: `%${options.name}%` });
+    if (options.name) {
+      qb.andWhere('game.slug LIKE :slug', {
+        slug: `%${options.name}%`,
+      });
+    }
 
     if (options.type) {
       qb.andWhere('game.type = :type', { type: options.type });

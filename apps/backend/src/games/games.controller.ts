@@ -52,12 +52,12 @@ export class GamesController {
   @GamesControllerDoc.Search()
   @Public()
   @UseGuards(JwtAuthOptionalGuard)
-  @Post('search/:slug')
+  @Post(['search', 'search/:slug'])
   @HttpCode(HttpStatus.OK)
   search(
-    @Param('slug') name: string,
     @Query() paginationQueryDto: PaginationQueryDto,
     @Body() searchGameOptionsDto: SearchBodyDto,
+    @Param('slug') name?: string,
     @User('sub') userId?: string,
   ) {
     return this.gamesService.search(

@@ -92,6 +92,7 @@ export const GamesControllerDoc = {
       ApiParam({
         name: 'slug',
         type: String,
+        required: false,
         description:
           'URL-friendly game name to search for (e.g. "call-of-duty"). Automatically slugified.',
         example: 'call-of-duty',

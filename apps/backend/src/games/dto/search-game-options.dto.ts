@@ -51,8 +51,9 @@ export class OrderOptionsDto {
 
 export class SearchGameOptionsDto implements SearchGameOptions {
   @SearchGameOptionsDtoDoc.Name()
+  @IsOptional()
   @Transform((params) => slugify(params.value))
-  name: string;
+  name?: string;
 
   @SearchGameOptionsDtoDoc.Type()
   @IsOptional()

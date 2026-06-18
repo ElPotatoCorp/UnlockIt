@@ -64,7 +64,7 @@ export type GameDetail = Simplify<Omit<GameEntity, GameRelationKeys> & {
 
 export type SearchGameOptions = {
   /** Will be turned into a slug */
-  name: string;
+  name?: string;
   type?: GameType;
 
   price?: {
