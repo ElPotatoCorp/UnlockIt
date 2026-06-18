@@ -1,4 +1,4 @@
-import { Review } from "@unlockit/shared";
+import { ExactData, Review } from "@unlockit/shared";
 
 export class ReviewDto implements Review {
   userId: string;
@@ -12,3 +12,5 @@ export class ReviewDto implements Review {
 
   lastEdited: Date | null;
 }
+
+const _assertExact: ExactData<Review, ReviewDto> = true;
