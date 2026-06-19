@@ -19,7 +19,6 @@ import { CreateGameDto } from 'src/games/dto/create-game.dto';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 import { UpdateGameDto } from 'src/games/dto/update-game.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
-import { GameEntity } from 'src/games/entities/game.entity';
 import { BulkIdsDto } from 'src/common/dto/bulk-ids.dto';
 import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
@@ -78,7 +77,7 @@ export const GamesControllerDoc = {
       }),
       ApiCreatedResponse({
         description: 'Game created successfully.',
-        type: GameEntity,
+        type: SummaryGameDto,
       }),
       ApiBadRequestResponse({
         description:

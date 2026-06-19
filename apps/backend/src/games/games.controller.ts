@@ -37,6 +37,7 @@ import { BulkDuplicatedEntryPipe } from 'src/common/entities/pipes/bulk-duplicat
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
 import { ReviewVoteDto } from 'src/reviews/dto/review-vote.dto';
+import { GameMapper } from './game.mapper';
 
 @GamesControllerDoc.Controller()
 @Controller('games')
@@ -46,8 +47,8 @@ export class GamesController {
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
   @Post()
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gamesService.create(createGameDto);
+  async create(@Body() createGameDto: CreateGameDto) {
+    return GameMapper.toSummary(await this.gamesService.create(createGameDto));
   }
 
   @GamesControllerDoc.Search()
