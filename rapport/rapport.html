@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>rapport.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<link rel="stylesheet" href="./src/style.css">
+<link rel="stylesheet" href="./src/hljs.css">
+&lt;script src="./src/mermaid.min.js">&lt;/script> + rm 2nd styles + pseudo ref name
+<header class="sticky-header">
+    <span class="header-title">Rapport SAÉ 4.01 - Qualité</span>
+    <img src="src/assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
+</header>
+<div class="false-body">
+<div class="cover-page">
+    <h1>Rapport SAÉ 4.01 - Qualité</h1>
+    <div>
+        <a href="https://github.com/ElPotatoCorp/UnlockIt" target="_blank">
+            <img src="src/assets/default-og-image.png" class="cover-image" alt="Capture UnlockIt">
+        </a>
+    </div>
+    <div class="cover-authors">
+        <div class="info-line">Mars – Juin 2026</div>
+        <div class="info-line authors">
+            <a href="https://github.com/Frozen1753" target="_blank">Frozen1753</a>
+            <span>&</span>
+            <a href="https://github.com/ElPotatoCorp" target="_blank">ElPotato</a>
+        </div>
+        <div class="info-line">BUT Informatique</div>
+</div>
+</div>
+<div class="page-break"></div>
+<h1 id="sommaire">Sommaire</h1>
+<div class="toc">
+<ul>
+    <li><a href="#1-introduction">1. Introduction</a></li>
+    <li class="lvl2"><a href="#11-présentation-du-projet">1.1 Présentation du projet</a></li>
+    <li class="lvl2"><a href="#12-présentation-des-membres">1.2 Présentation des membres</a></li>
+    <li class="lvl2"><a href="#13-pourquoi-une-refonte-complète-">1.3 Pourquoi une refonte complète ?</a></li>
+    <li class="lvl2"><a href="#14-avertissements-et-déclarations">1.4 Avertissements et déclarations</a></li>
+    <li><a href="#2-frontend">2. Frontend</a></li>
+    <li class="lvl2"><a href="#21-refonte-de-larchitecture-react">2.1 Refonte de l'architecture React</a></li>
+    <li class="lvl2"><a href="#22-référencement-et-indexation">2.2 Référencement et indexation</a></li>
+    <li class="lvl2"><a href="#23-optimisation-des-performances">2.3 Optimisation des performances</a></li>
+    <li class="lvl2"><a href="#24-nouvelle-couche-api-frontend">2.4 Nouvelle couche API Frontend</a></li>
+    <li class="lvl2"><a href="#25-tests-automatisés">2.5 Tests automatisés</a></li>
+    <li class="lvl2"><a href="#26-build-et-compression">2.6 Build et compression</a></li>
+    <li class="lvl2"><a href="#27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#3-backend">3. Backend</a></li>
+    <li class="lvl2"><a href="#31-migration-vers-nestjs">3.1 Migration vers NestJS</a></li>
+    <li class="lvl2"><a href="#32-architecture-modulaire">3.2 Architecture modulaire</a></li>
+    <li class="lvl2"><a href="#33-validation-et-sécurité">3.3 Validation et sécurité</a></li>
+    <li class="lvl2"><a href="#34-maintenabilité">3.4 Maintenabilité</a></li>
+    <li class="lvl2"><a href="#35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#4-conclusion">4. Conclusion</a></li>
+    <li class="lvl2"><a href="#41-bilan">4.1 Bilan</a></li>
+    <li class="lvl2"><a href="#42-perspectives">4.2 Perspectives</a></li>
+</ul>
+</div>
+<h1 id="1-introduction">1. Introduction</h1>
+<h2 id="11-présentation-du-projet">1.1 Présentation du projet</h2>
+<p>UnlockIt est une plateforme web de distribution de jeux vidéo dématérialisés, s'inspirant des principales plateformes du marché telles que Steam, Instant Gaming ou Epic Games Store. Le projet a pour objectif de reproduire une partie de leurs fonctionnalités à travers une architecture full-stack moderne.</p>
+<p>La première version du projet, durant la SAÉ 3.01, avait pour ambition de proposer une expérience complète autour de l'achat et de la gestion de jeux numériques. Les utilisateurs pouvaient consulter un catalogue de jeux, rechercher des produits, créer un compte, gérer leur panier d'achat, constituer une liste de souhaits et accéder à leur bibliothèque personnelle après l'achat.</p>
+<p>L'objectif académique de cette première version était avant tout de nous confronter à la réalisation d'une application web de grande ampleur, nécessitant la conception d'un frontend moderne, d'une API backend ainsi que d'une base de données relationnelle relativement complexe. Ce projet nous a également permis d'expérimenter le travail en équipe, la gestion d'une architecture multi-couches et la mise en place de méthodologies de développement proches du monde professionnel.</p>
+<div class="card">
+<p><img src="src/assets/old-homepage.png" alt="Page d'accueil de UnlockIt V1"></p>
+<p><em>Figure 1 – Capture de la page d'accueil de UnlockIt (SAÉ 3.01).</em></p>
+</div>
+<p>D'un point de vue fonctionnel, UnlockIt (SAÉ 3.01) proposait déjà la majorité des fonctionnalités attendues pour une plateforme de distribution numérique :</p>
+<ul>
+<li>consultation du catalogue de jeux</li>
+<li>recherche et filtrage avancés</li>
+<li>authentification et gestion de compte</li>
+<li>système de panier et de wishlist</li>
+<li>historique d'achats</li>
+<li>récupération des clés d'activation</li>
+<li>système de commentaires et d'avis</li>
+</ul>
+<p>Ces fonctionnalités ont permis de valider la faisabilité du projet et de produire une première version entièrement fonctionnelle.</p>
+<div class="card">
+<p><img src="src/assets/old-game-page.png" alt="Page produit de UnlockIt V1"></p>
+<p><em>Figure 2 – Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).</em></p>
+</div>
+<p>L'architecture technique de cette première version reposait sur une séparation classique entre trois couches :</p>
+<ul>
+<li>un frontend développé avec <strong>React</strong>, <strong>TypeScript</strong> et <strong>Vite</strong></li>
+<li>un backend développé en <strong>PHP</strong> suivant une architecture inspirée du modèle MVC</li>
+<li>une base de données <strong>PostgreSQL</strong> exploitant de nombreuses fonctionnalités natives, notamment les fonctions stockées et les triggers.</li>
+</ul>
+<div class="card">
+<div class="mermaid-center" style="text-align:center;">
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TB
+
+    classDef front fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef back fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+    classDef db fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+    A["Frontend React"]:::front
+    B["Backend (API PHP)"]:::back
+    C["Database (PostgreSQL)"]:::db
+
+    A -->|HTTP/REST| B
+    B -->|JSON| A
+    B -->|PDO| C
+    C -->|SQL/PlpgSQL| B
+</div></code></pre>
+</div>
+<p><em>Figure 3 – Architecture simplifiée de UnlockIt (SAÉ 3.01).</em></p>
+<p>* Si du code s'affiche à la place du schéma, rafraichissez la page.</p>
+</div>
+<p>Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. L’absence d’outils d’analyse et de tests automatisés compliquait également la détection des régressions et l’optimisation des performances.</p>
+<p>Bien que fonctionnelle et suffisamment robuste pour être présentée lors de la première soutenance, cette version s’apparentait davantage à un produit minimum viable (MVP) qu’à une base technique durable. Avec la montée en compétences de l’équipe, les parties les plus anciennes du code nous sont apparues comme insuffisamment structurées, parfois mal écrites, voire difficilement lisibles en comparaison des fonctionnalités plus récentes. Le projet tenait, mais ses fondations étaient fragiles. Pour envisager une évolution pérenne, une refonte devenait nécessaire.</p>
+<p>Ces constats nous ont naturellement conduits à envisager une seconde itération du projet, non plus centrée sur l’ajout de fonctionnalités, mais sur une amélioration profonde de sa qualité technique et de son architecture.</p>
+<h2 id="12-présentation-des-membres">1.2 Présentation des membres</h2>
+<h3 id="121-organisation">1.2.1 Organisation</h3>
+<p>Notre équipe était composée de deux membres, chacun avec un domaine principal : le frontend pour l’un, le backend pour l’autre. Malgré cette répartition naturelle, notre manière de travailler n’a jamais été cloisonnée. Nous échangions en permanence sur nos avancées, nos idées, nos essais et nos ajustements, et chaque décision importante était discutée ensemble, même lorsqu’elle concernait un domaine attribué à l’autre. Cette communication continue nous a permis de conserver une vision commune du projet et d’assurer une cohérence globale entre toutes ses couches, du design de l’interface jusqu’à la structure de la base de données.</p>
+<p>Pour organiser notre travail, nous nous appuyions sur trois outils complémentaires : Git pour le versionnement, Trello pour le suivi des tâches et Discord pour la communication quotidienne. Notre workflow Git était volontairement simple : nous ne travaillions pas avec des branches séparées, car nos fichiers ne se chevauchaient pas et les types étaient centralisés dans un module partagé compilé automatiquement. Cette approche, combinée à une communication fluide, nous a permis d’éviter les conflits et de maintenir un rythme de développement efficace. Nous nous synchronisions régulièrement sur l’avancement des fonctionnalités, en nous attendant mutuellement lorsque l’un avait besoin d’un ajustement côté front ou d’une nouvelle route côté back.</p>
+<p>Lors des périodes de télétravail, nous travaillions dans le même salon vocal Discord, ce qui recréait une véritable proximité malgré la distance. Nous développions en direct, partagions nos écrans lorsque nécessaire et prenions même nos pauses ensemble. Cette dynamique a rendu le travail plus agréable et a renforcé notre coordination. Elle a également permis de résoudre rapidement les problèmes, d’ajuster les fonctionnalités au fur et à mesure et de maintenir une cohésion forte tout au long du projet.</p>
+<h3 id="122-les-membres">1.2.2 Les membres</h3>
+<div class="card">
+<a href="https://github.com/Frozen1753" target="_blank">
+    <h3>Frozen1753</h3>
+</a>
+<p><strong>Compétences techniques</strong></p>
+<ul>
+<li><strong>Développement &amp; Programmation :</strong> Java • C • C++ • C# • Bash • Python</li>
+<li><strong>Développement Web :</strong> JavaScript • TypeScript • React • Vite • Playwright • PHP • NestJS • TypeORM</li>
+<li><strong>Design &amp; Interfaces :</strong>  XAML • HTML • CSS • Figma</li>
+<li><strong>Bases de données :</strong>  SQL • PostgreSQL</li>
+<li><strong>Réseaux &amp; Systèmes :</strong> TCP/IP • Cisco Packet Tracer • Windows • Linux</li>
+<li><strong>Outils &amp; Environnements :</strong> Visual Studio • IntelliJ • Git • GitHub • PowerBI • PhpMyAdmin • MySQL • Workbench • Docker</li>
+</ul>
+<p><strong>Formation</strong><br>
+Étudiant en 2ᵉ année de BUT Informatique (formation initiale)</p>
+<p><strong>Rôles dans le projet</strong><br>
+Frontend • UX/UI Design • Design graphique • Optimisation • Testing</p>
+</div>
+<div class="card">
+<a href="https://github.com/ElPotatoCorp" target="_blank">
+    <h3>ElPotato</h3>
+</a>
+<p><strong>Compétences techniques</strong></p>
+<ul>
+<li><strong>Développement &amp; Programmation :</strong> Rust • C • C++ • C# • Bash • Python</li>
+<li><strong>Développement Web :</strong> JavaScript • TypeScript • React • PHP • Swagger • Vite • NestJS • TypeORM</li>
+<li><strong>Design &amp; Interfaces :</strong> XAML • XML • HTML • CSS</li>
+<li><strong>Bases de données :</strong> SQL • PostgreSQL</li>
+<li><strong>Réseaux &amp; Systèmes :</strong> TCP/IP • Cisco Packet Tracer • Windows • Linux</li>
+<li><strong>Outils &amp; Environnements :</strong> Visual Studio • IntelliJ • Git • GitHub • PowerBI • PhpMyAdmin • MySQL • Workbench • Docker</li>
+</ul>
+<p><strong>Formation</strong><br>
+Étudiant en 2ᵉ année de BUT Informatique (formation initiale)</p>
+<p><strong>Rôles dans le projet</strong><br>
+Backend • Base de données • Documentation • Optimisation • Scripts</p>
+</div>
+<h2 id="13-pourquoi-une-refonte-complète-">1.3 Pourquoi une refonte complète ?</h2>
+<p>À l'issue de la SAÉ 3.01, nous disposions d'une application fonctionnelle répondant à la majorité des objectifs initiaux. Malgré ce résultat satisfaisant, nous avions pleinement conscience des limites de notre implémentation. Une grande partie de l'architecture avait été construite progressivement, au fur et à mesure de l'ajout de nouvelles fonctionnalités et de notre montée en compétences durant le projet.</p>
+<p>Avec le recul, certaines décisions techniques prises au début du développement ne correspondaient plus à nos besoins actuels. Plusieurs composants étaient devenus trop volumineux, certaines responsabilités étaient mal réparties et une partie du code était devenue difficile à maintenir. Ajouter une nouvelle fonctionnalité nécessitait parfois de modifier plusieurs zones de l'application, augmentant le risque d'introduire des régressions.</p>
+<p>De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, les tests automatisés, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.</p>
+<p>La SAÉ 4.01 nous a offert l'opportunité de revenir sur ce projet avec un regard plus critique et davantage d'expérience. Plutôt que d'ajouter de nouvelles fonctionnalités sur des fondations que nous jugions désormais fragiles, nous avons fait le choix de repartir de zéro.</p>
+<p>Cette décision peut sembler radicale, mais elle nous a permis de repenser entièrement l'application :</p>
+<ul>
+<li>en adoptant une architecture plus propre et plus maintenable</li>
+<li>en améliorant les performances globales du site</li>
+<li>en modernisant les outils utilisés</li>
+<li>en introduisant des pratiques de développement plus professionnelles</li>
+<li>en préparant le projet à de futures évolutions</li>
+</ul>
+<p>L'objectif de cette seconde version n'était donc pas simplement de produire un « UnlockIt plus complet », mais de transformer un premier prototype fonctionnel en une base technique plus robuste, plus cohérente et davantage orientée vers la qualité logicielle.</p>
+<h2 id="14-avertissements-et-déclarations">1.4 Avertissements et déclarations</h2>
+<h3 id="141-utilisation-de-lintelligence-artificielle"><strong>1.4.1 Utilisation de l’intelligence artificielle</strong></h3>
+<p>L’intelligence artificielle n’a été utilisée dans ce projet qu’à des fins ponctuelles et strictement encadrées. Elle a servi principalement à automatiser certaines tâches répétitives, à reformuler ou clarifier certains passages, et surtout à répondre à des questions techniques précises lorsque cela permettait d’éviter de longues recherches documentaires. Les sollicitations de l’IA portaient essentiellement sur des interrogations ciblées du type : « Existe‑t‑il une manière plus propre de faire X en Y ? » ou « Comment aborder tel problème sans passer par telle solution ? ». Dès lors qu’une réponse pouvait être trouvée rapidement dans la documentation officielle, nous privilégions systématiquement cette voie plutôt que l’IA.</p>
+<p>Toutes les suggestions générées ont été systématiquement vérifiées, corrigées ou réécrites par les membres de l’équipe, et aucune partie du code métier, des algorithmes ou des décisions techniques n’a été produite automatiquement sans supervision humaine. Toute erreur restante sera donc authentiquement humaine, probablement due à notre maladresse ou à notre incompétence personnelle.</p>
+<h3 id="142-images-médias-et-éléments-graphiques"><strong>1.4.2 Images, médias et éléments graphiques</strong></h3>
+<p>L’ensemble des éléments visuels présents dans le projet : images, icônes, illustrations, SVG, animations ou compositions graphiques; a été soit réalisé manuellement, soit récupéré depuis des plateformes proposant des licences autorisant explicitement leur utilisation. Aucun média n’a été intégré sans vérification préalable de ses droits d’usage. Les ressources graphiques externes ont été sélectionnées avec soin afin de respecter les contraintes légales et d’assurer une cohérence esthétique avec l’identité visuelle du projet.</p>
+<h3 id="143-ressources-externes-et-données-utilisées"><strong>1.4.3 Ressources externes et données utilisées</strong></h3>
+<p>Toutes les données exploitées dans l’application proviennent de sources publiques ou ouvertes. Les informations relatives aux jeux vidéo, par exemple, ont été récupérées via l’API officielle de Steam, qui met ces données à disposition de manière publique. Elles ont ensuite été retraitées, filtrées et enrichies pour améliorer leur qualité et leur pertinence, ce qui explique leur quantité réduite par rapport à la version précédente du projet. De la même manière, les bibliothèques logicielles utilisées dans le code sont exclusivement des solutions publiques, open‑source ou librement accessibles, sélectionnées pour leur fiabilité et leur compatibilité avec les besoins du projet.</p>
+<h1 id="2-frontend">2. Frontend</h1>
+<h2 id="21-refonte-de-larchitecture-react">2.1 Refonte de l'architecture React</h2>
+<h3 id="211-le-problème">2.1.1 Le problème</h3>
+<p>L’un des objectifs majeurs de cette seconde version d’UnlockIt a été d’améliorer et de clarifier l’architecture du frontend. La première version reposait déjà sur une base solide : une structure modulaire, organisée autour de composants réutilisables, de pages fonctionnelles et de dossiers bien séparés. Cette organisation était tout à fait exploitable et scalable, mais elle montrait ses limites à mesure que le projet grandissait.</p>
+<p>Le principal défi ne venait donc pas d’un manque de modularité, mais plutôt de la <strong>classification des composants et des fichiers</strong>. Il devenait parfois difficile de déterminer où placer un nouvel élément :</p>
+<ul>
+<li>un composant était‑il propre au projet ou suffisamment générique pour être réutilisable ailleurs ?</li>
+<li>un hook relevait‑il de la logique métier, d’un helper ou d’un validateur ?</li>
+<li>où ranger les refactors liés à l’API sans mélanger logique et présentation ?</li>
+<li>comment éviter que certains dossiers deviennent des “fourre‑tout” au fil du temps ?</li>
+</ul>
+<p>Ces zones grises entraînaient des hésitations, des réorganisations ponctuelles et une perte de cohérence dans la structure globale.</p>
+<p>La refonte n’a donc pas consisté à repartir de zéro, mais à rendre l’architecture plus explicite, plus cohérente et plus prévisible. Plusieurs dossiers ont été introduits ou repensés pour clarifier les responsabilités et éviter les ambiguïtés :</p>
+<ul>
+<li><code class="c">layout/</code> regroupe désormais tous les composants qui encadrent ou se superposent aux pages (header, footer, background, panneau de debug, etc.). Le layout est ensuite appliqué globalement dans <code class="c">App.tsx</code>, ce qui simplifie la structure des pages.</li>
+<li><code class="c">common/</code> accueille les composants génériques et réutilisables indépendamment du projet : systèmes de skeleton, modals, alertes, providers, etc. Ce sont des briques transversales que l’on pourrait réutiliser dans d’autres applications.</li>
+<li><code class="c">api/</code> centralise toute la logique liée aux appels API : hooks dédiés, services, stores Zustand, types, mocks, et l’instance Axios. Les composants n’ont plus aucune logique API : ils se contentent d’appeler un hook métier.</li>
+<li><code class="c">utils/</code> regroupe tous les refactors logiques qui ne relèvent pas de l’API : formatteurs, validateurs, helpers, hooks transversaux, stores globaux (langue, thème, etc.).</li>
+<li><code class="c">public/media/</code> remplace l’ancien dossier <code class="c">images/</code>, qui servait parfois de fourre‑tout. Les médias sont désormais classés par type (images, vidéos, icônes, etc.), ce qui améliore la lisibilité et la maintenance.</li>
+</ul>
+<p>L’objectif global était de <strong>lever les ambiguïtés</strong>, d’améliorer la lisibilité et de rendre l’architecture plus intuitive pour toute l’équipe. Cette nouvelle organisation facilite aujourd’hui l’intégration de nouvelles fonctionnalités, limite les risques de confusion et renforce la cohérence du projet sur le long terme.</p>
+<h3 id="212-nouvelle-architecture">2.1.2 Nouvelle architecture</h3>
+<div class="before">
+<h3>Avant</h3>
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "frontend"
+        "index.html"
+        "vite.config.ts"
+        "package.json"
+        "public"
+            "fonts"
+            "images"
+        "src"
+            "components"
+            "features"
+            "pages"
+            "styles"
+            "App.tsx"
+            "main.tsx"
+</div></code></pre>
+<p>Les composants pouvaient ressembler à ceci :</p>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "nom-composant"
+        "nom-sous-composant-1"
+        "nom-sous-composant-2"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
+        "fallback-api-offline-1.json"
+        "fallback-api-offline-2.json"
+</div></code></pre>
+</details>
+</div>
+<div class="after">
+<h3>Après</h3>
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "frontend"
+        "index.html"
+        "vite.config.ts"
+        "package.json"
+        "public"
+            "fonts"
+            "media"
+                "img"
+                "vid"
+                "ico"
+                "autres"
+        "src"
+            "components"
+                "layout"
+                "ui"
+                "common"
+            "features"
+            "pages"
+            "styles"
+            "api"
+                "hook"
+                "mock"
+                "services"
+                "stores"
+                "types"
+                "axios.instance.ts"
+            "utils"
+                "formatters"
+                "helpers"
+                "hooks"
+                "stores"
+                "validators"
+            "App.tsx"
+            "main.tsx"
+</div></code></pre>
+<p>La structure d'un composant n'a pas réellement changé, sauf que cette fois ci, il n'y a pas de fallback locaux car tout marche bien :</p>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "nom-composant"
+        "nom-sous-composant-1"
+        "nom-sous-composant-2"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
+</div></code></pre>
+</details>
+</div>
+<h2 id="22-référencement-et-indexation">2.2 Référencement et indexation</h2>
+<h3 id="221-react-helmet">2.2.1 React Helmet</h3>
+<p>Lors du développement de la première version de UnlockIt, très peu d’attention avait été portée aux problématiques de référencement naturel. Comme dans la plupart des applications React, l’architecture reposait sur le principe d’une <strong>Single Page Application (SPA)</strong> : un unique fichier <code class="c">index.html</code> sert de point d’entrée, puis React prend le relais pour générer et mettre à jour l’interface.</p>
+<p>Le fonctionnement suit une chaîne simple :</p>
+<ul>
+<li><strong>index.html :</strong> contient uniquement la structure minimale et un conteneur <code class="c">&lt;div id=&quot;root&quot;&gt;</code>.</li>
+<li><strong>main.tsx :</strong> monte l’application React dans <code class="c">#root</code>.</li>
+<li><strong>App.tsx :</strong> constitue le composant racine et gère le routage.</li>
+<li><strong>Composants :</strong> chaque page ou section du site est rendue dynamiquement à l’intérieur de <code class="c">App</code>.</li>
+</ul>
+<p>Dans ce modèle, changer de page ne provoque pas le chargement d'un nouveau document HTML. Seul le contenu affiché à l'écran est modifié par JavaScript, ce qui empêche naturellement chaque page de disposer de ses propres métadonnées.</p>
+<details class="accordion">
+<summary>Exemple de SPA React</summary>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "index.html"
+    "public"
+        "favicon.svg"
+    "src"
+        "main.tsx"
+        "App.tsx"
+        "App.css"
+        "assets"
+            "logo.svg"
+            "..."
+        "components"
+            "Button"
+            "Navbar"
+            "..."
+        "..."
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
+<span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    ...
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/src/main.tsx&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// main.tsx</span>
+<span class="hljs-title function_">createRoot</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;root&#x27;</span>)!).<span class="hljs-title function_">render</span>(
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">StrictMode</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">StrictMode</span>&gt;</span></span>,
+)
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// App.tsx</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Layout</span> /&gt;</span>}&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">index</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Home</span> /&gt;</span>}/&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">...</span> /&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;*&quot;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">NotFound</span> /&gt;</span>} /&gt;
+          <span class="hljs-tag">&lt;/<span class="hljs-name">Route</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span>
+  );
+}
+</div></code></pre>
+</details>
+<p>En nous intéressant davantage au fonctionnement des moteurs de recherche et aux recommandations fournies par Lighthouse, nous avons constaté que l'absence de métadonnées adaptées à chaque page pénalisait le référencement du site ainsi que le partage de son contenu sur les réseaux sociaux.</p>
+<p>Pour répondre à cette problématique, nous avons intégré la bibliothèque <strong>React Helmet Async</strong>, qui permet de modifier dynamiquement le contenu de l'élément <code class="c">&lt;head&gt;</code> en fonction de la page actuellement affichée.</p>
+<p>Plutôt que de dupliquer les mêmes balises dans chaque composant, nous avons créé un composant réutilisable nommé <code class="c">UnlockItHelmet</code>, appliquant le principe DRY (Don't Repeat Yourself).  Celui-ci centralise la gestion :</p>
+<ul>
+<li>du titre de la page ;</li>
+<li>de la description ;</li>
+<li>des balises <code class="c">OpenGraph</code> ;</li>
+<li>des métadonnées Twitter ;</li>
+<li>de l'URL canonique ;</li>
+<li>des consignes d'indexation.</li>
+</ul>
+<pre class="hljs"><code><div>&lt;<span class="hljs-title class_">UnlockItHelmet</span>
+    title=<span class="hljs-string">&quot;Accueil&quot;</span>
+    path=<span class="hljs-string">&quot;/&quot;</span>
+/&gt;
+</div></code></pre>
+<p>À partir de cette simple déclaration, le composant génère automatiquement l'ensemble des métadonnées nécessaires.</p>
+<details class="accordion">
+<summary>Résultats</summary>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    &lt;...&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>UnlockIt – Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;UnlockIt : achetez vos jeux PC moins cher. Clés Steam, Origin et Uplay livrées instantanément au meilleur prix.&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;robots&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;index, follow&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:title&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;UnlockIt – Accueil&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">...</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;twitter:card&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;summary_large_image&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">...</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;canonical&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://unlock-it.com/&quot;</span>&gt;</span>
+    &lt;...&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+</div></code></pre>
+</details>
+<p>L'approche devient encore plus intéressante pour les pages dynamiques. Une recherche sur le terme <code class="c">test</code> génère automatiquement un titre et une description adaptés au contenu affiché.</p>
+<pre class="hljs"><code><div>&lt;<span class="hljs-title class_">UnlockItHelmet</span>
+    title={<span class="hljs-string">`Recherche : <span class="hljs-subst">${term}</span>`</span>}
+    description={<span class="hljs-string">`Résultats de recherche pour &quot;<span class="hljs-subst">${term}</span>&quot;`</span>}
+    path={<span class="hljs-string">`/search/<span class="hljs-subst">${term}</span>`</span>}
+/&gt;
+</div></code></pre>
+<details class="accordion">
+<summary>Résultats</summary>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    &lt;...&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>UnlockIt – Recherche : test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Résultats de recherche pour <span class="hljs-symbol">&amp;quot;</span>test<span class="hljs-symbol">&amp;quot;</span> sur UnlockIt. Trouvez vos jeux PC au meilleur prix.&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;robots&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;index, follow&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:title&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;UnlockIt – Recherche : test&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">...</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;twitter:card&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;summary_large_image&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">...</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;canonical&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://unlock-it.com/search/test&quot;</span>&gt;</span>
+    &lt;...&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+</div></code></pre>
+</details>
+<p>Cette amélioration, relativement simple à mettre en œuvre, rapproche davantage UnlockIt du fonctionnement d'un véritable site de production. Elle améliore les scores de référencement fournis par Lighthouse, facilite l'indexation par les moteurs de recherche et permet également un meilleur rendu lors du partage des pages sur les réseaux sociaux.</p>
+<p>Au-delà de l'aspect technique, cette démarche nous a permis de mieux comprendre le fonctionnement du web moderne et de découvrir des problématiques que nous n'avions encore jamais abordées dans le cadre des précédentes SAÉ.</p>
+<hr>
+<h3 id="222-robotstxt">2.2.2 Robots.txt</h3>
+<p>Lors des différents audits réalisés avec Lighthouse, nous avons découvert plusieurs recommandations liées au référencement naturel et à l'indexation du site. Parmi celles-ci figurait la présence d'un fichier <code class="c">robots.txt</code>, mécanisme que nous ne connaissions pas avant cette refonte.</p>
+<p>En nous documentant davantage, notamment à l'aide de la documentation officielle et de l'intelligence artificielle, nous avons découvert qu'il s'agissait d'un fichier standard du Web permettant de communiquer certaines informations aux robots d'exploration des moteurs de recherche.</p>
+<p>Encore une fois, même si UnlockIt reste un projet académique et n’a pas vocation à être réellement indexé (surtout avec le marché actuel et des géants comme Steam ou Instant Gaming… on ne ferait pas long feu), nous avons tout de même souhaité reproduire le fonctionnement d’une application de production en mettant en place ce fichier.</p>
+<p>Le fichier <code class="c">robots.txt</code> est placé dans le dossier <code class="c">public</code> afin d'être directement accessible à l'adresse :</p>
+<p><a>https://unlock-it.com/robots.txt</a></p>
+<p>Son contenu a été enrichi afin de refléter les bonnes pratiques d’un site e‑commerce moderne :</p>
+<pre class="hljs"><code><div>User-agent: *
+Allow: /
+
+Disallow: /settings
+Disallow: /login
+Disallow: /register
+Disallow: /purchases
+Disallow: /purchases/
+Disallow: /purchases/*
+Disallow: /wishlist
+
+Sitemap: https://unlock-it.com/sitemap.xml
+</div></code></pre>
+<p>Ce fichier indique que l'ensemble du site peut être exploré, à l’exception des pages sensibles.
+Nous avons choisi de bloquer explicitement :</p>
+<ul>
+<li><code class="c">/login</code>, <code class="c">/register</code> et <code class="c">/settings</code> : pages strictement personnelles, sans intérêt SEO.</li>
+<li><code class="c">/wishlist</code> : page liée au compte utilisateur, non destinée à être publique.</li>
+<li><code class="c">/purchases</code> et <code class="c">/purchases/:id</code> : pages critiques contenant l’historique d’achat et les clés de jeux.</li>
+</ul>
+<p>Même si ces pages sont protégées côté serveur, les exposer aux robots pourrait révéler des identifiants sensibles ou provoquer une indexation accidentelle, ce qui serait contraire aux bonnes pratiques de sécurité et de confidentialité.</p>
+<p>Ainsi, le fichier robots.txt contribue à protéger les zones privées du site tout en guidant correctement les moteurs de recherche vers les pages réellement destinées à être explorées.</p>
+<details class="accordion">
+<summary>Pourquoi le placer dans public ?</summary>
+<p>Le dossier <code class="c">public</code> de Vite contient les ressources statiques qui doivent être servies directement par le serveur sans être traitées par le bundler. Les fichiers <code class="c">robots.txt</code>, <code class="c">sitemap.xml</code> ou encore <code class="c">favicon.ico</code> sont donc naturellement placés dans ce répertoire afin d'être accessibles depuis la racine du site.</p>
+<pre class="hljs"><code><div>public/
+├── favicon.ico
+├── robots.txt
+└── sitemap.xml
+</div></code></pre>
+</details>
+<p>L'ajout de ce fichier participe à rendre le projet plus conforme aux standards actuels du Web et nous a permis de mieux comprendre le fonctionnement de l'exploration et de l'indexation des sites internet.</p>
+<p>Le fichier <code class="c">robots.txt</code> ne garantit pas qu'une page sera indexée ou non par un moteur de recherche. Il constitue uniquement une convention permettant de donner des indications aux robots d'exploration.</p>
+<hr>
+<h3 id="223-sitemap-xml">2.2.3 Sitemap XML</h3>
+<p>Si le fichier <code class="c">robots.txt</code> indique aux robots d'exploration où trouver certaines informations, le fichier <code class="c">sitemap.xml</code> leur fournit quant à lui la liste des pages disponibles sur le site ainsi que certaines informations complémentaires concernant leur importance et leur fréquence de mise à jour.</p>
+<details class="accordion">
+<summary>Grosso modo</summary>
+<blockquote>
+<p><code class="c">robots.txt</code> dit aux robots &quot;où regarder&quot;.</p>
+<p><code class="c">sitemap.xml</code> dit aux robots &quot;quelles pages existent&quot;.</p>
+</blockquote>
+</details>
+<p>Lors de nos recherches sur le référencement naturel et après plusieurs audits réalisés avec Lighthouse, nous avons découvert qu'il était courant pour les sites de production de mettre à disposition un sitemap afin de faciliter leur indexation.</p>
+<p>Nous avons donc décidé d'ajouter un fichier <code class="c">sitemap.xml</code> à la racine du projet, également placé dans le dossier <code class="c">public</code> afin qu'il soit accessible à l'adresse :</p>
+<p><a>https://unlock-it.com/sitemap.xml</a></p>
+<p>Le sitemap contient les principales pages publiques du site, accompagnées de plusieurs informations :</p>
+<ul>
+<li><code class="c">loc</code> : l'adresse de la page ;</li>
+<li><code class="c">changefreq</code> : la fréquence estimée des modifications ;</li>
+<li><code class="c">priority</code> : l'importance relative de la page au sein du site.</li>
+</ul>
+<p>L'extrait suivant présente quelques entrées du fichier :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">urlset</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">loc</span>&gt;</span>https://unlock-it.com/<span class="hljs-tag">&lt;/<span class="hljs-name">loc</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">changefreq</span>&gt;</span>weekly<span class="hljs-tag">&lt;/<span class="hljs-name">changefreq</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">priority</span>&gt;</span>0.9<span class="hljs-tag">&lt;/<span class="hljs-name">priority</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">loc</span>&gt;</span>https://unlock-it.com/search<span class="hljs-tag">&lt;/<span class="hljs-name">loc</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">changefreq</span>&gt;</span>weekly<span class="hljs-tag">&lt;/<span class="hljs-name">changefreq</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">priority</span>&gt;</span>0.5<span class="hljs-tag">&lt;/<span class="hljs-name">priority</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span>
+
+  ...
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">loc</span>&gt;</span>https://unlock-it.com/privacy<span class="hljs-tag">&lt;/<span class="hljs-name">loc</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">changefreq</span>&gt;</span>yearly<span class="hljs-tag">&lt;/<span class="hljs-name">changefreq</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">priority</span>&gt;</span>0.2<span class="hljs-tag">&lt;/<span class="hljs-name">priority</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">loc</span>&gt;</span>https://unlock-it.com/login<span class="hljs-tag">&lt;/<span class="hljs-name">loc</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">changefreq</span>&gt;</span>yearly<span class="hljs-tag">&lt;/<span class="hljs-name">changefreq</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">priority</span>&gt;</span>0.1<span class="hljs-tag">&lt;/<span class="hljs-name">priority</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span>
+
+  ...
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">urlset</span>&gt;</span>
+</div></code></pre>
+<p>Concernant les pages dynamiques, même si UnlockIt (SAÉ 4.01) ne comporte actuellement qu’une soixantaine de jeux issus de l’API Steam, l’application a été pensée pour évoluer. Dans un contexte réel, un site de vente de licences pourrait facilement proposer <strong>plusieurs milliers de jeux</strong>, chacun accessible via une URL de type : <code class="c">/games/:slug</code></p>
+<p>Dans ce cas, il serait évidemment <strong>impossible et totalement irréaliste</strong> de maintenir manuellement une entrée dans le sitemap pour chaque jeu.<br>
+C’est d’ailleurs pour cette raison que les sites e‑commerce professionnels (Steam, Instant Gaming, Eneba, Amazon…) génèrent leurs sitemaps automatiquement, à l’aide d’un script.</p>
+<p>Un tel script peut être exécuté :</p>
+<ul>
+<li>à partir de la base de données (pour lister tous les jeux disponibles)</li>
+<li>à chaque déploiement</li>
+<li>ou encore une fois par jour, afin de refléter les ajouts ou suppressions de produits</li>
+</ul>
+<p>Cette approche garantit que le sitemap reste toujours à jour, sans intervention manuelle, même lorsque le catalogue atteint plusieurs milliers d’entrées.<br>
+Le sitemap actuel d’UnlockIt ne contient donc que les pages statiques et publiques, mais sa structure a été pensée pour être compatible avec une génération dynamique future, comme cela se ferait dans un environnement de production.</p>
+<p>Cette réflexion autour du sitemap nous a permis de mieux comprendre les mécanismes d’indexation modernes et de découvrir un aspect du développement web que nous n’avions encore jamais abordé au cours des précédentes SAÉ.<br>
+Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un excellent exercice pour adopter une démarche plus professionnelle et se rapprocher du fonctionnement réel d’une application web en production.</p>
+<h2 id="23-optimisation-des-performances">2.3 Optimisation des performances</h2>
+<p>L’optimisation des performances a constitué l’un des principaux axes de travail de cette nouvelle version de l’application. Lors du développement de la SAÉ 3.01, notre démarche reposait essentiellement sur une évaluation subjective : tant que l’interface semblait fluide et réactive, nous considérions que les performances étaient satisfaisantes. Avec davantage d’expérience, nous avons compris que cette approche était insuffisante. Une application peut en effet paraître rapide tout en exécutant des traitements inutiles, en chargeant des ressources superflues ou en déclenchant des rendus React non nécessaires.</p>
+<p>Afin d’adopter une démarche plus rigoureuse et professionnelle, nous avons choisi de mesurer avant d’optimiser. Nous avons ainsi intégré plusieurs outils de profilage, d’audit et d’analyse permettant d’identifier objectivement les points de ralentissement, de comprendre leur origine et de valider l’impact réel des optimisations apportées. Cette approche nous a également permis de mieux appréhender le fonctionnement interne de React, du moteur JavaScript et du navigateur, révélant des problématiques que l’on ne perçoit pas sans instrumentation adaptée.</p>
+<p>Les outils utilisés couvrent différents aspects de la performance : certains se concentrent sur le rendu React, d’autres analysent le comportement global du navigateur, tandis que des outils comme Lighthouse évaluent la qualité générale de l’application (accessibilité, bonnes pratiques, poids des ressources, etc.). Les sections suivantes détaillent ces outils et expliquent comment ils nous ont guidés dans l’amélioration de l’application.</p>
+<hr>
+<h3 id="231-react-scan">2.3.1 React Scan</h3>
+<p>L’outil principal utilisé durant cette phase a été <strong>React Scan</strong>, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent. Son activation est extrêmement simple : une seule ligne ajoutée dans le <code class="c">&lt;head&gt;</code> du fichier <code class="c">index.html</code> suffit pour le rendre opérationnel.</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+  <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">&quot;anonymous&quot;</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//unpkg.com/react-scan/dist/auto.global.js&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<p>React Scan met en évidence les composants qui se réaffichent, la fréquence de leurs re-rendus ainsi que les zones de l’interface les plus coûteuses. À chaque rendu, l’outil dessine une boîte autour du composant concerné, ce qui permet d’observer immédiatement si un comportement est normal ou excessif. Lors de l’ouverture d’un menu, par exemple, seuls le bouton déclencheur et le menu devraient être redessinés ; un re-rendu du header entier indiquerait au contraire une propagation indésirable des mises à jour.</p>
+<div class="card">
+<h4 id="exemple-de-diagnostic-avec-react-scan">Exemple de diagnostic avec React Scan.</h4>
+<p>Lors d’un premier clic, le menu apparaît et seuls les éléments directement concernés sont redessinés. Un second clic ferme le menu, ce qui provoque son re-rendu et la disparition de son contenu. Cette visualisation simple permet de distinguer très rapidement un rendu localisé d’un rendu trop large.</p>
+<p><img src="src/assets/react_scan_gif_1.gif" alt="React Scan gif 1"></p>
+<p>L’outil propose également un panneau d’analyse affichant l’historique des re-rendus, leur durée et les FPS en temps réel. Cette vue est particulièrement utile pour repérer les composants les plus coûteux ou identifier des pics de latence. Un re-rendu complet de la page, par exemple, ferait chuter les FPS de manière notable.</p>
+<p><img src="src/assets/react_scan_gif_2.gif" alt="React Scan gif 2"></p>
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+<p>PS 1 : Dans cet exemple, les FPS sont limités à environ 40 en raison du mode développement et des programmes en arrière-plan (base de données, Docker, enregistrement vidéo, etc.). En production, la page atteint généralement autour de 100 FPS, sauf sur des machines peu performantes.</p>
+<p>PS 2 : Le premier événement affiché à 7 FPS correspond simplement au démarrage de l’application et de React Scan. Les rendus se font généralement dans l’ordre de la dizaine de millisecondes.</p>
+</details>
+</div>
+<p>Ces analyses nous ont encouragés à adopter de meilleurs réflexes lors de la conception de nouveaux composants, notamment en limitant les dépendances inutiles et en structurant plus clairement les responsabilités de chaque élément.</p>
+<p>Découper les grands composants joue également un rôle essentiel. Une page représentée par un seul composant implique que la moindre modification locale, par exemple l’apparition conditionnelle d’un simple <code class="c">&lt;div&gt;</code> déclenchera le re‑rendu de l’ensemble. Fragmenter un composant lorsqu’il devient trop volumineux ou contient trop de logique améliore à la fois la lisibilité et les performances. Heureusement, cette habitude avait déjà été adoptée dans l’ancien projet. D’autres découpes ont été réalisées, mais en quantité limitée.</p>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "nom-composant/"
+        "nom-sous-composant-1/"
+        "nom-sous-composant-2/"
+        "nom-sous-composant-n/"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
+</div></code></pre>
+<p>Au-delà des gains de performance, React Scan nous a surtout permis de <strong>visualiser concrètement</strong> ce qui se passe dans React : comprendre pourquoi certains composants se réaffichent, comment les changements d’état se propagent et quels éléments sont réellement coûteux.</p>
+<hr>
+<h3 id="232-react-developer-tools">2.3.2 React Developer Tools</h3>
+<p>En complément de <strong>React Scan</strong>, nous avons utilisé <strong>React Developer Tools</strong>, une extension officielle disponible sur les navigateurs Chromium et Firefox. Cet outil constitue une référence pour analyser le comportement interne d’une application React, car il permet d’inspecter précisément la structure des composants, leurs états et leurs contextes.</p>
+<p>Contrairement à React Scan, qui met l’accent sur la visualisation immédiate des re‑rendus, React Developer Tools offre une analyse plus détaillée et plus technique. Il permet d’examiner l’arbre complet des composants, d’observer leurs props et états en temps réel, et d’inspecter les contextes utilisés dans l’application. Ces fonctionnalités nous ont permis de confirmer l’origine de certains re‑rendus et de valider l’efficacité des optimisations appliquées, comme l’utilisation de <strong>React.memo</strong> ou la stabilisation de certaines props.</p>
+<div class="card">
+<p>Analyse de l'arbre des composants avec React Developer Tools.</p>
+<p><img src="src/assets/react-dev-tools-1.png" alt="React Dev Tools"></p>
+<p>L’onglet <strong>Components</strong> a un interface qui reprend les principes de l’inspecteur d’éléments classique : sélection d’éléments, navigation dans l’arbre, recherche, et affichage des propriétés spécifiques à React. On peut notamment identifier les composants mémorisés via <em>Memo</em>, les contextes consommés ou encore les hooks utilisés.</p>
+<p><img src="src/assets/react-dev-tools-2.png" alt="React Dev Tools"></p>
+<p>Le <strong>Profiler</strong> complète parfaitement React Scan. Il permet d’identifier quel composant a déclenché un rendu, à quel moment, en combien de temps, et de visualiser la chronologie des rendus ainsi que les relations entre composants. Cette vue temporelle est particulièrement utile pour repérer les goulots d’étranglement.</p>
+</div>
+<p>React Developer Tools s’est révélé utilie tout au long du développement. Même si nous n’avons jamais rencontré de problèmes de performance majeurs ou de composants réellement trop lourds, la possibilité d’inspecter rapidement la hiérarchie, les contextes consommés ou la raison d’un re‑rendu offrait une grande tranquillité d’esprit. Dès qu’un comportement semblait inhabituel, React Developer Tools permettait de vérifier en quelques secondes si tout fonctionnait comme prévu. Couplé à React Scan, qui met en évidence les re‑rendus en temps réel, l’outil offrait une vision complète : d’un côté l’observation instantanée du rendu, de l’autre une analyse détaillée des causes et du coût associé.</p>
+<h3 id="233-lighthouse">2.3.3 Lighthouse</h3>
+<p>Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : les performances, l’accessibilité, le référencement et les bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble, du chargement initial aux interactions, en passant par la structure HTML et la gestion des ressources.<br>
+Ces audits nous ont permis de valider objectivement l’impact des optimisations réalisées et d’orienter les améliorations à apporter au site.</p>
+<p><img src="src/assets/lighthouse-audit.png" alt="Score de l'audit Lighthouse"></p>
+<p>Lighthouse met en évidence plusieurs points d’amélioration récurrents :</p>
+<div class="card">
+<ul>
+<li><strong>Accessibilité</strong> : certains contrastes de couleur ne respectaient pas les recommandations WCAG. Le bleu sur le noir :</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-accessibility.png" alt="Score de l'audit Lighthouse Accessibility"></p>
+</div>
+<div class="card">
+<ul>
+<li><strong>Performance</strong> : Lighthouse a signalé que les polices locales étaient stockées dans une arborescence trop profonde, ce qui pouvait ralentir leur chargement. Cette remarque nous a conduit à revoir l’organisation des fichiers de fonts.</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-performance.png" alt="Score de l'audit Lighthouse Performance"></p>
+</div>
+<div class="card">
+<ul>
+<li><strong>Best Practices</strong> : certains avertissements provenaient de scripts tiers, notamment ceux de l’API YouTube utilisée pour afficher les trailers. Ces scripts génèrent des logs que nous ne pouvons pas supprimer, car ils proviennent de services externes.</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-best-practices.png" alt="Score de l'audit Lighthouse Best Practices"></p>
+</div>
+<div class="card">
+<ul>
+<li><strong>SEO</strong> : 100%, perfect score ! 🎉🎉🎉</li>
+</ul>
+</div>
+<p>Les scores Lighthouse fluctuent légèrement en fonction de la page analysée et des conditions d’exécution de l’audit (notamment pour la partie Performance). Cependant, en build, les résultats restent généralement au-dessus de 95, ce qui confirme la bonne optimisation globale de l’application.</p>
+<details class="accordion">
+<summary>Les 4 notations</summary>
+<p>Lighthouse évalue l’application selon quatre axes principaux :</p>
+<p><strong>Performance</strong><br>
+Analyse la rapidité de chargement et la fluidité générale.<br>
+Exemples de critères :</p>
+<ul>
+<li>temps d’affichage du premier contenu (FCP) ;</li>
+<li>temps d’affichage du contenu principal (LCP) ;</li>
+<li>délai avant interactivité (TTI) ;</li>
+<li>poids des ressources et efficacité du cache.</li>
+</ul>
+<p><strong>Accessibilité</strong><br>
+Vérifie la conformité aux bonnes pratiques d’accessibilité.<br>
+Exemples :</p>
+<ul>
+<li>contraste des couleurs ;</li>
+<li>présence de labels sur les champs de formulaire ;</li>
+<li>structure correcte des titres ;</li>
+<li>attributs alt sur les images.</li>
+</ul>
+<p><strong>Best Practices</strong><br>
+Évalue la sécurité et la qualité technique du site.<br>
+Exemples :</p>
+<ul>
+<li>utilisation de HTTPS ;</li>
+<li>absence d’erreurs JavaScript ;</li>
+<li>images correctement dimensionnées ;</li>
+<li>absence d’API obsolètes.</li>
+</ul>
+<p><strong>SEO</strong><br>
+Mesure la capacité du site à être correctement référencé.<br>
+Exemples :</p>
+<ul>
+<li>présence de balises meta essentielles ;</li>
+<li>structure HTML sémantique ;</li>
+<li>liens accessibles et valides.</li>
+</ul>
+</details>
+<p>Lighthouse s’est donc révélé être un outil précieux pour valider nos choix techniques et garantir une qualité globale élevée. Là où des outils comme <strong>React Developer Tools</strong> ou <strong>React Scan</strong> se concentrent sur le comportement interne de React, Lighthouse offre une vision plus large, centrée sur l’expérience utilisateur et la qualité perçue de l’application.</p>
+<hr>
+<h3 id="234-firefox-profiler">2.3.4 Firefox Profiler</h3>
+<p>Comme le profiler de React Dev Tools mais beaucoup trop complet, a la place, il a été utiliser comme &quot;gestionnaire de tache&quot;, la ou l'ordinateur regarde l'utilisation de ses propre ressouce, je faisait de même avec Firefox, quand mon GPU est-il utilisé à fond et à quelle fréquence. Avant je me disais que le composant background ferait griller les cartes graphique des ordinateurs des cliens car mon gestionnaire de tache affichait 100%-90% lors du moindre scroll, finalement j'avais mis le background à 4 fps. En réalité j'aurai pu le laisser tel quel car Firefox à revelé que même si c'est 80% du GPU, c'est a tres faible fréquence et peu couteu.</p>
+<p>En complément des outils orientés React, nous avons utilisé <strong>Firefox Profiler</strong> afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.</p>
+<p>L'outil enregistre une session complète d'utilisation puis présente les résultats sous la forme d'une chronologie détaillée. Chaque opération exécutée par le navigateur est représentée visuellement, ce qui permet d'identifier rapidement les phases responsables des ralentissements.</p>
+<p>Grâce à cet outil, nous avons pu :</p>
+<ul>
+<li>mesurer précisément le temps passé dans certaines fonctions JavaScript ;</li>
+<li>identifier des calculs exécutés plus fréquemment que nécessaire ;</li>
+<li>observer le coût réel des animations en arrière-plan ;</li>
+<li>repérer certaines opérations de rendu déclenchées à chaque changement d'état ;</li>
+<li>comparer l'impact des optimisations avant et après leur mise en place.</li>
+</ul>
+<p>L'analyse a été particulièrement utile lors du développement du système d'arrière-plan animé. Les premiers prototypes effectuaient davantage de calculs que nécessaire et sollicitaient inutilement le processeur. Firefox Profiler nous a permis de visualiser précisément où le temps d'exécution était consommé et de vérifier que les optimisations appliquées réduisaient effectivement la charge du navigateur.</p>
+<p>Au-delà de l'aspect purement technique, cet outil nous a permis de mieux comprendre le pipeline de rendu moderne d'un navigateur : exécution JavaScript, calcul des styles, mise en page (layout), peinture (paint) puis composition finale à l'écran. Cette compréhension a facilité la prise de décisions concernant les animations, les effets visuels et l'organisation générale du frontend.</p>
+<hr>
+<h3 id="235-lazy-loading-et-suspense">2.3.5 Lazy Loading et Suspense</h3>
+<p>L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.</p>
+<p>Cette approche reste acceptable pour de petites applications, mais devient rapidement problématique lorsque le nombre de pages augmente. Le navigateur doit télécharger, analyser et exécuter davantage de code avant de pouvoir afficher l'interface.</p>
+<p>Pour résoudre ce problème, nous avons mis en place une stratégie de <strong>code splitting</strong> basée sur <strong>React.lazy</strong> et <strong>Suspense</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> <span class="hljs-title class_">ProductPage</span> = <span class="hljs-title function_">lazy</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./pages/ProductPage&quot;</span>));
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Suspense</span> <span class="hljs-attr">fallback</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Loader</span> /&gt;</span>}&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">ProductPage</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Suspense</span>&gt;</span></span>
+</div></code></pre>
+<p>Avec cette approche, le code d'une page n'est téléchargé qu'au moment où l'utilisateur en a réellement besoin. Chaque route importante devient ainsi un bundle indépendant pouvant être chargé dynamiquement.</p>
+<p>Cette optimisation apporte plusieurs avantages :</p>
+<ul>
+<li>réduction significative de la taille du bundle initial ;</li>
+<li>diminution du temps de téléchargement lors du premier chargement ;</li>
+<li>réduction du temps d'analyse et d'exécution JavaScript ;</li>
+<li>amélioration des métriques Lighthouse ;</li>
+<li>meilleure expérience utilisateur sur les connexions lentes.</li>
+</ul>
+<p>Le composant <strong>Suspense</strong> joue ici un rôle essentiel. Lorsqu'une ressource n'est pas encore disponible, React affiche temporairement un composant de remplacement (<em>fallback</em>), généralement un loader ou un skeleton. L'utilisateur obtient ainsi un retour visuel immédiat plutôt qu'un écran vide.</p>
+<p>Cette technique s'est révélée particulièrement efficace pour les pages rarement consultées, comme certaines pages de paramètres ou de gestion du compte. Leur code n'est chargé que lorsqu'il devient réellement nécessaire, ce qui contribue à maintenir une interface réactive même lorsque l'application continue de s'enrichir.</p>
+<hr>
+<h3 id="236-pixijs">2.3.6 PixiJS</h3>
+<p>L'arrière-plan animé constitue l'un des éléments visuels les plus complexes de la nouvelle version d'UnlockIt. Les premiers prototypes reposaient principalement sur des animations CSS et sur la manipulation d'éléments HTML classiques. Bien que fonctionnelle, cette approche devenait coûteuse dès lors que le nombre d'éléments affichés augmentait.</p>
+<p>Afin d'obtenir de meilleures performances, nous avons choisi d'utiliser <strong>PixiJS</strong>, une bibliothèque de rendu 2D s'appuyant directement sur <strong>WebGL</strong> lorsque celui-ci est disponible.</p>
+<p>L'intérêt principal de PixiJS réside dans sa capacité à exploiter l'accélération matérielle du navigateur. Une partie importante du travail est alors déléguée au processeur graphique (GPU), ce qui réduit la charge du processeur principal et améliore la fluidité des animations.</p>
+<p>L'intégration de PixiJS nous a permis :</p>
+<ul>
+<li>d'afficher un grand nombre d'éléments animés simultanément ;</li>
+<li>d'obtenir un framerate plus stable ;</li>
+<li>de réduire les calculs effectués dans le DOM ;</li>
+<li>de limiter les opérations de repaint et de reflow ;</li>
+<li>de conserver une bonne fluidité sur des machines moins puissantes.</li>
+</ul>
+<p>Cette réécriture a également constitué une opportunité d'explorer des concepts plus avancés liés au rendu graphique temps réel : gestion d'une scène, sprites, textures, boucle de rendu et accélération GPU. Même si UnlockIt reste une application web classique, cette expérimentation nous a permis d'acquérir une meilleure compréhension des technologies graphiques modernes utilisées dans de nombreux sites interactifs et jeux web.</p>
+<hr>
+<h3 id="237-svgr">2.3.7 SVGR</h3>
+<p>Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.</p>
+<p>Afin d'intégrer ces fichiers plus efficacement dans React, nous avons utilisé <strong>SVGR</strong>. Cet outil transforme automatiquement un fichier SVG en composant React.</p>
+<p>Au lieu d'utiliser :</p>
+<pre class="hljs"><code><div>&lt;img src=<span class="hljs-string">&quot;/icons/cart.svg&quot;</span> alt=<span class="hljs-string">&quot;Panier&quot;</span> /&gt;
+</div></code></pre>
+<p>nous pouvons directement écrire :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-title class_">CartIcon</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./cart.svg&quot;</span>;
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CartIcon</span> /&gt;</span></span>
+</div></code></pre>
+<p>Cette approche apporte plusieurs bénéfices :</p>
+<ul>
+<li>suppression d'une requête réseau supplémentaire dans certains cas ;</li>
+<li>intégration naturelle dans l'arbre React ;</li>
+<li>personnalisation facilitée via les props ;</li>
+<li>modification dynamique des couleurs et dimensions ;</li>
+<li>meilleure maintenabilité des ressources graphiques.</li>
+</ul>
+<p>SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.</p>
+<p>Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.</p>
+<hr>
+<h3 id="238-react-doctor">2.3.8 React Doctor</h3>
+<p>J'ai conscience que déjà beaucoup d'outils ont été utilisé pour la qualité et que j'ai peut etre abusé, mais l'utilisation de React Doctor aurait pu être réellement interessant si j'avais plus de temps et que d'autre projet ne nécéssitaient pas mon attention.</p>
+<p>Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.</p>
+<p>Même si nous ne l’avons pas intégré directement au projet, son fonctionnement et ses capacités méritent d’être présentés, car il s’agit d’un outil prometteur qui pourrait devenir un standard dans les prochaines années.</p>
+<p>React Doctor est capable d’identifier plusieurs types de problèmes, notamment les re-rendus inutiles, les dépendances incorrectes dans les hooks, ou encore les composants dont le coût de rendu est anormalement élevé. L’outil analyse également la stabilité des props et des références, ce qui permet de repérer des erreurs de conception difficiles à détecter autrement. Par exemple, il peut signaler un useEffect déclenché trop souvent à cause d’une dépendance instable, ou un composant qui se réaffiche alors que ses props n’ont pas changé.</p>
+<div class="card">
+<p>Figure X – Exemple d’analyse automatisée proposée par React Doctor.<br>
+(placeholder capture d’écran)</p>
+</div>
+<p>Nous avons découvert React Doctor relativement tard dans le développement, à un moment où la majorité des optimisations principales étaient déjà en place. Par manque de temps, nous n’avons pas pu l’explorer en profondeur ni l’intégrer dans notre workflow. De plus, l’outil étant encore jeune, certaines fonctionnalités manquent de stabilité et peuvent produire des faux positifs. Cela rend son utilisation délicate dans un contexte de production ou dans un projet où les délais sont serrés.</p>
+<p>Malgré cela, cette phase de veille technologique s’est révélée utile. Elle nous a permis d’identifier des outils émergents et de mieux comprendre les tendances actuelles autour de l’écosystème React. React Doctor pourrait être envisagé dans de futurs projets, notamment pour automatiser une partie du diagnostic de performance et pour compléter des outils plus établis comme React Developer Tools ou React Scan.</p>
+<hr>
+<h2 id="24-nouvelle-couche-api-frontend">2.4 Nouvelle couche API Frontend</h2>
+<p>L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.<br>
+Dans la première version, plusieurs composants réalisaient directement leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.</p>
+<p>La seconde version introduit une véritable couche d’abstraction, structurée autour de trois éléments complémentaires :</p>
+<ul>
+<li><strong>hooks métiers</strong></li>
+<li><strong>services d’accès aux données</strong></li>
+<li><strong>stores centralisés</strong></li>
+</ul>
+<p>Cette architecture permet d’obtenir un code plus lisible, plus facilement testable et beaucoup plus simple à maintenir. Elle facilite également l’écriture de tests automatisés et réduit fortement le couplage entre l’interface utilisateur et l’API.</p>
+<p>L’objectif est clair : chaque couche doit avoir une responsabilité unique.<br>
+Les composants ne s’occupent plus de la logique réseau ; les services ne gèrent plus l’état global ; les hooks orchestrent les appels et exposent une API claire aux composants.<br>
+Cette séparation des responsabilités améliore la qualité du code et s’inscrit dans la démarche générale du projet : structurer, isoler, optimiser.</p>
+<h3 id="architecture-de-la-nouvelle-couche-api">Architecture de la nouvelle couche API</h3>
+<p>La nouvelle organisation repose sur trois dossiers principaux :</p>
+<pre class="hljs"><code><div>src/api/
+├── hooks/
+├── services/
+└── stores/
+</div></code></pre>
+<p>Chaque fonctionnalité (authentification, produits, panier, etc.) possède son propre trio <em>hook / service / store</em>, ce qui permet une structure modulaire et évolutive.</p>
+<h3 id="exemple--la-gestion-de-lauthentification">Exemple : la gestion de l’authentification</h3>
+<p>L’authentification illustre parfaitement cette architecture.<br>
+Elle repose sur :</p>
+<ul>
+<li>un <strong>store Zustand</strong> pour conserver la session et l’état de connexion ;</li>
+<li>un <strong>service</strong> chargé de communiquer avec l’API ;</li>
+<li>un <strong>hook métier</strong> qui orchestre les appels et expose une API simple aux composants.</li>
+</ul>
+<h3 id="le-hook-métier--useauth">Le hook métier : <code>useAuth</code></h3>
+<p>Le hook regroupe toute la logique métier liée à l’authentification : connexion, inscription, rafraîchissement de session, déconnexion, etc.<br>
+Il s’appuie sur le store et sur le service, mais les composants n’ont pas besoin de connaître ces détails.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useAuth</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> { session, isLogged, setSession, clearSession } = <span class="hljs-title function_">useAuthStore</span>();
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">login</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"><span class="hljs-attr">identifier</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span></span>) =&gt; {
+    <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">login</span>(identifier, password);
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchSession</span>();
+  };
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">register</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"><span class="hljs-attr">username</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span></span>) =&gt; {
+    <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">register</span>(username, email, password);
+  };
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">fetchSession</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">fetchSession</span>();
+      <span class="hljs-title function_">setSession</span>(data);
+    } <span class="hljs-keyword">catch</span> {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">refresh</span>();
+        <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">fetchSession</span>();
+        <span class="hljs-title function_">setSession</span>(data);
+      } <span class="hljs-keyword">catch</span> {
+        <span class="hljs-title function_">clearSession</span>();
+      }
+    }
+  };
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">logout</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">logout</span>();
+    <span class="hljs-title function_">clearSession</span>();
+  };
+
+  <span class="hljs-keyword">return</span> {
+    session,
+    isLogged,
+    login,
+    register,
+    logout,
+    fetchSession,
+  };
+}
+</div></code></pre>
+<p>Ce hook permet aux composants d’utiliser l’authentification via une API claire et stable, sans jamais manipuler directement Axios ou les stores.</p>
+<h3 id="le-service--authservice">Le service : <code>authService</code></h3>
+<p>Le service encapsule tous les appels HTTP.<br>
+Il gère également les erreurs, ce qui permet d’uniformiser les messages renvoyés au frontend.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> authService = {
+    <span class="hljs-attr">login</span>: <span class="hljs-title function_">async</span> (<span class="hljs-attr">identifier</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>) =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/login&quot;</span>, { identifier, password });
+        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Identifiants invalides.&quot;</span> };
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">429</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Trop de tentatives. Réessayez plus tard.&quot;</span> };
+            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+        }
+    },
+
+    <span class="hljs-attr">register</span>: <span class="hljs-title function_">async</span> (<span class="hljs-attr">username</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>) =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/register&quot;</span>, { username, email, password });
+        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">400</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Données invalides.&quot;</span> };
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">409</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Email ou nom d&#x27;utilisateur déjà utilisé.&quot;</span> };
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">429</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Trop de tentatives. Réessayez plus tard.&quot;</span> };
+            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+        }
+    },
+
+    <span class="hljs-attr">fetchSession</span>: <span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/auth/me&quot;</span>);
+            <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>;
+        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Non authentifié.&quot;</span> };
+            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+        }
+    },
+
+    <span class="hljs-attr">refresh</span>: <span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/refresh&quot;</span>);
+        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+
+            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Session expirée.&quot;</span> };
+            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+        }
+    },
+
+    <span class="hljs-attr">logout</span>: <span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/logout&quot;</span>);
+        } <span class="hljs-keyword">catch</span> {
+            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+        }
+    },
+};
+</div></code></pre>
+<h3 id="le-store-zustand--useauthstore">Le store Zustand : <code>useAuthStore</code></h3>
+<p>Le store conserve l’état global lié à l’authentification.<br>
+Il est minimaliste, ce qui facilite sa compréhension et son utilisation.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useAuthStore = create&lt;<span class="hljs-title class_">AuthState</span>&gt;(<span class="hljs-function">(<span class="hljs-params">set</span>) =&gt;</span> ({
+  <span class="hljs-attr">session</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">false</span>,
+
+  <span class="hljs-attr">setSession</span>: <span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> <span class="hljs-title function_">set</span>({ session, <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">true</span> }),
+
+  <span class="hljs-attr">clearSession</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">set</span>({ <span class="hljs-attr">session</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">false</span> }),
+}));
+</div></code></pre>
+<h3 id="avant--après-la-refonte">Avant / Après la refonte</h3>
+<p>La différence entre l’ancienne architecture et la nouvelle est particulièrement visible dans la gestion de l’inscription.</p>
+<div class="before">
+<h3 id="avant">Avant</h3>
+<p><em>(Appels réseau dans les composants, gestion d’erreurs dispersée, logique métier mélangée au rendu.)</em></p>
+</div>
+<div class="after">
+<h3 id="après">Après</h3>
+<p><em>(Un simple appel à un hook métier, le reste est géré par la couche API.)</em></p>
+</div>
+<p>Cette évolution améliore la lisibilité, la maintenabilité et la testabilité du code.<br>
+Elle permet également d’intégrer plus facilement des outils comme <strong>Playwright</strong> pour tester les parcours utilisateurs.</p>
+</details>
+<details class="accordion">
+<summary>Voir le schéma</summary>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+
+    %% ========= Définition des styles =========
+    classDef react fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+    classDef hook fill:#b3e5ff,stroke:#4fa3d1,stroke-width:2px,color:#000;
+    classDef service fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef backend fill:#ffb3b3,stroke:#d14f4f,stroke-width:2px,color:#000;
+    classDef db fill:#c6ffb3,stroke:#4fd14f,stroke-width:2px,color:#000;
+    classDef cache fill:#fff2b3,stroke:#d1c24f,stroke-width:2px,color:#000;
+    classDef log fill:#d6b3ff,stroke:#7a4fd1,stroke-width:2px,color:#000;
+    classDef external fill:#e0e0e0,stroke:#999,stroke-width:2px,color:#000;
+
+    %% ========= Frontend =========
+    subgraph FE[Frontend]
+        A[Composant React]:::react
+        B[Hook métier]:::hook
+        C[Service API]:::service
+    end
+
+    %% ========= Backend =========
+    subgraph BE[NestJS Backend]
+        D[Controller]:::backend
+        E[Service]:::backend
+        F[Repository]:::backend
+    end
+
+    %% ========= Stockage =========
+    G[(PostgreSQL)]:::db
+    R[(Redis Cache)]:::cache
+
+    %% ========= Logs =========
+    L[Logger]:::log
+
+    %% ========= Service externe =========
+    X[Service Auth externe]:::external
+
+    %% ========= Flux principal =========
+    A e1@-->|Appel logique| B
+    B e2@-->|Appel API| C
+    C e3@-->|HTTP| D
+    D e4@-->|Appel interne| E
+    E e5@-->|Requête DB| F
+    F e6@-->|SQL| G
+
+    %% ========= Flux secondaires =========
+    C e7@-->|Token| X
+    E e8@-->|Cache| R
+    E e9@-.->|Logs| L
+
+    %% ========= Styles des courbes =========
+    e1@{ curve: linear }
+    e2@{ curve: linear }
+    e3@{ curve: stepBefore }
+    e4@{ curve: stepBefore }
+    e5@{ curve: linear }
+    e6@{ curve: linear }
+    e7@{ curve: natural }
+    e8@{ curve: stepAfter }
+    e9@{ curve: natural }
+
+    %% ========= Styles des liens =========
+    linkStyle 0 stroke:#1b7aa6,stroke-width:2px
+    linkStyle 1 stroke:#4fa3d1,stroke-width:2px
+    linkStyle 2 stroke:#d1a84f,stroke-width:2px
+    linkStyle 3 stroke:#d14f4f,stroke-width:2px
+    linkStyle 4 stroke:#d14f4f,stroke-width:2px
+    linkStyle 5 stroke:#4fd14f,stroke-width:2px
+    linkStyle 6 stroke:#999,stroke-width:2px
+    linkStyle 7 stroke:#d1c24f,stroke-width:2px
+    linkStyle 8 stroke:#7a4fd1,stroke-width:2px,stroke-dasharray:4 4
+</div></code></pre>
+<p>* Si seul le code du schéma s'affiche, rafraichissez la page pour voir le schéma.</p>
+</details>
+<hr>
+<h2 id="25-tests-automatisés">2.5 Tests automatisés</h2>
+<p>La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait, et surtout difficile à maintenir : chaque nouvelle fonctionnalité nécessitait de repasser manuellement sur plusieurs parcours utilisateurs pour s’assurer qu’aucun comportement n’avait été cassé.
+Afin de sécuriser davantage le développement et d’améliorer la qualité globale du projet, nous avons intégré Playwright, un outil moderne de tests end‑to‑end.</p>
+<p>L’objectif était de couvrir les fonctionnalités essentielles du site et de garantir que les parcours critiques restent fonctionnels au fil des mises à jour. Les tests automatisés permettent notamment de vérifier l’authentification, la navigation, la gestion du panier, la wishlist, l’historique d’achats, ainsi que plusieurs scénarios utilisateurs sensibles.
+Cette démarche s’inscrit dans la logique générale du projet : analyser les problèmes, comprendre leur origine, et mettre en place des solutions robustes, comme nous l’avons fait pour les performances, la structure des composants ou l’utilisation d’outils tels que React Developer Tools.</p>
+<div class="card">
+<p>[Il semble que le résultat n’était pas sûr à afficher. Changeons un peu et essayons autre chose !]</p>
+<p>Figure X – Exemple d'exécution d'un scénario de tests automatisés.</p>
+</div>
+<p>L’introduction de Playwright a représenté un véritable gain de temps. Une fois les scénarios écrits, ils peuvent être exécutés en quelques secondes, ce qui réduit considérablement le risque de réintroduire d’anciens bugs. Les tests servent également de documentation vivante : ils décrivent précisément ce que l’application est censée faire, et permettent de détecter immédiatement toute régression.</p>
+<p>Dans le dossier frontend/, un répertoire test/ regroupe l’ensemble des scénarios, organisés par thématique (auth/, nav/, etc.). Cette structure permet de maintenir facilement les tests et de les étendre au fur et à mesure du développement.</p>
+<p>Voici par exemple le test complet du logout, couvrant plusieurs cas de figure (desktop, mobile, et déconnexion depuis différentes pages). Ce test illustre bien la manière dont Playwright permet de simuler des interactions réelles : navigation, clics, ouverture de menus, vérification d’URL, etc.</p>
+<pre class="hljs"><code><div><span class="hljs-variable constant_">TODO</span> : exemple de ~~t~~
+</div></code></pre>
+<hr>
+<h2 id="26-build-et-compression">2.6 Build et compression</h2>
+<p>L’optimisation du build de production ne se limite pas à la minification du JavaScript.<br>
+Dans ce projet, plusieurs techniques complémentaires ont été mises en œuvre afin de réduire la taille des fichiers, améliorer le temps de chargement et optimiser le comportement du navigateur lors de l’exécution.</p>
+<p>Ces optimisations reposent sur quatre axes principaux :</p>
+<ul>
+<li><strong>minification du code</strong> (Terser)</li>
+<li><strong>compression avancée</strong> (Gzip + Brotli)</li>
+<li><strong>découpage manuel des bundles</strong> (<em>manual chunks</em>)</li>
+<li><strong>analyse et visualisation du graphe de dépendances</strong> (Visualizer)</li>
+</ul>
+<h3 id="261-terser">2.6.1 Terser</h3>
+<p>La minification consiste à transformer le code JavaScript lisible par les développeurs en une version plus compacte, tout en conservant un comportement identique.</p>
+<p>Grâce à <strong>Terser</strong>, plusieurs transformations sont appliquées automatiquement :</p>
+<ul>
+<li>suppression des commentaires</li>
+<li>suppression des espaces et indentations</li>
+<li>raccourcissement des identifiants</li>
+<li>simplification d’expressions</li>
+<li>élimination du <em>dead code</em></li>
+<li>suppression des <code>console.log</code> et <code>debugger</code></li>
+</ul>
+<p>Exemple :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">function</span> <span class="hljs-title function_">calculateTotal</span>(<span class="hljs-params">price, quantity</span>) {
+    <span class="hljs-keyword">return</span> price * quantity;
+}
+</div></code></pre>
+<p>devient :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">function</span> <span class="hljs-title function_">calculateTotal</span>(<span class="hljs-params">t,n</span>){<span class="hljs-keyword">return</span> t*n}
+</div></code></pre>
+<p>Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles.</p>
+<div class="before">
+<h3 id="avant-1">Avant</h3>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</div>
+<div class="after">
+<h3 id="après-1">Après</h3>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</div>
+<hr>
+<h3 id="262-compression-des-assets--gzip--brotli">2.6.2 Compression des assets : Gzip + Brotli</h3>
+<p>En complément de la minification, les fichiers générés sont compressés via deux algorithmes :</p>
+<ul>
+<li><strong>Gzip</strong>, largement supporté par tous les navigateurs</li>
+<li><strong>Brotli</strong>, plus récent et offrant un taux de compression supérieur</li>
+</ul>
+<p>Grâce au plugin <code>vite-plugin-compression</code>, chaque fichier <code>.js</code>, <code>.css</code> et <code>.html</code> est produit en deux versions :</p>
+<ul>
+<li><code>*.gz</code> (Gzip)</li>
+<li><code>*.br</code> (Brotli)</li>
+</ul>
+<p>Les serveurs modernes choisissent automatiquement la version la plus efficace selon le navigateur du client.</p>
+<p>Cette étape permet de réduire la taille transférée de <strong>30 à 70 % supplémentaires</strong>, notamment sur les gros bundles comme React ou PixiJS.</p>
+<pre class="hljs"><code><div>UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          brotliCompress: 1.01kb
+UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       brotliCompress: 2.65kb
+UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            brotliCompress: 0.45kb
+UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            brotliCompress: 1.00kb
+UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           brotliCompress: 4.92kb
+UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           brotliCompress: 3.73kb
+UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          brotliCompress: 1.81kb
+UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             brotliCompress: 1.52kb
+UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            brotliCompress: 1.13kb
+UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            brotliCompress: 9.33kb
+UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          brotliCompress: 0.84kb
+UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        brotliCompress: 0.46kb
+UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          brotliCompress: 1.09kb
+UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         brotliCompress: 1.30kb
+UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           brotliCompress: 6.63kb
+UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   brotliCompress: 0.82kb
+UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           brotliCompress: 2.71kb
+UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           brotliCompress: 9.22kb
+UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              brotliCompress: 1.27kb
+UnlockIt/apps/frontend/index.html.br                          brotliCompress: 1.06kb
+UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              brotliCompress: 19.08kb
+UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               brotliCompress: 9.70kb
+UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            brotliCompress: 47.88kb
+UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             brotliCompress: 105.18kb
+</div></code></pre>
+<hr>
+<h3 id="263-découpage-manuel-des-bundles">2.6.3 Découpage manuel des bundles</h3>
+<p>Afin d’améliorer le caching et d’éviter qu’un changement mineur invalide tout le bundle, un découpage manuel a été mis en place.</p>
+<p>Ce découpage sépare explicitement les dépendances majeures :</p>
+<ul>
+<li><strong>react</strong> : React, ReactDOM, Scheduler</li>
+<li><strong>router</strong> : React Router</li>
+<li><strong>helmet</strong> : React Helmet Async</li>
+<li><strong>vendor</strong> : Zustand, use-debounce, react-fast-compare, shallowEqual, react-hook-form</li>
+<li><strong>ui</strong> : composants UI internes</li>
+<li><strong>api</strong> : couche API interne</li>
+<li><strong>pixi</strong> : moteur PixiJS</li>
+<li><strong>index</strong> : code applicatif principal</li>
+</ul>
+<p>Ce découpage permet :</p>
+<ul>
+<li>un meilleur caching (React ne change presque jamais)</li>
+<li>un chargement plus rapide des pages</li>
+<li>une meilleure parallélisation des téléchargements</li>
+<li>une réduction du bundle principal</li>
+</ul>
+<div class="before">
+<h3 id="avant-2">Avant</h3>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</div>
+<div class="after">
+<h3 id="après-2">Après</h3>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</div>
+<hr>
+<h3 id="264-visualisation-du-graphe-de-dépendances">2.6.4 Visualisation du graphe de dépendances</h3>
+<p>Pour analyser la structure finale du build, le plugin <strong>rollup-plugin-visualizer</strong> a été intégré.</p>
+<p>Il génère un fichier <code>stats.html</code> permettant :</p>
+<ul>
+<li>d’identifier les dépendances les plus lourdes</li>
+<li>de visualiser les relations entre modules</li>
+<li>de vérifier que les <code>manualChunks</code> fonctionnent correctement</li>
+<li>d’optimiser le découpage si nécessaire</li>
+</ul>
+<p>Cet outil a notamment permis de confirmer que :</p>
+<ul>
+<li>React, Router, Pixi et l’API sont bien isolés</li>
+<li>les composants UI sont regroupés dans un chunk dédié</li>
+<li>aucune dépendance lourde ne se retrouve dans le bundle principal</li>
+</ul>
+<p><img src="src/assets//compression.png" alt="Rollup report treemap"></p>
+<hr>
+<h2 id="27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</h2>
+<h3 id="271-difficultés">2.7.1 Difficultés</h3>
+<p>L’un des problèmes les plus marquants rencontrés au cours du développement concerne l’utilisation de Suspense avec React Router. Ce point est particulièrement intéressant car il illustre parfaitement la démarche adoptée tout au long du projet : identifier un comportement inattendu, formuler des hypothèses, investiguer méthodiquement, puis mettre en place une solution pragmatique. C’est exactement ce que nous avons appliqué dans toutes les sections précédentes, qu’il s’agisse de performances, de structure des composants ou d’outils de diagnostic.</p>
+<h3 id="272--react-router">2.7.2 : React Router</h3>
+<p>L’utilisation de React Scan nous a permis d’identifier plusieurs comportements inattendus, notamment liés à <strong>React Router</strong>. Nous avons constaté que certains composants se réaffichaient lors de simples navigations, même lorsque leur contenu ne dépendait pas de l’URL. Les composants contenant des éléments <code class="c">&lt;Link&gt;</code> étaient par exemple redessinés à cause de la mise à jour du contexte interne de React Router. De même, certains layouts ou composants structurels (comme le header ou le footer) étaient recalculés inutilement à chaque changement de route, alors qu’ils ne dépendaient d’aucune donnée dynamique.</p>
+<p>Pour corriger ces comportements, nous avons introduit l’utilisation de <strong>React.memo()</strong>, notamment pour stabiliser les composants structurels tels que le header, le footer ou encore le layout global.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Layout</span> = <span class="hljs-title function_">memo</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Header</span> /&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Background</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Outlet</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">Footer</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+});
+</div></code></pre>
+<h4 id="avant--après-la-refonte-1">Avant / Après la refonte</h4>
+<div class="before">
+<h4 id="avant-3">Avant</h4>
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</details>
+</div>
+<div class="after">
+<h4 id="après-3">Après</h4>
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+<pre class="hljs"><code><div>TODO
+</div></code></pre>
+</details>
+</div>
+<h3 id="273-difficulté-n2--suspence">2.7.3 Difficulté n°2 : Suspence</h3>
+<p>Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.</p>
+<p>Après plusieurs heures d’investigation, nous avons d’abord suspecté une mauvaise utilisation de Suspense, ou un problème dans la structure de nos routes. Nous avons testé différentes configurations, déplacé le composant de fallback, isolé les routes, et même simplifié la structure pour éliminer les causes possibles. Rien n’y faisait.</p>
+<p>C’est en approfondissant nos recherches que nous sommes tombés sur une discussion GitHub liée à React Router v7, indiquant que cette version introduisait un comportement empêchant Suspense de fonctionner correctement dans certains cas. Plusieurs développeurs rencontraient exactement le même problème, et un contributeur avait même mis en ligne deux projets de démonstration permettant de comparer le comportement entre la version 6 et la version 7 :</p>
+<ul>
+<li>Version 6 : <a href="https://react-router-v7-issue-v6.netlify.app/">https://react-router-v7-issue-v6.netlify.app/</a></li>
+<li>Version 7 : <a href="https://react-router-v7-issue-v7.netlify.app/">https://react-router-v7-issue-v7.netlify.app/</a></li>
+</ul>
+<p>La comparaison entre les deux projets est sans ambiguïté : le loader fonctionne parfaitement en version 6, mais ne s’affiche plus en version 7. Ce comportement est reconnu comme un problème dans React Router, et plusieurs issues sont encore ouvertes à ce sujet.</p>
+<p>Ce constat confirmait que notre implémentation était correcte et que le problème ne venait pas de notre code, mais bien d’un changement interne dans React Router.</p>
+<p>La solution la plus raisonnable, compte tenu des délais du projet, a donc été de downgrader React Router vers la version 6, ce qui a immédiatement rétabli le fonctionnement attendu de Suspense. Ce choix implique de conserver une version légèrement moins récente, mais cela n’a pas d’impact majeur sur la stabilité de l’application. La seule conséquence est un avertissement lié au fait que la version 7 corrige certaines vulnérabilités mineures, mais aucune n’est critique dans notre contexte.</p>
+<h1 id="3-backend">3. Backend</h1>
+<h2 id="31-migration-vers-nestjs">3.1 Migration vers NestJS</h2>
+<p>...</p>
+<h2 id="32-architecture-modulaire">3.2 Architecture modulaire</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+
+Frontend
+--> Controller
+
+Controller
+--> Service
+
+Service
+--> Repository
+
+Repository
+--> PostgreSQL
+</div></code></pre>
+<h2 id="33-validation-et-sécurité">3.3 Validation et sécurité</h2>
+<p>...</p>
+<h2 id="34-maintenabilité">3.4 Maintenabilité</h2>
+<p>...</p>
+<h2 id="35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</h2>
+<p>...</p>
+<h1 id="5-conclusion">5. Conclusion</h1>
+<h2 id="51-bilan">5.1 Bilan</h2>
+<p>...</p>
+<h2 id="52-perspectives">5.2 Perspectives</h2>
+<p>...</p>
+
+</body>
+</html>

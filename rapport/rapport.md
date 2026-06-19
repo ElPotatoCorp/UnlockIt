@@ -675,172 +675,81 @@ Les outils utilisés couvrent différents aspects de la performance : certains s
 
 ### 2.3.1 React Scan
 
-L’outil principal utilisé durant cette phase a été **React Scan**, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent.  
-Son fonctionnement est extrêmement simple : une seule ligne suffit pour l’activer.
+L’outil principal utilisé durant cette phase a été **React Scan**, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent. Son activation est extrêmement simple : une seule ligne ajoutée dans le <code class="c">\<head\></code> du fichier <code class="c">index.html</code> suffit pour le rendre opérationnel.
 
 ```html
-<!-- placé dans le <head> du index.html -->
 <script
   crossorigin="anonymous"
   src="//unpkg.com/react-scan/dist/auto.global.js">
 </script>
 ```
 
-React Scan met en évidence :
-
-- les composants réaffichés ;
-- la fréquence des re-rendus ;
-- les zones de l’interface les plus coûteuses.
+React Scan met en évidence les composants qui se réaffichent, la fréquence de leurs re-rendus ainsi que les zones de l’interface les plus coûteuses. À chaque rendu, l’outil dessine une boîte autour du composant concerné, ce qui permet d’observer immédiatement si un comportement est normal ou excessif. Lors de l’ouverture d’un menu, par exemple, seuls le bouton déclencheur et le menu devraient être redessinés ; un re-rendu du header entier indiquerait au contraire une propagation indésirable des mises à jour.
 
 <div class="card">
 
+#### Exemple de diagnostic avec React Scan.
+
+Lors d’un premier clic, le menu apparaît et seuls les éléments directement concernés sont redessinés. Un second clic ferme le menu, ce qui provoque son re-rendu et la disparition de son contenu. Cette visualisation simple permet de distinguer très rapidement un rendu localisé d’un rendu trop large.
+
 ![React Scan gif 1](src/assets/react_scan_gif_1.gif)
 
-Exemple de diagnostic avec React Scan. Des boites sont dessinée  
+L’outil propose également un panneau d’analyse affichant l’historique des re-rendus, leur durée et les FPS en temps réel. Cette vue est particulièrement utile pour repérer les composants les plus coûteux ou identifier des pics de latence. Un re-rendu complet de la page, par exemple, ferait chuter les FPS de manière notable.
 
 ![React Scan gif 2](src/assets/react_scan_gif_2.gif)
 
-**Figure X – Exemple de diagnostic avec React Scan.**
-
-</div>
-
-L’outil nous a permis d’identifier rapidement plusieurs comportements inattendus, notamment liés à **React Router**.
-
-En effet, nous avons observé que certains composants se réaffichaient lors de simples navigations, même lorsque leur contenu ne dépendait pas de l’URL.  
-Par exemple :
-
-- les composants contenant des <code class="c">\<Link\></code> étaient réaffichés à cause de la mise à jour du contexte interne de React Router ;
-- certains layouts se réaffichaient alors qu’ils ne dépendaient d’aucune donnée dynamique ;
-- des composants structurels (header, footer…) étaient recalculés inutilement à chaque changement de route.
-
-Ces observations nous ont permis de mieux comprendre le fonctionnement interne de React, notamment :
-
-- la propagation des changements d’état ;
-- l’impact des contextes globaux ;
-- le coût des composants “structurels” dans l’arbre React ;
-- l’importance de stabiliser les props et les références.
-
-Suite à ces diagnostics, nous avons introduit l’utilisation de <code class="c">React.memo()</code> pour stabiliser certains composants structurels comme le header, le footer ou le layout global.
-
-```tsx
-export const Layout = memo(() => {
-  return (
-    <div>
-      <Header />
-
-      <main>
-        <Background />
-        <Outlet />
-      </main>
-
-      <Footer />
-    </div>
-  );
-});
-```
-
-### Avant / Après la refonte
-
-<div class="before">
-
-### Avant
-
 <details class="accordion">
 <summary>Voir plus d'informations</summary>
 
-```
-TODO
-```
+PS 1 : Dans cet exemple, les FPS sont limités à environ 40 en raison du mode développement et des programmes en arrière-plan (base de données, Docker, enregistrement vidéo, etc.). En production, la page atteint généralement autour de 100 FPS, sauf sur des machines peu performantes.
+
+PS 2 : Le premier événement affiché à 7 FPS correspond simplement au démarrage de l’application et de React Scan. Les rendus se font généralement dans l’ordre de la dizaine de millisecondes.
 
 </details>
 
 </div>
 
-<div class="after">
+Ces analyses nous ont encouragés à adopter de meilleurs réflexes lors de la conception de nouveaux composants, notamment en limitant les dépendances inutiles et en structurant plus clairement les responsabilités de chaque élément.  
 
-### Après
+Découper les grands composants joue également un rôle essentiel. Une page représentée par un seul composant implique que la moindre modification locale, par exemple l’apparition conditionnelle d’un simple <code class="c">\<div\></code> déclenchera le re‑rendu de l’ensemble. Fragmenter un composant lorsqu’il devient trop volumineux ou contient trop de logique améliore à la fois la lisibilité et les performances. Heureusement, cette habitude avait déjà été adoptée dans l’ancien projet. D’autres découpes ont été réalisées, mais en quantité limitée.
 
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-
+```mermaid
+treeView-beta
+    "nom-composant/"
+        "nom-sous-composant-1/"
+        "nom-sous-composant-2/"
+        "nom-sous-composant-n/"
+        "nomComposant.module.css"
+        "NomComposant.tsx"
 ```
-TODO
-```
 
-</details>
-
-</div>
-
-Cette optimisation a permis :
-
-- d’éviter des re-rendus inutiles ;
-- de réduire le coût global du rendu sur les pages complexes ;
-- d’améliorer la fluidité générale de l’application.
-
-Au-delà des optimisations, React Scan nous a surtout permis de **visualiser concrètement** ce qui se passe dans React :
-
-- pourquoi certains composants se réaffichent ;
-- comment les changements d’état se propagent ;
-- quels composants sont réellement coûteux.
-
-Cela nous a aidés à adopter de meilleurs réflexes lors de la conception de nouveaux composants, notamment en limitant les dépendances inutiles et en structurant plus clairement les responsabilités de chaque élément.
-
-Sinder les grand composants aide aussi, par exemple avoir 1 page = 1 composant veut dire que si de la logique TS dois faire apparaitre une dive a une toute petite section de la page alors le composant entier sera rendu. On fais attention a casser un composant en plus petit quand il atteint un grand nombre de ligne ou beaucoup de logique, ca rends ca plus lisible et littérelement plus performant!
-
-```
-nom-composant/
-├── nom-sous-composant-1/         # Décomposition en sous-composants,
-├── nom-sous-composant-2/         # Peuvent eux-même avoir des sous-composants,
-├── nom-sous-composant-n/         # Autant de sous-composants que nécessaire, etc.
-├── nomComposant.module.css       # Style local, grâce aux CSS Modules
-└── NomComposant.tsx              # Composant principal(logique + rendu)
-```
+Au-delà des gains de performance, React Scan nous a surtout permis de **visualiser concrètement** ce qui se passe dans React : comprendre pourquoi certains composants se réaffichent, comment les changements d’état se propagent et quels éléments sont réellement coûteux.
 
 ---
 
 ### 2.3.2 React Developer Tools
 
-En complément de React Scan, nous avons utilisé React Developer Tools, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox. Cet outil fait partie des outils officiels proposés par l’équipe React et constitue une référence pour analyser le comportement interne d’une application.
+En complément de **React Scan**, nous avons utilisé **React Developer Tools**, une extension officielle disponible sur les navigateurs Chromium et Firefox. Cet outil constitue une référence pour analyser le comportement interne d’une application React, car il permet d’inspecter précisément la structure des composants, leurs états et leurs contextes.
 
-React Developer Tools nous a permis d’inspecter en profondeur la structure de l’application et de mieux comprendre la manière dont React gère les composants, les états et les contextes. Contrairement à React Scan, qui met l’accent sur la visualisation en temps réel des re-rendus, React Developer Tools fournit une analyse plus détaillée et plus technique, particulièrement utile pour diagnostiquer des comportements complexes.
-
-L’outil permet notamment d’examiner l’arbre complet des composants, d’observer les propriétés et les états en temps réel, d’inspecter les contextes React, et d’identifier certaines causes de re-rendus grâce à l’onglet Profiler. Ces fonctionnalités nous ont aidés à comprendre précisément pourquoi certains composants se réaffichaient, et à vérifier que les optimisations appliquées (comme l’utilisation de React.memo ou la stabilisation de certaines props) produisaient bien les effets attendus.
+Contrairement à React Scan, qui met l’accent sur la visualisation immédiate des re‑rendus, React Developer Tools offre une analyse plus détaillée et plus technique. Il permet d’examiner l’arbre complet des composants, d’observer leurs props et états en temps réel, et d’inspecter les contextes utilisés dans l’application. Ces fonctionnalités nous ont permis de confirmer l’origine de certains re‑rendus et de valider l’efficacité des optimisations appliquées, comme l’utilisation de **React.memo** ou la stabilisation de certaines props.
 
 <div class="card">
 
-Figure X – Analyse de l'arbre des composants avec React Developer Tools.  
-(placeholder capture d’écran)
+Analyse de l'arbre des composants avec React Developer Tools.  
+
+![React Dev Tools](src/assets/react-dev-tools-1.png)
+
+L’onglet **Components** a un interface qui reprend les principes de l’inspecteur d’éléments classique : sélection d’éléments, navigation dans l’arbre, recherche, et affichage des propriétés spécifiques à React. On peut notamment identifier les composants mémorisés via *Memo*, les contextes consommés ou encore les hooks utilisés.
+
+![React Dev Tools](src/assets/react-dev-tools-2.png)
+
+Le **Profiler** complète parfaitement React Scan. Il permet d’identifier quel composant a déclenché un rendu, à quel moment, en combien de temps, et de visualiser la chronologie des rendus ainsi que les relations entre composants. Cette vue temporelle est particulièrement utile pour repérer les goulots d’étranglement.
 
 </div>
 
-L’onglet Components a été particulièrement utile pour visualiser la hiérarchie réelle de l’application. Il met en évidence la structure exacte de l’arbre React, ce qui nous a permis d’identifier des composants trop volumineux ou trop imbriqués. Dans certains cas, nous avons constaté que des composants consommaient un contexte global alors qu’ils n’en avaient pas besoin, ce qui entraînait des re-rendus inutiles. Cette observation nous a conduits à revoir la manière dont certains contextes étaient utilisés, notamment ceux provenant de notre store global.
+React Developer Tools s’est révélé utilie tout au long du développement. Même si nous n’avons jamais rencontré de problèmes de performance majeurs ou de composants réellement trop lourds, la possibilité d’inspecter rapidement la hiérarchie, les contextes consommés ou la raison d’un re‑rendu offrait une grande tranquillité d’esprit. Dès qu’un comportement semblait inhabituel, React Developer Tools permettait de vérifier en quelques secondes si tout fonctionnait comme prévu. Couplé à React Scan, qui met en évidence les re‑rendus en temps réel, l’outil offrait une vision complète : d’un côté l’observation instantanée du rendu, de l’autre une analyse détaillée des causes et du coût associé.
 
-L’onglet Profiler, quant à lui, nous a permis d’enregistrer des sessions d’utilisation et d’obtenir des informations précises sur le coût de rendu de chaque composant. Cet outil indique non seulement la durée de chaque rendu, mais aussi la raison pour laquelle un composant s’est réaffiché (mise à jour d’un état local, changement de props, mise à jour d’un contexte, etc.). Grâce à ces informations, nous avons pu confirmer que certaines optimisations réduisaient effectivement le nombre de re-rendus, et que d’autres n’avaient pas l’impact attendu.
-
----
-
-### 2.3.3 React Doctor
-
-Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.
-
-Même si nous ne l’avons pas intégré directement au projet, son fonctionnement et ses capacités méritent d’être présentés, car il s’agit d’un outil prometteur qui pourrait devenir un standard dans les prochaines années.
-
-React Doctor est capable d’identifier plusieurs types de problèmes, notamment les re-rendus inutiles, les dépendances incorrectes dans les hooks, ou encore les composants dont le coût de rendu est anormalement élevé. L’outil analyse également la stabilité des props et des références, ce qui permet de repérer des erreurs de conception difficiles à détecter autrement. Par exemple, il peut signaler un useEffect déclenché trop souvent à cause d’une dépendance instable, ou un composant qui se réaffiche alors que ses props n’ont pas changé.
-
-<div class="card">
-
-Figure X – Exemple d’analyse automatisée proposée par React Doctor.  
-(placeholder capture d’écran)
-
-</div>
-
-Nous avons découvert React Doctor relativement tard dans le développement, à un moment où la majorité des optimisations principales étaient déjà en place. Par manque de temps, nous n’avons pas pu l’explorer en profondeur ni l’intégrer dans notre workflow. De plus, l’outil étant encore jeune, certaines fonctionnalités manquent de stabilité et peuvent produire des faux positifs. Cela rend son utilisation délicate dans un contexte de production ou dans un projet où les délais sont serrés.
-
-Malgré cela, cette phase de veille technologique s’est révélée utile. Elle nous a permis d’identifier des outils émergents et de mieux comprendre les tendances actuelles autour de l’écosystème React. React Doctor pourrait être envisagé dans de futurs projets, notamment pour automatiser une partie du diagnostic de performance et pour compléter des outils plus établis comme React Developer Tools ou React Scan.
-
----
-
-### 2.3.4 Lighthouse
+### 2.3.3 Lighthouse
 
 Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : les performances, l’accessibilité, le référencement et les bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble, du chargement initial aux interactions, en passant par la structure HTML et la gestion des ressources.  
 Ces audits nous ont permis de valider objectivement l’impact des optimisations réalisées et d’orienter les améliorations à apporter au site.
@@ -923,7 +832,9 @@ Lighthouse s’est donc révélé être un outil précieux pour valider nos choi
 
 ---
 
-### 2.3.5 Firefox Profiler
+### 2.3.4 Firefox Profiler
+
+Comme le profiler de React Dev Tools mais beaucoup trop complet, a la place, il a été utiliser comme "gestionnaire de tache", la ou l'ordinateur regarde l'utilisation de ses propre ressouce, je faisait de même avec Firefox, quand mon GPU est-il utilisé à fond et à quelle fréquence. Avant je me disais que le composant background ferait griller les cartes graphique des ordinateurs des cliens car mon gestionnaire de tache affichait 100%-90% lors du moindre scroll, finalement j'avais mis le background à 4 fps. En réalité j'aurai pu le laisser tel quel car Firefox à revelé que même si c'est 80% du GPU, c'est a tres faible fréquence et peu couteu.
 
 En complément des outils orientés React, nous avons utilisé **Firefox Profiler** afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.
 
@@ -943,7 +854,7 @@ Au-delà de l'aspect purement technique, cet outil nous a permis de mieux compre
 
 ---
 
-### 2.3.6 Lazy Loading et Suspense
+### 2.3.5 Lazy Loading et Suspense
 
 L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.
 
@@ -975,7 +886,7 @@ Cette technique s'est révélée particulièrement efficace pour les pages rarem
 
 ---
 
-### 2.3.7 PixiJS
+### 2.3.6 PixiJS
 
 L'arrière-plan animé constitue l'un des éléments visuels les plus complexes de la nouvelle version d'UnlockIt. Les premiers prototypes reposaient principalement sur des animations CSS et sur la manipulation d'éléments HTML classiques. Bien que fonctionnelle, cette approche devenait coûteuse dès lors que le nombre d'éléments affichés augmentait.
 
@@ -995,7 +906,7 @@ Cette réécriture a également constitué une opportunité d'explorer des conce
 
 ---
 
-### 2.3.8 SVGR
+### 2.3.7 SVGR
 
 Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.
 
@@ -1026,6 +937,31 @@ Cette approche apporte plusieurs bénéfices :
 SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.
 
 Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.
+
+---
+
+### 2.3.8 React Doctor
+
+J'ai conscience que déjà beaucoup d'outils ont été utilisé pour la qualité et que j'ai peut etre abusé, mais l'utilisation de React Doctor aurait pu être réellement interessant si j'avais plus de temps et que d'autre projet ne nécéssitaient pas mon attention.
+
+Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.
+
+Même si nous ne l’avons pas intégré directement au projet, son fonctionnement et ses capacités méritent d’être présentés, car il s’agit d’un outil prometteur qui pourrait devenir un standard dans les prochaines années.
+
+React Doctor est capable d’identifier plusieurs types de problèmes, notamment les re-rendus inutiles, les dépendances incorrectes dans les hooks, ou encore les composants dont le coût de rendu est anormalement élevé. L’outil analyse également la stabilité des props et des références, ce qui permet de repérer des erreurs de conception difficiles à détecter autrement. Par exemple, il peut signaler un useEffect déclenché trop souvent à cause d’une dépendance instable, ou un composant qui se réaffiche alors que ses props n’ont pas changé.
+
+<div class="card">
+
+Figure X – Exemple d’analyse automatisée proposée par React Doctor.  
+(placeholder capture d’écran)
+
+</div>
+
+Nous avons découvert React Doctor relativement tard dans le développement, à un moment où la majorité des optimisations principales étaient déjà en place. Par manque de temps, nous n’avons pas pu l’explorer en profondeur ni l’intégrer dans notre workflow. De plus, l’outil étant encore jeune, certaines fonctionnalités manquent de stabilité et peuvent produire des faux positifs. Cela rend son utilisation délicate dans un contexte de production ou dans un projet où les délais sont serrés.
+
+Malgré cela, cette phase de veille technologique s’est révélée utile. Elle nous a permis d’identifier des outils émergents et de mieux comprendre les tendances actuelles autour de l’écosystème React. React Doctor pourrait être envisagé dans de futurs projets, notamment pour automatiser une partie du diagnostic de performance et pour compléter des outils plus établis comme React Developer Tools ou React Scan.
+
+---
 
 ## 2.4 Nouvelle couche API Frontend
 
@@ -1511,7 +1447,62 @@ Cet outil a notamment permis de confirmer que :
 
 L’un des problèmes les plus marquants rencontrés au cours du développement concerne l’utilisation de Suspense avec React Router. Ce point est particulièrement intéressant car il illustre parfaitement la démarche adoptée tout au long du projet : identifier un comportement inattendu, formuler des hypothèses, investiguer méthodiquement, puis mettre en place une solution pragmatique. C’est exactement ce que nous avons appliqué dans toutes les sections précédentes, qu’il s’agisse de performances, de structure des composants ou d’outils de diagnostic.
 
-### 2.7.2 Difficulté n°1 : Suspence
+### 2.7.2 : React Router
+
+L’utilisation de React Scan nous a permis d’identifier plusieurs comportements inattendus, notamment liés à **React Router**. Nous avons constaté que certains composants se réaffichaient lors de simples navigations, même lorsque leur contenu ne dépendait pas de l’URL. Les composants contenant des éléments <code class="c">\<Link\></code> étaient par exemple redessinés à cause de la mise à jour du contexte interne de React Router. De même, certains layouts ou composants structurels (comme le header ou le footer) étaient recalculés inutilement à chaque changement de route, alors qu’ils ne dépendaient d’aucune donnée dynamique.
+
+Pour corriger ces comportements, nous avons introduit l’utilisation de **React.memo()**, notamment pour stabiliser les composants structurels tels que le header, le footer ou encore le layout global.
+
+```tsx
+export const Layout = memo(() => {
+  return (
+    <div>
+      <Header />
+
+      <main>
+        <Background />
+        <Outlet />
+      </main>
+
+      <Footer />
+    </div>
+  );
+});
+```
+
+#### Avant / Après la refonte
+
+<div class="before">
+
+#### Avant
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```
+TODO
+```
+
+</details>
+
+</div>
+
+<div class="after">
+
+#### Après
+
+<details class="accordion">
+<summary>Voir plus d'informations</summary>
+
+```
+TODO
+```
+
+</details>
+
+</div>
+
+### 2.7.3 Difficulté n°2 : Suspence
 
 Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.
 
