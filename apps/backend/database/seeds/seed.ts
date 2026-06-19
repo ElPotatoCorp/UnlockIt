@@ -4,6 +4,8 @@ import { UserFactory } from '../factories/user.factory';
 import { DataSource } from 'typeorm';
 import { GameFactory } from 'database/factories/game.factory';
 import { StockFactory } from 'database/factories/stock.factory';
+import { randomUUID } from 'crypto';
+import { EmployeeRole } from '@unlockit/shared';
 
 // I don't know how to make it absolutely dynamic so I just put every possibilities here
 const FACTORIES: [name: string, factory: any][] = [
@@ -57,7 +59,20 @@ async function init(dataSource: DataSource) {
   const stockFactory = new StockFactory(dataSource);
 
   console.log('-> Seeding batch: Users');
-  const users = await userFactory.createMany(5);
+  const users = await userFactory.createMany(4);
+
+  const uuid = randomUUID();
+  users.push(await userFactory.create({
+    id: uuid,
+    username: "TestUser",
+    email: 'test@test.test',
+    password: "Test123&",
+    employee: {
+      role: EmployeeRole.OWNER,
+      createdBy: uuid,
+    },
+  }))
+  
   console.log(`   Created ${users.length} default users.`);
 
   console.log('-> Seeding batch: Games');
