@@ -17,7 +17,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { SearchGameOptionsDtoDoc } from 'src/docs/games/dto/search-game-options.dto';
+import { SearchGameOptionsDtoDoc } from 'src/docs/games/dto/search-game-options.dto.doc';
 import { PartialGamePlatformDto } from 'src/platforms/dto/partial-game-platform.dto';
 
 export class PriceFilterDto {
