@@ -79,5 +79,9 @@
     "it",
     "es"
   ],
-  "metacriticScore": 83
+  "metacriticScore": 83,
+  "series": {
+    "name":"The Forest",
+    "slug": "the-forest"
+  }
 }

@@ -72,5 +72,9 @@
     "pl",
     "sk"
   ],
-  "metacriticScore": null
+  "metacriticScore": null,
+  "series": {
+    "name":"Subnautica",
+    "slug": "subnautica"
+  }
 }

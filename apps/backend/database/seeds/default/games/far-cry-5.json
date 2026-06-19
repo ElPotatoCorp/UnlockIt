@@ -80,5 +80,9 @@
     "ru",
     "zh"
   ],
-  "metacriticScore": null
+  "metacriticScore": null,
+  "series": {
+    "name":"Far Cry",
+    "slug": "far-cry"
+  }
 }

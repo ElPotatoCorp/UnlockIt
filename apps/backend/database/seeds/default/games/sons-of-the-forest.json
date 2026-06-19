@@ -74,5 +74,9 @@
     "sv",
     "tr"
   ],
-  "metacriticScore": null
+  "metacriticScore": null,
+  "series": {
+    "name":"The Forest",
+    "slug": "the-forest"
+  }
 }

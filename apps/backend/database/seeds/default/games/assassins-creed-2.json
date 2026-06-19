@@ -64,5 +64,9 @@
     "ko",
     "sv"
   ],
-  "metacriticScore": 86
+  "metacriticScore": 86,
+  "series": {
+    "name":"Assassin's Creed",
+    "slug": "assassins-creed"
+  }
 }

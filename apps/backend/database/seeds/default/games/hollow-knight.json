@@ -71,5 +71,9 @@
     "ru",
     "ja"
   ],
-  "metacriticScore": 87
+  "metacriticScore": 87,
+  "series": {
+    "name":"Hollow Knight",
+    "slug": "hollow-knight"
+  }
 }

@@ -70,5 +70,9 @@
     "pl",
     "ru"
   ],
-  "metacriticScore": 94
+  "metacriticScore": 94,
+  "series": {
+    "name":"The Elder Scrolls",
+    "slug": "the-elder-scrolls"
+  }
 }

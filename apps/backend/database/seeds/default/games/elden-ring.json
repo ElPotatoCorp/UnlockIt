@@ -74,5 +74,9 @@
     "zh",
     "ar"
   ],
-  "metacriticScore": 94
+  "metacriticScore": 94,
+  "series": {
+    "name":"Elden Ring",
+    "slug": "elden-ring"
+  }
 }

@@ -67,5 +67,9 @@
     "ru",
     "zh"
   ],
-  "metacriticScore": 91
+  "metacriticScore": 91,
+  "series": {
+    "name":"Call of Duty",
+    "slug": "call-of-duty"
+  }
 }

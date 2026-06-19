@@ -64,5 +64,9 @@
     "zh",
     "nl"
   ],
-  "metacriticScore": null
+  "metacriticScore": null,
+  "series": {
+    "name":"Assassin's Creed",
+    "slug": "assassins-creed"
+  }
 }

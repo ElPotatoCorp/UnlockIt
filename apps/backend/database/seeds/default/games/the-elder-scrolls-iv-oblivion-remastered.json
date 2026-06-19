@@ -63,5 +63,9 @@
     "pt",
     "zh"
   ],
-  "metacriticScore": null
+  "metacriticScore": null,
+  "series": {
+    "name":"The Elder Scrolls",
+    "slug": "the-elder-scrolls"
+  }
 }

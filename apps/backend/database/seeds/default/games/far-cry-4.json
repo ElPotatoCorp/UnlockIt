@@ -69,5 +69,9 @@
     "no",
     "zh"
   ],
-  "metacriticScore": 80
+  "metacriticScore": 80,
+  "series": {
+    "name":"Far Cry",
+    "slug": "far-cry"
+  }
 }

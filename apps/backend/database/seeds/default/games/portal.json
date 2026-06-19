@@ -79,5 +79,9 @@
     "tr",
     "uk"
   ],
-  "metacriticScore": 90
+  "metacriticScore": 90,
+  "series": {
+    "name":"Portal",
+    "slug": "portal"
+  }
 }

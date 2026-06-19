@@ -80,5 +80,9 @@
     "lt",
     "sk"
   ],
-  "metacriticScore": 87
+  "metacriticScore": 87,
+  "series": {
+    "name":"Subnautica",
+    "slug": "subnautica"
+  }
 }
