@@ -1,5 +1,4 @@
 import {
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -94,10 +93,6 @@ export class TicketsService {
   }
 
   async findOne(ticket: TicketEntity, user: JwtPayloadDto): Promise<TicketDto> {
-    if (user.permission === null && ticket.userId !== user.sub) {
-      throw new ForbiddenException('You do not have access to this ticket');
-    }
-
     return TicketMapper.toTicket(ticket);
   }
 

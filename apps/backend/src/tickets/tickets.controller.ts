@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   HttpCode,
   Param,
@@ -64,12 +63,7 @@ export class TicketsController {
   update(
     @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
     @Body() updateTicketDto: UpdateTicketDto,
-    @User() user: JwtPayloadDto,
   ) {
-    if (user.permission === null) {
-      throw new ForbiddenException('Only employees can update ticket status');
-    }
-
     return this.ticketsService.update(ticket, updateTicketDto);
   }
 
@@ -78,12 +72,7 @@ export class TicketsController {
   @HttpCode(204)
   remove(
     @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) id: number,
-    @User() user: JwtPayloadDto,
   ) {
-    if (user.permission === null) {
-      throw new ForbiddenException('Only employees can delete tickets');
-    }
-
     return this.ticketsService.remove(id);
   }
 }

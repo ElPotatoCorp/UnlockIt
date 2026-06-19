@@ -97,7 +97,7 @@ export class GamesController {
   }
 
   @GamesControllerDoc.Update()
-  @MinRole(EmployeeRole.MODERATOR)
+  @MinRole(EmployeeRole.ADMIN)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) id: number,
