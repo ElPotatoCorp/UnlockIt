@@ -6,7 +6,7 @@ interface BackgroundProps {
   seedOverride?: string;
 }
 
-export const Background: React.FC<BackgroundProps> = ({ seedOverride }) => {
+const Background: React.FC<BackgroundProps> = ({ seedOverride }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const bgRef = useRef<HexBackground | null>(null);
 
@@ -48,3 +48,5 @@ export const Background: React.FC<BackgroundProps> = ({ seedOverride }) => {
     />
   );
 };
+
+export default Background;

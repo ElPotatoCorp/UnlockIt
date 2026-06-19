@@ -1,10 +1,11 @@
-import { memo } from "react";
+import { lazy, memo } from "react";
 import { Outlet } from "react-router-dom";
 import styles from "./layout.module.css";
 
+const Background = lazy(() => import("./background/Background"));
+
 import { Header } from "./header/Header";
 import { Footer } from "./footer/Footer";
-import { Background } from "./background/Background";
 import { SessionStatusPanel } from "./session-status-panel/SessionStatusPanel";
 import { useAuthStore } from "../../api/stores/auth.store";
 

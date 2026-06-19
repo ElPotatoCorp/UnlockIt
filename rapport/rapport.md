@@ -45,10 +45,9 @@
     <li class="lvl2"><a href="#21-refonte-de-larchitecture-react">2.1 Refonte de l'architecture React</a></li>
     <li class="lvl2"><a href="#22-référencement-et-indexation">2.2 Référencement et indexation</a></li>
     <li class="lvl2"><a href="#23-optimisation-des-performances">2.3 Optimisation des performances</a></li>
-    <li class="lvl2"><a href="#24-refonte-graphique">2.4 Refonte graphique</a></li>
-    <li class="lvl2"><a href="#25-nouvelle-couche-api-frontend">2.5 Nouvelle couche API Frontend</a></li>
-    <li class="lvl2"><a href="#26-tests-automatisés">2.6 Tests automatisés</a></li>
-    <li class="lvl2"><a href="#27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</a></li>
+    <li class="lvl2"><a href="#24-nouvelle-couche-api-frontend">2.4 Nouvelle couche API Frontend</a></li>
+    <li class="lvl2"><a href="#25-tests-automatisés">2.5 Tests automatisés</a></li>
+    <li class="lvl2"><a href="#26-difficultés-rencontrées-et-solutions">2.6 Difficultés rencontrées et solutions</a></li>
     <li><a href="#3-backend">3. Backend</a></li>
     <li class="lvl2"><a href="#31-migration-vers-nestjs">3.1 Migration vers NestJS</a></li>
     <li class="lvl2"><a href="#32-architecture-modulaire">3.2 Architecture modulaire</a></li>
@@ -935,89 +934,144 @@ Lighthouse s’est donc révélé être un outil précieux pour valider nos choi
 
 ### 2.3.3 Firefox Profiler
 
-En complément de Lighthouse, Firefox Profiler a été utilisé afin d'obtenir une vision plus détaillée du comportement de l'application.
+En complément des outils orientés React, nous avons utilisé **Firefox Profiler** afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.
 
-L'outil permet notamment d'analyser :
+L'outil enregistre une session complète d'utilisation puis présente les résultats sous la forme d'une chronologie détaillée. Chaque opération exécutée par le navigateur est représentée visuellement, ce qui permet d'identifier rapidement les phases responsables des ralentissements.
 
-* le temps passé dans certaines fonctions
-* le coût des opérations JavaScript
-* les phases de rendu
-* certaines opérations particulièrement coûteuses.
+Grâce à cet outil, nous avons pu :
 
-Cette analyse a été particulièrement utile lors de l'optimisation de certaines animations et de l'arrière-plan du site.
+- mesurer précisément le temps passé dans certaines fonctions JavaScript ;
+- identifier des calculs exécutés plus fréquemment que nécessaire ;
+- observer le coût réel des animations en arrière-plan ;
+- repérer certaines opérations de rendu déclenchées à chaque changement d'état ;
+- comparer l'impact des optimisations avant et après leur mise en place.
+
+L'analyse a été particulièrement utile lors du développement du système d'arrière-plan animé. Les premiers prototypes effectuaient davantage de calculs que nécessaire et sollicitaient inutilement le processeur. Firefox Profiler nous a permis de visualiser précisément où le temps d'exécution était consommé et de vérifier que les optimisations appliquées réduisaient effectivement la charge du navigateur.
+
+Au-delà de l'aspect purement technique, cet outil nous a permis de mieux comprendre le pipeline de rendu moderne d'un navigateur : exécution JavaScript, calcul des styles, mise en page (layout), peinture (paint) puis composition finale à l'écran. Cette compréhension a facilité la prise de décisions concernant les animations, les effets visuels et l'organisation générale du frontend.
 
 ---
 
 ### 2.3.4 Lazy Loading et Suspense
 
-L'une des principales optimisations apportées concerne le chargement des pages.
+L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.
 
-Dans la première version du projet, une partie importante du code JavaScript était chargée dès l'ouverture du site. Cette approche augmentait inutilement la taille du bundle initial.
+Cette approche reste acceptable pour de petites applications, mais devient rapidement problématique lorsque le nombre de pages augmente. Le navigateur doit télécharger, analyser et exécuter davantage de code avant de pouvoir afficher l'interface.
 
-La seconde version utilise désormais <code class="c">React.lazy</code> et <code class="c">Suspense</code> afin de charger certaines pages uniquement lorsqu'elles sont réellement nécessaires.
+Pour résoudre ce problème, nous avons mis en place une stratégie de **code splitting** basée sur **React.lazy** et **Suspense**.
 
-Cette technique de découpage du code permet de :
+```tsx
+const ProductPage = lazy(() => import("./pages/ProductPage"));
 
-* réduire le temps de chargement initial
-* diminuer la quantité de JavaScript téléchargée
-* améliorer les scores de performance
-* offrir une expérience plus fluide à l'utilisateur.
+<Suspense fallback={<Loader />}>
+    <ProductPage />
+</Suspense>
+```
 
-<div class="card">
+Avec cette approche, le code d'une page n'est téléchargé qu'au moment où l'utilisateur en a réellement besoin. Chaque route importante devient ainsi un bundle indépendant pouvant être chargé dynamiquement.
 
-![Code splitting](src/assets/lazy-loading-placeholder.webp)
+Cette optimisation apporte plusieurs avantages :
 
-*Figure X – Illustration du chargement différé des pages.*
+- réduction significative de la taille du bundle initial ;
+- diminution du temps de téléchargement lors du premier chargement ;
+- réduction du temps d'analyse et d'exécution JavaScript ;
+- amélioration des métriques Lighthouse ;
+- meilleure expérience utilisateur sur les connexions lentes.
 
-</div>
+Le composant **Suspense** joue ici un rôle essentiel. Lorsqu'une ressource n'est pas encore disponible, React affiche temporairement un composant de remplacement (*fallback*), généralement un loader ou un skeleton. L'utilisateur obtient ainsi un retour visuel immédiat plutôt qu'un écran vide.
+
+Cette technique s'est révélée particulièrement efficace pour les pages rarement consultées, comme certaines pages de paramètres ou de gestion du compte. Leur code n'est chargé que lorsqu'il devient réellement nécessaire, ce qui contribue à maintenir une interface réactive même lorsque l'application continue de s'enrichir.
 
 ---
 
 ### 2.3.5 PixiJS
 
-Le système d'arrière-plan du site a été entièrement réécrit à l'aide de PixiJS.
+L'arrière-plan animé constitue l'un des éléments visuels les plus complexes de la nouvelle version d'UnlockIt. Les premiers prototypes reposaient principalement sur des animations CSS et sur la manipulation d'éléments HTML classiques. Bien que fonctionnelle, cette approche devenait coûteuse dès lors que le nombre d'éléments affichés augmentait.
 
-Cette bibliothèque permet de s'appuyer sur l'accélération matérielle du navigateur afin de produire des animations plus fluides et moins coûteuses en ressources.
+Afin d'obtenir de meilleures performances, nous avons choisi d'utiliser **PixiJS**, une bibliothèque de rendu 2D s'appuyant directement sur **WebGL** lorsque celui-ci est disponible.
 
-L'utilisation de PixiJS a également été l'occasion d'expérimenter de nouvelles technologies et d'approfondir notre compréhension du rendu graphique dans un environnement web.
+L'intérêt principal de PixiJS réside dans sa capacité à exploiter l'accélération matérielle du navigateur. Une partie importante du travail est alors déléguée au processeur graphique (GPU), ce qui réduit la charge du processeur principal et améliore la fluidité des animations.
 
-<div class="card">
+L'intégration de PixiJS nous a permis :
 
-![Background PixiJS](src/assets/pixijs-background-placeholder.webp)
+- d'afficher un grand nombre d'éléments animés simultanément ;
+- d'obtenir un framerate plus stable ;
+- de réduire les calculs effectués dans le DOM ;
+- de limiter les opérations de repaint et de reflow ;
+- de conserver une bonne fluidité sur des machines moins puissantes.
 
-*Figure X – Nouvel arrière-plan développé avec PixiJS.*
-
-</div>
+Cette réécriture a également constitué une opportunité d'explorer des concepts plus avancés liés au rendu graphique temps réel : gestion d'une scène, sprites, textures, boucle de rendu et accélération GPU. Même si UnlockIt reste une application web classique, cette expérimentation nous a permis d'acquérir une meilleure compréhension des technologies graphiques modernes utilisées dans de nombreux sites interactifs et jeux web.
 
 ---
 
 ### 2.3.6 Terser
 
-// TODO parler de terser
+L'optimisation ne se limite pas au code exécuté dans le navigateur. Une partie importante du travail consiste également à réduire la taille des fichiers générés lors du build de production.
+
+Pour cela, nous avons utilisé **Terser**, l'outil de minification intégré à l'écosystème Vite. Son rôle consiste à transformer le code JavaScript produit par TypeScript et React en une version équivalente mais beaucoup plus compacte.
+
+Lors de cette étape, plusieurs optimisations sont réalisées automatiquement :
+
+- suppression des commentaires ;
+- suppression des espaces inutiles ;
+- raccourcissement de certains identifiants ;
+- simplification de certaines expressions ;
+- élimination d'une partie du code mort (*dead code*).
+
+Par exemple, un code lisible destiné aux développeurs :
+
+```ts
+function calculateTotal(price, quantity) {
+    return price * quantity;
+}
+```
+
+peut être transformé en une version beaucoup plus compacte :
+
+```js
+function calculateTotal(t,n){return t*n}
+```
+
+Cette réduction peut sembler anecdotique à petite échelle, mais elle devient significative lorsqu'elle est appliquée à plusieurs milliers de lignes de code.
+
+Combinée au découpage dynamique des bundles, la minification contribue directement à diminuer la quantité de données téléchargées par l'utilisateur. Les temps de chargement sont réduits et les performances perçues s'améliorent, notamment sur les réseaux mobiles.
 
 ---
 
-## 2.4 Refonte graphique
+### 2.3.7 SVGR
 
-### SVGR
+Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.
 
-La refonte du frontend a également été l'occasion de revoir une partie de l'identité visuelle du projet.
+Afin d'intégrer ces fichiers plus efficacement dans React, nous avons utilisé **SVGR**. Cet outil transforme automatiquement un fichier SVG en composant React.
 
-Plusieurs éléments graphiques ont été redessinés et certaines ressources PNG ont été remplacées par des équivalents SVG. Cette démarche permet de réduire significativement le poids des ressources tout en améliorant leur qualité d'affichage sur les écrans haute définition.
+Au lieu d'utiliser :
 
-Parallèlement, plusieurs composants ont été entièrement repensés afin d'offrir une interface plus cohérente et plus homogène.
+```tsx
+<img src="/icons/cart.svg" alt="Panier" />
+```
 
-<div class="card">
+nous pouvons directement écrire :
 
-![Ancien et nouveau design](src/assets/redesign-comparison-placeholder.webp)
+```tsx
+import CartIcon from "./cart.svg";
 
-*Figure X – Comparaison entre certains composants avant et après la refonte.*
+<CartIcon />
+```
 
-</div>
+Cette approche apporte plusieurs bénéfices :
 
----
+- suppression d'une requête réseau supplémentaire dans certains cas ;
+- intégration naturelle dans l'arbre React ;
+- personnalisation facilitée via les props ;
+- modification dynamique des couleurs et dimensions ;
+- meilleure maintenabilité des ressources graphiques.
 
-## 2.5 Nouvelle couche API Frontend
+SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.
+
+Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.
+
+
+## 2.4 Nouvelle couche API Frontend
 
 L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.  
 Dans la première version, plusieurs composants réalisaient directement leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.
@@ -1294,7 +1348,7 @@ flowchart LR
 
 ---
 
-## 2.6 Tests automatisés
+## 2.5 Tests automatisés
 
 La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait, et surtout difficile à maintenir : chaque nouvelle fonctionnalité nécessitait de repasser manuellement sur plusieurs parcours utilisateurs pour s’assurer qu’aucun comportement n’avait été cassé.
 Afin de sécuriser davantage le développement et d’améliorer la qualité globale du projet, nous avons intégré Playwright, un outil moderne de tests end‑to‑end.
@@ -1322,13 +1376,13 @@ TODO : exemple de ~~t~~
 
 ---
 
-## 2.7 Difficultés rencontrées et solutions
+## 2.6 Difficultés rencontrées et solutions
 
-### 2.7.1 Difficultés
+### 2.6.1 Difficultés
 
 L’un des problèmes les plus marquants rencontrés au cours du développement concerne l’utilisation de Suspense avec React Router. Ce point est particulièrement intéressant car il illustre parfaitement la démarche adoptée tout au long du projet : identifier un comportement inattendu, formuler des hypothèses, investiguer méthodiquement, puis mettre en place une solution pragmatique. C’est exactement ce que nous avons appliqué dans toutes les sections précédentes, qu’il s’agisse de performances, de structure des composants ou d’outils de diagnostic.
 
-### 2.7.2 Difficulté n°1 : Suspence
+### 2.6.2 Difficulté n°1 : Suspence
 
 Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.
 
