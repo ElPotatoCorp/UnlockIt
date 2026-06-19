@@ -80,21 +80,25 @@ export class SearchGameOptionsDto implements SearchGameOptions {
   @Type(() => OrderOptionsDto)
   order: OrderOptionsDto;
 
+  @SearchGameOptionsDtoDoc.Tags()
   @IsOptional()
   @IsArray()
   @IsInt({ each: true })
   tags?: number[];
 
+  @SearchGameOptionsDtoDoc.Developers()
   @IsOptional()
   @IsArray()
   @IsInt({ each: true })
   developers?: number[];
 
+  @SearchGameOptionsDtoDoc.Publishers()
   @IsOptional()
   @IsArray()
   @IsInt({ each: true })
   publishers?: number[];
 
+  @SearchGameOptionsDtoDoc.Platforms()
   @IsOptional()
   @ValidateNested()
   @Type(() => PartialGamePlatformDto)

@@ -64,7 +64,7 @@ const MED_ID_PARAM_G = ApiParam({
 export const GamesControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Games')),
 
-  // POST /games
+  // POST /games/:id/POST /games
   Create: () =>
     applyDecorators(
       ApiAuth(),
@@ -86,7 +86,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // GET /games/search/:slug
+  // POST /games/:id/GET /games/search/:slug
   Search: () =>
     applyDecorators(
       ApiOperation({
@@ -120,6 +120,46 @@ export const GamesControllerDoc = {
         description:
           'Optional search filters and sort order. All fields except `order.by` are optional.',
         type: SearchBodyDto,
+        examples: {
+          standardExample: {
+            summary: 'Standard Filters',
+            value: {
+              price: {
+                min: 0,
+                max: 60
+              },
+              order: {
+                by: "popular",
+                asc: true
+              },
+            },
+          },
+          complexExample: {
+            summary: 'Complex Filters',
+            value: {
+              type: "game",
+              price: {
+                min: 0,
+                max: 60
+              },
+              release: {
+                when: "after",
+                date: "2024-01-01"
+              },
+              order: {
+                by: "popular",
+                asc: true
+              },
+              tags: [1,2,5],
+              developers: [10,15],
+              publishers: [3,7],
+              platforms: {
+                windows: true,
+                ps5: true,
+              },
+            }
+          }
+        },
       }),
       ApiExtraModels(PaginatedDto, SummaryGameDto),
       ApiOkResponse({
@@ -131,7 +171,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // GET /games
+  // POST /games/:id/GET /games
   FindAll: () =>
     applyDecorators(
       ApiOperation({
@@ -149,7 +189,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // GET /games/:id
+  // POST /games/:id/GET /games/:id
   FindOne: () =>
     applyDecorators(
       ApiOperation({
@@ -175,7 +215,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // PATCH /games/:id
+  // POST /games/:id/PATCH /games/:id
   Update: () =>
     applyDecorators(
       ApiAuth(),
@@ -205,7 +245,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // DELETE /games/:id
+  // POST /games/:id/DELETE /games/:id
   Remove: () =>
     applyDecorators(
       ApiAuth(),
@@ -228,7 +268,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // Tags
+  // POST /games/:id/Tags
   AddTag: () =>
     applyDecorators(
       ApiAuth(),
@@ -270,7 +310,7 @@ export const GamesControllerDoc = {
       ApiNotFoundResponse({ description: 'Game not found.' }),
     ),
 
-  // Developers
+  // POST /games/:id/Developers
   AddDeveloper: () =>
     applyDecorators(
       ApiAuth(),
@@ -313,7 +353,7 @@ export const GamesControllerDoc = {
       ApiNotFoundResponse({ description: 'Game not found.' }),
     ),
 
-  // Publishers
+  // POST /games/:id/Publishers
   AddPublisher: () =>
     applyDecorators(
       ApiAuth(),
@@ -356,7 +396,7 @@ export const GamesControllerDoc = {
       ApiNotFoundResponse({ description: 'Game not found.' }),
     ),
 
-  // Platforms
+  // POST /games/:id/Platforms
   UpdatePlatforms: () =>
     applyDecorators(
       ApiAuth(),
@@ -372,7 +412,7 @@ export const GamesControllerDoc = {
       ApiBadRequestResponse({ description: 'Validation failed.' }),
     ),
 
-  // Media
+  // POST /games/:id/Media
   AddMedia: () =>
     applyDecorators(
       ApiAuth(),
@@ -400,7 +440,7 @@ export const GamesControllerDoc = {
       ApiNotFoundResponse({ description: 'Game or media item not found.' }),
     ),
 
-    // GET /games/:id/reviews
+    // POST /games/:id/GET /games/:id/reviews
   GetReviews: () =>
     applyDecorators(
       ApiOperation({
@@ -433,7 +473,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
-  // Stocks
+  // POST /games/:id/stocks
   AddStocks: () =>
     applyDecorators(
       ApiAuth(EmployeeRole.SUPER_ADMIN),
@@ -465,6 +505,7 @@ export const GamesControllerDoc = {
       }),
     ),
 
+  // GET /games/:id/stocks
   GetStocks: () =>
     applyDecorators(
       ApiAuth(EmployeeRole.SUPER_ADMIN),

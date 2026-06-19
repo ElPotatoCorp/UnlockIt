@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { GameType } from '@unlockit/shared';
+import { PartialGamePlatformDto } from 'src/platforms/dto/partial-game-platform.dto';
 
 export const SearchGameOptionsDtoDoc = {
   Name: () =>
@@ -100,6 +101,48 @@ export const SearchGameOptionsDtoDoc = {
               'Sort direction. `true` for ascending, `false` for descending.',
           },
         },
+      }),
+    ),
+
+    Tags: () =>
+    applyDecorators(
+      ApiProperty({
+        title: 'Tags filter',
+        description: 'Filter games by an array of tag IDs.',
+        type: [Number],
+        example: [1, 2, 5],
+        required: false,
+      }),
+    ),
+
+  Developers: () =>
+    applyDecorators(
+      ApiProperty({
+        title: 'Developers filter',
+        description: 'Filter games by an array of developer IDs.',
+        type: [Number],
+        example: [10, 15],
+        required: false,
+      }),
+    ),
+
+  Publishers: () =>
+    applyDecorators(
+      ApiProperty({
+        title: 'Publishers filter',
+        description: 'Filter games by an array of publisher IDs.',
+        type: [Number],
+        example: [3, 7],
+        required: false,
+      }),
+    ),
+
+  Platforms: () =>
+    applyDecorators(
+      ApiProperty({
+        title: 'Platforms filter',
+        description: 'Filter games by supported platforms.',
+        type: PartialGamePlatformDto,
       }),
     ),
 };
