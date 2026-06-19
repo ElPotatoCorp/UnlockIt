@@ -23,6 +23,7 @@ import {
   DuplicatedEntryExceptionSchemaDoc,
   DuplicatedEntryException,
 } from 'src/common/dto/duplicated-entry.dto';
+import { UserDto } from 'src/user/dto/user.dto';
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -66,13 +67,7 @@ export const AuthControllerDoc = {
       }),
       ApiCreatedResponse({
         description: 'User registered successfully.',
-        schema: {
-          example: {
-            id: 'a3f1c2d4-...',
-            username: 'johndoe',
-            email: 'john.doe@example.com',
-          },
-        },
+        type: UserDto,
       }),
       ApiBadRequestResponse({ description: 'Bad request. Validation failed.' }),
       ApiConflictResponse({

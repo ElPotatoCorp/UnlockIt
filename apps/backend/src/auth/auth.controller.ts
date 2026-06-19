@@ -20,7 +20,7 @@ import { User } from 'src/user/decorators/user.decorator';
 import { AuthControllerDoc } from 'src/docs/auth/auth.controller.doc';
 import { CreateJwtPayloadDto, JwtPayloadDto } from './dto/jwt-payload.dto';
 import { UserAgent } from './decorators/user-agent.decorator';
-import { ConfigService, type ConfigType } from '@nestjs/config';
+import { type ConfigType } from '@nestjs/config';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import jwtConfig from '../config/jwt.config';
@@ -32,6 +32,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 import coreConfig from 'src/config/core.config';
+import { UserMapper } from 'src/user/user.mapper';
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
@@ -71,11 +72,11 @@ export class AuthController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ authRegister: {} })
   @Post('register')
-  register(
+  async register(
     @Body(DuplicatedEntryPipe(UserEntity, 'email', 'username'))
     createUserDto: CreateUserDto,
   ) {
-    return this.authService.register(createUserDto);
+    return UserMapper.toUser(await this.authService.register(createUserDto));
   }
 
   @AuthControllerDoc.Login()
