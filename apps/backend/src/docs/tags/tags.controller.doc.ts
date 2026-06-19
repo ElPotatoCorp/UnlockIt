@@ -15,9 +15,10 @@ import {
 } from '@nestjs/swagger';
 import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { PaginatedDtoSchemaDoc } from '../common/dto/paginated.dto.doc';
-import { TagEntity } from 'src/tags/entities/tag.entity';
 import { CreateTagDto } from 'src/tags/dto/create-tag.dto';
 import { UpdateTagDto } from 'src/tags/dto/update-tag.dto';
+import { GameTagDto } from 'src/tags/dto/game-tag.dto';
+import { TagDto } from 'src/tags/dto/tag.dto';
 
 const TAG_ID_PARAM = ApiParam({
   name: 'id',
@@ -34,7 +35,7 @@ export const TagsControllerDoc = {
       ApiAuth(),
       ApiOperation({ summary: 'Create a tag', description: 'Admin only.' }),
       ApiBody({ type: CreateTagDto }),
-      ApiCreatedResponse({ description: 'Tag created.', type: TagEntity }),
+      ApiCreatedResponse({ description: 'Tag created.', type: TagDto }),
       ApiConflictResponse({
         description: 'A tag with this name already exists.',
       }),
@@ -47,10 +48,13 @@ export const TagsControllerDoc = {
         summary: 'List all tags',
         description: 'Public endpoint. Returns a paginated list of all tags.',
       }),
-      ApiExtraModels(PaginatedDto, TagEntity),
+      ApiExtraModels(PaginatedDto, TagDto),
       ApiOkResponse({
         description: 'Paginated list of tags.',
-        schema: PaginatedDtoSchemaDoc(TagEntity),
+        schema: {
+          type: 'array',
+          items: PaginatedDtoSchemaDoc(TagDto),
+        },
       }),
       ApiBadRequestResponse({ description: 'Invalid pagination parameters.' }),
     ),

@@ -6,6 +6,7 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
+import { TagMapper } from './tag.mapper';
 
 @Injectable()
 export class TagsService {
@@ -24,6 +25,7 @@ export class TagsService {
     return this.commonService.pagination.getPaginatedResponse(
       this.tagRepository,
       paginationQueryDto,
+      { transform: { fn: TagMapper.toGameTag } },
     );
   }
 

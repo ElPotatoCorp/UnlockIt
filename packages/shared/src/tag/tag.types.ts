@@ -8,10 +8,10 @@ export type TagEntity = {
   games: GameEntity[];
 };
 
-export type Tag = Simplify<Omit<TagEntity, 'games'> & { games: SummaryGame[] }>;
+export type Tag = Omit<TagEntity, 'games'>;
 
-export type GameTag = Pick<Tag, 'id' | 'name'>;
+export type GameTag = Pick<TagEntity, 'id' | 'name'>;
 
-export type CreateTag = Pick<Tag, 'name'>;
+export type CreateTag = Pick<TagEntity, 'name'>;
 
 export type UpdateTag = Partial<CreateTag>;

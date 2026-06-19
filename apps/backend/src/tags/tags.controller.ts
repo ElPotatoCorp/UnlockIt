@@ -18,6 +18,7 @@ import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.d
 import { TagsControllerDoc } from 'src/docs/tags/tags.controller.doc';
 import { DuplicatedEntryPipe } from 'src/common/entities/pipes/duplicated-entry.pipe';
 import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
+import { TagMapper } from './tag.mapper';
 
 @TagsControllerDoc.Controller()
 @Controller('tags')
@@ -26,10 +27,10 @@ export class TagsController {
 
   @TagsControllerDoc.Create()
   @Post()
-  create(
+  async create(
     @Body(DuplicatedEntryPipe(TagEntity, 'name')) createTagDto: CreateTagDto,
   ) {
-    return this.tagsService.create(createTagDto);
+    return TagMapper.toTag(await this.tagsService.create(createTagDto));
   }
 
   @TagsControllerDoc.FindAll()
