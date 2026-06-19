@@ -11,7 +11,7 @@ export const SearchGameOptionsDtoDoc = {
           'Game name to search for. Automatically slugified before matching (e.g. "Call of Duty" &rarr; "call-of-duty").',
         type: String,
         example: 'call-of-duty',
-        required: true,
+        required: false,
       }),
     ),
 
