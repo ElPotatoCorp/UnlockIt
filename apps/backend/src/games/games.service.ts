@@ -346,10 +346,6 @@ export class GamesService {
     return this.reviewsService.findAll(gameId, paginationQueryDto);
   }
 
-  reviewVote(userId: string, gameId: number, reviewVoteDto: ReviewVoteDto) {
-    return this.reviewsService.vote(userId, gameId, reviewVoteDto);
-  }
-
   // --- Stock ---
   addStocks(gameId: number, createStockDto: CreateStockDto) {
     return this.stocksService.create(gameId, createStockDto);

@@ -1,14 +1,18 @@
 import { ExactData, ReviewEntity as IReviewEntity } from "@unlockit/shared";
 import { GameEntity } from "src/games/entities/game.entity";
 import { UserEntity } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('reviews')
+@Index(['userId', 'gameId'], { unique: true })
 export class ReviewEntity implements IReviewEntity {
-  @PrimaryColumn('uuid', { name: 'user_id' })
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column('uuid', { name: 'user_id' })
   userId: string;
 
-  @PrimaryColumn('int', { name: 'game_id' })
+  @Column('int', { name: 'game_id' })
   gameId: number;
 
   @Column('text')

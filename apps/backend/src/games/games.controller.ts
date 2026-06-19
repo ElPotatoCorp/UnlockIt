@@ -252,15 +252,6 @@ export class GamesController {
     return this.gamesService.getReviews(id, paginationQueryDto);
   }
 
-  @Post(':id/reviews/vote')
-  reviewVote(
-    @User('sub') userId: string,
-    @Param('id', ParseIntPipe) gameId: number,
-    @Body() reviewVoteDto: ReviewVoteDto,
-  ) {
-    return this.gamesService.reviewVote(userId, gameId, reviewVoteDto);
-  }
-
   // --- Stocks ---
   @MinRole(EmployeeRole.SUPER_ADMIN)
   @Post(':id/stocks')

@@ -1,6 +1,8 @@
 import { ExactData, Review } from "@unlockit/shared";
 
 export class ReviewDto implements Review {
+  id: string;
+
   userId: string;
   gameId: number;
 

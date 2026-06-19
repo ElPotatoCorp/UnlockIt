@@ -44,10 +44,10 @@ export class ReviewsService {
     );
   }
 
-  async vote(userId: string, gameId: number, reviewVoteDto: ReviewVoteDto) {
+  async vote(userId: string, reviewId: string, reviewVoteDto: ReviewVoteDto) {
     const vote = this.reviewVoteRepository.create({ 
+      reviewId,
       userId,
-      gameId,
       ...reviewVoteDto
     });
 

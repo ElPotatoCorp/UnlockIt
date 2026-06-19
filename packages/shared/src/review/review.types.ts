@@ -2,6 +2,8 @@ import { GameEntity } from "../game/game.types";
 import { UserEntity } from "../user/user.types";
 
 export type ReviewEntity = {
+  id: string;
+
   userId: string;
   user: UserEntity;
 
@@ -18,12 +20,13 @@ export type ReviewEntity = {
 }
 
 export type ReviewVoteEntity = {
+  reviewId: string;
+  review: ReviewEntity;
+
   userId: string;
-  gameId: number;
+  user: UserEntity
 
   helpful: boolean | null;
-
-  review: ReviewEntity;
 }
 
 export type Review = Omit<ReviewEntity, 'user' | 'game'>;
