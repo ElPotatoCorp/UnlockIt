@@ -1,12 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { EntityManager, EntityTarget } from 'typeorm';
-import { GameEntity } from '../../src/games/entities/game.entity';
-import { TagEntity } from '../../src/tags/entities/tag.entity';
-import { DeveloperEntity } from '../../src/developers/entities/developer.entity';
-import { PublisherEntity } from '../../src/publishers/entities/publisher.entity';
-import { GamePlatformEntity } from '../../src/platforms/entities/game-platform.entity';
-import { MediaEntity } from '../../src/media/entities/media.entity';
+import { EntityManager, EntityTarget, ObjectLiteral } from 'typeorm';
+import { GameEntity } from 'src/games/entities/game.entity';
+import { TagEntity } from 'src/tags/entities/tag.entity';
+import { DeveloperEntity } from 'src/developers/entities/developer.entity';
+import { PublisherEntity } from 'src/publishers/entities/publisher.entity';
+import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
+import { MediaEntity } from 'src/media/entities/media.entity';
 import {
   EUAgeRating,
   GamePlatform,
@@ -15,6 +15,7 @@ import {
   MediaType,
 } from '@unlockit/shared';
 import { Factory } from './base.factory';
+import { SeriesEntity } from 'src/series/entities/series.entity';
 
 // ---------------------------------------------------------------------------
 // JSON shape (what lives on disk)
@@ -41,19 +42,7 @@ interface GameJson {
   pcRequirements: string | null;
   supportedLanguages: string[];
   metacriticScore: number | null;
-}
-
-// ---------------------------------------------------------------------------
-// The resolved shape make() / makeMany() return
-// ---------------------------------------------------------------------------
-
-export interface ResolvedGame {
-  game: GameEntity;
-  platforms: GamePlatformEntity;
-  media: MediaEntity[];
-  tags: TagEntity[];
-  developers: DeveloperEntity[];
-  publishers: PublisherEntity[];
+  series: { name: string; slug: string; } | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -190,6 +179,10 @@ export class GameFactory extends Factory<GameEntity> {
       return m;
     });
 
+    // --- Series -------------------------------------------------------------
+    game.series = new SeriesEntity();
+    Object.assign(game.series, json.series);
+
     return game;
   }
 
@@ -251,22 +244,26 @@ export class GameFactory extends Factory<GameEntity> {
     return ds.transaction(async (manager) => {
       const savedTags: TagEntity[] = [];
       for (const t of game.tags) {
-        savedTags.push(await this.upsertByName(manager, TagEntity, t.name));
+        savedTags.push(await this.upsertByName(manager, TagEntity, { name: t.name }));
       }
 
       const savedDevs: DeveloperEntity[] = [];
       for (const d of game.developers) {
         savedDevs.push(
-          await this.upsertByName(manager, DeveloperEntity, d.name),
+          await this.upsertByName(manager, DeveloperEntity, { name: d.name }),
         );
       }
 
       const savedPubs: PublisherEntity[] = [];
       for (const p of game.publishers) {
         savedPubs.push(
-          await this.upsertByName(manager, PublisherEntity, p.name),
+          await this.upsertByName(manager, PublisherEntity, { name: p.name }),
         );
       }
+
+      game.series = game.series?.name
+        ? await this.upsertByName(manager, SeriesEntity, { name: game.series.name, slug: game.series.slug })
+        : null;
 
       const savedGame = await manager.save(GameEntity, game);
 
@@ -288,7 +285,7 @@ export class GameFactory extends Factory<GameEntity> {
         .of(savedGame.id)
         .add(savedPubs.map((p) => p.id));
 
-      const savedMedia = await manager.save(
+      await manager.save(
         MediaEntity,
         game.media.map((m) => ({
           ...m,
@@ -305,14 +302,12 @@ export class GameFactory extends Factory<GameEntity> {
   // upsertByName : find-or-create for Tag / Developer / Publisher
   // -------------------------------------------------------------------------
 
-  private async upsertByName<
-    E extends { id: number; name: string; gamesCount: number },
-  >(manager: EntityManager, target: EntityTarget<E>, name: string): Promise<E> {
+  private async upsertByName<E extends ObjectLiteral>(manager: EntityManager, target: EntityTarget<E>, values: any): Promise<E> {
     const result = await manager
       .createQueryBuilder()
       .insert()
       .into(target)
-      .values({ name, gamesCount: 0 } as any)
+      .values(values)
       .orIgnore() // INSERT ... ON CONFLICT DO NOTHING
       .returning('*')
       .execute();
@@ -321,6 +316,6 @@ export class GameFactory extends Factory<GameEntity> {
       return result.raw[0] as E;
     }
 
-    return manager.findOneByOrFail(target, { name } as any);
+    return manager.findOneByOrFail(target, values as any);
   }
 }
