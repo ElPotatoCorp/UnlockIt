@@ -3,7 +3,6 @@ import type {
     SummaryGame,
     GameDetail,
     Paginated,
-    AdvancedSearchGameOptions,
     CreateGame,
     UpdateGame,
     SearchBody,
@@ -36,24 +35,6 @@ export const gamesService = {
     search: async (
         slug: string,
         options: SearchBody,
-        page = 1,
-        limit = 20
-    ): Promise<Paginated<SummaryGame>> => {
-        try {
-            const res = await api.post(`/games/search/${slug}`, options, {
-                params: { page, limit },
-            });
-            return res.data;
-        } catch (err: any) {
-            const s = err.response?.status;
-            if (s === 400) throw { message: "Paramètres de recherche invalides." };
-            throw { message: "Erreur serveur." };
-        }
-    },
-
-    advancedSearch: async (
-        slug: string,
-        options: AdvancedSearchGameOptions,
         page = 1,
         limit = 20
     ): Promise<Paginated<SummaryGame>> => {

@@ -1,7 +1,6 @@
 import { useGamesStore } from "../stores/games.store";
 import { gamesService } from "../services/games.service";
 import type {
-    AdvancedSearchGameOptions,
     SearchBody,
 } from "@unlockit/shared";
 
@@ -34,16 +33,6 @@ export function useGames() {
         setGames(data);
     };
 
-    const advancedSearchGames = async (
-        slug: string,
-        options: AdvancedSearchGameOptions,
-        page = 1,
-        limit = 20
-    ) => {
-        const data = await gamesService.advancedSearch(slug, options, page, limit);
-        setGames(data);
-    };
-
     return {
         games,
         selectedGame,
@@ -51,7 +40,6 @@ export function useGames() {
         fetchGames,
         fetchGameById,
         searchGames,
-        advancedSearchGames,
 
         clearSelectedGame,
     };
