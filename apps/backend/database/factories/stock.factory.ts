@@ -1,6 +1,7 @@
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { Factory } from './base.factory';
 import { GameEntity } from 'src/games/entities/game.entity';
+import { DeepPartial } from 'typeorm';
 
 export type StockRow = { productKey: string; gameId: number };
 
@@ -40,12 +41,12 @@ export class StockFactory extends Factory<StockEntity, StockRow> {
     return { productKey, gameId: selectedGameId };
   }
 
-  async make(overrides: Partial<StockEntity>) {
+  async make(overrides: DeepPartial<StockEntity>) {
     const [result] = await this.makeMany(1, overrides);
     return result;
   }
 
-  async makeMany(count: number, overrides: Partial<StockEntity>) {
+  async makeMany(count: number, overrides: DeepPartial<StockEntity>) {
     this.assertDatasource();
 
     const gameIds = (

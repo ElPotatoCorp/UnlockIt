@@ -1,6 +1,6 @@
 import { UserEntity } from 'src/user/entities/user.entity';
 import { Factory } from './base.factory';
-import { EntityTarget } from 'typeorm';
+import { DeepPartial, EntityTarget } from 'typeorm';
 import { CartEntity } from 'src/cart/entities/cart.entity';
 
 export class UserFactory extends Factory<UserEntity> {
@@ -8,7 +8,7 @@ export class UserFactory extends Factory<UserEntity> {
     return UserEntity;
   }
 
-  async definition(): Promise<Partial<UserEntity>> {
+  definition(): DeepPartial<UserEntity> {
     // Simple strong password without regex (avoids stack overflow)
     const randomStr = Math.random().toString(36).substring(2, 15);
     const password = `Test${randomStr}!Aa`;

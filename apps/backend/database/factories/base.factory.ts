@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { DataSource, DeepPartial, EntityTarget } from 'typeorm';
+import { DataSource, DeepPartial, EntityTarget, ObjectLiteral } from 'typeorm';
 
 /**
  * Base Factory class for generating test data with faker
  * Use: const user = userFactory.make(); or userFactory.create() for persistence
  */
-export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
+export abstract class Factory<T extends ObjectLiteral, U extends DeepPartial<T> = DeepPartial<T>> {
   protected datasource: DataSource | null;
 
   constructor(datasource?: DataSource) {
@@ -26,7 +26,7 @@ export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
   /**
    * Create an instance without saving (for in-memory use)
    */
-  async make(overrides: Partial<T> = {}): Promise<U> {
+  async make(overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U> {
     const baseDefinition = await this.definition();
 
     return {
@@ -38,7 +38,7 @@ export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
   /**
    * Create multiple instances
    */
-  async makeMany(count: number, overrides: Partial<T> = {}): Promise<U[]> {
+  async makeMany(count: number, overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U[]> {
     return Promise.all(
       Array.from({ length: count }, () => this.make(overrides)),
     );
@@ -47,7 +47,7 @@ export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
   /**
    * Create and insert an instance in the db
    */
-  async create(overrides: Partial<T> = {}): Promise<U> {
+  async create(overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U> {
     const [result] = await this.createMany(1, overrides);
     return result;
   }
@@ -55,12 +55,12 @@ export abstract class Factory<T, U extends Partial<T> = Partial<T>> {
   /**
    * Create and insert multiple instances
    */
-  async createMany(count: number, overrides: Partial<T> = {} ): Promise<U[]> {
+  async createMany(count: number, overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U[]> {
     this.assertDatasource();
 
     const rawItems = await this.makeMany(count, overrides);
 
-    const items = this.datasource!.manager.create(this.entity, rawItems as DeepPartial<T>);
+    const items = this.datasource!.manager.create(this.entity, rawItems);
 
     return this.datasource!.manager.save(this.entity, items) as Promise<U[]>;
   }
