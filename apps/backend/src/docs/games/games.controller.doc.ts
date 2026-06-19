@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, HttpStatus } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -11,6 +11,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiTags,
+  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ApiAuth } from 'src/docs/auth/decorators/api-auth.decorator';
 import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
@@ -24,6 +25,10 @@ import { UpdatePlatformDto } from 'src/platforms/dto/update-platform.dto';
 import { CreateMediaDto } from 'src/media/dto/create-media.dto';
 import { SearchBodyDto } from 'src/games/dto/search-game-options.dto';
 import { GameDetailDto } from 'src/games/dto/game-detail.dto';
+import { StockDto } from 'src/stocks/dto/stock.dto';
+import { EmployeeRole } from '@unlockit/shared';
+import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
+import { ReviewDto } from 'src/reviews/dto/review.dto';
 
 const GAME_ID_PARAM = ApiParam({
   name: 'id',
@@ -393,5 +398,103 @@ export const GamesControllerDoc = {
       MED_ID_PARAM_G,
       ApiNoContentResponse({ description: 'Media item removed.' }),
       ApiNotFoundResponse({ description: 'Game or media item not found.' }),
+    ),
+
+    // GET /games/:id/reviews
+  GetReviews: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'List reviews for a game',
+        description:
+          'Returns a paginated list of reviews left on the game. Public endpoint.',
+      }),
+      GAME_ID_PARAM,
+      ApiQuery({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number (&ge; 1). Defaults to 1.',
+        example: 1,
+      }),
+      ApiQuery({
+        name: 'limit',
+        type: Number,
+        required: false,
+        description: 'Items per page (1-100). Defaults to 20.',
+        example: 20,
+      }),
+      ApiExtraModels(PaginatedDto, ReviewDto),
+      ApiOkResponse({
+        description: 'Paginated list of reviews.',
+        schema: PaginatedDtoSchemaDoc(ReviewDto),
+      }),
+      ApiBadRequestResponse({
+        description: 'Invalid pagination parameters.',
+      }),
+    ),
+
+  // Stocks
+  AddStocks: () =>
+    applyDecorators(
+      ApiAuth(EmployeeRole.SUPER_ADMIN),
+      ApiOperation({
+        summary: 'Add stock keys to a game',
+        description:
+          'Restricted to SUPER_ADMIN — bulk-inserts unredeemed product keys for the game. The entire batch is rejected if any key is duplicated within the payload or already exists in stock.',
+      }),
+      GAME_ID_PARAM,
+      ApiBody({
+        description: 'Array of product keys to add as stock.',
+        type: CreateStockDto,
+      }),
+      ApiNoContentResponse({ description: 'Stock keys added successfully.' }),
+      ApiNotFoundResponse({
+        description: 'No game found with the specified ID.',
+      }),
+      ApiUnprocessableEntityResponse({
+        description:
+          'One or more product keys are duplicated within the payload or already exist in stock.',
+        schema: {
+          example: {
+            statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+            error: 'Unprocessable Entity',
+            message: 'There are duplicated values in the payload',
+            duplicatedValues: ['ABCD-1234-EFGH', 'WXYZ-5678-IJKL'],
+          },
+        },
+      }),
+    ),
+
+  GetStocks: () =>
+    applyDecorators(
+      ApiAuth(EmployeeRole.SUPER_ADMIN),
+      ApiOperation({
+        summary: 'List stock keys for a game',
+        description:
+          'Returns a paginated list of stock entries for the game, including raw unredeemed product keys. Restricted to SUPER_ADMIN.',
+      }),
+      GAME_ID_PARAM,
+      ApiQuery({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number (&ge; 1). Defaults to 1.',
+        example: 1,
+      }),
+      ApiQuery({
+        name: 'limit',
+        type: Number,
+        required: false,
+        description: 'Items per page (1-100). Defaults to 20.',
+        example: 20,
+      }),
+      ApiExtraModels(PaginatedDto, StockDto),
+      ApiOkResponse({
+        description: 'Paginated list of stock entries.',
+        schema: PaginatedDtoSchemaDoc(StockDto),
+      }),
+      ApiBadRequestResponse({
+        description: 'Invalid pagination parameters.',
+      }),
     ),
 };
