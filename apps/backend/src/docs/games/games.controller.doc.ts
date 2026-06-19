@@ -67,7 +67,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/POST /games
   Create: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.ADMIN),
       ApiOperation({
         summary: 'Create a game',
         description: 'Admin only. All text fields in a single request.',
@@ -218,7 +218,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/PATCH /games/:id
   Update: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.ADMIN),
       ApiOperation({
         summary: 'Update a game',
         description:
@@ -248,7 +248,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/DELETE /games/:id
   Remove: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.SUPER_ADMIN),
       ApiOperation({
         summary: 'Delete a game',
         description:
@@ -271,7 +271,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/Tags
   AddTag: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Add a tag to a game',
         description:
@@ -285,7 +285,7 @@ export const GamesControllerDoc = {
 
   RemoveTag: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Remove a tag from a game',
         description: 'Admin only. Idempotent.',
@@ -298,7 +298,7 @@ export const GamesControllerDoc = {
 
   SetTags: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Replace all tags on a game',
         description:
@@ -313,7 +313,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/Developers
   AddDeveloper: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Add a developer to a game',
         description: 'Admin only. Idempotent.',
@@ -326,7 +326,7 @@ export const GamesControllerDoc = {
 
   RemoveDeveloper: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Remove a developer from a game',
         description: 'Admin only. Idempotent.',
@@ -339,7 +339,7 @@ export const GamesControllerDoc = {
 
   SetDevelopers: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Replace all developers on a game',
         description: 'Admin only. Replaces the entire developer list.',
@@ -356,7 +356,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/Publishers
   AddPublisher: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Add a publisher to a game',
         description: 'Admin only. Idempotent.',
@@ -369,7 +369,7 @@ export const GamesControllerDoc = {
 
   RemovePublisher: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Remove a publisher from a game',
         description: 'Admin only. Idempotent.',
@@ -382,7 +382,7 @@ export const GamesControllerDoc = {
 
   SetPublishers: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Replace all publishers on a game',
         description: 'Admin only. Replaces the entire publisher list.',
@@ -399,7 +399,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/Platforms
   UpdatePlatforms: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Update platform availability for a game',
         description:
@@ -415,7 +415,7 @@ export const GamesControllerDoc = {
   // POST /games/:id/Media
   AddMedia: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Add a media item to a game',
         description: 'Admin only. Provide the URL and type (video or image).',
@@ -429,7 +429,7 @@ export const GamesControllerDoc = {
 
   RemoveMedia: () =>
     applyDecorators(
-      ApiAuth(),
+      ApiAuth(EmployeeRole.MODERATOR),
       ApiOperation({
         summary: 'Remove a media item from a game',
         description: 'Admin only.',
@@ -440,7 +440,7 @@ export const GamesControllerDoc = {
       ApiNotFoundResponse({ description: 'Game or media item not found.' }),
     ),
 
-    // POST /games/:id/GET /games/:id/reviews
+  // POST /games/:id/GET /games/:id/reviews
   GetReviews: () =>
     applyDecorators(
       ApiOperation({
