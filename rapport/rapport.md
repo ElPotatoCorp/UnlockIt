@@ -47,7 +47,8 @@
     <li class="lvl2"><a href="#23-optimisation-des-performances">2.3 Optimisation des performances</a></li>
     <li class="lvl2"><a href="#24-nouvelle-couche-api-frontend">2.4 Nouvelle couche API Frontend</a></li>
     <li class="lvl2"><a href="#25-tests-automatisés">2.5 Tests automatisés</a></li>
-    <li class="lvl2"><a href="#26-difficultés-rencontrées-et-solutions">2.6 Difficultés rencontrées et solutions</a></li>
+    <li class="lvl2"><a href="#26-build-et-compression">2.6 Build et compression</a></li>
+    <li class="lvl2"><a href="#27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</a></li>
     <li><a href="#3-backend">3. Backend</a></li>
     <li class="lvl2"><a href="#31-migration-vers-nestjs">3.1 Migration vers NestJS</a></li>
     <li class="lvl2"><a href="#32-architecture-modulaire">3.2 Architecture modulaire</a></li>
@@ -672,17 +673,7 @@ Les outils utilisés couvrent différents aspects de la performance : certains s
 
 ---
 
-### 2.3.1 Profilage et optimisation du rendu React
-
-Au cours du développement de la seconde version de UnlockIt, nous nous sommes rapidement aperçus qu'il était difficile de savoir précisément quels composants React étaient réaffichés et à quel moment.
-
-Dans une application de petite taille, ces rendus supplémentaires ont généralement peu d'impact. Cependant, lorsque le nombre de composants augmente et que certaines pages deviennent plus complexes, ces réaffichages inutiles peuvent progressivement dégrader les performances de l'application.
-
-Nous avons donc cherché à mieux comprendre le fonctionnement interne de React en utilisant plusieurs outils de diagnostic et de profilage.
-
----
-
-#### 2.3.1.1 React Scan
+### 2.3.1 React Scan
 
 L’outil principal utilisé durant cette phase a été **React Scan**, un utilitaire léger permettant de visualiser en temps réel les composants qui se réaffichent.  
 Son fonctionnement est extrêmement simple : une seule ligne suffit pour l’activer.
@@ -807,7 +798,7 @@ nom-composant/
 
 ---
 
-#### 2.3.1.2 React Developer Tools
+### 2.3.2 React Developer Tools
 
 En complément de React Scan, nous avons utilisé React Developer Tools, disponible sous la forme d'une extension pour les navigateurs Chromium et Firefox. Cet outil fait partie des outils officiels proposés par l’équipe React et constitue une référence pour analyser le comportement interne d’une application.
 
@@ -828,7 +819,7 @@ L’onglet Profiler, quant à lui, nous a permis d’enregistrer des sessions d�
 
 ---
 
-#### 2.3.1.3 React Doctor
+### 2.3.3 React Doctor
 
 Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.
 
@@ -849,7 +840,7 @@ Malgré cela, cette phase de veille technologique s’est révélée utile. Elle
 
 ---
 
-### 2.3.2 Lighthouse
+### 2.3.4 Lighthouse
 
 Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : les performances, l’accessibilité, le référencement et les bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble, du chargement initial aux interactions, en passant par la structure HTML et la gestion des ressources.  
 Ces audits nous ont permis de valider objectivement l’impact des optimisations réalisées et d’orienter les améliorations à apporter au site.
@@ -932,7 +923,7 @@ Lighthouse s’est donc révélé être un outil précieux pour valider nos choi
 
 ---
 
-### 2.3.3 Firefox Profiler
+### 2.3.5 Firefox Profiler
 
 En complément des outils orientés React, nous avons utilisé **Firefox Profiler** afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.
 
@@ -952,7 +943,7 @@ Au-delà de l'aspect purement technique, cet outil nous a permis de mieux compre
 
 ---
 
-### 2.3.4 Lazy Loading et Suspense
+### 2.3.6 Lazy Loading et Suspense
 
 L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.
 
@@ -984,7 +975,7 @@ Cette technique s'est révélée particulièrement efficace pour les pages rarem
 
 ---
 
-### 2.3.5 PixiJS
+### 2.3.7 PixiJS
 
 L'arrière-plan animé constitue l'un des éléments visuels les plus complexes de la nouvelle version d'UnlockIt. Les premiers prototypes reposaient principalement sur des animations CSS et sur la manipulation d'éléments HTML classiques. Bien que fonctionnelle, cette approche devenait coûteuse dès lors que le nombre d'éléments affichés augmentait.
 
@@ -1004,41 +995,7 @@ Cette réécriture a également constitué une opportunité d'explorer des conce
 
 ---
 
-### 2.3.6 Terser
-
-L'optimisation ne se limite pas au code exécuté dans le navigateur. Une partie importante du travail consiste également à réduire la taille des fichiers générés lors du build de production.
-
-Pour cela, nous avons utilisé **Terser**, l'outil de minification intégré à l'écosystème Vite. Son rôle consiste à transformer le code JavaScript produit par TypeScript et React en une version équivalente mais beaucoup plus compacte.
-
-Lors de cette étape, plusieurs optimisations sont réalisées automatiquement :
-
-- suppression des commentaires ;
-- suppression des espaces inutiles ;
-- raccourcissement de certains identifiants ;
-- simplification de certaines expressions ;
-- élimination d'une partie du code mort (*dead code*).
-
-Par exemple, un code lisible destiné aux développeurs :
-
-```ts
-function calculateTotal(price, quantity) {
-    return price * quantity;
-}
-```
-
-peut être transformé en une version beaucoup plus compacte :
-
-```js
-function calculateTotal(t,n){return t*n}
-```
-
-Cette réduction peut sembler anecdotique à petite échelle, mais elle devient significative lorsqu'elle est appliquée à plusieurs milliers de lignes de code.
-
-Combinée au découpage dynamique des bundles, la minification contribue directement à diminuer la quantité de données téléchargées par l'utilisateur. Les temps de chargement sont réduits et les performances perçues s'améliorent, notamment sur les réseaux mobiles.
-
----
-
-### 2.3.7 SVGR
+### 2.3.8 SVGR
 
 Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.
 
@@ -1069,7 +1026,6 @@ Cette approche apporte plusieurs bénéfices :
 SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.
 
 Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.
-
 
 ## 2.4 Nouvelle couche API Frontend
 
@@ -1376,13 +1332,186 @@ TODO : exemple de ~~t~~
 
 ---
 
-## 2.6 Difficultés rencontrées et solutions
+## 2.6 Build et compression
 
-### 2.6.1 Difficultés
+L’optimisation du build de production ne se limite pas à la minification du JavaScript.  
+Dans ce projet, plusieurs techniques complémentaires ont été mises en œuvre afin de réduire la taille des fichiers, améliorer le temps de chargement et optimiser le comportement du navigateur lors de l’exécution.
+
+Ces optimisations reposent sur quatre axes principaux :
+
+- **minification du code** (Terser)  
+- **compression avancée** (Gzip + Brotli)  
+- **découpage manuel des bundles** (*manual chunks*)  
+- **analyse et visualisation du graphe de dépendances** (Visualizer)
+
+### 2.6.1 Terser
+
+La minification consiste à transformer le code JavaScript lisible par les développeurs en une version plus compacte, tout en conservant un comportement identique.
+
+Grâce à **Terser**, plusieurs transformations sont appliquées automatiquement :
+
+- suppression des commentaires  
+- suppression des espaces et indentations  
+- raccourcissement des identifiants  
+- simplification d’expressions  
+- élimination du *dead code*  
+- suppression des `console.log` et `debugger`
+
+Exemple :
+
+```ts
+function calculateTotal(price, quantity) {
+    return price * quantity;
+}
+```
+
+devient :
+
+```js
+function calculateTotal(t,n){return t*n}
+```
+
+Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles.
+
+<div class="before">
+
+### Avant
+
+```
+TODO
+```
+
+</div>
+
+<div class="after">
+
+### Après
+
+```
+TODO
+```
+
+</div>
+
+---
+
+### 2.6.2 Compression des assets : Gzip + Brotli
+
+En complément de la minification, les fichiers générés sont compressés via deux algorithmes :
+
+- **Gzip**, largement supporté par tous les navigateurs  
+- **Brotli**, plus récent et offrant un taux de compression supérieur  
+
+Grâce au plugin `vite-plugin-compression`, chaque fichier `.js`, `.css` et `.html` est produit en deux versions :
+
+- `*.gz` (Gzip)  
+- `*.br` (Brotli)
+
+Les serveurs modernes choisissent automatiquement la version la plus efficace selon le navigateur du client.
+
+Cette étape permet de réduire la taille transférée de **30 à 70 % supplémentaires**, notamment sur les gros bundles comme React ou PixiJS.
+
+```
+UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          brotliCompress: 1.01kb
+UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       brotliCompress: 2.65kb
+UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            brotliCompress: 0.45kb
+UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            brotliCompress: 1.00kb
+UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           brotliCompress: 4.92kb
+UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           brotliCompress: 3.73kb
+UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          brotliCompress: 1.81kb
+UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             brotliCompress: 1.52kb
+UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            brotliCompress: 1.13kb
+UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            brotliCompress: 9.33kb
+UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          brotliCompress: 0.84kb
+UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        brotliCompress: 0.46kb
+UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          brotliCompress: 1.09kb
+UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         brotliCompress: 1.30kb
+UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           brotliCompress: 6.63kb
+UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   brotliCompress: 0.82kb
+UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           brotliCompress: 2.71kb
+UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           brotliCompress: 9.22kb
+UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              brotliCompress: 1.27kb
+UnlockIt/apps/frontend/index.html.br                          brotliCompress: 1.06kb
+UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              brotliCompress: 19.08kb
+UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               brotliCompress: 9.70kb
+UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            brotliCompress: 47.88kb
+UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             brotliCompress: 105.18kb
+```
+
+---
+
+### 2.6.3 Découpage manuel des bundles
+
+Afin d’améliorer le caching et d’éviter qu’un changement mineur invalide tout le bundle, un découpage manuel a été mis en place.
+
+Ce découpage sépare explicitement les dépendances majeures :
+
+- **react** : React, ReactDOM, Scheduler  
+- **router** : React Router  
+- **helmet** : React Helmet Async  
+- **vendor** : Zustand, use-debounce, react-fast-compare, shallowEqual, react-hook-form  
+- **ui** : composants UI internes  
+- **api** : couche API interne  
+- **pixi** : moteur PixiJS  
+- **index** : code applicatif principal
+
+Ce découpage permet :
+
+- un meilleur caching (React ne change presque jamais)  
+- un chargement plus rapide des pages  
+- une meilleure parallélisation des téléchargements  
+- une réduction du bundle principal
+
+<div class="before">
+
+### Avant
+
+```
+TODO
+```
+
+</div>
+
+<div class="after">
+
+### Après
+
+```
+TODO
+```
+
+</div>
+
+---
+
+### 2.6.4 Visualisation du graphe de dépendances
+
+Pour analyser la structure finale du build, le plugin **rollup-plugin-visualizer** a été intégré.
+
+Il génère un fichier `stats.html` permettant :
+
+- d’identifier les dépendances les plus lourdes  
+- de visualiser les relations entre modules  
+- de vérifier que les `manualChunks` fonctionnent correctement  
+- d’optimiser le découpage si nécessaire
+
+Cet outil a notamment permis de confirmer que :
+
+- React, Router, Pixi et l’API sont bien isolés  
+- les composants UI sont regroupés dans un chunk dédié  
+- aucune dépendance lourde ne se retrouve dans le bundle principal
+
+![Rollup report treemap](src/assets//compression.png)
+
+---
+
+## 2.7 Difficultés rencontrées et solutions
+
+### 2.7.1 Difficultés
 
 L’un des problèmes les plus marquants rencontrés au cours du développement concerne l’utilisation de Suspense avec React Router. Ce point est particulièrement intéressant car il illustre parfaitement la démarche adoptée tout au long du projet : identifier un comportement inattendu, formuler des hypothèses, investiguer méthodiquement, puis mettre en place une solution pragmatique. C’est exactement ce que nous avons appliqué dans toutes les sections précédentes, qu’il s’agisse de performances, de structure des composants ou d’outils de diagnostic.
 
-### 2.6.2 Difficulté n°1 : Suspence
+### 2.7.2 Difficulté n°1 : Suspence
 
 Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.
 
