@@ -1094,24 +1094,13 @@ Nous avons découvert cet outil relativement tard dans le développement, à un 
 
 ## 2.4 Nouvelle couche API Frontend
 
-L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.  
-Dans la première version, plusieurs composants réalisaient directement leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.
+L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend. Dans la première version, les composants réalisaient eux‑mêmes leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.
 
-La seconde version introduit une véritable couche d’abstraction, structurée autour de trois éléments complémentaires :
-
-- **hooks métiers**  
-- **services d’accès aux données**  
-- **stores centralisés**  
-
-Cette architecture permet d’obtenir un code plus lisible, plus facilement testable et beaucoup plus simple à maintenir. Elle facilite également l’écriture de tests automatisés et réduit fortement le couplage entre l’interface utilisateur et l’API.
-
-L’objectif est clair : chaque couche doit avoir une responsabilité unique.  
-Les composants ne s’occupent plus de la logique réseau ; les services ne gèrent plus l’état global ; les hooks orchestrent les appels et exposent une API claire aux composants.  
-Cette séparation des responsabilités améliore la qualité du code et s’inscrit dans la démarche générale du projet : structurer, isoler, optimiser.
+La nouvelle architecture introduit une véritable couche d’abstraction, organisée autour de trois éléments complémentaires : les hooks métiers, les services d’accès aux données et les stores centralisés. L’idée est simple : chaque couche doit avoir une responsabilité unique. Les composants ne s’occupent plus de la logique réseau, les services ne gèrent plus l’état global, et les hooks orchestrent les appels pour exposer une API claire et stable aux composants. Cette séparation améliore la lisibilité, la maintenabilité et facilite l’écriture de tests automatisés.
 
 ### Architecture de la nouvelle couche API
 
-La nouvelle organisation repose sur trois dossiers principaux :
+La structure générale repose sur trois dossiers principaux :
 
 ```
 src/api/
@@ -1120,21 +1109,16 @@ src/api/
 └── stores/
 ```
 
-Chaque fonctionnalité (authentification, produits, panier, etc.) possède son propre trio *hook / service / store*, ce qui permet une structure modulaire et évolutive.
+Chaque fonctionnalité (authentification, produits, panier, etc.) possède son propre trio *hook / service / store*, ce qui rend l’ensemble modulaire et évolutif.
 
-### Exemple : la gestion de l’authentification
+<details class="accordion">
+<summary>Exemple : la gestion de l’authentification</summary>
 
-L’authentification illustre parfaitement cette architecture.  
-Elle repose sur :
+L’authentification illustre parfaitement cette architecture. Elle repose sur un store Zustand pour conserver la session, un service chargé de communiquer avec l’API, et un hook métier qui orchestre les appels et expose une API simple aux composants.
 
-- un **store Zustand** pour conserver la session et l’état de connexion ;
-- un **service** chargé de communiquer avec l’API ;
-- un **hook métier** qui orchestre les appels et expose une API simple aux composants.
+#### Le hook métier : <code class="c">useAuth</code>
 
-### Le hook métier : <code class="c">useAuth</code>
-
-Le hook regroupe toute la logique métier liée à l’authentification : connexion, inscription, rafraîchissement de session, déconnexion, etc.  
-Il s’appuie sur le store et sur le service, mais les composants n’ont pas besoin de connaître ces détails.
+Le hook regroupe toute la logique métier liée à l’authentification. Les composants n’ont pas besoin de connaître les détails internes : ils appellent simplement des fonctions comme <code class="c">login</code> ou <code class="c">logout</code>.
 
 ```ts
 export function useAuth() {
@@ -1145,8 +1129,8 @@ export function useAuth() {
     await fetchSession();
   };
 
-  const register = async (username: string, email: string, password: string) => {
-    await authService.register(username, email, password);
+  const register = async (...) => {
+    await authService.register(...);
   };
 
   const fetchSession = async () => {
@@ -1169,88 +1153,39 @@ export function useAuth() {
     clearSession();
   };
 
-  return {
-    session,
-    isLogged,
-    login,
-    register,
-    logout,
-    fetchSession,
-  };
+  return { session, isLogged, login, register, logout, fetchSession };
 }
 ```
 
-Ce hook permet aux composants d’utiliser l’authentification via une API claire et stable, sans jamais manipuler directement Axios ou les stores.
+#### Le service : <code class="c">authService</code>
 
-### Le service : <code class="c">authService</code>
-
-Le service encapsule tous les appels HTTP.  
-Il gère également les erreurs, ce qui permet d’uniformiser les messages renvoyés au frontend.
+Le service encapsule tous les appels HTTP et uniformise la gestion des erreurs.  
+Seules les parties importantes sont conservées ici pour illustrer la structure.
 
 ```ts
 export const authService = {
-    login: async (identifier: string, password: string) => {
-        try {
-            await api.post("/auth/login", { identifier, password });
-        } catch (err: any) {
-            const s = err.response?.status;
+  login: async (identifier, password) => {
+    try {
+      await api.post("/auth/login", { identifier, password });
+    } catch (err: any) {
+      const s = err.response?.status;
+      if (s === 401) throw { message: "Identifiants invalides." };
+      if (s === 429) throw { message: "Trop de tentatives." };
+      throw { message: "Erreur serveur." };
+    }
+  },
 
-            if (s === 401) throw { message: "Identifiants invalides." };
-            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
-            throw { message: "Erreur serveur." };
-        }
-    },
-
-    register: async (username: string, email: string, password: string) => {
-        try {
-            await api.post("/auth/register", { username, email, password });
-        } catch (err: any) {
-            const s = err.response?.status;
-
-            if (s === 400) throw { message: "Données invalides." };
-            if (s === 409) throw { message: "Email ou nom d'utilisateur déjà utilisé." };
-            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
-            throw { message: "Erreur serveur." };
-        }
-    },
-
-    fetchSession: async () => {
-        try {
-            const res = await api.get("/auth/me");
-            return res.data;
-        } catch (err: any) {
-            const s = err.response?.status;
-
-            if (s === 401) throw { message: "Non authentifié." };
-            throw { message: "Erreur serveur." };
-        }
-    },
-
-    refresh: async () => {
-        try {
-            await api.post("/auth/refresh");
-        } catch (err: any) {
-            const s = err.response?.status;
-
-            if (s === 401) throw { message: "Session expirée." };
-            throw { message: "Erreur serveur." };
-        }
-    },
-
-    logout: async () => {
-        try {
-            await api.post("/auth/logout");
-        } catch {
-            throw { message: "Erreur serveur." };
-        }
-    },
+  register: async (...) => { ... },
+  fetchSession: async () => { ... },
+  refresh: async () => { ... },
+  logout: async () => { ... },
 };
 ```
 
-### Le store Zustand : <code class="c">useAuthStore</code>
+#### Le store Zustand : <code class="c">useAuthStore</code>
 
 Le store conserve l’état global lié à l’authentification.  
-Il est minimaliste, ce qui facilite sa compréhension et son utilisation.
+Il reste volontairement minimaliste.
 
 ```ts
 export const useAuthStore = create<AuthState>((set) => ({
@@ -1258,114 +1193,102 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLogged: false,
 
   setSession: (session) => set({ session, isLogged: true }),
-
   clearSession: () => set({ session: null, isLogged: false }),
 }));
 ```
 
-### Avant / Après la refonte
+#### Un composant React : <code class="c">Login.tsx</code>
 
-La différence entre l’ancienne architecture et la nouvelle est particulièrement visible dans la gestion de l’inscription.
+Pour illustrer concrètement l’utilisation de cette nouvelle couche API, on peut observer le fonctionnement du composant <code class="c">Login.tsx</code>. Ce composant ne s’occupe plus de la logique réseau ni de la gestion des erreurs HTTP : il se contente d’appeler le hook métier <code class="c">useAuth</code>, qui lui fournit des fonctions prêtes à l’emploi comme <code class="c">login</code> ou <code class="c">logout</code>. Le composant reste ainsi focalisé sur son rôle premier : afficher un formulaire, réagir aux actions de l’utilisateur et mettre à jour l’interface en fonction de l’état global.
 
-<div class="before">
+Lorsqu’un utilisateur soumet le formulaire, le composant appelle simplement <code class="c">login</code>, puis <code class="c">loadUser</code> pour récupérer les informations du profil. Toute la logique complexe — appels réseau, gestion des erreurs, rafraîchissement de session, stockage du JWT — est entièrement prise en charge par le hook et le service. Le composant devient donc beaucoup plus lisible et facile à maintenir.
 
-### Avant
+```tsx
+const Login: FC = () => {
+  ...
 
-*(Appels réseau dans les composants, gestion d’erreurs dispersée, logique métier mélangée au rendu.)*
+  const { session, login, logout } = useAuth();
+  const { user, loadUser } = useUser();
 
-</div>
+  ...
 
-<div class="after">
+  const onSubmit = async ({ identifier, password }: FormData) => {
+    try {
+      await login(identifier, password);
+      await loadUser();
+      navigate("/");
+    } catch (err: any) {
+      setError("root", { message: err.message ?? "Erreur de connexion." });
+    }
+  };
 
-### Après
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
-*(Un simple appel à un hook métier, le reste est géré par la couche API.)*
+  // Si on est déjà connecté :
+  // session existe (JWT valide)
+  // user existe (core user chargé)
+  if (session && user) {
+    return (
+      ...
+    );
+  }
 
-</div>
+  // Formulaire du login
+  return (
+    ...
+  );
+};
+```
 
-Cette évolution améliore la lisibilité, la maintenabilité et la testabilité du code.  
-Elle permet également d’intégrer plus facilement des outils comme **Playwright** pour tester les parcours utilisateurs.
+Ce petit exemple montre bien l’intérêt de la nouvelle architecture. Le composant ne manipule plus directement Axios, ne gère plus les statuts HTTP, ne stocke plus la session et ne s’occupe plus de savoir si le JWT est valide ou non. Il délègue tout cela au hook métier, ce qui rend le code plus clair, plus robuste et beaucoup plus simple à tester.
 
 </details>
 
-<details class="accordion">
-<summary>Voir le schéma</summary>
+### Schéma de fonctionnement de la couche API
+
+Le schéma ci‑dessous illustre le flux complet : un composant React appelle un hook métier, qui utilise un service, lequel communique avec le backend via Axios. Le backend renvoie ensuite des données (par exemple la session, un profil utilisateur ou des informations métier), qui sont stockées dans Zustand.
+Le cookie httpOnly contenant la session est géré automatiquement par le navigateur et vérifié par le backend, ce qui simplifie la logique côté frontend.
 
 ```mermaid
-flowchart LR
-
-    %% ========= Définition des styles =========
-    classDef react fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
-    classDef hook fill:#b3e5ff,stroke:#4fa3d1,stroke-width:2px,color:#000;
-    classDef service fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
-    classDef backend fill:#ffb3b3,stroke:#d14f4f,stroke-width:2px,color:#000;
-    classDef db fill:#c6ffb3,stroke:#4fd14f,stroke-width:2px,color:#000;
-    classDef cache fill:#fff2b3,stroke:#d1c24f,stroke-width:2px,color:#000;
-    classDef log fill:#d6b3ff,stroke:#7a4fd1,stroke-width:2px,color:#000;
-    classDef external fill:#e0e0e0,stroke:#999,stroke-width:2px,color:#000;
-
-    %% ========= Frontend =========
+flowchart TB
     subgraph FE[Frontend]
         A[Composant React]:::react
-        B[Hook métier]:::hook
-        C[Service API]:::service
+        B[Hook métier<br/><code class="c">useXXX.hook.ts</code>]:::hook
+        C[Service API<br/><code class="c">xxx.service.ts</code>]:::service
+        D[Axios]:::axios
+        E["Zustand<br/><code class="c">xxx.store.ts</code>"]:::store
     end
 
-    %% ========= Backend =========
-    subgraph BE[NestJS Backend]
-        D[Controller]:::backend
-        E[Service]:::backend
-        F[Repository]:::backend
+    subgraph BE[Backend NestJS]
+        F[Controller<br/>/xxx]:::backend
+        G[Service métier]:::backend
+        H["Données renvoyées<br/>(session, profil, etc.)"]:::data
     end
 
-    %% ========= Stockage =========
-    G[(PostgreSQL)]:::db
-    R[(Redis Cache)]:::cache
+    classDef react fill:#61dafb,stroke:#1b7aa6,color:#000;
+    classDef hook fill:#b3e5ff,stroke:#4fa3d1,color:#000;
+    classDef service fill:#ffe9b3,stroke:#d1a84f,color:#000;
+    classDef axios fill:#fff2b3,stroke:#d1c24f,color:#000;
+    classDef store fill:#d6b3ff,stroke:#7a4fd1,color:#000;
+    classDef backend fill:#ffb3b3,stroke:#d14f4f,color:#000;
+    classDef data fill:#c6ffb3,stroke:#4fd14f,color:#000;
 
-    %% ========= Logs =========
-    L[Logger]:::log
-
-    %% ========= Service externe =========
-    X[Service Auth externe]:::external
-
-    %% ========= Flux principal =========
-    A e1@-->|Appel logique| B
-    B e2@-->|Appel API| C
-    C e3@-->|HTTP| D
-    D e4@-->|Appel interne| E
-    E e5@-->|Requête DB| F
-    F e6@-->|SQL| G
-
-    %% ========= Flux secondaires =========
-    C e7@-->|Token| X
-    E e8@-->|Cache| R
-    E e9@-.->|Logs| L
-
-    %% ========= Styles des courbes =========
-    e1@{ curve: linear }
-    e2@{ curve: linear }
-    e3@{ curve: stepBefore }
-    e4@{ curve: stepBefore }
-    e5@{ curve: linear }
-    e6@{ curve: linear }
-    e7@{ curve: natural }
-    e8@{ curve: stepAfter }
-    e9@{ curve: natural }
-
-    %% ========= Styles des liens =========
-    linkStyle 0 stroke:#1b7aa6,stroke-width:2px
-    linkStyle 1 stroke:#4fa3d1,stroke-width:2px
-    linkStyle 2 stroke:#d1a84f,stroke-width:2px
-    linkStyle 3 stroke:#d14f4f,stroke-width:2px
-    linkStyle 4 stroke:#d14f4f,stroke-width:2px
-    linkStyle 5 stroke:#4fd14f,stroke-width:2px
-    linkStyle 6 stroke:#999,stroke-width:2px
-    linkStyle 7 stroke:#d1c24f,stroke-width:2px
-    linkStyle 8 stroke:#7a4fd1,stroke-width:2px,stroke-dasharray:4 4
+    A --> B
+    B --> C
+    C --> D
+    D -->|Requête HTTP| F
+    F --> G
+    G --> H
+    H --> E
 ```
-\* Si seul le code du schéma s'affiche, rafraichissez la page pour voir le schéma. 
 
-</details>
+Cette architecture clarifie le rôle de chaque couche et rend l’ensemble beaucoup plus robuste. Les composants se concentrent sur l’interface, les hooks sur la logique métier, les services sur les appels réseau, et Zustand sur l’état global. Nous appliquons désormais systématiquement ce principe dans nos nouveaux projets, tant son fonctionnement s’est révélé propre, clair et agréable à maintenir.
 
 ---
 
