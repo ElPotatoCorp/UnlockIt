@@ -1407,24 +1407,76 @@ devient :
 function calculateTotal(t,n){return t*n}
 ```
 
-Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles.
+Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles. En réalité vite utilise déjà OXC mais Terser est plus lent mais plus performant, cela nous coute rien. Autrement OXC aurait été suffisant mais Terser est légèrement mieux.
 
 <div class="before">
 
-### Avant
+#### Avant
 
 ```
-TODO
+dist/index.html                             3.13 kB
+dist/assets/Cookies-UiqeZG4K.css            0.11 kB
+dist/assets/Login-C0AxRG4F.css              0.71 kB
+dist/assets/Home-CU98n8zi.css               1.32 kB
+dist/assets/Register-B7OLBotr.css           1.58 kB
+dist/assets/Search-By_-Ccw_.css             3.19 kB
+dist/assets/ui-B8J3Plgw.css                 5.29 kB
+dist/assets/index-CXPQlizz.css             18.52 kB
+dist/assets/rolldown-runtime-QTnfLwEv.js    0.69 kB
+dist/assets/UnlockItHelmet-Bl9_Umwz.js      2.13 kB
+dist/assets/Cookies-D7YsTijg.js             2.53 kB
+dist/assets/Login-DeHkMpoc.js               2.64 kB
+dist/assets/Refunds-BmIthfhZ.js             2.71 kB
+dist/assets/Legal-4205ykHu.js               3.01 kB
+dist/assets/Register-CmghuGaX.js            3.64 kB
+dist/assets/Privacy-89SX7mcJ.js             4.82 kB
+dist/assets/Home-DM__jHnt.js                5.19 kB
+dist/assets/Background-D1hLlbIc.js          6.87 kB
+dist/assets/Search-B7LK6M18.js              8.32 kB
+dist/assets/helmet-D0vKat3J.js             17.45 kB
+dist/assets/router--Et464wn.js             22.93 kB
+dist/assets/vendor-DuOKGao_.js             28.27 kB
+dist/assets/index-CR2f_mWw.js              36.81 kB
+dist/assets/ui-B1ELsBXC.js                 46.17 kB
+dist/assets/api-DC0xgs4J.js                61.96 kB
+dist/assets/react-BvDSaTCH.js             185.15 kB
+dist/assets/pixi-Dud2fSi5.js              478.58 kB
 ```
 
 </div>
 
 <div class="after">
 
-### Après
+#### Après
 
 ```
-TODO
+dist/index.html                             3.13 kB
+dist/assets/Cookies-UiqeZG4K.css            0.11 kB
+dist/assets/Login-C0AxRG4F.css              0.71 kB
+dist/assets/Home-CU98n8zi.css               1.32 kB
+dist/assets/Register-B7OLBotr.css           1.58 kB
+dist/assets/Search-By_-Ccw_.css             3.19 kB
+dist/assets/ui-B8J3Plgw.css                 5.29 kB
+dist/assets/index-CXPQlizz.css             18.52 kB
+dist/assets/rolldown-runtime-NMqb_1LM.js    0.69 kB
+dist/assets/UnlockItHelmet-BGK7a8f6.js      2.12 kB
+dist/assets/Cookies-DR5NdOr3.js             2.50 kB
+dist/assets/Login-Dcmp3sRo.js               2.62 kB
+dist/assets/Refunds-BnK6OvgC.js             2.68 kB
+dist/assets/Legal-BpHE1FI5.js               2.96 kB
+dist/assets/Register-DKQIHVl9.js            3.64 kB
+dist/assets/Privacy-YAYa-R_m.js             4.78 kB
+dist/assets/Home-BMpoE3-N.js                4.93 kB
+dist/assets/Background-CukwmJR_.js          6.83 kB
+dist/assets/Search-Cx-u2G8I.js              7.89 kB
+dist/assets/helmet-JdfEq1Ls.js             16.16 kB
+dist/assets/router-Dja-W-oD.js             20.56 kB
+dist/assets/vendor-QzHy5b41.js             28.34 kB
+dist/assets/index-CFUwInI2.js              35.74 kB
+dist/assets/ui-BGNp2rZQ.js                 45.44 kB
+dist/assets/api-eJIyGYhM.js                61.86 kB
+dist/assets/react-CaPFs6it.js             181.55 kB
+dist/assets/pixi-D5OU-vt1.js              469.04 kB
 ```
 
 </div>
@@ -1435,7 +1487,7 @@ TODO
 
 En complément de la minification, les fichiers générés sont compressés via deux algorithmes :
 
-- **Gzip**, largement supporté par tous les navigateurs  
+- **Gzip**, largement supporté par tous les navigateurs
 - **Brotli**, plus récent et offrant un taux de compression supérieur  
 
 Grâce au plugin <code class="c">vite-plugin-compression</code>, chaque fichier <code class="c">.js</code>, <code class="c">.css</code>et <code class="c">.html</code>est produit en deux versions :
@@ -1448,30 +1500,15 @@ Les serveurs modernes choisissent automatiquement la version la plus efficace se
 Cette étape permet de réduire la taille transférée de **30 à 70 % supplémentaires**, notamment sur les gros bundles comme React ou PixiJS.
 
 ```
-UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          brotliCompress: 1.01kb
-UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       brotliCompress: 2.65kb
-UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            brotliCompress: 0.45kb
-UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            brotliCompress: 1.00kb
-UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           brotliCompress: 4.92kb
-UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           brotliCompress: 3.73kb
-UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          brotliCompress: 1.81kb
-UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             brotliCompress: 1.52kb
-UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            brotliCompress: 1.13kb
-UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            brotliCompress: 9.33kb
-UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          brotliCompress: 0.84kb
-UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        brotliCompress: 0.46kb
-UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          brotliCompress: 1.09kb
-UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         brotliCompress: 1.30kb
-UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           brotliCompress: 6.63kb
-UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   brotliCompress: 0.82kb
-UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           brotliCompress: 2.71kb
-UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           brotliCompress: 9.22kb
-UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              brotliCompress: 1.27kb
-UnlockIt/apps/frontend/index.html.br                          brotliCompress: 1.06kb
-UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              brotliCompress: 19.08kb
-UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               brotliCompress: 9.70kb
-UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            brotliCompress: 47.88kb
-UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             brotliCompress: 105.18kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/index.html.br                          3.06kb / brotliCompress: 1.06kb
+...
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb / brotliCompress: 6.63kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb / brotliCompress: 9.22kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb / brotliCompress: 0.82kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb / brotliCompress: 19.08kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb / brotliCompress: 9.70kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb / brotliCompress: 47.88kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb / brotliCompress: 105.18kb
 ```
 
 ---
@@ -1491,6 +1528,63 @@ Ce découpage sépare explicitement les dépendances majeures :
 - **pixi** : moteur PixiJS  
 - **index** : code applicatif principal
 
+```ts
+//  frontend/vite.config.ts
+export default defineConfig({
+  ...
+  plugins: [
+    ...,
+    viteCompression({ algorithm: "brotliCompress", ext: ".br" }),
+    viteCompression({ algorithm: "gzip" })
+  ],
+  ...
+  ,
+  build: {
+    minify: 'terser',
+    terserOptions: {...},
+    rolldownOptions: {
+      plugins: [
+        visualizer({...})
+      ],
+      output: {
+        manualChunks(id) {
+          const path = id.replace(/\\/g, "/");
+
+          // React core
+          if (path.includes("/node_modules/react/")) return "react";
+          if (path.includes("/node_modules/react-dom/")) return "react";
+          if (path.includes("/node_modules/scheduler/")) return "react";
+
+          // React Router
+          if (path.includes("/node_modules/react-router/")) return "router";
+          if (path.includes("/node_modules/react-router-dom/")) return "router";
+
+          // Helmet
+          if (path.includes("/node_modules/react-helmet-async/")) return "helmet";
+
+          // Vendor libs
+          if (path.includes("/node_modules/zustand/")) return "vendor";
+          if (path.includes("/node_modules/use-debounce/")) return "vendor";
+          if (path.includes("/node_modules/shallowequal/")) return "vendor";
+          if (path.includes("/node_modules/react-fast-compare/")) return "vendor";
+          if (path.includes("/node_modules/react-hook-form/")) return "vendor";
+
+          // UI
+          if (path.includes("/src/components/ui/")) return "ui";
+          if (path.includes("/src/components/common/")) return "ui";
+
+          // API layer
+          if (path.includes("/src/api/")) return "api";
+
+          // PixiJS
+          if (path.includes("/node_modules/pixi.js/")) return "pixi";
+        }
+      }
+    }
+  },
+})
+```
+
 Ce découpage permet :
 
 - un meilleur caching (React ne change presque jamais)  
@@ -1500,20 +1594,80 @@ Ce découpage permet :
 
 <div class="before">
 
-### Avant
+#### Avant
 
 ```
-TODO
+dist/index.html                                     2.76 kB
+dist/assets/Cookies-UiqeZG4K.css                    0.11 kB
+dist/assets/Login-C0AxRG4F.css                      0.71 kB
+dist/assets/Home-CU98n8zi.css                       1.32 kB
+dist/assets/Register-B7OLBotr.css                   1.58 kB
+dist/assets/Button-COE2YxU5.css                     2.66 kB
+dist/assets/Search-CEFxeslf.css                     3.38 kB
+dist/assets/index-D1xD0r0f.css                     20.96 kB
+dist/assets/webworkerAll-1SXaDC3g.js                0.06 kB
+dist/assets/CanvasRenderer-D4cphG7M.js              0.06 kB
+dist/assets/WebGLRenderer-C5idXNI2.js               0.07 kB
+dist/assets/WebGPURenderer-MMTupWOb.js              0.07 kB
+dist/assets/init-CpC2NTHW.js                        0.12 kB
+dist/assets/browserAll-C94rMvy0.js                  0.24 kB
+dist/assets/getTextureBatchBindGroup-BCtPyCB7.js    0.34 kB
+dist/assets/chunk-NMqb_1LM.js                       0.69 kB
+dist/assets/CanvasPool-lV4NR6ei.js                  0.76 kB
+dist/assets/useGames.hook-DP_avpiw.js               1.59 kB
+dist/assets/UnlockItHelmet-DLxbOf9V.js              2.09 kB
+dist/assets/Cookies-tkxTrePq.js                     2.48 kB
+dist/assets/Login-DB3EKccR.js                       2.60 kB
+dist/assets/Refunds-CF1gWARf.js                     2.66 kB
+dist/assets/Legal-CX0ckya-.js                       2.94 kB
+dist/assets/Register-CcYV_0L2.js                    3.62 kB
+dist/assets/Privacy-nqquNPmX.js                     4.76 kB
+dist/assets/Home-CwRyhMtk.js                        4.94 kB
+dist/assets/canvasUtils-BGWjEWTM.js                 6.12 kB
+dist/assets/jsx-runtime-JC2Pqqy6.js                 7.98 kB
+dist/assets/BufferResource-BnDyU-YP.js             10.83 kB
+dist/assets/Search-DoU96MOZ.js                     18.54 kB
+dist/assets/Button-BfgmK8-z.js                     31.18 kB
+dist/assets/FilterSystem-eB1XfaGO.js               40.43 kB
+dist/assets/FederatedEventTarget-4MfRMyfR.js       42.75 kB
+dist/assets/axios.instance-CniEnODU.js             69.71 kB
+dist/assets/RenderTargetSystem-DB8lGoqg.js         78.19 kB
+dist/assets/Geometry-BeqX92IE.js                  101.09 kB
+dist/assets/Background-CP25DxqL.js                198.99 kB
+dist/assets/index-DaygSgMl.js                     269.69 kB
 ```
 
 </div>
 
 <div class="after">
 
-### Après
+#### Après
 
 ```
-TODO
+/UnlockIt/apps/frontend/index.html.br                          3.06kb
+/UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          2.45kb
+/UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          2.62kb
+/UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       6.68kb
+/UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             4.82kb
+/UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            1.29kb
+/UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            2.56kb
+/UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           15.79kb
+/UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            2.89kb
+/UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        1.55kb
+/UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         3.56kb
+/UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           18.09kb
+/UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           7.71kb
+/UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          3.12kb
+/UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          4.67kb
+/UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              5.17kb
+/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb
+/UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            34.91kb
+/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb
+/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb
+/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb
+/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb
+/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb
+/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb
 ```
 
 </div>

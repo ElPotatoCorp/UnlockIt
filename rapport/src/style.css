@@ -237,11 +237,11 @@ h3 {
   margin: 20px 0;
 }
 
-.card h3,
-.before h3,
-.after h3,
-.note h3,
-.success h3 {
+.card h4,
+.before h4,
+.after h4,
+.note h4,
+.success h4 {
   margin-top: 0;
 }
 
@@ -256,11 +256,11 @@ h3 {
   margin: 40px 0;
 }
 
-.before h3 {
+.before h4 {
   color: #b91c1c;
 }
 
-.after h3 {
+.after h4 {
   color: #15803d;
 }
 
