@@ -3,20 +3,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GameEntity } from './entities/game.entity';
-import {
-  And,
-  Between,
-  Equal,
-  FindOptionsOrder,
-  FindOptionsWhere,
-  In,
-  LessThan,
-  Like,
-  MoreThan,
-  MoreThanOrEqual,
-  Or,
-  Repository,
-} from 'typeorm';
+import { Repository } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { CommonService } from 'src/common/common.service';
 import { TagEntity } from 'src/tags/entities/tag.entity';
@@ -31,9 +18,7 @@ import { StocksService } from 'src/stocks/stocks.service';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { WishlistService } from 'src/wishlist/wishlist.service';
 import { GameMapper } from './game.mapper';
-import { ReviewMapper } from 'src/reviews/review.mapper';
 import { ReviewsService } from 'src/reviews/reviews.service';
-import { ReviewVoteDto } from 'src/reviews/dto/review-vote.dto';
 
 @Injectable()
 export class GamesService {

@@ -118,6 +118,7 @@ export class GamesController {
   @GamesControllerDoc.AddTag()
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/tags/:tagId')
+  @HttpCode(HttpStatus.OK)
   addTag(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Param('tagId', ParseIntPipe, EntityExistsPipe(TagEntity)) tagId: number,
@@ -149,6 +150,7 @@ export class GamesController {
   @GamesControllerDoc.AddDeveloper()
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/developers/:developerId')
+  @HttpCode(HttpStatus.OK)
   addDeveloper(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Param('developerId', ParseIntPipe, EntityExistsPipe(DeveloperEntity))
@@ -182,6 +184,7 @@ export class GamesController {
   @GamesControllerDoc.AddPublisher()
   @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/publishers/:publisherId')
+  @HttpCode(HttpStatus.OK)
   addPublisher(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Param('publisherId', ParseIntPipe, EntityExistsPipe(PublisherEntity))
