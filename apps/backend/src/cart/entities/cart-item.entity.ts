@@ -10,22 +10,28 @@ import {
 } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { ExactData, CartItemEntity as ICartItemEntity } from '@unlockit/shared';
+import { CartItemEntityDoc } from 'src/docs/carts/entities/cart-item.entity.doc';
 
 @Check(`"quantity" > 0`)
 @Entity('cart_items')
 export class CartItemEntity implements ICartItemEntity {
+  @CartItemEntityDoc.CartId(false)
   @PrimaryColumn('uuid', { name: 'cart_id' })
   cartId: string;
   
+  @CartItemEntityDoc.GameId(false)
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
+  @CartItemEntityDoc.Quantity()
   @Column('int', { default: 1 })
   quantity: number;
 
+  @CartItemEntityDoc.Selected()
   @Column('boolean', { default: true })
   selected: boolean;
 
+  @CartItemEntityDoc.AddedAt()
   @CreateDateColumn({
     name: 'added_at',
     type: 'timestamptz',
