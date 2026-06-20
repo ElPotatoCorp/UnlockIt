@@ -247,6 +247,7 @@ export class GamesController {
   }
 
   // --- Reviews ---
+  @GamesControllerDoc.GetReviews()
   @Public()
   @Get(':id/reviews')
   getReviews(
@@ -257,6 +258,7 @@ export class GamesController {
   }
 
   // --- Stocks ---
+  @GamesControllerDoc.AddStocks()
   @MinRole(EmployeeRole.SUPER_ADMIN)
   @Post(':id/stocks')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -268,6 +270,7 @@ export class GamesController {
     return this.gamesService.addStocks(gameId, createStockDto);
   }
 
+  @GamesControllerDoc.GetStocks()
   @MinRole(EmployeeRole.SUPER_ADMIN)
   @Get(':id/stocks')
   getStocks(
