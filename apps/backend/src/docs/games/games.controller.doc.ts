@@ -28,13 +28,8 @@ import { StockDto } from 'src/stocks/dto/stock.dto';
 import { EmployeeRole } from '@unlockit/shared';
 import { CreateStockDto } from 'src/stocks/dto/create-stock.dto';
 import { ReviewDto } from 'src/reviews/dto/review.dto';
+import { GAME_ID_PARAM } from '../common/api-params';
 
-const GAME_ID_PARAM = ApiParam({
-  name: 'id',
-  type: Number,
-  description: 'Numeric ID of the game.',
-  example: 42,
-});
 const TAG_ID_PARAM_G = ApiParam({
   name: 'tagId',
   type: Number,
