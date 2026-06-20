@@ -4,7 +4,7 @@ import { ApiAuth } from "../auth/decorators/api-auth.decorator";
 import { ReviewVoteDto } from "src/reviews/dto/review-vote.dto";
 
 export const ReviewsControllerDoc = {
-  Controller: () => applyDecorators(ApiTags('Series')),
+  Controller: () => applyDecorators(ApiTags('Reviews')),
 
   Vote: () => applyDecorators(
     ApiAuth(),
