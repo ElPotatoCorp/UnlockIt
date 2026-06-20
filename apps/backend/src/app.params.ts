@@ -68,6 +68,14 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Endpoints related to tickets management, including creation by anyone, retrieval by owner and employees, updating and deletionn by employees of tickets'
     )
     .addTag('Employees', 'Warning: Not implemented yet')
+    .addTag(
+      'Orders',
+      'Endpoints related to orders. Since they are read-only, an authenticated user can only view all of them or one in details'
+    )
+    .addTag(
+      'Wallet',
+      'Endpoints related to wallet management, including addition of funds, retrieving the balance, or seeing all transactions'
+    )
     .addGlobalResponse({
       status: 500,
       description:

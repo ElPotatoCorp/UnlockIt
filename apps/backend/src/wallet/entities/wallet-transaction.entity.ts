@@ -14,18 +14,23 @@ import {
   ExactData,
   WalletTransactionEntity as IWalletTransactionEntity,
 } from '@unlockit/shared';
+import { WalletTransactionEntityDoc } from 'src/docs/wallet/entities/wallet-transaction.entity.doc';
 
 @Entity('wallet_transactions')
 export class WalletTransactionEntity implements IWalletTransactionEntity {
+  @WalletTransactionEntityDoc.Id()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid', { name: 'user_id' })
+  @WalletTransactionEntityDoc.UserId(false)
+  @Column('uuid', { name: 'user_id', nullable: true })
   userId: string | null;
 
+  @WalletTransactionEntityDoc.OrderId(false)
   @Column('uuid', { name: 'order_id', nullable: true })
   orderId: string | null;
 
+  @WalletTransactionEntityDoc.Amount()
   @Column('numeric', {
     precision: 10,
     scale: 2,
@@ -33,9 +38,11 @@ export class WalletTransactionEntity implements IWalletTransactionEntity {
   })
   amount: number;
 
+  @WalletTransactionEntityDoc.Type()
   @Column({ type: 'enum', enum: WalletTransactionType })
   type: WalletTransactionType;
 
+  @WalletTransactionEntityDoc.CreatedAt()
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
