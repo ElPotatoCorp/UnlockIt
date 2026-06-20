@@ -751,44 +751,12 @@ React Developer Tools s’est révélé utilie tout au long du développement. M
 
 ### 2.3.3 Lighthouse
 
-Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : les performances, l’accessibilité, le référencement et les bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble, du chargement initial aux interactions, en passant par la structure HTML et la gestion des ressources.  
-Ces audits nous ont permis de valider objectivement l’impact des optimisations réalisées et d’orienter les améliorations à apporter au site.
+Lighthouse a été utilisé tout au long du développement pour mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : performances, accessibilité, référencement et bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble : structure HTML, chargement initial, gestion des ressources, interactions, et conformité aux standards du web.  
+Ces audits nous ont permis de valider objectivement l’impact de nos optimisations et d’orienter les améliorations à apporter.
 
 ![Score de l'audit Lighthouse](src/assets/lighthouse-audit.png)
 
-Lighthouse met en évidence plusieurs points d’amélioration récurrents :
-
-<div class="card">
-
-- **Accessibilité** : certains contrastes de couleur ne respectaient pas les recommandations WCAG. Le bleu sur le noir :
-
-![Score de l'audit Lighthouse Accessibility](src/assets/lighthouse-audit-accessibility.png)
-
-</div>
-
-<div class="card">
-
-- **Performance** : Lighthouse a signalé que les polices locales étaient stockées dans une arborescence trop profonde, ce qui pouvait ralentir leur chargement. Cette remarque nous a conduit à revoir l’organisation des fichiers de fonts.
-
-![Score de l'audit Lighthouse Performance](src/assets/lighthouse-audit-performance.png)
-
-</div>
-
-<div class="card">
-
-- **Best Practices** : certains avertissements provenaient de scripts tiers, notamment ceux de l’API YouTube utilisée pour afficher les trailers. Ces scripts génèrent des logs que nous ne pouvons pas supprimer, car ils proviennent de services externes.
-
-![Score de l'audit Lighthouse Best Practices](src/assets/lighthouse-audit-best-practices.png)
-
-</div>
-
-<div class="card">
-
-- **SEO** : 100%, perfect score ! 🎉🎉🎉
-
-</div>
-
-Les scores Lighthouse fluctuent légèrement en fonction de la page analysée et des conditions d’exécution de l’audit (notamment pour la partie Performance). Cependant, en build, les résultats restent généralement au-dessus de 95, ce qui confirme la bonne optimisation globale de l’application.
+Les scores Lighthouse peuvent varier légèrement selon la page analysée ou les conditions d’exécution, en particulier pour la partie Performance. En build, les résultats restent toutefois très stables et dépassent généralement 95, ce qui confirme la bonne optimisation globale de l’application.
 
 <details class="accordion">
 <summary>Les 4 notations</summary>
@@ -828,29 +796,69 @@ Exemples :
 
 </details>
 
-Lighthouse s’est donc révélé être un outil précieux pour valider nos choix techniques et garantir une qualité globale élevée. Là où des outils comme **React Developer Tools** ou **React Scan** se concentrent sur le comportement interne de React, Lighthouse offre une vision plus large, centrée sur l’expérience utilisateur et la qualité perçue de l’application.
+<div class="card">
+
+Lighthouse met en évidence encore aujourd'hui des points d’améliorations, même si les scores sont excellents. Certains avertissements ne peuvent tout simplement pas être corrigés, notamment ceux provenant de scripts tiers. L’outil doit donc être vu comme un guide, non comme une vérité absolue. Sa documentation, en revanche, s’est révélée extrêmement utile : elle fournit des explications claires et concrètes sur les bonnes pratiques du web, bien plus accessibles que la plupart des ressources généralistes.
+
+- Concernant l’accessibilité, Lighthouse a notamment signalé un contraste comme insuffisant : les quatres liens du footer, de couleur bleu foncé et vert néon au survol. Sans l'animation et un écran sombre il est vrai que la visibilité pour être complexifié sur fond noir. Nous avons décidé de ne pas le corriger, car il s'agissait de liens pour des pages peu importantes pour conserver l'identité graphique et l'harmonie des couleurs, gardant également la seule faute de l'audit sur le point de l'accessiblité.
+
+![Score de l'audit Lighthouse Accessibility](src/assets/lighthouse-audit-accessibility.png)
+
+- Pour les performances, l’outil a relevé que les polices locales prenaient du temps a charger en raison de leur taille (0.4s pour 2 fois 40ko). Nous avons choisi de conserver ces polices d'ecritures car nous ne voulons pas dépendre d'un site externe pour assurer le bon fonctionnement de notre texte.
+
+![Score de l'audit Lighthouse Performance](src/assets/lighthouse-audit-performance.png)
+
+- Du côté des bonnes pratiques, certains avertissements provenaient de scripts externes, notamment ceux de l’API YouTube utilisée pour les trailers. Ces logs ne peuvent pas être supprimés puisqu’ils proviennent de services tiers.
+
+![Score de l'audit Lighthouse Best Practices](src/assets/lighthouse-audit-best-practices.png)
+
+- Enfin, le SEO a un score parfait. 🎉🎉🎉 (allez voir la partie <a href="#22-référencement-et-indexation">2.2 Référencement et indexation</a>)
+
+</div>
+
+Lighthouse s’est donc révélé être un outil précieux pour valider nos choix techniques et garantir une qualité globale élevée. Là où **React Developer Tools** et **React Scan** se concentrent sur le comportement interne de React, Lighthouse adopte une perspective plus large, centrée sur l’expérience utilisateur, la robustesse du site et sa conformité aux standards du web.
 
 ---
 
 ### 2.3.4 Firefox Profiler
 
-Comme le profiler de React Dev Tools mais beaucoup trop complet, a la place, il a été utiliser comme "gestionnaire de tache", la ou l'ordinateur regarde l'utilisation de ses propre ressouce, je faisait de même avec Firefox, quand mon GPU est-il utilisé à fond et à quelle fréquence. Avant je me disais que le composant background ferait griller les cartes graphique des ordinateurs des cliens car mon gestionnaire de tache affichait 100%-90% lors du moindre scroll, finalement j'avais mis le background à 4 fps. En réalité j'aurai pu le laisser tel quel car Firefox à revelé que même si c'est 80% du GPU, c'est a tres faible fréquence et peu couteu.
+En complément des outils orientés React, nous avons utilisé **Firefox Profiler** afin d’obtenir une vision plus large du comportement global de l’application. Contrairement à React Developer Tools, qui se concentre sur l’arbre des composants et leurs re‑rendus, Firefox Profiler analyse l’activité complète du navigateur : exécution JavaScript, calcul des styles, opérations de rendu, gestion des événements et utilisation des ressources matérielles.
 
-En complément des outils orientés React, nous avons utilisé **Firefox Profiler** afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.
+![Firefox Profiler](src/assets/firefox-profiler-1.png)
 
-L'outil enregistre une session complète d'utilisation puis présente les résultats sous la forme d'une chronologie détaillée. Chaque opération exécutée par le navigateur est représentée visuellement, ce qui permet d'identifier rapidement les phases responsables des ralentissements.
+Dans notre cas, l’outil n’a pas servi à résoudre des problèmes de performance critiques (nous n’en avons jamais réellement rencontrés), mais plutôt comme un gestionnaire de tâches avancé, capable d’expliquer pourquoi le navigateur utilise le CPU ou le GPU. Là où le gestionnaire de tâches classique affiche uniquement un pourcentage global, Firefox Profiler permet de comprendre ce qui se cache derrière ce chiffre.
 
-Grâce à cet outil, nous avons pu :
+Lorsque nous avons développé la première version du background animé, un comportement nous avait particulièrement inquiétés. En faisant simplement défiler la page, le gestionnaire de tâches affichait parfois 90 % d’utilisation GPU, ce qui donnait l’impression que l’animation risquait de surcharger les machines des utilisateurs. Pensant qu’il s’agissait d’un problème sérieux, nous avions même imposé un rafraîchissement extrêmement bas (4 FPS) pour éviter de consommer "ne serait‑ce qu’1 %" de GPU selon l’outil système.
 
-- mesurer précisément le temps passé dans certaines fonctions JavaScript ;
-- identifier des calculs exécutés plus fréquemment que nécessaire ;
-- observer le coût réel des animations en arrière-plan ;
-- repérer certaines opérations de rendu déclenchées à chaque changement d'état ;
-- comparer l'impact des optimisations avant et après leur mise en place.
+![Firefox Profiler](src/assets/firefox-profiler-2.png)
 
-L'analyse a été particulièrement utile lors du développement du système d'arrière-plan animé. Les premiers prototypes effectuaient davantage de calculs que nécessaire et sollicitaient inutilement le processeur. Firefox Profiler nous a permis de visualiser précisément où le temps d'exécution était consommé et de vérifier que les optimisations appliquées réduisaient effectivement la charge du navigateur.
+Firefox Profiler a finalement montré que cette interprétation était trompeuse :  
+le GPU était bien sollicité, mais **à une fréquence extrêmement basse**, ce qui signifie que la charge réelle était minime. En d’autres termes, l’animation n’était pas dangereuse pour les cartes graphiques, et aurait pu fonctionner à un framerate plus élevé sans poser de problème.  
+Cette analyse a été particulièrement utile lors de la refonte du background avec **PixiJS** (voir <a href="#236-pixijs">2.3.6 PixiJS</a>), où nous avons pu vérifier que les optimisations graphiques appliquées n’entraînaient aucune surcharge matérielle.
 
-Au-delà de l'aspect purement technique, cet outil nous a permis de mieux comprendre le pipeline de rendu moderne d'un navigateur : exécution JavaScript, calcul des styles, mise en page (layout), peinture (paint) puis composition finale à l'écran. Cette compréhension a facilité la prise de décisions concernant les animations, les effets visuels et l'organisation générale du frontend.
+<details class="accordion">
+<summary>GPU élevé ≠ danger</summary>
+
+**Grosso modo :**
+
+Le gestionnaire de tâches affiche un **pourcentage d’utilisation**, mais pas l’**intensité réelle** du travail effectué. Un GPU peut très bien indiquer **80 % d’utilisation**, tout en tournant à une **fréquence extrêmement basse** (par exemple 200 MHz au lieu de 1800 MHz).  
+Autrement dit, il "travaille", mais très lentement, sans effort.  
+Une analogie simple serait une voiture roulant à "80 % de sa vitesse"... mais en première, moteur à peine allumé.
+
+**Cas concret :**
+ 
+| Situation     | Fréquence GPU | Utilisation | Charge réelle |
+| ------------- | ------------- | ----------- | ------------- |
+| Jeu vidéo     | 1800 MHz      | 80 %        | Très élevée   |
+| Animation web | 200 MHz       | 80 %        | Très faible   |
+
+Dans notre cas, Firefox Profiler a montré que le navigateur utilisait le GPU à **faible fréquence**, ce qui signifie que l’animation était **peu coûteuse**, même si le gestionnaire de tâches affichait un pourcentage élevé.  
+On peut d’ailleurs observer le même phénomène sur d’autres sites utilisant un <code class="c">\<canvas\></code> ou des animations WebGL : le GPU peut afficher 70–90 % d’utilisation, mais l’ordinateur reste parfaitement silencieux et froid, loin de la charge réelle d’un logiciel de montage vidéo, d’un jeu 3D ou d’une simulation lourde.
+
+</details>
+
+Au‑delà de ce cas précis, nous n’avons pas eu besoin d’utiliser Firefox Profiler de manière plus poussée : les outils comme React Developer Tools et React Scan étaient largement suffisants pour le reste du projet.
+Cependant, comprendre comment un navigateur répartit réellement le travail (exécution JavaScript, calcul des styles, layout, paint, etc.) reste extrêmement utile. Dans des situations plus complexes, ou lorsqu’un comportement semble inhabituel, nous savons désormais où regarder et comment interpréter les données pour éviter de fausses alertes.
 
 ---
 
