@@ -45,25 +45,18 @@ export class CartService {
   }
 
   async toggle(cartId: string, gameId: number, state?: boolean) {
-    const item = await this.cartItemRepository.findOneBy({ cartId, gameId });
-
-    if (!item) {
-      throw new NotFoundException(
-        `Game with ID ${gameId} was not found in the cart`,
-      );
-    }
-
-    let newState: boolean;
-    if (state && isBoolean(state)) {
-      newState = state;
-    } else {
-      newState = !item.selected;
-    }
-
-    await this.cartItemRepository.update(
-      { cartId, gameId },
-      { selected: newState },
+    const item = await this.commonService.entities.fetchEntityOrFail(
+      this.cartItemRepository,
+      { where: { cartId, gameId } },
     );
+
+    if (state && isBoolean(state)) {
+      item.selected = state;
+    } else {
+      item.selected = !item.selected;
+    }
+
+    await this.cartItemRepository.save(item)
   }
 
   async add(cartId: string, gameId: number, quantity?: number): Promise<void> {
@@ -71,11 +64,8 @@ export class CartService {
     const isValidQuantity = quantity && isInt(quantity) && quantity > 0;
 
     if (item) {
-      const newQuantity = item.quantity + (isValidQuantity ? quantity : 1);
-      await this.cartItemRepository.update(
-        { cartId, gameId },
-        { quantity: newQuantity },
-      );
+      item.quantity = item.quantity + (isValidQuantity ? quantity : 1);
+      await this.cartItemRepository.save(item);
     } else {
       await this.cartItemRepository.save({
         cartId,
