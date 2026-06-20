@@ -42,33 +42,33 @@ export class PurchasesController {
   // --- Reviews ---
   @PurchasesControllerDoc.AddReview()
   @Post(':orderId/:gameId/review')
-  async addReview(
+  addReview(
     @User('sub') userId: string,
     @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() createReviewDto: CreateReviewDto,
   ) {
-    await this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
+    return this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
   }
 
   @PurchasesControllerDoc.UpdateReview()
   @Patch(':orderId/:gameId/review')
-  async updateReview(
+  updateReview(
     @User('sub') userId: string,
     @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() updateReviewDto: UpdateReviewDto,
   ) {
-    await this.purchasesService.updateReview(userId, orderId, gameId, updateReviewDto);
+    return this.purchasesService.updateReview(userId, orderId, gameId, updateReviewDto);
   }
 
   @PurchasesControllerDoc.RemoveReview()
   @Delete(':orderId/:gameId/review')
-  async removeReview(
+  removeReview(
     @User('sub') userId: string,
     @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
     @Param('gameId', ParseIntPipe) gameId: number,
   ) {
-    await this.purchasesService.removeReview(userId, orderId, gameId);
+    return this.purchasesService.removeReview(userId, orderId, gameId);
   }
 }
