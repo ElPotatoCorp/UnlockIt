@@ -1,12 +1,15 @@
 import { CreateReview, ExactData } from "@unlockit/shared";
 import { Type } from "class-transformer";
 import { IsInt, IsString, Length } from "class-validator";
+import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
 
 export class CreateReviewDto implements CreateReview {
+  @ReviewEntityDoc.Content()
   @IsString()
   @Length(20, 10000)
   content: string;
 
+  @ReviewEntityDoc.Rate()
   @IsInt()
   @Length(0, 10)
   @Type(() => Number)
