@@ -1060,17 +1060,15 @@ L’adaptation du code a été plutôt simple car beaucoup de la logique du canv
 
 ### 2.3.7 SVGR
 
-Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.
+Dans l’ancienne version d’UnlockIt, une grande partie des icônes était fournie sous forme de fichiers PNG. Cette approche fonctionnait, mais elle avait plusieurs limites : les images étaient plus lourdes, étaient de trop grande qualité pour leur taille, et ne pouvaient pas être facilement recolorées ou adaptées à différents contextes. Avec la refonte, nous avons progressivement remplacé ces ressources par des fichiers SVG, beaucoup plus adaptés à une interface moderne. Un SVG est un dessin vectoriel, ce qui signifie qu’il reste parfaitement net quelle que soit la résolution de l’écran, tout en pesant souvent trois fois moins qu’un PNG équivalent.
 
-Afin d'intégrer ces fichiers plus efficacement dans React, nous avons utilisé **SVGR**. Cet outil transforme automatiquement un fichier SVG en composant React.
-
-Au lieu d'utiliser :
+Pour intégrer ces SVG dans React, nous avons adopté deux approches complémentaires. Lorsque l’icône est simple, monochrome ou peu détaillée, nous utilisons **SVGR**, un outil qui transforme automatiquement un fichier SVG en composant React. Cela permet d’utiliser une icône comme n’importe quel composant, de lui passer des props, de changer sa couleur ou sa taille dynamiquement, et de l’intégrer naturellement dans l’arbre React. Au lieu d’écrire une balise <code class="c">\<img\></code> classique comme dans l’ancien projet, nous pouvons importer directement l’icône et l’utiliser comme un composant.
 
 ```tsx
 <img src="/icons/cart.svg" alt="Panier" />
 ```
 
-nous pouvons directement écrire :
+devient simplement :
 
 ```tsx
 import CartIcon from "./cart.svg";
@@ -1078,40 +1076,19 @@ import CartIcon from "./cart.svg";
 <CartIcon />
 ```
 
-Cette approche apporte plusieurs bénéfices :
+Cette manière de faire rend l’interface plus cohérente et plus flexible. Les icônes ne sont plus des images externes, mais de véritables éléments React, capables de s’adapter automatiquement au thème, à la taille du texte ou à l’état d’un bouton. Cela évite également une requête réseau supplémentaire dans certains cas, puisque l’icône est directement intégrée au bundle.
 
-- suppression d'une requête réseau supplémentaire dans certains cas ;
-- intégration naturelle dans l'arbre React ;
-- personnalisation facilitée via les props ;
-- modification dynamique des couleurs et dimensions ;
-- meilleure maintenabilité des ressources graphiques.
+Pour les icônes plus complexes, comme le logo d’UnlockIt, nous avons préféré créer nous‑mêmes un composant React dédié. Cela nous permet de contrôler précisément chaque forme, chaque couleur et chaque animation éventuelle, tout en conservant les avantages du SVG. Les logos ou illustrations plus détaillés bénéficient ainsi d’un traitement sur mesure, tandis que les icônes plus simples sont gérées automatiquement par SVGR, ce qui accélère considérablement le développement.
 
-SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.
-
-Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.
+Même si cette optimisation n’a pas l’impact massif d’un lazy loading ou d’une minification avancée, elle contribue à alléger l’application, à améliorer la netteté générale de l’interface et à rendre le code plus propre. Le passage aux SVG et à SVGR s’inscrit dans une démarche globale de modernisation du frontend : des ressources plus légères, plus flexibles et plus faciles à maintenir.
 
 ---
 
 ### 2.3.8 React Doctor
 
-J'ai conscience que déjà beaucoup d'outils ont été utilisé pour la qualité et que j'ai peut etre abusé, mais l'utilisation de React Doctor aurait pu être réellement interessant si j'avais plus de temps et que d'autre projet ne nécéssitaient pas mon attention.
+Au cours de la refonte, nous avons également porté notre attention sur **React Doctor**, un outil encore jeune mais déjà prometteur, conçu pour analyser automatiquement une application React et mettre en lumière des comportements susceptibles d’affecter les performances. Là où des outils plus visuels comme React Scan permettent d’observer les re‑rendus en direct, React Doctor adopte une approche plus introspective : il examine les cycles de rendu, surveille la stabilité des props et des hooks, et signale les composants dont le comportement semble anormal.
 
-Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.
-
-Même si nous ne l’avons pas intégré directement au projet, son fonctionnement et ses capacités méritent d’être présentés, car il s’agit d’un outil prometteur qui pourrait devenir un standard dans les prochaines années.
-
-React Doctor est capable d’identifier plusieurs types de problèmes, notamment les re-rendus inutiles, les dépendances incorrectes dans les hooks, ou encore les composants dont le coût de rendu est anormalement élevé. L’outil analyse également la stabilité des props et des références, ce qui permet de repérer des erreurs de conception difficiles à détecter autrement. Par exemple, il peut signaler un useEffect déclenché trop souvent à cause d’une dépendance instable, ou un composant qui se réaffiche alors que ses props n’ont pas changé.
-
-<div class="card">
-
-Figure X – Exemple d’analyse automatisée proposée par React Doctor.  
-(placeholder capture d’écran)
-
-</div>
-
-Nous avons découvert React Doctor relativement tard dans le développement, à un moment où la majorité des optimisations principales étaient déjà en place. Par manque de temps, nous n’avons pas pu l’explorer en profondeur ni l’intégrer dans notre workflow. De plus, l’outil étant encore jeune, certaines fonctionnalités manquent de stabilité et peuvent produire des faux positifs. Cela rend son utilisation délicate dans un contexte de production ou dans un projet où les délais sont serrés.
-
-Malgré cela, cette phase de veille technologique s’est révélée utile. Elle nous a permis d’identifier des outils émergents et de mieux comprendre les tendances actuelles autour de l’écosystème React. React Doctor pourrait être envisagé dans de futurs projets, notamment pour automatiser une partie du diagnostic de performance et pour compléter des outils plus établis comme React Developer Tools ou React Scan.
+Nous avons découvert cet outil relativement tard dans le développement, à un moment où la majorité des optimisations essentielles étaient déjà en place. Même si nous ne l’avons finalement pas intégré au workflow, son fonctionnement reste intéressant à mentionner et peut être que nous l'utiliserons dans le prochain projet.
 
 ---
 
