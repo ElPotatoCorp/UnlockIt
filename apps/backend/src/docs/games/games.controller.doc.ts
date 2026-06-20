@@ -96,20 +96,6 @@ export const GamesControllerDoc = {
           'URL-friendly game name to search for (e.g. "call-of-duty"). Automatically slugified.',
         example: 'call-of-duty',
       }),
-      ApiQuery({
-        name: 'page',
-        type: Number,
-        required: false,
-        description: 'Page number (&ge; 1). Defaults to 1.',
-        example: 1,
-      }),
-      ApiQuery({
-        name: 'limit',
-        type: Number,
-        required: false,
-        description: 'Items per page (1-100). Defaults to 20.',
-        example: 20,
-      }),
       ApiBody({
         description:
           'Optional search filters and sort order. All fields except `order.by` are optional.',
