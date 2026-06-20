@@ -1,22 +1,14 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { EUAgeRating, GameType, LangCode } from '@unlockit/shared';
+import { MakeDoc } from 'src/docs/common/make-doc';
 
 export const GamePrimitiveEntityDoc = {
   // -------------------------------------------------------
   // Identity
   // -------------------------------------------------------
 
-  Id: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'Game ID',
-        description: 'Unique identifier, auto-incremented by the system.',
-        type: Number,
-        example: 42,
-        readOnly: true,
-      }),
-    ),
+  Id: MakeDoc.MakeSerial('Game ID'),
 
   Name: (required = true) =>
     applyDecorators(

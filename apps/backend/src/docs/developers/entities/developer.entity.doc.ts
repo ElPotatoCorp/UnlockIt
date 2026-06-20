@@ -1,16 +1,9 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { MakeDoc } from 'src/docs/common/make-doc';
 
 export const DeveloperEntityDoc = {
-  Id: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'Developer ID',
-        type: Number,
-        example: 1,
-        readOnly: true,
-      }),
-    ),
+  Id: MakeDoc.MakeSerial('Developer ID'),
 
   Name: (required = true) =>
     applyDecorators(

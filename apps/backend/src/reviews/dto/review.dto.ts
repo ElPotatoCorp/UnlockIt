@@ -5,9 +5,9 @@ export class ReviewDto implements Review {
   @ReviewEntityDoc.Id()
   id: string;
 
-  @ReviewEntityDoc.UserId()
+  @ReviewEntityDoc.UserId(false)
   userId: string;
-  @ReviewEntityDoc.GameId()
+  @ReviewEntityDoc.GameId(false)
   gameId: number;
 
   @ReviewEntityDoc.Content()

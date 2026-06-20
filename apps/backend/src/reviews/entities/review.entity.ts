@@ -11,11 +11,11 @@ export class ReviewEntity implements IReviewEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ReviewEntityDoc.UserId()
+  @ReviewEntityDoc.UserId(false)
   @Column('uuid', { name: 'user_id' })
   userId: string;
 
-  @ReviewEntityDoc.GameId()
+  @ReviewEntityDoc.GameId(false)
   @Column('int', { name: 'game_id' })
   gameId: number;
 
