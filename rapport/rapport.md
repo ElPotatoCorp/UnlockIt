@@ -1735,38 +1735,6 @@ export const Layout = memo(() => {
 });
 ```
 
-#### Avant / Après la refonte
-
-<div class="before">
-
-#### Avant
-
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-
-```
-TODO
-```
-
-</details>
-
-</div>
-
-<div class="after">
-
-#### Après
-
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-
-```
-TODO
-```
-
-</details>
-
-</div>
-
 ### 2.7.2 Difficulté n°2 : Suspence
 
 Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.

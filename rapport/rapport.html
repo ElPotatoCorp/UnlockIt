@@ -425,7 +425,7 @@ code {
 <p>L'objectif académique de cette première version était avant tout de nous confronter à la réalisation d'une application web de grande ampleur, nécessitant la conception d'un frontend moderne, d'une API backend ainsi que d'une base de données relationnelle relativement complexe. Ce projet nous a également permis d'expérimenter le travail en équipe, la gestion d'une architecture multi-couches et la mise en place de méthodologies de développement proches du monde professionnel.</p>
 <div class="card">
 <p><img src="src/assets/old-homepage.png" alt="Page d'accueil de UnlockIt V1"></p>
-<p><em>Figure 1 – Capture de la page d'accueil de UnlockIt (SAÉ 3.01).</em></p>
+<p><em>Capture de la page d'accueil de UnlockIt (SAÉ 3.01).</em></p>
 </div>
 <p>D'un point de vue fonctionnel, UnlockIt (SAÉ 3.01) proposait déjà la majorité des fonctionnalités attendues pour une plateforme de distribution numérique :</p>
 <ul>
@@ -440,7 +440,7 @@ code {
 <p>Ces fonctionnalités ont permis de valider la faisabilité du projet et de produire une première version entièrement fonctionnelle.</p>
 <div class="card">
 <p><img src="src/assets/old-game-page.png" alt="Page produit de UnlockIt V1"></p>
-<p><em>Figure 2 – Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).</em></p>
+<p><em>Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).</em></p>
 </div>
 <p>L'architecture technique de cette première version reposait sur une séparation classique entre trois couches :</p>
 <ul>
@@ -466,7 +466,7 @@ code {
     C -->|SQL/PlpgSQL| B
 </div></code></pre>
 </div>
-<p><em>Figure 3 – Architecture simplifiée de UnlockIt (SAÉ 3.01).</em></p>
+<p><em>Architecture simplifiée de UnlockIt (SAÉ 3.01).</em></p>
 <p>* Si du code s'affiche à la place du schéma, rafraichissez la page.</p>
 </div>
 <p>Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. L’absence d’outils d’analyse et de tests automatisés compliquait également la détection des régressions et l’optimisation des performances.</p>
@@ -919,34 +919,10 @@ Au‑delà de son utilité immédiate, cette fonctionnalité a constitué un exc
 </div>
 <p>React Developer Tools s’est révélé utilie tout au long du développement. Même si nous n’avons jamais rencontré de problèmes de performance majeurs ou de composants réellement trop lourds, la possibilité d’inspecter rapidement la hiérarchie, les contextes consommés ou la raison d’un re‑rendu offrait une grande tranquillité d’esprit. Dès qu’un comportement semblait inhabituel, React Developer Tools permettait de vérifier en quelques secondes si tout fonctionnait comme prévu. Couplé à React Scan, qui met en évidence les re‑rendus en temps réel, l’outil offrait une vision complète : d’un côté l’observation instantanée du rendu, de l’autre une analyse détaillée des causes et du coût associé.</p>
 <h3 id="233-lighthouse">2.3.3 Lighthouse</h3>
-<p>Lighthouse a été utilisé tout au long du développement afin de mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : les performances, l’accessibilité, le référencement et les bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble, du chargement initial aux interactions, en passant par la structure HTML et la gestion des ressources.<br>
-Ces audits nous ont permis de valider objectivement l’impact des optimisations réalisées et d’orienter les améliorations à apporter au site.</p>
+<p>Lighthouse a été utilisé tout au long du développement pour mesurer plusieurs indicateurs essentiels à la qualité globale de l’application : performances, accessibilité, référencement et bonnes pratiques. Contrairement aux outils centrés sur React, Lighthouse évalue l’application dans son ensemble : structure HTML, chargement initial, gestion des ressources, interactions, et conformité aux standards du web.<br>
+Ces audits nous ont permis de valider objectivement l’impact de nos optimisations et d’orienter les améliorations à apporter.</p>
 <p><img src="src/assets/lighthouse-audit.png" alt="Score de l'audit Lighthouse"></p>
-<p>Lighthouse met en évidence plusieurs points d’amélioration récurrents :</p>
-<div class="card">
-<ul>
-<li><strong>Accessibilité</strong> : certains contrastes de couleur ne respectaient pas les recommandations WCAG. Le bleu sur le noir :</li>
-</ul>
-<p><img src="src/assets/lighthouse-audit-accessibility.png" alt="Score de l'audit Lighthouse Accessibility"></p>
-</div>
-<div class="card">
-<ul>
-<li><strong>Performance</strong> : Lighthouse a signalé que les polices locales étaient stockées dans une arborescence trop profonde, ce qui pouvait ralentir leur chargement. Cette remarque nous a conduit à revoir l’organisation des fichiers de fonts.</li>
-</ul>
-<p><img src="src/assets/lighthouse-audit-performance.png" alt="Score de l'audit Lighthouse Performance"></p>
-</div>
-<div class="card">
-<ul>
-<li><strong>Best Practices</strong> : certains avertissements provenaient de scripts tiers, notamment ceux de l’API YouTube utilisée pour afficher les trailers. Ces scripts génèrent des logs que nous ne pouvons pas supprimer, car ils proviennent de services externes.</li>
-</ul>
-<p><img src="src/assets/lighthouse-audit-best-practices.png" alt="Score de l'audit Lighthouse Best Practices"></p>
-</div>
-<div class="card">
-<ul>
-<li><strong>SEO</strong> : 100%, perfect score ! 🎉🎉🎉</li>
-</ul>
-</div>
-<p>Les scores Lighthouse fluctuent légèrement en fonction de la page analysée et des conditions d’exécution de l’audit (notamment pour la partie Performance). Cependant, en build, les résultats restent généralement au-dessus de 95, ce qui confirme la bonne optimisation globale de l’application.</p>
+<p>Les scores Lighthouse peuvent varier légèrement selon la page analysée ou les conditions d’exécution, en particulier pour la partie Performance. En build, les résultats restent toutefois très stables et dépassent généralement 95, ce qui confirme la bonne optimisation globale de l’application.</p>
 <details class="accordion">
 <summary>Les 4 notations</summary>
 <p>Lighthouse évalue l’application selon quatre axes principaux :</p>
@@ -986,125 +962,248 @@ Exemples :</p>
 <li>liens accessibles et valides.</li>
 </ul>
 </details>
-<p>Lighthouse s’est donc révélé être un outil précieux pour valider nos choix techniques et garantir une qualité globale élevée. Là où des outils comme <strong>React Developer Tools</strong> ou <strong>React Scan</strong> se concentrent sur le comportement interne de React, Lighthouse offre une vision plus large, centrée sur l’expérience utilisateur et la qualité perçue de l’application.</p>
+<div class="card">
+<p>Lighthouse met en évidence encore aujourd'hui des points d’améliorations, même si les scores sont excellents. Certains avertissements ne peuvent tout simplement pas être corrigés, notamment ceux provenant de scripts tiers. L’outil doit donc être vu comme un guide, non comme une vérité absolue. Sa documentation, en revanche, s’est révélée extrêmement utile : elle fournit des explications claires et concrètes sur les bonnes pratiques du web, bien plus accessibles que la plupart des ressources généralistes.</p>
+<ul>
+<li>Concernant l’accessibilité, Lighthouse a notamment signalé un contraste comme insuffisant : les quatres liens du footer, de couleur bleu foncé et vert néon au survol. Sans l'animation et un écran sombre il est vrai que la visibilité pour être complexifié sur fond noir. Nous avons décidé de ne pas le corriger, car il s'agissait de liens pour des pages peu importantes pour conserver l'identité graphique et l'harmonie des couleurs, gardant également la seule faute de l'audit sur le point de l'accessiblité.</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-accessibility.png" alt="Score de l'audit Lighthouse Accessibility"></p>
+<ul>
+<li>Pour les performances, l’outil a relevé que les polices locales prenaient du temps a charger en raison de leur taille (0.4s pour 2 fois 40ko). Nous avons choisi de conserver ces polices d'ecritures car nous ne voulons pas dépendre d'un site externe pour assurer le bon fonctionnement de notre texte.</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-performance.png" alt="Score de l'audit Lighthouse Performance"></p>
+<ul>
+<li>Du côté des bonnes pratiques, certains avertissements provenaient de scripts externes, notamment ceux de l’API YouTube utilisée pour les trailers. Ces logs ne peuvent pas être supprimés puisqu’ils proviennent de services tiers.</li>
+</ul>
+<p><img src="src/assets/lighthouse-audit-best-practices.png" alt="Score de l'audit Lighthouse Best Practices"></p>
+<ul>
+<li>Enfin, le SEO a un score parfait. 🎉🎉🎉 (allez voir la partie <a href="#22-référencement-et-indexation">2.2 Référencement et indexation</a>)</li>
+</ul>
+</div>
+<p>Lighthouse s’est donc révélé être un outil précieux pour valider nos choix techniques et garantir une qualité globale élevée. Là où <strong>React Developer Tools</strong> et <strong>React Scan</strong> se concentrent sur le comportement interne de React, Lighthouse adopte une perspective plus large, centrée sur l’expérience utilisateur, la robustesse du site et sa conformité aux standards du web.</p>
 <hr>
 <h3 id="234-firefox-profiler">2.3.4 Firefox Profiler</h3>
-<p>Comme le profiler de React Dev Tools mais beaucoup trop complet, a la place, il a été utiliser comme &quot;gestionnaire de tache&quot;, la ou l'ordinateur regarde l'utilisation de ses propre ressouce, je faisait de même avec Firefox, quand mon GPU est-il utilisé à fond et à quelle fréquence. Avant je me disais que le composant background ferait griller les cartes graphique des ordinateurs des cliens car mon gestionnaire de tache affichait 100%-90% lors du moindre scroll, finalement j'avais mis le background à 4 fps. En réalité j'aurai pu le laisser tel quel car Firefox à revelé que même si c'est 80% du GPU, c'est a tres faible fréquence et peu couteu.</p>
-<p>En complément des outils orientés React, nous avons utilisé <strong>Firefox Profiler</strong> afin d'obtenir une vision beaucoup plus fine du comportement global de l'application. Contrairement à React Developer Tools, qui se concentre sur l'arbre des composants React, Firefox Profiler permet d'observer l'ensemble de l'activité du navigateur : exécution JavaScript, calcul des styles CSS, opérations de rendu, traitement des événements et utilisation du processeur.</p>
-<p>L'outil enregistre une session complète d'utilisation puis présente les résultats sous la forme d'une chronologie détaillée. Chaque opération exécutée par le navigateur est représentée visuellement, ce qui permet d'identifier rapidement les phases responsables des ralentissements.</p>
-<p>Grâce à cet outil, nous avons pu :</p>
-<ul>
-<li>mesurer précisément le temps passé dans certaines fonctions JavaScript ;</li>
-<li>identifier des calculs exécutés plus fréquemment que nécessaire ;</li>
-<li>observer le coût réel des animations en arrière-plan ;</li>
-<li>repérer certaines opérations de rendu déclenchées à chaque changement d'état ;</li>
-<li>comparer l'impact des optimisations avant et après leur mise en place.</li>
-</ul>
-<p>L'analyse a été particulièrement utile lors du développement du système d'arrière-plan animé. Les premiers prototypes effectuaient davantage de calculs que nécessaire et sollicitaient inutilement le processeur. Firefox Profiler nous a permis de visualiser précisément où le temps d'exécution était consommé et de vérifier que les optimisations appliquées réduisaient effectivement la charge du navigateur.</p>
-<p>Au-delà de l'aspect purement technique, cet outil nous a permis de mieux comprendre le pipeline de rendu moderne d'un navigateur : exécution JavaScript, calcul des styles, mise en page (layout), peinture (paint) puis composition finale à l'écran. Cette compréhension a facilité la prise de décisions concernant les animations, les effets visuels et l'organisation générale du frontend.</p>
+<p>En complément des outils orientés React, nous avons utilisé <strong>Firefox Profiler</strong> afin d’obtenir une vision plus large du comportement global de l’application. Contrairement à React Developer Tools, qui se concentre sur l’arbre des composants et leurs re‑rendus, Firefox Profiler analyse l’activité complète du navigateur : exécution JavaScript, calcul des styles, opérations de rendu, gestion des événements et utilisation des ressources matérielles.</p>
+<p><img src="src/assets/firefox-profiler-1.png" alt="Firefox Profiler"></p>
+<p>Dans notre cas, l’outil n’a pas servi à résoudre des problèmes de performance critiques (nous n’en avons jamais réellement rencontrés), mais plutôt comme un gestionnaire de tâches avancé, capable d’expliquer pourquoi le navigateur utilise le CPU ou le GPU. Là où le gestionnaire de tâches classique affiche uniquement un pourcentage global, Firefox Profiler permet de comprendre ce qui se cache derrière ce chiffre.</p>
+<p>Lorsque nous avons développé la première version du background animé, un comportement nous avait particulièrement inquiétés. En faisant simplement défiler la page, le gestionnaire de tâches affichait parfois 90 % d’utilisation GPU, ce qui donnait l’impression que l’animation risquait de surcharger les machines des utilisateurs. Pensant qu’il s’agissait d’un problème sérieux, nous avions même imposé un rafraîchissement extrêmement bas (4 FPS) pour éviter de consommer &quot;ne serait‑ce qu’1 %&quot; de GPU selon l’outil système.</p>
+<p><img src="src/assets/firefox-profiler-2.png" alt="Firefox Profiler"></p>
+<p>Firefox Profiler a finalement montré que cette interprétation était trompeuse :<br>
+le GPU était bien sollicité, mais <strong>à une fréquence extrêmement basse</strong>, ce qui signifie que la charge réelle était minime. En d’autres termes, l’animation n’était pas dangereuse pour les cartes graphiques, et aurait pu fonctionner à un framerate plus élevé sans poser de problème.<br>
+Cette analyse a été particulièrement utile lors de la refonte du background avec <strong>PixiJS</strong> (voir <a href="#236-pixijs">2.3.6 PixiJS</a>), où nous avons pu vérifier que les optimisations graphiques appliquées n’entraînaient aucune surcharge matérielle.</p>
+<details class="accordion">
+<summary>GPU élevé ≠ danger</summary>
+<p><strong>Grosso modo :</strong></p>
+<p>Le gestionnaire de tâches affiche un <strong>pourcentage d’utilisation</strong>, mais pas l’<strong>intensité réelle</strong> du travail effectué. Un GPU peut très bien indiquer <strong>80 % d’utilisation</strong>, tout en tournant à une <strong>fréquence extrêmement basse</strong> (par exemple 200 MHz au lieu de 1800 MHz).<br>
+Autrement dit, il &quot;travaille&quot;, mais très lentement, sans effort.<br>
+Une analogie simple serait une voiture roulant à &quot;80 % de sa vitesse&quot;... mais en première, moteur à peine allumé.</p>
+<p><strong>Cas concret :</strong></p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Fréquence GPU</th>
+<th>Utilisation</th>
+<th>Charge réelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jeu vidéo</td>
+<td>1800 MHz</td>
+<td>80 %</td>
+<td>Très élevée</td>
+</tr>
+<tr>
+<td>Animation web</td>
+<td>200 MHz</td>
+<td>80 %</td>
+<td>Très faible</td>
+</tr>
+</tbody>
+</table>
+<p>Dans notre cas, Firefox Profiler a montré que le navigateur utilisait le GPU à <strong>faible fréquence</strong>, ce qui signifie que l’animation était <strong>peu coûteuse</strong>, même si le gestionnaire de tâches affichait un pourcentage élevé.<br>
+On peut d’ailleurs observer le même phénomène sur d’autres sites utilisant un <code class="c">&lt;canvas&gt;</code> ou des animations WebGL : le GPU peut afficher 70–90 % d’utilisation, mais l’ordinateur reste parfaitement silencieux et froid, loin de la charge réelle d’un logiciel de montage vidéo, d’un jeu 3D ou d’une simulation lourde.</p>
+</details>
+<p>Au‑delà de ce cas précis, nous n’avons pas eu besoin d’utiliser Firefox Profiler de manière plus poussée : les outils comme React Developer Tools et React Scan étaient largement suffisants pour le reste du projet.
+Cependant, comprendre comment un navigateur répartit réellement le travail (exécution JavaScript, calcul des styles, layout, paint, etc.) reste extrêmement utile. Dans des situations plus complexes, ou lorsqu’un comportement semble inhabituel, nous savons désormais où regarder et comment interpréter les données pour éviter de fausses alertes.</p>
 <hr>
 <h3 id="235-lazy-loading-et-suspense">2.3.5 Lazy Loading et Suspense</h3>
-<p>L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.</p>
-<p>Cette approche reste acceptable pour de petites applications, mais devient rapidement problématique lorsque le nombre de pages augmente. Le navigateur doit télécharger, analyser et exécuter davantage de code avant de pouvoir afficher l'interface.</p>
-<p>Pour résoudre ce problème, nous avons mis en place une stratégie de <strong>code splitting</strong> basée sur <strong>React.lazy</strong> et <strong>Suspense</strong>.</p>
-<pre class="hljs"><code><div><span class="hljs-keyword">const</span> <span class="hljs-title class_">ProductPage</span> = <span class="hljs-title function_">lazy</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./pages/ProductPage&quot;</span>));
-
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Suspense</span> <span class="hljs-attr">fallback</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Loader</span> /&gt;</span>}&gt;
-    <span class="hljs-tag">&lt;<span class="hljs-name">ProductPage</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">Suspense</span>&gt;</span></span>
+<p>L’une des optimisations majeures apportées à cette nouvelle version concerne la manière dont les pages sont chargées. Dans la première version du projet, toutes les routes principales étaient importées dès le démarrage de l’application. Même lorsqu’un utilisateur ne consultait qu’une seule page, il téléchargeait malgré tout l’ensemble du code JavaScript du site. Cette approche reste acceptable pour une petite application, mais devient rapidement coûteuse lorsque le nombre de pages augmente : le navigateur doit charger, analyser et exécuter davantage de code avant d’afficher la moindre interface.</p>
+<p>Pour résoudre ce problème, nous avons mis en place une stratégie de <strong>code splitting</strong> basée sur <strong>React.lazy</strong> et <strong>Suspense</strong>. Chaque page importante est désormais chargée dynamiquement, uniquement lorsque l’utilisateur en a réellement besoin.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> <span class="hljs-title class_">Home</span> = <span class="hljs-title function_">lazy</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./pages/home/Home&quot;</span>));
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Search</span> = <span class="hljs-title function_">lazy</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./pages/search/Search&quot;</span>));
+<span class="hljs-comment">// ...</span>
 </div></code></pre>
-<p>Avec cette approche, le code d'une page n'est téléchargé qu'au moment où l'utilisateur en a réellement besoin. Chaque route importante devient ainsi un bundle indépendant pouvant être chargé dynamiquement.</p>
-<p>Cette optimisation apporte plusieurs avantages :</p>
-<ul>
-<li>réduction significative de la taille du bundle initial ;</li>
-<li>diminution du temps de téléchargement lors du premier chargement ;</li>
-<li>réduction du temps d'analyse et d'exécution JavaScript ;</li>
-<li>amélioration des métriques Lighthouse ;</li>
-<li>meilleure expérience utilisateur sur les connexions lentes.</li>
-</ul>
-<p>Le composant <strong>Suspense</strong> joue ici un rôle essentiel. Lorsqu'une ressource n'est pas encore disponible, React affiche temporairement un composant de remplacement (<em>fallback</em>), généralement un loader ou un skeleton. L'utilisateur obtient ainsi un retour visuel immédiat plutôt qu'un écran vide.</p>
-<p>Cette technique s'est révélée particulièrement efficace pour les pages rarement consultées, comme certaines pages de paramètres ou de gestion du compte. Leur code n'est chargé que lorsqu'il devient réellement nécessaire, ce qui contribue à maintenir une interface réactive même lorsque l'application continue de s'enrichir.</p>
+<p>Pour éviter de répéter la même structure dans chaque route, une petite fonction utilitaire <code class="c">lazyRoute()</code> encapsule automatiquement le composant dans un <code class="c">&lt;Suspense&gt;</code> avec un loader personnalisé :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">function</span> <span class="hljs-title function_">lazyRoute</span>(<span class="hljs-params"><span class="hljs-attr">element</span>: <span class="hljs-title class_">React</span>.<span class="hljs-title class_">ReactNode</span></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Suspense</span> <span class="hljs-attr">fallback</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Loader</span> /&gt;</span>}&gt;
+      {element}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Suspense</span>&gt;</span></span>
+  );
+}
+</div></code></pre>
+<p>Le composant <strong>Loader</strong> affiche un spinner (composant <code class="c">Loading</code> réutilisé depuis un autre projet) et sert d’indicateur visuel pendant le chargement d’une page, évitant ainsi à l’utilisateur de se retrouver face à un écran vide.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Loader</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;page-loading&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Loading</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</div></code></pre>
+<p>Voici un exemple forcé avec une mauvaise connexion (Regular 2G) : on peut voir apparaître rapidement le spinner entre les pages. En général, on ne le voit jamais ou seulement une fraction de seconde grâce à l’optimisation des fichiers et à la réduction des dépendances ; voir la section <a href="#26-build-et-compression">2.6 Build et compression</a> pour plus d’informations sur la taille des bundles et le découpage en chunks.</p>
+<p><img src="src/assets/loader.gif" alt="Loader"></p>
+<details class="accordion">
+<summary>Utilisation dans le <code class="c">App.tsx</code></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml">&lt;...&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Layout</span> /&gt;</span>}&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">index</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Home</span> /&gt;</span>}/&gt;
+            {[&quot;/home&quot;, &quot;/store&quot;, &quot;/shop&quot;].map((path) =&gt; (
+              <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{path}</span> <span class="hljs-attr">path</span>=<span class="hljs-string">{path}</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Navigate</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">replace</span> /&gt;</span>} /&gt;
+            ))}
+
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/search&quot;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{lazyRoute(</span>&lt;<span class="hljs-attr">Search</span> /&gt;</span>)} /&gt;
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/search/:term&quot;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{lazyRoute(</span>&lt;<span class="hljs-attr">Search</span> /&gt;</span>)} /&gt;
+
+            ...
+
+            <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;*&quot;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">NotFound</span> /&gt;</span>} /&gt;
+          <span class="hljs-tag">&lt;/<span class="hljs-name">Route</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span>
+    &lt;/...&gt;</span>
+  );
+}
+</div></code></pre>
+</details>
+<p>Grâce à cette architecture, chaque page devient un bundle indépendant, chargé uniquement lorsqu’elle est visitée. Cela réduit significativement la taille du bundle initial, diminue le temps de téléchargement et le temps d’analyse/exécution JavaScript au premier chargement, améliore les métriques Lighthouse (notamment Performance et Best Practices) et offre une meilleure expérience utilisateur sur les connexions lentes. Le composant <strong>Suspense</strong> est central : lorsqu’un module n’est pas encore disponible, React affiche le <em>fallback</em> (le <code class="c">Loader</code>), fournissant un retour visuel immédiat et améliorant la perception de fluidité.</p>
 <hr>
 <h3 id="236-pixijs">2.3.6 PixiJS</h3>
-<p>L'arrière-plan animé constitue l'un des éléments visuels les plus complexes de la nouvelle version d'UnlockIt. Les premiers prototypes reposaient principalement sur des animations CSS et sur la manipulation d'éléments HTML classiques. Bien que fonctionnelle, cette approche devenait coûteuse dès lors que le nombre d'éléments affichés augmentait.</p>
-<p>Afin d'obtenir de meilleures performances, nous avons choisi d'utiliser <strong>PixiJS</strong>, une bibliothèque de rendu 2D s'appuyant directement sur <strong>WebGL</strong> lorsque celui-ci est disponible.</p>
-<p>L'intérêt principal de PixiJS réside dans sa capacité à exploiter l'accélération matérielle du navigateur. Une partie importante du travail est alors déléguée au processeur graphique (GPU), ce qui réduit la charge du processeur principal et améliore la fluidité des animations.</p>
-<p>L'intégration de PixiJS nous a permis :</p>
-<ul>
-<li>d'afficher un grand nombre d'éléments animés simultanément ;</li>
-<li>d'obtenir un framerate plus stable ;</li>
-<li>de réduire les calculs effectués dans le DOM ;</li>
-<li>de limiter les opérations de repaint et de reflow ;</li>
-<li>de conserver une bonne fluidité sur des machines moins puissantes.</li>
-</ul>
-<p>Cette réécriture a également constitué une opportunité d'explorer des concepts plus avancés liés au rendu graphique temps réel : gestion d'une scène, sprites, textures, boucle de rendu et accélération GPU. Même si UnlockIt reste une application web classique, cette expérimentation nous a permis d'acquérir une meilleure compréhension des technologies graphiques modernes utilisées dans de nombreux sites interactifs et jeux web.</p>
+<p>L’arrière‑plan animé constituait l’un des éléments visuels les plus visibles et les plus délicats de la nouvelle version d’UnlockIt. La première implémentation reposait sur un simple <code class="c">&lt;canvas&gt;</code> et de la logique Typescript maison. Bien que globalement performante (et comme l’a confirmé l’analyse avec <strong>Firefox Profiler</strong>, sans surcharge matérielle), cette version présentait plusieurs problèmes visuels : floutage lors du zoom, rendu étrange hors du format 16:9, et comportement peu satisfaisant sur mobile. Par précaution, nous avions même temporairement limité le framerate à 4 FPS pour éviter d’être alertés par des pourcentages d’utilisation GPU affichés par le gestionnaire de tâches, alors que la charge réelle restait faible.</p>
+<p>Pour corriger ces défauts visuels tout en conservant les bonnes performances, nous avons réécrit le background avec PixiJS, une bibliothèque 2D s’appuyant sur WebGL. PixiJS facilite la gestion d’une scène graphique, la manipulation de sprites, la création de textures et la boucle de rendu, tout en exploitant l’accélération matérielle pour déléguer au GPU les opérations coûteuses. Grosso modo, PixiJS transforme le <code class="c">&lt;canvas&gt;</code> en une véritable scène graphique, comparable à ce qu’on utiliserait pour un petit jeu vidéo ou un moteur d’animation, mais avec une simplicité d’utilisation bien supérieure à un canvas HTML classique.</p>
+<p>En réécrivant le code Typescript avec PixiJS, nous avons obtenu une meilleure gestion du redimensionnement et une qualité visuelle nettement supérieure. Un listener sur la largeur de l’écran permet désormais d’adapter dynamiquement la scène au device : le background se redimensionne proprement, conserve sa netteté au zoom et s’ajuste correctement aux formats non‑16:9. Les motifs sont rendus comme des textures WebGL, ce qui évite la pixellisation et garantit une qualité optimale sur les écrans haute densité. L’animation est devenue parfaitement fluide, le cap à 4 FPS a été levé, et PixiJS gère désormais un taux de rafraîchissement stable et performant.</p>
+<details class="accordion">
+<summary>Implementation avec PixiJS</summary>
+<p>L’implémentation du background repose sur un ensemble de fichiers qui dialoguent entre eux comme les membres d’une petite équipe technique. Pour quelqu’un qui ne connaît pas JavaScript, on peut imaginer que <code class="c">Background.tsx</code> joue le rôle de l’ouvreur de rideau : il prépare la scène, installe le décor vide et appelle le responsable des lumières et des animations. Ce responsable, c’est <code class="c">HexBackground.ts</code>, qui orchestre toute la partie graphique. Autour de lui gravitent plusieurs assistants spécialisés : <code class="c">hexGeometry.ts</code> s’occupe de la géométrie des hexagones, <code class="c">HexPatternContainer.ts</code> fabrique les motifs, <code class="c">color.ts</code> gère les transitions de couleurs, <code class="c">layout.ts</code> décide où placer les motifs selon la taille de l’écran, et <code class="c">seededRandom.ts</code> garantit que le rendu reste identique pour une même session utilisateur.</p>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "background"
+        "Background.tsx"
+        "color.ts"
+        "HexBackground.ts"
+        "hexGeometry.ts"
+        "HexPatternContainer.ts"
+        "layout.ts"
+        "seededRandom.ts"
+</div></code></pre>
+<p>Le fond doit rester stable pour un utilisateur donné, ce qui est assuré grâce à une seed dérivée de son identifiant de session. Si aucune session n’est active, une seed par défaut est utilisée. Le composant <code class="c">Layout</code> illustre ce mécanisme en transmettant l’identifiant de session au composant <code class="c">Background</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Layout</span> = <span class="hljs-title function_">memo</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> sid = <span class="hljs-title function_">useAuthStore</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.<span class="hljs-property">session</span>?.<span class="hljs-property">sid</span>);
+
+    <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">Header</span> /&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">Background</span> <span class="hljs-attr">seedOverride</span>=<span class="hljs-string">{sid}</span> /&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">Outlet</span> /&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">SessionStatusPanel</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-name">Footer</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    );
+});
+</div></code></pre>
+<p>Le premier fichier réellement actif dans le rendu est <code class="c">Background.tsx</code>. Grosso modo, il crée un simple <code class="c">&lt;div&gt;</code> invisible qui servira de scène, puis il instancie <code class="c">HexBackground</code> en lui donnant ce conteneur et la seed calculée. Il ne fait rien d’autre : il ne dessine pas, ne calcule pas les motifs, ne gère pas l’animation. Il se contente de dire « voici la scène, voici la seed, débrouille‑toi ». Lorsqu’on change de page ou que le composant se démonte, il demande simplement à <code class="c">HexBackground</code> de tout nettoyer proprement.</p>
+<pre class="hljs"><code><div><span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> el = containerRef.<span class="hljs-property">current</span>;
+  <span class="hljs-keyword">if</span> (!el) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">const</span> bg = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HexBackground</span>({ <span class="hljs-attr">container</span>: el, <span class="hljs-attr">seed</span>: <span class="hljs-title function_">seedFromString</span>(seedStr) });
+  bg.<span class="hljs-title function_">init</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> { bgRef.<span class="hljs-property">current</span> = bg; }).<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> { bg.<span class="hljs-title function_">destroy</span>(); };
+}, [seedStr]);
+</div></code></pre>
+<p>C’est dans <code class="c">HexBackground.ts</code> que tout commence réellement. On peut le voir comme le régisseur de scène : il installe le canvas PixiJS, configure l’éclairage, crée deux calques (un à gauche, un à droite), et lance la construction des motifs. PixiJS fonctionne comme un mini‑moteur graphique : il crée une scène, une boucle de rendu et délègue au GPU les opérations coûteuses. <code class="c">HexBackground</code> s’appuie sur cette boucle pour animer les motifs et appliquer un léger effet de parallaxe lorsque l’utilisateur fait défiler la page. L’initialisation ressemble à ceci : PixiJS crée son canvas, l’insère dans la page, ajoute les calques, génère les motifs, puis branche un observateur de redimensionnement et un écouteur de scroll.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">init</span>({ <span class="hljs-attr">width</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">innerWidth</span>, <span class="hljs-attr">height</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">innerHeight</span>, <span class="hljs-attr">backgroundAlpha</span>: <span class="hljs-number">0</span> });
+container.<span class="hljs-title function_">appendChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">canvas</span>);
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">leftLayer</span>);
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">rightLayer</span>);
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildPatterns</span>(w, h);
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">resizeObserver</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ResizeObserver</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">onResize</span>());
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;scroll&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">onScroll</span>, { <span class="hljs-attr">passive</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">ticker</span>.<span class="hljs-title function_">add</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">onTick</span>);
+</div></code></pre>
+<p>La méthode <code class="c">buildPatterns</code> est l’endroit où les motifs prennent vie. Grosso modo, elle découpe l’écran en zones selon la taille du device : une seule zone sur mobile, deux colonnes latérales sur desktop. Dans chaque zone, elle tente de placer plusieurs motifs hexagonaux sans qu’ils ne se chevauchent. Pour cela, elle génère un motif aléatoire mais connecté, calcule sa boîte englobante, et vérifie qu’il ne touche aucun motif déjà placé. Cette logique donne un rendu aéré et harmonieux, sans amas chaotiques.</p>
+<p>Le motif lui‑même est construit par <code class="c">HexPatternContainer.ts</code>. On peut l’imaginer comme un artisan qui fabrique un tampon hexagonal, puis l’utilise pour imprimer plusieurs copies sur la scène. Il commence par dessiner un seul hexagone dans une texture GPU, en utilisant les fonctions de géométrie fournies par <code class="c">hexGeometry.ts</code>. Ce dessin est ensuite réutilisé pour tous les hexagones du motif, ce qui est extrêmement efficace. Voici le dessin initial du tampon :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> hexGfx = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-title class_">Graphics</span>();
+<span class="hljs-keyword">const</span> verts  = <span class="hljs-title function_">hexVertices</span>(texSize / <span class="hljs-number">2</span>, texSize / <span class="hljs-number">2</span>, opts.<span class="hljs-property">size</span>, angleOffset);
+hexGfx.<span class="hljs-title function_">poly</span>(verts);
+hexGfx.<span class="hljs-title function_">stroke</span>({ <span class="hljs-attr">color</span>: <span class="hljs-number">0xffffff</span>, <span class="hljs-attr">width</span>: opts.<span class="hljs-property">borderWidth</span> });
+opts.<span class="hljs-property">renderer</span>.<span class="hljs-title function_">render</span>({ <span class="hljs-attr">container</span>: hexGfx, <span class="hljs-attr">target</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">texture</span>, <span class="hljs-attr">clear</span>: <span class="hljs-literal">true</span> });
+hexGfx.<span class="hljs-title function_">destroy</span>();
+</div></code></pre>
+<p>Le motif n’est pas généré au hasard complet. Une petite fonction crée une grille de cases et remplit progressivement des cellules voisines pour former un amas connecté. Cela donne des formes organiques, ni trop régulières ni trop chaotiques. Voici un exemple de motif généré sous forme de tableau booléen :</p>
+<pre class="hljs"><code><div>[ 0 1 1 0 ]
+[ 0 1 0 0 ]
+[ 1 1 1 0 ]
+</div></code></pre>
+<p>Chaque <code class="c">1</code> représente un hexagone à dessiner. Une fois ce motif établi, <code class="c">HexPatternContainer</code> calcule la position exacte de chaque hexagone en tenant compte de l’orientation (pointue ou plate) et des décalages nécessaires pour former une grille hexagonale correcte.</p>
+<p>L’animation des couleurs est ensuite appliquée à l’ensemble du motif. Chaque motif possède deux couleurs de base et une vitesse d’animation. À chaque frame, une valeur oscillante est calculée, puis utilisée pour interpoler entre les deux couleurs. Le résultat est appliqué à tous les sprites via la propriété <code class="c">tint</code>, ce qui crée une pulsation douce et continue.</p>
+<pre class="hljs"><code><div><span class="hljs-title function_">update</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> t = <span class="hljs-title function_">animatedT</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">animSpeed</span>);
+  <span class="hljs-keyword">const</span> color = <span class="hljs-title function_">lerpColor</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">colorA</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorB</span>, t);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> s <span class="hljs-keyword">of</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">sprites</span>) s.<span class="hljs-property">tint</span> = color;
+}
+</div></code></pre>
+<p>Les fichiers utilitaires complètent cette architecture. <code class="c">hexGeometry.ts</code> fournit les calculs mathématiques nécessaires pour positionner correctement les hexagones. <code class="c">layout.ts</code> décide comment découper l’écran selon sa largeur. <code class="c">seededRandom.ts</code> transforme une chaîne en une graine numérique et fournit un générateur pseudo‑aléatoire déterministe, ce qui garantit que le fond reste identique pour une même session utilisateur. La conversion d’une chaîne en seed est volontairement simple et reproductible :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">seedFromString</span>(<span class="hljs-params"><span class="hljs-attr">value</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">number</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">hashString</span>(value);
+}
+</div></code></pre>
+<p>L’ensemble forme une architecture cohérente où chaque fichier a un rôle clair. React prépare la scène, <code class="c">HexBackground</code> orchestre le rendu, <code class="c">HexPatternContainer</code> fabrique et anime les motifs, et les utilitaires fournissent les outils mathématiques et aléatoires nécessaires. PixiJS apporte la stabilité, la netteté et la performance qui manquaient à la première version basée sur un simple <code class="c">&lt;canvas&gt;</code>. Grâce à cette réécriture, le fond est devenu plus net, plus fluide, plus adaptable et surtout beaucoup plus robuste visuellement.</p>
+</details>
+<p>L’adaptation du code a été plutôt simple car beaucoup de la logique du canvas a été conservée, avec quelques exceptions, mais nous avons rapidement retrouvé nos repères et adapté le code aux types proposés par la bibliothèque. Aujourd’hui, si je devais concevoir des interfaces pour des petits moteurs ou des animations, j’utiliserais PixiJS sans hésiter, car la bibliothèque est bien plus complète et agréable à utiliser qu’un canvas HTML classique accompagné de code maison.</p>
 <hr>
 <h3 id="237-svgr">2.3.7 SVGR</h3>
-<p>Au cours du projet, nous avons progressivement remplacé plusieurs ressources graphiques PNG par des fichiers SVG. Ces derniers présentent de nombreux avantages : taille réduite, qualité parfaite quelle que soit la résolution de l'écran et possibilité de modifier dynamiquement certains attributs via CSS ou JavaScript.</p>
-<p>Afin d'intégrer ces fichiers plus efficacement dans React, nous avons utilisé <strong>SVGR</strong>. Cet outil transforme automatiquement un fichier SVG en composant React.</p>
-<p>Au lieu d'utiliser :</p>
+<p>Dans l’ancienne version d’UnlockIt, une grande partie des icônes était fournie sous forme de fichiers PNG. Cette approche fonctionnait, mais elle avait plusieurs limites : les images étaient plus lourdes, étaient de trop grande qualité pour leur taille, et ne pouvaient pas être facilement recolorées ou adaptées à différents contextes. Avec la refonte, nous avons progressivement remplacé ces ressources par des fichiers SVG, beaucoup plus adaptés à une interface moderne. Un SVG est un dessin vectoriel, ce qui signifie qu’il reste parfaitement net quelle que soit la résolution de l’écran, tout en pesant souvent trois fois moins qu’un PNG équivalent.</p>
+<p>Pour intégrer ces SVG dans React, nous avons adopté deux approches complémentaires. Lorsque l’icône est simple, monochrome ou peu détaillée, nous utilisons <strong>SVGR</strong>, un outil qui transforme automatiquement un fichier SVG en composant React. Cela permet d’utiliser une icône comme n’importe quel composant, de lui passer des props, de changer sa couleur ou sa taille dynamiquement, et de l’intégrer naturellement dans l’arbre React. Au lieu d’écrire une balise <code class="c">&lt;img&gt;</code> classique comme dans l’ancien projet, nous pouvons importer directement l’icône et l’utiliser comme un composant.</p>
 <pre class="hljs"><code><div>&lt;img src=<span class="hljs-string">&quot;/icons/cart.svg&quot;</span> alt=<span class="hljs-string">&quot;Panier&quot;</span> /&gt;
 </div></code></pre>
-<p>nous pouvons directement écrire :</p>
+<p>devient simplement :</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-title class_">CartIcon</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./cart.svg&quot;</span>;
 
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CartIcon</span> /&gt;</span></span>
 </div></code></pre>
-<p>Cette approche apporte plusieurs bénéfices :</p>
-<ul>
-<li>suppression d'une requête réseau supplémentaire dans certains cas ;</li>
-<li>intégration naturelle dans l'arbre React ;</li>
-<li>personnalisation facilitée via les props ;</li>
-<li>modification dynamique des couleurs et dimensions ;</li>
-<li>meilleure maintenabilité des ressources graphiques.</li>
-</ul>
-<p>SVGR s'est révélé particulièrement utile pour les icônes utilisées dans les boutons, menus et éléments de navigation. Ces ressources sont désormais manipulées comme de véritables composants React, ce qui simplifie leur réutilisation et leur personnalisation.</p>
-<p>Même si l'impact sur les performances reste plus modeste que celui du lazy loading ou de la minification, cette optimisation participe à la réduction du poids global de l'application et améliore la cohérence de l'architecture frontend.</p>
+<p>Cette manière de faire rend l’interface plus cohérente et plus flexible. Les icônes ne sont plus des images externes, mais de véritables éléments React, capables de s’adapter automatiquement au thème, à la taille du texte ou à l’état d’un bouton. Cela évite également une requête réseau supplémentaire dans certains cas, puisque l’icône est directement intégrée au bundle.</p>
+<p>Pour les icônes plus complexes, comme le logo d’UnlockIt, nous avons préféré créer nous‑mêmes un composant React dédié. Cela nous permet de contrôler précisément chaque forme, chaque couleur et chaque animation éventuelle, tout en conservant les avantages du SVG. Les logos ou illustrations plus détaillés bénéficient ainsi d’un traitement sur mesure, tandis que les icônes plus simples sont gérées automatiquement par SVGR, ce qui accélère considérablement le développement.</p>
+<p>Même si cette optimisation n’a pas l’impact massif d’un lazy loading ou d’une minification avancée, elle contribue à alléger l’application, à améliorer la netteté générale de l’interface et à rendre le code plus propre. Le passage aux SVG et à SVGR s’inscrit dans une démarche globale de modernisation du frontend : des ressources plus légères, plus flexibles et plus faciles à maintenir.</p>
 <hr>
 <h3 id="238-react-doctor">2.3.8 React Doctor</h3>
-<p>J'ai conscience que déjà beaucoup d'outils ont été utilisé pour la qualité et que j'ai peut etre abusé, mais l'utilisation de React Doctor aurait pu être réellement interessant si j'avais plus de temps et que d'autre projet ne nécéssitaient pas mon attention.</p>
-<p>Nous avons également étudié l’utilisation de React Doctor, un outil relativement récent conçu pour analyser automatiquement une application React et détecter des problèmes de performance difficiles à repérer manuellement. Contrairement à des outils plus visuels comme React Scan, React Doctor adopte une approche plus analytique : il inspecte le comportement interne de l’application, examine les cycles de rendu et signale les composants susceptibles de poser problème.</p>
-<p>Même si nous ne l’avons pas intégré directement au projet, son fonctionnement et ses capacités méritent d’être présentés, car il s’agit d’un outil prometteur qui pourrait devenir un standard dans les prochaines années.</p>
-<p>React Doctor est capable d’identifier plusieurs types de problèmes, notamment les re-rendus inutiles, les dépendances incorrectes dans les hooks, ou encore les composants dont le coût de rendu est anormalement élevé. L’outil analyse également la stabilité des props et des références, ce qui permet de repérer des erreurs de conception difficiles à détecter autrement. Par exemple, il peut signaler un useEffect déclenché trop souvent à cause d’une dépendance instable, ou un composant qui se réaffiche alors que ses props n’ont pas changé.</p>
-<div class="card">
-<p>Figure X – Exemple d’analyse automatisée proposée par React Doctor.<br>
-(placeholder capture d’écran)</p>
-</div>
-<p>Nous avons découvert React Doctor relativement tard dans le développement, à un moment où la majorité des optimisations principales étaient déjà en place. Par manque de temps, nous n’avons pas pu l’explorer en profondeur ni l’intégrer dans notre workflow. De plus, l’outil étant encore jeune, certaines fonctionnalités manquent de stabilité et peuvent produire des faux positifs. Cela rend son utilisation délicate dans un contexte de production ou dans un projet où les délais sont serrés.</p>
-<p>Malgré cela, cette phase de veille technologique s’est révélée utile. Elle nous a permis d’identifier des outils émergents et de mieux comprendre les tendances actuelles autour de l’écosystème React. React Doctor pourrait être envisagé dans de futurs projets, notamment pour automatiser une partie du diagnostic de performance et pour compléter des outils plus établis comme React Developer Tools ou React Scan.</p>
+<p>Au cours de la refonte, nous avons également porté notre attention sur <strong>React Doctor</strong>, un outil encore jeune mais déjà prometteur, conçu pour analyser automatiquement une application React et mettre en lumière des comportements susceptibles d’affecter les performances. Là où des outils plus visuels comme React Scan permettent d’observer les re‑rendus en direct, React Doctor adopte une approche plus introspective : il examine les cycles de rendu, surveille la stabilité des props et des hooks, et signale les composants dont le comportement semble anormal.</p>
+<p>Nous avons découvert cet outil relativement tard dans le développement, à un moment où la majorité des optimisations essentielles étaient déjà en place. Même si nous ne l’avons finalement pas intégré au workflow, son fonctionnement reste intéressant à mentionner et peut être que nous l'utiliserons dans le prochain projet.</p>
 <hr>
 <h2 id="24-nouvelle-couche-api-frontend">2.4 Nouvelle couche API Frontend</h2>
-<p>L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend.<br>
-Dans la première version, plusieurs composants réalisaient directement leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.</p>
-<p>La seconde version introduit une véritable couche d’abstraction, structurée autour de trois éléments complémentaires :</p>
-<ul>
-<li><strong>hooks métiers</strong></li>
-<li><strong>services d’accès aux données</strong></li>
-<li><strong>stores centralisés</strong></li>
-</ul>
-<p>Cette architecture permet d’obtenir un code plus lisible, plus facilement testable et beaucoup plus simple à maintenir. Elle facilite également l’écriture de tests automatisés et réduit fortement le couplage entre l’interface utilisateur et l’API.</p>
-<p>L’objectif est clair : chaque couche doit avoir une responsabilité unique.<br>
-Les composants ne s’occupent plus de la logique réseau ; les services ne gèrent plus l’état global ; les hooks orchestrent les appels et exposent une API claire aux composants.<br>
-Cette séparation des responsabilités améliore la qualité du code et s’inscrit dans la démarche générale du projet : structurer, isoler, optimiser.</p>
-<h3 id="architecture-de-la-nouvelle-couche-api">Architecture de la nouvelle couche API</h3>
-<p>La nouvelle organisation repose sur trois dossiers principaux :</p>
+<p>L’un des changements les plus importants de cette refonte concerne la manière dont le frontend communique avec le backend. Dans la première version, les composants réalisaient eux‑mêmes leurs appels réseau, mélangeant logique métier, gestion des erreurs et rendu visuel. Cette approche fonctionnait pour un prototype, mais elle devenait difficile à maintenir à mesure que l’application grandissait.</p>
+<p>La nouvelle architecture introduit une véritable couche d’abstraction, organisée autour de trois éléments complémentaires : les hooks métiers, les services d’accès aux données et les stores centralisés. L’idée est simple : chaque couche doit avoir une responsabilité unique. Les composants ne s’occupent plus de la logique réseau, les services ne gèrent plus l’état global, et les hooks orchestrent les appels pour exposer une API claire et stable aux composants. Cette séparation améliore la lisibilité, la maintenabilité et facilite l’écriture de tests automatisés.</p>
+<h3 id="241-architecture-de-la-nouvelle-couche-api">2.4.1 Architecture de la nouvelle couche API</h3>
+<p>La structure générale repose sur trois dossiers principaux :</p>
 <pre class="hljs"><code><div>src/api/
 ├── hooks/
 ├── services/
 └── stores/
 </div></code></pre>
-<p>Chaque fonctionnalité (authentification, produits, panier, etc.) possède son propre trio <em>hook / service / store</em>, ce qui permet une structure modulaire et évolutive.</p>
-<h3 id="exemple--la-gestion-de-lauthentification">Exemple : la gestion de l’authentification</h3>
-<p>L’authentification illustre parfaitement cette architecture.<br>
-Elle repose sur :</p>
-<ul>
-<li>un <strong>store Zustand</strong> pour conserver la session et l’état de connexion ;</li>
-<li>un <strong>service</strong> chargé de communiquer avec l’API ;</li>
-<li>un <strong>hook métier</strong> qui orchestre les appels et expose une API simple aux composants.</li>
-</ul>
-<h3 id="le-hook-métier--useauth">Le hook métier : <code>useAuth</code></h3>
-<p>Le hook regroupe toute la logique métier liée à l’authentification : connexion, inscription, rafraîchissement de session, déconnexion, etc.<br>
-Il s’appuie sur le store et sur le service, mais les composants n’ont pas besoin de connaître ces détails.</p>
+<p>Chaque fonctionnalité (authentification, produits, panier, etc.) possède son propre trio <em>hook / service / store</em>, ce qui rend l’ensemble modulaire et évolutif.</p>
+<details class="accordion">
+<summary>Exemple : la gestion de l’authentification</summary>
+<p>L’authentification illustre parfaitement cette architecture. Elle repose sur un store Zustand pour conserver la session, un service chargé de communiquer avec l’API, et un hook métier qui orchestre les appels et expose une API simple aux composants.</p>
+<h4 id="le-hook-métier--useauth">Le hook métier : <code class="c">useAuth</code></h4>
+<p>Le hook regroupe toute la logique métier liée à l’authentification. Les composants n’ont pas besoin de connaître les détails internes : ils appellent simplement des fonctions comme <code class="c">login</code> ou <code class="c">logout</code>.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useAuth</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">const</span> { session, isLogged, setSession, clearSession } = <span class="hljs-title function_">useAuthStore</span>();
 
@@ -1113,8 +1212,8 @@ Il s’appuie sur le store et sur le service, mais les composants n’ont pas be
     <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchSession</span>();
   };
 
-  <span class="hljs-keyword">const</span> <span class="hljs-title function_">register</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"><span class="hljs-attr">username</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span></span>) =&gt; {
-    <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">register</span>(username, email, password);
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">register</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">...</span>) =&gt; {
+    <span class="hljs-keyword">await</span> authService.<span class="hljs-title function_">register</span>(...);
   };
 
   <span class="hljs-keyword">const</span> <span class="hljs-title function_">fetchSession</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
@@ -1137,214 +1236,195 @@ Il s’appuie sur le store et sur le service, mais les composants n’ont pas be
     <span class="hljs-title function_">clearSession</span>();
   };
 
-  <span class="hljs-keyword">return</span> {
-    session,
-    isLogged,
-    login,
-    register,
-    logout,
-    fetchSession,
-  };
+  <span class="hljs-keyword">return</span> { session, isLogged, login, register, logout, fetchSession };
 }
 </div></code></pre>
-<p>Ce hook permet aux composants d’utiliser l’authentification via une API claire et stable, sans jamais manipuler directement Axios ou les stores.</p>
-<h3 id="le-service--authservice">Le service : <code>authService</code></h3>
-<p>Le service encapsule tous les appels HTTP.<br>
-Il gère également les erreurs, ce qui permet d’uniformiser les messages renvoyés au frontend.</p>
+<h4 id="le-service--authservice">Le service : <code class="c">authService</code></h4>
+<p>Le service encapsule tous les appels HTTP et uniformise la gestion des erreurs.<br>
+Seules les parties importantes sont conservées ici pour illustrer la structure.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> authService = {
-    <span class="hljs-attr">login</span>: <span class="hljs-title function_">async</span> (<span class="hljs-attr">identifier</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>) =&gt; {
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/login&quot;</span>, { identifier, password });
-        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
-            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+  <span class="hljs-attr">login</span>: <span class="hljs-title function_">async</span> (identifier, password) =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/login&quot;</span>, { identifier, password });
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+      <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
+      <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Identifiants invalides.&quot;</span> };
+      <span class="hljs-keyword">if</span> (s === <span class="hljs-number">429</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Trop de tentatives.&quot;</span> };
+      <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
+    }
+  },
 
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Identifiants invalides.&quot;</span> };
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">429</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Trop de tentatives. Réessayez plus tard.&quot;</span> };
-            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
-        }
-    },
-
-    <span class="hljs-attr">register</span>: <span class="hljs-title function_">async</span> (<span class="hljs-attr">username</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>) =&gt; {
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/register&quot;</span>, { username, email, password });
-        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
-            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
-
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">400</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Données invalides.&quot;</span> };
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">409</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Email ou nom d&#x27;utilisateur déjà utilisé.&quot;</span> };
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">429</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Trop de tentatives. Réessayez plus tard.&quot;</span> };
-            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
-        }
-    },
-
-    <span class="hljs-attr">fetchSession</span>: <span class="hljs-title function_">async</span> () =&gt; {
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/auth/me&quot;</span>);
-            <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>;
-        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
-            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
-
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Non authentifié.&quot;</span> };
-            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
-        }
-    },
-
-    <span class="hljs-attr">refresh</span>: <span class="hljs-title function_">async</span> () =&gt; {
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/refresh&quot;</span>);
-        } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
-            <span class="hljs-keyword">const</span> s = err.<span class="hljs-property">response</span>?.<span class="hljs-property">status</span>;
-
-            <span class="hljs-keyword">if</span> (s === <span class="hljs-number">401</span>) <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Session expirée.&quot;</span> };
-            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
-        }
-    },
-
-    <span class="hljs-attr">logout</span>: <span class="hljs-title function_">async</span> () =&gt; {
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/auth/logout&quot;</span>);
-        } <span class="hljs-keyword">catch</span> {
-            <span class="hljs-keyword">throw</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Erreur serveur.&quot;</span> };
-        }
-    },
+  <span class="hljs-attr">register</span>: <span class="hljs-title function_">async</span> (...) =&gt; { ... },
+  <span class="hljs-attr">fetchSession</span>: <span class="hljs-title function_">async</span> () =&gt; { ... },
+  <span class="hljs-attr">refresh</span>: <span class="hljs-title function_">async</span> () =&gt; { ... },
+  <span class="hljs-attr">logout</span>: <span class="hljs-title function_">async</span> () =&gt; { ... },
 };
 </div></code></pre>
-<h3 id="le-store-zustand--useauthstore">Le store Zustand : <code>useAuthStore</code></h3>
+<h4 id="le-store-zustand--useauthstore">Le store Zustand : <code class="c">useAuthStore</code></h4>
 <p>Le store conserve l’état global lié à l’authentification.<br>
-Il est minimaliste, ce qui facilite sa compréhension et son utilisation.</p>
+Il reste volontairement minimaliste.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useAuthStore = create&lt;<span class="hljs-title class_">AuthState</span>&gt;(<span class="hljs-function">(<span class="hljs-params">set</span>) =&gt;</span> ({
   <span class="hljs-attr">session</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">false</span>,
 
   <span class="hljs-attr">setSession</span>: <span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> <span class="hljs-title function_">set</span>({ session, <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">true</span> }),
-
   <span class="hljs-attr">clearSession</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">set</span>({ <span class="hljs-attr">session</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">isLogged</span>: <span class="hljs-literal">false</span> }),
 }));
 </div></code></pre>
-<h3 id="avant--après-la-refonte">Avant / Après la refonte</h3>
-<p>La différence entre l’ancienne architecture et la nouvelle est particulièrement visible dans la gestion de l’inscription.</p>
-<div class="before">
-<h3 id="avant">Avant</h3>
-<p><em>(Appels réseau dans les composants, gestion d’erreurs dispersée, logique métier mélangée au rendu.)</em></p>
-</div>
-<div class="after">
-<h3 id="après">Après</h3>
-<p><em>(Un simple appel à un hook métier, le reste est géré par la couche API.)</em></p>
-</div>
-<p>Cette évolution améliore la lisibilité, la maintenabilité et la testabilité du code.<br>
-Elle permet également d’intégrer plus facilement des outils comme <strong>Playwright</strong> pour tester les parcours utilisateurs.</p>
+<h4 id="un-composant-react--logintsx">Un composant React : <code class="c">Login.tsx</code></h4>
+<p>Pour illustrer concrètement l’utilisation de cette nouvelle couche API, on peut observer le fonctionnement du composant <code class="c">Login.tsx</code>. Ce composant ne s’occupe plus de la logique réseau ni de la gestion des erreurs HTTP : il se contente d’appeler le hook métier <code class="c">useAuth</code>, qui lui fournit des fonctions prêtes à l’emploi comme <code class="c">login</code> ou <code class="c">logout</code>. Le composant reste ainsi focalisé sur son rôle premier : afficher un formulaire, réagir aux actions de l’utilisateur et mettre à jour l’interface en fonction de l’état global.</p>
+<p>Lorsqu’un utilisateur soumet le formulaire, le composant appelle simplement <code class="c">login</code>, puis <code class="c">loadUser</code> pour récupérer les informations du profil. Toute la logique complexe : appels réseau, gestion des erreurs, rafraîchissement de session, stockage du JWT, etc.; est entièrement prise en charge par le hook et le service. Le composant devient donc beaucoup plus lisible et facile à maintenir.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> <span class="hljs-title class_">Login</span>: <span class="hljs-variable constant_">FC</span> = <span class="hljs-function">() =&gt;</span> {
+  ...
+
+  <span class="hljs-keyword">const</span> { session, login, logout } = <span class="hljs-title function_">useAuth</span>();
+  <span class="hljs-keyword">const</span> { user, loadUser } = <span class="hljs-title function_">useUser</span>();
+
+  ...
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">onSubmit</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">{ identifier, password }: <span class="hljs-title class_">FormData</span></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">login</span>(identifier, password);
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">loadUser</span>();
+      <span class="hljs-title function_">navigate</span>(<span class="hljs-string">&quot;/&quot;</span>);
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+      <span class="hljs-title function_">setError</span>(<span class="hljs-string">&quot;root&quot;</span>, { <span class="hljs-attr">message</span>: err.<span class="hljs-property">message</span> ?? <span class="hljs-string">&quot;Erreur de connexion.&quot;</span> });
+    }
+  };
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">handleLogout</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">logout</span>();
+    } <span class="hljs-keyword">catch</span> (err) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;Logout failed:&quot;</span>, err);
+    }
+  };
+
+  <span class="hljs-comment">// Si on est déjà connecté :</span>
+  <span class="hljs-comment">// session existe (JWT valide)</span>
+  <span class="hljs-comment">// user existe (core user chargé)</span>
+  <span class="hljs-keyword">if</span> (session &amp;&amp; user) {
+    <span class="hljs-keyword">return</span> (
+      ...
+    );
+  }
+
+  <span class="hljs-comment">// Formulaire du login</span>
+  <span class="hljs-keyword">return</span> (
+    ...
+  );
+};
+</div></code></pre>
+<p>Ce petit exemple montre bien l’intérêt de la nouvelle architecture. Le composant ne manipule plus directement Axios, ne gère plus les statuts HTTP, ne stocke plus la session et ne s’occupe plus de savoir si le JWT est valide ou non. Il délègue tout cela au hook métier, ce qui rend le code plus clair, plus robuste et beaucoup plus simple à tester.</p>
 </details>
-<details class="accordion">
-<summary>Voir le schéma</summary>
-<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
-
-    %% ========= Définition des styles =========
-    classDef react fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
-    classDef hook fill:#b3e5ff,stroke:#4fa3d1,stroke-width:2px,color:#000;
-    classDef service fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
-    classDef backend fill:#ffb3b3,stroke:#d14f4f,stroke-width:2px,color:#000;
-    classDef db fill:#c6ffb3,stroke:#4fd14f,stroke-width:2px,color:#000;
-    classDef cache fill:#fff2b3,stroke:#d1c24f,stroke-width:2px,color:#000;
-    classDef log fill:#d6b3ff,stroke:#7a4fd1,stroke-width:2px,color:#000;
-    classDef external fill:#e0e0e0,stroke:#999,stroke-width:2px,color:#000;
-
-    %% ========= Frontend =========
+<h3 id="242-schéma-de-fonctionnement-de-la-couche-api">2.4.2 Schéma de fonctionnement de la couche API</h3>
+<p>Le schéma ci‑dessous illustre le flux complet : un composant React appelle un hook métier, qui utilise un service, lequel communique avec le backend via Axios. Le backend renvoie ensuite des données (par exemple la session, un profil utilisateur ou des informations métier), qui sont stockées dans Zustand.
+Le cookie httpOnly contenant la session est géré automatiquement par le navigateur et vérifié par le backend, ce qui simplifie la logique côté frontend.</p>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TB
     subgraph FE[Frontend]
         A[Composant React]:::react
-        B[Hook métier]:::hook
-        C[Service API]:::service
+        B[Hook métier<br/><code class="c">useXXX.hook.ts</code>]:::hook
+        C[Service API<br/><code class="c">xxx.service.ts</code>]:::service
+        D[Axios]:::axios
+        E["Zustand<br/><code class="c">xxx.store.ts</code>"]:::store
     end
 
-    %% ========= Backend =========
-    subgraph BE[NestJS Backend]
-        D[Controller]:::backend
-        E[Service]:::backend
-        F[Repository]:::backend
+    subgraph BE[Backend NestJS]
+        F[Controller<br/>/xxx]:::backend
+        G[Service métier]:::backend
+        H["Données renvoyées<br/>(session, profil, etc.)"]:::data
     end
 
-    %% ========= Stockage =========
-    G[(PostgreSQL)]:::db
-    R[(Redis Cache)]:::cache
+    classDef react fill:#61dafb,stroke:#1b7aa6,color:#000;
+    classDef hook fill:#b3e5ff,stroke:#4fa3d1,color:#000;
+    classDef service fill:#ffe9b3,stroke:#d1a84f,color:#000;
+    classDef axios fill:#fff2b3,stroke:#d1c24f,color:#000;
+    classDef store fill:#d6b3ff,stroke:#7a4fd1,color:#000;
+    classDef backend fill:#ffb3b3,stroke:#d14f4f,color:#000;
+    classDef data fill:#c6ffb3,stroke:#4fd14f,color:#000;
 
-    %% ========= Logs =========
-    L[Logger]:::log
-
-    %% ========= Service externe =========
-    X[Service Auth externe]:::external
-
-    %% ========= Flux principal =========
-    A e1@-->|Appel logique| B
-    B e2@-->|Appel API| C
-    C e3@-->|HTTP| D
-    D e4@-->|Appel interne| E
-    E e5@-->|Requête DB| F
-    F e6@-->|SQL| G
-
-    %% ========= Flux secondaires =========
-    C e7@-->|Token| X
-    E e8@-->|Cache| R
-    E e9@-.->|Logs| L
-
-    %% ========= Styles des courbes =========
-    e1@{ curve: linear }
-    e2@{ curve: linear }
-    e3@{ curve: stepBefore }
-    e4@{ curve: stepBefore }
-    e5@{ curve: linear }
-    e6@{ curve: linear }
-    e7@{ curve: natural }
-    e8@{ curve: stepAfter }
-    e9@{ curve: natural }
-
-    %% ========= Styles des liens =========
-    linkStyle 0 stroke:#1b7aa6,stroke-width:2px
-    linkStyle 1 stroke:#4fa3d1,stroke-width:2px
-    linkStyle 2 stroke:#d1a84f,stroke-width:2px
-    linkStyle 3 stroke:#d14f4f,stroke-width:2px
-    linkStyle 4 stroke:#d14f4f,stroke-width:2px
-    linkStyle 5 stroke:#4fd14f,stroke-width:2px
-    linkStyle 6 stroke:#999,stroke-width:2px
-    linkStyle 7 stroke:#d1c24f,stroke-width:2px
-    linkStyle 8 stroke:#7a4fd1,stroke-width:2px,stroke-dasharray:4 4
+    A --> B
+    B --> C
+    C --> D
+    D -->|Requête HTTP| F
+    F --> G
+    G --> H
+    H --> E
 </div></code></pre>
-<p>* Si seul le code du schéma s'affiche, rafraichissez la page pour voir le schéma.</p>
-</details>
+<p>Cette architecture clarifie le rôle de chaque couche et rend l’ensemble beaucoup plus robuste. Les composants se concentrent sur l’interface, les hooks sur la logique métier, les services sur les appels réseau, et Zustand sur l’état global. Nous appliquons désormais systématiquement ce principe dans nos nouveaux projets, tant son fonctionnement s’est révélé propre, clair et agréable à maintenir.</p>
 <hr>
 <h2 id="25-tests-automatisés">2.5 Tests automatisés</h2>
-<p>La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait, et surtout difficile à maintenir : chaque nouvelle fonctionnalité nécessitait de repasser manuellement sur plusieurs parcours utilisateurs pour s’assurer qu’aucun comportement n’avait été cassé.
-Afin de sécuriser davantage le développement et d’améliorer la qualité globale du projet, nous avons intégré Playwright, un outil moderne de tests end‑to‑end.</p>
-<p>L’objectif était de couvrir les fonctionnalités essentielles du site et de garantir que les parcours critiques restent fonctionnels au fil des mises à jour. Les tests automatisés permettent notamment de vérifier l’authentification, la navigation, la gestion du panier, la wishlist, l’historique d’achats, ainsi que plusieurs scénarios utilisateurs sensibles.
-Cette démarche s’inscrit dans la logique générale du projet : analyser les problèmes, comprendre leur origine, et mettre en place des solutions robustes, comme nous l’avons fait pour les performances, la structure des composants ou l’utilisation d’outils tels que React Developer Tools.</p>
-<div class="card">
-<p>[Il semble que le résultat n’était pas sûr à afficher. Changeons un peu et essayons autre chose !]</p>
-<p>Figure X – Exemple d'exécution d'un scénario de tests automatisés.</p>
+<p>La première version du projet reposait principalement sur des tests manuels. Cette approche fonctionnait tant que l’application restait simple, mais elle devenait rapidement chronophage à mesure que les fonctionnalités se multipliaient. Chaque nouvelle évolution nécessitait de repasser manuellement sur plusieurs parcours utilisateurs, ce qui augmentait le risque d’erreurs et de régressions.</p>
+<p>Pour sécuriser davantage le développement, nous avons intégré <strong>Playwright</strong>, un outil moderne de tests end‑to‑end capable de simuler un utilisateur réel : navigation, clics, formulaires, redimensionnement, interactions mobiles, etc. L’objectif était de couvrir les parcours critiques (authentification, navigation, panier, wishlist, historique d’achats) et de garantir qu’ils restent fonctionnels au fil des mises à jour.</p>
+<p>Playwright s’inscrit dans la même logique que le reste du projet : analyser les problèmes, comprendre leur origine et mettre en place des solutions robustes. Là où React Scan ou les outils de profiling nous aident à comprendre le comportement interne de l’application, Playwright nous permet de valider son comportement externe, celui que perçoit réellement l’utilisateur.</p>
+<h3 id="251-exemple--exécution-dun-test-playwright">2.5.1 Exemple : exécution d’un test Playwright</h3>
+<div class="card" style="text-align:center; padding:1rem;">
+<p><img src="src/assets/playwright-gif.gif" alt="Playwright gif">
+<strong>Exemple d’exécution d’un scénario de tests automatisés.</strong></p>
 </div>
-<p>L’introduction de Playwright a représenté un véritable gain de temps. Une fois les scénarios écrits, ils peuvent être exécutés en quelques secondes, ce qui réduit considérablement le risque de réintroduire d’anciens bugs. Les tests servent également de documentation vivante : ils décrivent précisément ce que l’application est censée faire, et permettent de détecter immédiatement toute régression.</p>
-<p>Dans le dossier frontend/, un répertoire test/ regroupe l’ensemble des scénarios, organisés par thématique (auth/, nav/, etc.). Cette structure permet de maintenir facilement les tests et de les étendre au fur et à mesure du développement.</p>
-<p>Voici par exemple le test complet du logout, couvrant plusieurs cas de figure (desktop, mobile, et déconnexion depuis différentes pages). Ce test illustre bien la manière dont Playwright permet de simuler des interactions réelles : navigation, clics, ouverture de menus, vérification d’URL, etc.</p>
-<pre class="hljs"><code><div><span class="hljs-variable constant_">TODO</span> : exemple de ~~t~~
+<h3 id="252-organisation-des-tests">2.5.2 Organisation des tests</h3>
+<p>Dans le dossier <code class="c">frontend/</code>, un répertoire <code class="c">tests/</code> regroupe l’ensemble des scénarios, organisés par thématique (<code class="c">auth/</code>, <code class="c">nav/</code>, <code class="c">cart/</code>, etc.).<br>
+Cette structure permet d’étendre progressivement la couverture de tests sans complexifier le projet.</p>
+<h3 id="253-exemple--test-du-login">2.5.3 Exemple : test du login</h3>
+<p>Pour éviter d’alourdir le rapport, voici une version raccourcie du test Playwright dédié au login.<br>
+Elle illustre comment Playwright simule un utilisateur réel : remplissage du formulaire, clic sur le bouton, vérification de l’URL, et contrôle de l’état de connexion.</p>
+<details class="accordion">
+<summary>Voir l’exemple de test Playwright</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { test, expect } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@playwright/test&quot;</span>;
+<span class="hljs-keyword">import</span> { ensureLoggedOut, isLoggedIn } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../helpers/auth&quot;</span>;
+
+test.<span class="hljs-title function_">describe</span>(<span class="hljs-string">&quot;Login&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+
+  test.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-title function_">async</span> ({ page }) =&gt; {
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">ensureLoggedOut</span>(page);
+  });
+
+  <span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;login successfully&quot;</span>, <span class="hljs-title function_">async</span> ({ page }) =&gt; {
+    <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/login&quot;</span>);
+
+    <span class="hljs-keyword">const</span> form = page.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#login-form&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#identifier&quot;</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&quot;test@test.test&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#password&quot;</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&quot;Test123&amp;&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&#x27;button[type=&quot;submit&quot;]&#x27;</span>).<span class="hljs-title function_">click</span>();
+
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">expect</span>(page).<span class="hljs-title function_">toHaveURL</span>(<span class="hljs-string">&quot;/&quot;</span>);
+    <span class="hljs-title function_">expect</span>(<span class="hljs-keyword">await</span> <span class="hljs-title function_">isLoggedIn</span>(page)).<span class="hljs-title function_">toBe</span>(<span class="hljs-literal">true</span>);
+  });
+
+  <span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;invalid credentials&quot;</span>, <span class="hljs-title function_">async</span> ({ page }) =&gt; {
+    <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/login&quot;</span>);
+
+    <span class="hljs-keyword">const</span> form = page.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#login-form&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#identifier&quot;</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&quot;test@test.test&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&quot;#password&quot;</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&quot;Wrong123!&quot;</span>);
+    <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">locator</span>(<span class="hljs-string">&#x27;button[type=&quot;submit&quot;]&#x27;</span>).<span class="hljs-title function_">click</span>();
+
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">expect</span>(form.<span class="hljs-title function_">getByText</span>(<span class="hljs-string">&quot;Identifiants invalides.&quot;</span>)).<span class="hljs-title function_">toBeVisible</span>();
+  });
+
+  ...
+
+});
 </div></code></pre>
+</details>
+<p>L’introduction de Playwright a représenté un véritable gain de temps. Une fois les scénarios écrits, ils peuvent être exécutés en quelques secondes, ce qui réduit considérablement le risque de réintroduire d’anciens bugs. Les tests servent également de documentation vivante : ils décrivent précisément ce que l’application est censée faire et permettent de détecter immédiatement toute régression.</p>
+<p>Cette automatisation complète parfaitement les autres outils utilisés dans le projet. Là où React Developer Tools ou React Scan nous aident à comprendre le comportement interne des composants, Playwright garantit que l’expérience utilisateur reste cohérente et fiable, même après des modifications importantes du code.</p>
 <hr>
 <h2 id="26-build-et-compression">2.6 Build et compression</h2>
-<p>L’optimisation du build de production ne se limite pas à la minification du JavaScript.<br>
-Dans ce projet, plusieurs techniques complémentaires ont été mises en œuvre afin de réduire la taille des fichiers, améliorer le temps de chargement et optimiser le comportement du navigateur lors de l’exécution.</p>
-<p>Ces optimisations reposent sur quatre axes principaux :</p>
-<ul>
-<li><strong>minification du code</strong> (Terser)</li>
-<li><strong>compression avancée</strong> (Gzip + Brotli)</li>
-<li><strong>découpage manuel des bundles</strong> (<em>manual chunks</em>)</li>
-<li><strong>analyse et visualisation du graphe de dépendances</strong> (Visualizer)</li>
-</ul>
+<p>L'optimisation d'une application web ne se limite pas au développement de nouvelles fonctionnalités. Une fois l'application terminée, il devient tout aussi important de s'intéresser à la manière dont elle est distribuée aux utilisateurs. En effet, même une application parfaitement conçue peut offrir une expérience dégradée si les ressources téléchargées sont trop volumineuses ou mal organisées.</p>
+<p>Au cours du projet, nous avons constaté que nos fichiers dépassaient la taille recommandée de 500ko, cela était due à certaines dépendances, notamment React et PixiJS qui représentaient chacun une part importante du poids total de l'application. Cette observation nous a conduits à étudier différentes stratégies permettant de réduire les temps de chargement, d'améliorer l'utilisation du cache navigateur et de limiter la quantité de données transférées sur le réseau.</p>
+<p>Les optimisations mises en place reposent principalement sur quatre axes complémentaires : la minification du code, la compression des ressources, le découpage manuel des bundles et l'analyse de la structure finale du build. Bien que chacune de ces techniques puisse être utilisée indépendamment, leur combinaison permet d'obtenir un résultat significativement plus efficace qu'une simple compilation standard.</p>
 <h3 id="261-terser">2.6.1 Terser</h3>
-<p>La minification consiste à transformer le code JavaScript lisible par les développeurs en une version plus compacte, tout en conservant un comportement identique.</p>
-<p>Grâce à <strong>Terser</strong>, plusieurs transformations sont appliquées automatiquement :</p>
+<p>La première étape consiste à réduire la quantité de code réellement distribuée aux utilisateurs. Lors du développement, le code source est volontairement structuré pour être lisible et maintenable. Les noms de variables sont explicites, les commentaires facilitent la compréhension et l'indentation améliore la navigation dans les fichiers. Ces éléments sont indispensables pour les développeurs mais n'apportent aucune valeur au navigateur lors de l'exécution.</p>
+<p>Le processus de minification consiste donc à transformer ce code en une version plus compacte tout en conservant exactement le même comportement fonctionnel. Pour cela, nous avons utilisé <strong>Terser</strong>, un outil spécialisé dans l'optimisation des bundles JavaScript.</p>
+<p>Grâce à cet outil, plusieurs transformations sont appliquées automatiquement :</p>
 <ul>
-<li>suppression des commentaires</li>
-<li>suppression des espaces et indentations</li>
-<li>raccourcissement des identifiants</li>
-<li>simplification d’expressions</li>
-<li>élimination du <em>dead code</em></li>
-<li>suppression des <code>console.log</code> et <code>debugger</code></li>
+<li>suppression des commentaires ;</li>
+<li>suppression des espaces et indentations inutiles ;</li>
+<li>raccourcissement des identifiants ;</li>
+<li>simplification d'expressions ;</li>
+<li>élimination du code mort (<em>dead code</em>) ;</li>
+<li>suppression des instructions de débogage telles que <code class="c">console.log</code> ou <code class="c">debugger</code>.</li>
 </ul>
 <p>Exemple :</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">function</span> <span class="hljs-title function_">calculateTotal</span>(<span class="hljs-params">price, quantity</span>) {
@@ -1354,109 +1434,254 @@ Dans ce projet, plusieurs techniques complémentaires ont été mises en œuvre 
 <p>devient :</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">function</span> <span class="hljs-title function_">calculateTotal</span>(<span class="hljs-params">t,n</span>){<span class="hljs-keyword">return</span> t*n}
 </div></code></pre>
-<p>Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles.</p>
+<p>Cette réduction, appliquée à l'ensemble du code applicatif, contribue directement à diminuer la taille des bundles générés. Bien que Vite utilise aujourd'hui OXC comme moteur de minification par défaut, nous avons choisi de conserver Terser pour la génération du build de production. Ce dernier est généralement plus lent lors de la phase de compilation, mais il applique des optimisations plus agressives et produit souvent un résultat légèrement plus compact.</p>
+<p>Dans notre contexte, ce temps de compilation supplémentaire reste négligeable puisqu'il n'impacte que les développeurs au moment du déploiement. Nous avons donc privilégié la qualité de l'artefact final plutôt que la vitesse de génération du build.</p>
+<p>Les tableaux suivants permettent d'observer l'impact de cette étape sur les différents bundles générés.</p>
+<details class="accordion">
+<summary>Voir la comparaison</summary>
 <div class="before">
-<h3 id="avant-1">Avant</h3>
-<pre class="hljs"><code><div>TODO
+<h4 id="avant">Avant</h4>
+<pre class="hljs"><code><div>dist/index.html                             3.13 kB
+dist/assets/Cookies-UiqeZG4K.css            0.11 kB
+dist/assets/Login-C0AxRG4F.css              0.71 kB
+dist/assets/Home-CU98n8zi.css               1.32 kB
+dist/assets/Register-B7OLBotr.css           1.58 kB
+dist/assets/Search-By_-Ccw_.css             3.19 kB
+dist/assets/ui-B8J3Plgw.css                 5.29 kB
+dist/assets/index-CXPQlizz.css             18.52 kB
+dist/assets/rolldown-runtime-QTnfLwEv.js    0.69 kB
+dist/assets/UnlockItHelmet-Bl9_Umwz.js      2.13 kB
+dist/assets/Cookies-D7YsTijg.js             2.53 kB
+dist/assets/Login-DeHkMpoc.js               2.64 kB
+dist/assets/Refunds-BmIthfhZ.js             2.71 kB
+dist/assets/Legal-4205ykHu.js               3.01 kB
+dist/assets/Register-CmghuGaX.js            3.64 kB
+dist/assets/Privacy-89SX7mcJ.js             4.82 kB
+dist/assets/Home-DM__jHnt.js                5.19 kB
+dist/assets/Background-D1hLlbIc.js          6.87 kB
+dist/assets/Search-B7LK6M18.js              8.32 kB
+dist/assets/helmet-D0vKat3J.js             17.45 kB
+dist/assets/router--Et464wn.js             22.93 kB
+dist/assets/vendor-DuOKGao_.js             28.27 kB
+dist/assets/index-CR2f_mWw.js              36.81 kB
+dist/assets/ui-B1ELsBXC.js                 46.17 kB
+dist/assets/api-DC0xgs4J.js                61.96 kB
+dist/assets/react-BvDSaTCH.js             185.15 kB
+dist/assets/pixi-Dud2fSi5.js              478.58 kB
 </div></code></pre>
 </div>
 <div class="after">
-<h3 id="après-1">Après</h3>
-<pre class="hljs"><code><div>TODO
+<h4 id="après">Après</h4>
+<pre class="hljs"><code><div>dist/index.html                             3.13 kB
+dist/assets/Cookies-UiqeZG4K.css            0.11 kB
+dist/assets/Login-C0AxRG4F.css              0.71 kB
+dist/assets/Home-CU98n8zi.css               1.32 kB
+dist/assets/Register-B7OLBotr.css           1.58 kB
+dist/assets/Search-By_-Ccw_.css             3.19 kB
+dist/assets/ui-B8J3Plgw.css                 5.29 kB
+dist/assets/index-CXPQlizz.css             18.52 kB
+dist/assets/rolldown-runtime-NMqb_1LM.js    0.69 kB
+dist/assets/UnlockItHelmet-BGK7a8f6.js      2.12 kB
+dist/assets/Cookies-DR5NdOr3.js             2.50 kB
+dist/assets/Login-Dcmp3sRo.js               2.62 kB
+dist/assets/Refunds-BnK6OvgC.js             2.68 kB
+dist/assets/Legal-BpHE1FI5.js               2.96 kB
+dist/assets/Register-DKQIHVl9.js            3.64 kB
+dist/assets/Privacy-YAYa-R_m.js             4.78 kB
+dist/assets/Home-BMpoE3-N.js                4.93 kB
+dist/assets/Background-CukwmJR_.js          6.83 kB
+dist/assets/Search-Cx-u2G8I.js              7.89 kB
+dist/assets/helmet-JdfEq1Ls.js             16.16 kB
+dist/assets/router-Dja-W-oD.js             20.56 kB
+dist/assets/vendor-QzHy5b41.js             28.34 kB
+dist/assets/index-CFUwInI2.js              35.74 kB
+dist/assets/ui-BGNp2rZQ.js                 45.44 kB
+dist/assets/api-eJIyGYhM.js                61.86 kB
+dist/assets/react-CaPFs6it.js             181.55 kB
+dist/assets/pixi-D5OU-vt1.js              469.04 kB
 </div></code></pre>
 </div>
+</details>
 <hr>
 <h3 id="262-compression-des-assets--gzip--brotli">2.6.2 Compression des assets : Gzip + Brotli</h3>
-<p>En complément de la minification, les fichiers générés sont compressés via deux algorithmes :</p>
-<ul>
-<li><strong>Gzip</strong>, largement supporté par tous les navigateurs</li>
-<li><strong>Brotli</strong>, plus récent et offrant un taux de compression supérieur</li>
-</ul>
-<p>Grâce au plugin <code>vite-plugin-compression</code>, chaque fichier <code>.js</code>, <code>.css</code> et <code>.html</code> est produit en deux versions :</p>
-<ul>
-<li><code>*.gz</code> (Gzip)</li>
-<li><code>*.br</code> (Brotli)</li>
-</ul>
-<p>Les serveurs modernes choisissent automatiquement la version la plus efficace selon le navigateur du client.</p>
-<p>Cette étape permet de réduire la taille transférée de <strong>30 à 70 % supplémentaires</strong>, notamment sur les gros bundles comme React ou PixiJS.</p>
-<pre class="hljs"><code><div>UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          brotliCompress: 1.01kb
-UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       brotliCompress: 2.65kb
-UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            brotliCompress: 0.45kb
-UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            brotliCompress: 1.00kb
-UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           brotliCompress: 4.92kb
-UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           brotliCompress: 3.73kb
-UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          brotliCompress: 1.81kb
-UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             brotliCompress: 1.52kb
-UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            brotliCompress: 1.13kb
-UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            brotliCompress: 9.33kb
-UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          brotliCompress: 0.84kb
-UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        brotliCompress: 0.46kb
-UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          brotliCompress: 1.09kb
-UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         brotliCompress: 1.30kb
-UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           brotliCompress: 6.63kb
-UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   brotliCompress: 0.82kb
-UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           brotliCompress: 2.71kb
-UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           brotliCompress: 9.22kb
-UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              brotliCompress: 1.27kb
-UnlockIt/apps/frontend/index.html.br                          brotliCompress: 1.06kb
-UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              brotliCompress: 19.08kb
-UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               brotliCompress: 9.70kb
-UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            brotliCompress: 47.88kb
-UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             brotliCompress: 105.18kb
+<p>La minification constitue une première étape importante, mais elle ne permet pas à elle seule d'exploiter tout le potentiel d'optimisation disponible. Même après suppression des espaces, commentaires et portions de code inutiles, les fichiers générés peuvent encore représenter plusieurs centaines de kilo-octets, notamment lorsqu'ils embarquent des bibliothèques importantes.</p>
+<p>Afin de réduire davantage la quantité de données réellement transférée entre le serveur et le navigateur, nous avons mis en place une stratégie de compression reposant sur deux algorithmes complémentaires : <strong>Gzip</strong> et <strong>Brotli</strong>.</p>
+<p>Gzip est aujourd'hui supporté par la quasi-totalité des navigateurs et constitue une référence dans l'écosystème web. Brotli est plus récent mais offre généralement de meilleurs taux de compression, en particulier sur les fichiers JavaScript et CSS volumineux. Utiliser simultanément ces deux formats permet de garantir une compatibilité maximale tout en profitant des meilleures performances possibles lorsque le navigateur les supporte.</p>
+<p>Grâce au plugin <code class="c">vite-plugin-compression</code>, chaque ressource JavaScript, CSS ou HTML est automatiquement générée dans plusieurs versions compressées.</p>
+<p>Les serveurs modernes sélectionnent ensuite dynamiquement la version la plus adaptée aux capacités du navigateur. Ce mécanisme est totalement transparent pour l'utilisateur final et ne nécessite aucune intervention supplémentaire côté client.</p>
+<p>L'intérêt de cette approche est particulièrement visible sur les dépendances les plus lourdes du projet. Des bibliothèques comme React ou PixiJS contiennent une grande quantité de code répétitif que les algorithmes de compression parviennent à réduire efficacement. Dans certains cas, la taille réellement transférée peut être réduite de plus de moitié par rapport au fichier initial.</p>
+<p>Les résultats obtenus lors de la génération du build illustrent clairement ce gain :</p>
+<pre class="hljs"><code><div>dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/index.html.br                          3.06kb / brotliCompress: 1.06kb
+...
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb / brotliCompress: 6.63kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb / brotliCompress: 9.22kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb / brotliCompress: 0.82kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb / brotliCompress: 19.08kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb / brotliCompress: 9.70kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb / brotliCompress: 47.88kb
+dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb / brotliCompress: 105.18kb
 </div></code></pre>
 <hr>
 <h3 id="263-découpage-manuel-des-bundles">2.6.3 Découpage manuel des bundles</h3>
-<p>Afin d’améliorer le caching et d’éviter qu’un changement mineur invalide tout le bundle, un découpage manuel a été mis en place.</p>
-<p>Ce découpage sépare explicitement les dépendances majeures :</p>
+<p>Lors des premiers builds de production, nous avons constaté qu'une partie importante du code était regroupée dans quelques bundles particulièrement volumineux. Cette approche reste acceptable pour de petites applications, mais elle devient rapidement problématique lorsqu'un projet commence à accumuler de nombreuses dépendances externes.</p>
+<p>Le principal inconvénient concerne la gestion du cache navigateur. Lorsqu'un bundle contient à la fois du code métier et des bibliothèques tierces, une simple modification dans l'application peut obliger l'utilisateur à retélécharger l'ensemble du fichier, même si les dépendances embarquées n'ont pas changé.</p>
+<p>Cette situation est particulièrement inefficace pour des bibliothèques telles que React ou PixiJS, dont le contenu évolue rarement entre deux déploiements successifs. En les mélangeant au reste du code applicatif, on réduit considérablement l'efficacité du cache.</p>
+<p>Pour résoudre ce problème, nous avons mis en place un découpage manuel des bundles grâce à la fonctionnalité <code class="c">manualChunks</code> de Rollup. L'objectif est de regrouper les dépendances selon leur rôle afin qu'elles puissent évoluer indépendamment les unes des autres.</p>
+<p>Les principales catégories définies sont les suivantes :</p>
 <ul>
-<li><strong>react</strong> : React, ReactDOM, Scheduler</li>
-<li><strong>router</strong> : React Router</li>
-<li><strong>helmet</strong> : React Helmet Async</li>
-<li><strong>vendor</strong> : Zustand, use-debounce, react-fast-compare, shallowEqual, react-hook-form</li>
-<li><strong>ui</strong> : composants UI internes</li>
-<li><strong>api</strong> : couche API interne</li>
-<li><strong>pixi</strong> : moteur PixiJS</li>
-<li><strong>index</strong> : code applicatif principal</li>
+<li>React et son écosystème ;</li>
+<li>le système de routage ;</li>
+<li>la gestion des métadonnées SEO ;</li>
+<li>les dépendances utilitaires ;</li>
+<li>les composants d'interface ;</li>
+<li>la couche API ;</li>
+<li>PixiJS ;</li>
+<li>le code applicatif principal.</li>
 </ul>
-<p>Ce découpage permet :</p>
-<ul>
-<li>un meilleur caching (React ne change presque jamais)</li>
-<li>un chargement plus rapide des pages</li>
-<li>une meilleure parallélisation des téléchargements</li>
-<li>une réduction du bundle principal</li>
-</ul>
+<details class="accordion">
+<summary>Voir le <code class="c">vite.config.ts</code></summary>
+<pre class="hljs"><code><div><span class="hljs-comment">//  frontend/vite.config.ts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
+  ...
+  <span class="hljs-attr">plugins</span>: [
+    ...,
+    <span class="hljs-title function_">viteCompression</span>({ <span class="hljs-attr">algorithm</span>: <span class="hljs-string">&quot;brotliCompress&quot;</span>, <span class="hljs-attr">ext</span>: <span class="hljs-string">&quot;.br&quot;</span> }),
+    <span class="hljs-title function_">viteCompression</span>({ <span class="hljs-attr">algorithm</span>: <span class="hljs-string">&quot;gzip&quot;</span> })
+  ],
+  ...
+  ,
+  <span class="hljs-attr">build</span>: {
+    <span class="hljs-attr">minify</span>: <span class="hljs-string">&#x27;terser&#x27;</span>,
+    <span class="hljs-attr">terserOptions</span>: {...},
+    <span class="hljs-attr">rolldownOptions</span>: {
+      <span class="hljs-attr">plugins</span>: [
+        <span class="hljs-title function_">visualizer</span>({...})
+      ],
+      <span class="hljs-attr">output</span>: {
+        <span class="hljs-title function_">manualChunks</span>(<span class="hljs-params">id</span>) {
+          <span class="hljs-keyword">const</span> path = id.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\/g</span>, <span class="hljs-string">&quot;/&quot;</span>);
+
+          <span class="hljs-comment">// React core</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;react&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-dom/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;react&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/scheduler/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;react&quot;</span>;
+
+          <span class="hljs-comment">// React Router</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-router/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;router&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-router-dom/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;router&quot;</span>;
+
+          <span class="hljs-comment">// Helmet</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-helmet-async/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;helmet&quot;</span>;
+
+          <span class="hljs-comment">// Vendor libs</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/zustand/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;vendor&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/use-debounce/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;vendor&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/shallowequal/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;vendor&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-fast-compare/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;vendor&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/react-hook-form/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;vendor&quot;</span>;
+
+          <span class="hljs-comment">// UI</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/src/components/ui/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ui&quot;</span>;
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/src/components/common/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ui&quot;</span>;
+
+          <span class="hljs-comment">// API layer</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/src/api/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;api&quot;</span>;
+
+          <span class="hljs-comment">// PixiJS</span>
+          <span class="hljs-keyword">if</span> (path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;/node_modules/pixi.js/&quot;</span>)) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;pixi&quot;</span>;
+        }
+      }
+    }
+  },
+})
+</div></code></pre>
+</details>
+<p>Cette séparation présente plusieurs avantages. Tout d'abord, elle améliore considérablement l'efficacité du cache navigateur puisque les bibliothèques stables peuvent être conservées plus longtemps. Elle favorise également la parallélisation des téléchargements, le navigateur pouvant récupérer plusieurs ressources simultanément. Enfin, elle réduit la taille du bundle principal, ce qui accélère le démarrage initial de l'application.</p>
+<p>Les comparaisons suivantes permettent d'observer l'évolution de la structure du build après la mise en place de cette stratégie.</p>
+<details class="accordion">
+<summary>Voir la comparaison</summary>
 <div class="before">
-<h3 id="avant-2">Avant</h3>
-<pre class="hljs"><code><div>TODO
+<h4 id="avant-1">Avant</h4>
+<pre class="hljs"><code><div>dist/index.html                                     2.76 kB
+dist/assets/Cookies-UiqeZG4K.css                    0.11 kB
+dist/assets/Login-C0AxRG4F.css                      0.71 kB
+dist/assets/Home-CU98n8zi.css                       1.32 kB
+dist/assets/Register-B7OLBotr.css                   1.58 kB
+dist/assets/Button-COE2YxU5.css                     2.66 kB
+dist/assets/Search-CEFxeslf.css                     3.38 kB
+dist/assets/index-D1xD0r0f.css                     20.96 kB
+dist/assets/webworkerAll-1SXaDC3g.js                0.06 kB
+dist/assets/CanvasRenderer-D4cphG7M.js              0.06 kB
+dist/assets/WebGLRenderer-C5idXNI2.js               0.07 kB
+dist/assets/WebGPURenderer-MMTupWOb.js              0.07 kB
+dist/assets/init-CpC2NTHW.js                        0.12 kB
+dist/assets/browserAll-C94rMvy0.js                  0.24 kB
+dist/assets/getTextureBatchBindGroup-BCtPyCB7.js    0.34 kB
+dist/assets/chunk-NMqb_1LM.js                       0.69 kB
+dist/assets/CanvasPool-lV4NR6ei.js                  0.76 kB
+dist/assets/useGames.hook-DP_avpiw.js               1.59 kB
+dist/assets/UnlockItHelmet-DLxbOf9V.js              2.09 kB
+dist/assets/Cookies-tkxTrePq.js                     2.48 kB
+dist/assets/Login-DB3EKccR.js                       2.60 kB
+dist/assets/Refunds-CF1gWARf.js                     2.66 kB
+dist/assets/Legal-CX0ckya-.js                       2.94 kB
+dist/assets/Register-CcYV_0L2.js                    3.62 kB
+dist/assets/Privacy-nqquNPmX.js                     4.76 kB
+dist/assets/Home-CwRyhMtk.js                        4.94 kB
+dist/assets/canvasUtils-BGWjEWTM.js                 6.12 kB
+dist/assets/jsx-runtime-JC2Pqqy6.js                 7.98 kB
+dist/assets/BufferResource-BnDyU-YP.js             10.83 kB
+dist/assets/Search-DoU96MOZ.js                     18.54 kB
+dist/assets/Button-BfgmK8-z.js                     31.18 kB
+dist/assets/FilterSystem-eB1XfaGO.js               40.43 kB
+dist/assets/FederatedEventTarget-4MfRMyfR.js       42.75 kB
+dist/assets/axios.instance-CniEnODU.js             69.71 kB
+dist/assets/RenderTargetSystem-DB8lGoqg.js         78.19 kB
+dist/assets/Geometry-BeqX92IE.js                  101.09 kB
+dist/assets/Background-CP25DxqL.js                198.99 kB
+dist/assets/index-DaygSgMl.js                     269.69 kB
 </div></code></pre>
 </div>
 <div class="after">
-<h3 id="après-2">Après</h3>
-<pre class="hljs"><code><div>TODO
+<h4 id="après-1">Après</h4>
+<pre class="hljs"><code><div>/UnlockIt/apps/frontend/index.html.br                          3.06kb
+/UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          2.45kb
+/UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          2.62kb
+/UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       6.68kb
+/UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             4.82kb
+/UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            1.29kb
+/UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            2.56kb
+/UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           15.79kb
+/UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            2.89kb
+/UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        1.55kb
+/UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         3.56kb
+/UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           18.09kb
+/UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           7.71kb
+/UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          3.12kb
+/UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          4.67kb
+/UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              5.17kb
+/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb
+/UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            34.91kb
+/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb
+/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb
+/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb
+/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb
+/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb
+/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb
 </div></code></pre>
 </div>
+</details>
 <hr>
 <h3 id="264-visualisation-du-graphe-de-dépendances">2.6.4 Visualisation du graphe de dépendances</h3>
-<p>Pour analyser la structure finale du build, le plugin <strong>rollup-plugin-visualizer</strong> a été intégré.</p>
-<p>Il génère un fichier <code>stats.html</code> permettant :</p>
-<ul>
-<li>d’identifier les dépendances les plus lourdes</li>
-<li>de visualiser les relations entre modules</li>
-<li>de vérifier que les <code>manualChunks</code> fonctionnent correctement</li>
-<li>d’optimiser le découpage si nécessaire</li>
-</ul>
-<p>Cet outil a notamment permis de confirmer que :</p>
-<ul>
-<li>React, Router, Pixi et l’API sont bien isolés</li>
-<li>les composants UI sont regroupés dans un chunk dédié</li>
-<li>aucune dépendance lourde ne se retrouve dans le bundle principal</li>
-</ul>
+<p>À mesure que les optimisations se sont multipliées, il est devenu plus difficile d'évaluer précisément leur impact sur la structure finale du build. Les statistiques fournies par Vite donnent une indication sur la taille des fichiers générés, mais elles ne permettent pas toujours de comprendre comment les différentes dépendances sont regroupées ni quelles parties du projet occupent réellement le plus d'espace.</p>
+<p>Afin d'obtenir une vision plus globale du résultat produit par la compilation, nous avons intégré le plugin <strong>rollup-plugin-visualizer</strong>.</p>
+<p>Cet outil génère un rapport interactif sous la forme d'un fichier <code class="c">stats.html</code>. Chaque module y est représenté graphiquement selon sa taille réelle dans le bundle final, ce qui facilite l'identification des dépendances les plus coûteuses ainsi que l'analyse des relations entre les différents composants de l'application.</p>
+<p>Au-delà de son aspect visuel, cet outil s'est révélé particulièrement utile pour valider les optimisations précédemment mises en place. Il nous a notamment permis de vérifier que les différents groupes définis via <code class="c">manualChunks</code> étaient correctement isolés et qu'aucune dépendance importante ne se retrouvait accidentellement dans le bundle principal.</p>
+<p>L'analyse du rapport confirme notamment que React, React Router, PixiJS et la couche API sont regroupés dans des chunks distincts. Les composants d'interface sont également isolés dans un bundle dédié, ce qui améliore la lisibilité globale de l'architecture générée lors du build.</p>
 <p><img src="src/assets//compression.png" alt="Rollup report treemap"></p>
-<hr>
+<p>La visualisation constitue ainsi une étape de validation complémentaire aux mesures de taille. Elle permet non seulement de constater qu'une optimisation fonctionne, mais également de comprendre précisément pourquoi elle fonctionne et quels modules en bénéficient réellement.</p>
 <h2 id="27-difficultés-rencontrées-et-solutions">2.7 Difficultés rencontrées et solutions</h2>
-<h3 id="271-difficultés">2.7.1 Difficultés</h3>
-<p>L’un des problèmes les plus marquants rencontrés au cours du développement concerne l’utilisation de Suspense avec React Router. Ce point est particulièrement intéressant car il illustre parfaitement la démarche adoptée tout au long du projet : identifier un comportement inattendu, formuler des hypothèses, investiguer méthodiquement, puis mettre en place une solution pragmatique. C’est exactement ce que nous avons appliqué dans toutes les sections précédentes, qu’il s’agisse de performances, de structure des composants ou d’outils de diagnostic.</p>
-<h3 id="272--react-router">2.7.2 : React Router</h3>
+<h3 id="271--react-router">2.7.1 : React Router</h3>
 <p>L’utilisation de React Scan nous a permis d’identifier plusieurs comportements inattendus, notamment liés à <strong>React Router</strong>. Nous avons constaté que certains composants se réaffichaient lors de simples navigations, même lorsque leur contenu ne dépendait pas de l’URL. Les composants contenant des éléments <code class="c">&lt;Link&gt;</code> étaient par exemple redessinés à cause de la mise à jour du contexte interne de React Router. De même, certains layouts ou composants structurels (comme le header ou le footer) étaient recalculés inutilement à chaque changement de route, alors qu’ils ne dépendaient d’aucune donnée dynamique.</p>
 <p>Pour corriger ces comportements, nous avons introduit l’utilisation de <strong>React.memo()</strong>, notamment pour stabiliser les composants structurels tels que le header, le footer ou encore le layout global.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Layout</span> = <span class="hljs-title function_">memo</span>(<span class="hljs-function">() =&gt;</span> {
@@ -1474,24 +1699,7 @@ UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             brotliCompress: 10
   );
 });
 </div></code></pre>
-<h4 id="avant--après-la-refonte-1">Avant / Après la refonte</h4>
-<div class="before">
-<h4 id="avant-3">Avant</h4>
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-<pre class="hljs"><code><div>TODO
-</div></code></pre>
-</details>
-</div>
-<div class="after">
-<h4 id="après-3">Après</h4>
-<details class="accordion">
-<summary>Voir plus d'informations</summary>
-<pre class="hljs"><code><div>TODO
-</div></code></pre>
-</details>
-</div>
-<h3 id="273-difficulté-n2--suspence">2.7.3 Difficulté n°2 : Suspence</h3>
+<h3 id="272-difficulté-n2--suspence">2.7.2 Difficulté n°2 : Suspence</h3>
 <p>Dans notre cas, nous avions mis en place un composant de chargement personnalisé destiné à s’afficher lors du chargement des pages rendues via lazy(). En théorie, l’utilisation combinée de lazy() et de Suspense devait permettre d’afficher ce loader dès que React chargeait dynamiquement une page. Pourtant, malgré une implémentation correcte, le loader ne s’affichait jamais.</p>
 <p>Après plusieurs heures d’investigation, nous avons d’abord suspecté une mauvaise utilisation de Suspense, ou un problème dans la structure de nos routes. Nous avons testé différentes configurations, déplacé le composant de fallback, isolé les routes, et même simplifié la structure pour éliminer les causes possibles. Rien n’y faisait.</p>
 <p>C’est en approfondissant nos recherches que nous sommes tombés sur une discussion GitHub liée à React Router v7, indiquant que cette version introduisait un comportement empêchant Suspense de fonctionner correctement dans certains cas. Plusieurs développeurs rencontraient exactement le même problème, et un contributeur avait même mis en ligne deux projets de démonstration permettant de comparer le comportement entre la version 6 et la version 7 :</p>
