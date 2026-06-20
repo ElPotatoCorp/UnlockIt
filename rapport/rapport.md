@@ -76,7 +76,7 @@ L'objectif académique de cette première version était avant tout de nous conf
 
 ![Page d'accueil de UnlockIt V1](src/assets/old-homepage.png)
 
-*Figure 1 – Capture de la page d'accueil de UnlockIt (SAÉ 3.01).*
+*Capture de la page d'accueil de UnlockIt (SAÉ 3.01).*
 
 </div>
 
@@ -96,7 +96,7 @@ Ces fonctionnalités ont permis de valider la faisabilité du projet et de produ
 
 ![Page produit de UnlockIt V1](src/assets/old-game-page.png)
 
-*Figure 2 – Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).*
+*Exemple de la page détaillée d'un jeu sur UnlockIt (SAÉ 3.01).*
 
 </div>
 
@@ -129,7 +129,7 @@ flowchart TB
 
 </div>
 
-*Figure 3 – Architecture simplifiée de UnlockIt (SAÉ 3.01).*
+*Architecture simplifiée de UnlockIt (SAÉ 3.01).*
 
 \* Si du code s'affiche à la place du schéma, rafraichissez la page.
 
@@ -1098,7 +1098,7 @@ L’un des changements les plus importants de cette refonte concerne la manière
 
 La nouvelle architecture introduit une véritable couche d’abstraction, organisée autour de trois éléments complémentaires : les hooks métiers, les services d’accès aux données et les stores centralisés. L’idée est simple : chaque couche doit avoir une responsabilité unique. Les composants ne s’occupent plus de la logique réseau, les services ne gèrent plus l’état global, et les hooks orchestrent les appels pour exposer une API claire et stable aux composants. Cette séparation améliore la lisibilité, la maintenabilité et facilite l’écriture de tests automatisés.
 
-### Architecture de la nouvelle couche API
+### 2.4.1 Architecture de la nouvelle couche API
 
 La structure générale repose sur trois dossiers principaux :
 
@@ -1250,7 +1250,7 @@ Ce petit exemple montre bien l’intérêt de la nouvelle architecture. Le compo
 
 </details>
 
-### Schéma de fonctionnement de la couche API
+### 2.4.2 Schéma de fonctionnement de la couche API
 
 Le schéma ci‑dessous illustre le flux complet : un composant React appelle un hook métier, qui utilise un service, lequel communique avec le backend via Axios. Le backend renvoie ensuite des données (par exemple la session, un profil utilisateur ou des informations métier), qui sont stockées dans Zustand.
 Le cookie httpOnly contenant la session est géré automatiquement par le navigateur et vérifié par le backend, ce qui simplifie la logique côté frontend.
@@ -1294,29 +1294,77 @@ Cette architecture clarifie le rôle de chaque couche et rend l’ensemble beauc
 
 ## 2.5 Tests automatisés
 
-La première version du projet reposait principalement sur des tests manuels. Cette approche devenait rapidement chronophage à mesure que le nombre de fonctionnalités augmentait, et surtout difficile à maintenir : chaque nouvelle fonctionnalité nécessitait de repasser manuellement sur plusieurs parcours utilisateurs pour s’assurer qu’aucun comportement n’avait été cassé.
-Afin de sécuriser davantage le développement et d’améliorer la qualité globale du projet, nous avons intégré Playwright, un outil moderne de tests end‑to‑end.
+La première version du projet reposait principalement sur des tests manuels. Cette approche fonctionnait tant que l’application restait simple, mais elle devenait rapidement chronophage à mesure que les fonctionnalités se multipliaient. Chaque nouvelle évolution nécessitait de repasser manuellement sur plusieurs parcours utilisateurs, ce qui augmentait le risque d’erreurs et de régressions.
 
-L’objectif était de couvrir les fonctionnalités essentielles du site et de garantir que les parcours critiques restent fonctionnels au fil des mises à jour. Les tests automatisés permettent notamment de vérifier l’authentification, la navigation, la gestion du panier, la wishlist, l’historique d’achats, ainsi que plusieurs scénarios utilisateurs sensibles.
-Cette démarche s’inscrit dans la logique générale du projet : analyser les problèmes, comprendre leur origine, et mettre en place des solutions robustes, comme nous l’avons fait pour les performances, la structure des composants ou l’utilisation d’outils tels que React Developer Tools.
+Pour sécuriser davantage le développement, nous avons intégré **Playwright**, un outil moderne de tests end‑to‑end capable de simuler un utilisateur réel : navigation, clics, formulaires, redimensionnement, interactions mobiles, etc. L’objectif était de couvrir les parcours critiques — authentification, navigation, panier, wishlist, historique d’achats — et de garantir qu’ils restent fonctionnels au fil des mises à jour.
 
-<div class="card">
+Playwright s’inscrit dans la même logique que le reste du projet : analyser les problèmes, comprendre leur origine et mettre en place des solutions robustes. Là où React Scan ou les outils de profiling nous aident à comprendre le comportement interne de l’application, Playwright nous permet de valider son comportement externe, celui que perçoit réellement l’utilisateur.
 
-[Il semble que le résultat n’était pas sûr à afficher. Changeons un peu et essayons autre chose !]
+### 2.5.1 Exemple : exécution d’un test Playwright
 
-Figure X – Exemple d'exécution d'un scénario de tests automatisés.
+<div class="card" style="text-align:center; padding:1rem;">
+
+![Playwright gif](src/assets/playwright-gif.gif)
+<strong>Exemple d’exécution d’un scénario de tests automatisés.</strong>
 
 </div>
 
-L’introduction de Playwright a représenté un véritable gain de temps. Une fois les scénarios écrits, ils peuvent être exécutés en quelques secondes, ce qui réduit considérablement le risque de réintroduire d’anciens bugs. Les tests servent également de documentation vivante : ils décrivent précisément ce que l’application est censée faire, et permettent de détecter immédiatement toute régression.
+### 2.5.2 Organisation des tests
 
-Dans le dossier frontend/, un répertoire test/ regroupe l’ensemble des scénarios, organisés par thématique (auth/, nav/, etc.). Cette structure permet de maintenir facilement les tests et de les étendre au fur et à mesure du développement.
+Dans le dossier <code class="c">frontend/</code>, un répertoire <code class="c">tests/</code> regroupe l’ensemble des scénarios, organisés par thématique (<code class="c">auth/</code>, <code class="c">nav/</code>, <code class="c">cart/</code>, etc.).  
+Cette structure permet d’étendre progressivement la couverture de tests sans complexifier le projet.
 
-Voici par exemple le test complet du logout, couvrant plusieurs cas de figure (desktop, mobile, et déconnexion depuis différentes pages). Ce test illustre bien la manière dont Playwright permet de simuler des interactions réelles : navigation, clics, ouverture de menus, vérification d’URL, etc.
+### 2.5.3 Exemple : test du login
+
+Pour éviter d’alourdir le rapport, voici une version raccourcie du test Playwright dédié au login.  
+Elle illustre comment Playwright simule un utilisateur réel : remplissage du formulaire, clic sur le bouton, vérification de l’URL, et contrôle de l’état de connexion.
+
+<details class="accordion">
+<summary>Voir l’exemple de test Playwright</summary>
 
 ```tsx
-TODO : exemple de ~~t~~
+import { test, expect } from "@playwright/test";
+import { ensureLoggedOut, isLoggedIn } from "../helpers/auth";
+
+test.describe("Login", () => {
+
+  test.beforeEach(async ({ page }) => {
+    await ensureLoggedOut(page);
+  });
+
+  test("login successfully", async ({ page }) => {
+    await page.goto("/login");
+
+    const form = page.locator("#login-form");
+    await form.locator("#identifier").fill("test@test.test");
+    await form.locator("#password").fill("Test123&");
+    await form.locator('button[type="submit"]').click();
+
+    await expect(page).toHaveURL("/");
+    expect(await isLoggedIn(page)).toBe(true);
+  });
+
+  test("invalid credentials", async ({ page }) => {
+    await page.goto("/login");
+
+    const form = page.locator("#login-form");
+    await form.locator("#identifier").fill("test@test.test");
+    await form.locator("#password").fill("Wrong123!");
+    await form.locator('button[type="submit"]').click();
+
+    await expect(form.getByText("Identifiants invalides.")).toBeVisible();
+  });
+
+  ...
+
+});
 ```
+
+</details>
+
+L’introduction de Playwright a représenté un véritable gain de temps. Une fois les scénarios écrits, ils peuvent être exécutés en quelques secondes, ce qui réduit considérablement le risque de réintroduire d’anciens bugs. Les tests servent également de documentation vivante : ils décrivent précisément ce que l’application est censée faire et permettent de détecter immédiatement toute régression.
+
+Cette automatisation complète parfaitement les autres outils utilisés dans le projet. Là où React Developer Tools ou React Scan nous aident à comprendre le comportement interne des composants, Playwright garantit que l’expérience utilisateur reste cohérente et fiable, même après des modifications importantes du code.
 
 ---
 
@@ -1343,7 +1391,7 @@ Grâce à **Terser**, plusieurs transformations sont appliquées automatiquement
 - raccourcissement des identifiants  
 - simplification d’expressions  
 - élimination du *dead code*  
-- suppression des <code class="c">console.log</code>et <code class="c">debugger</code>
+- suppression des <code class="c">console.log</code> et <code class="c">debugger</code>
 
 Exemple :
 
