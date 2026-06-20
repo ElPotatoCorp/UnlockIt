@@ -51,10 +51,8 @@ export const TagsControllerDoc = {
       ApiExtraModels(PaginatedDto, TagDto),
       ApiOkResponse({
         description: 'Paginated list of tags.',
-        schema: {
-          type: 'array',
-          items: PaginatedDtoSchemaDoc(TagDto),
-        },
+        type: TagDto,
+        isArray: true,
       }),
       ApiBadRequestResponse({ description: 'Invalid pagination parameters.' }),
     ),

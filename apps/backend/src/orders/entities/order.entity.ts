@@ -14,17 +14,21 @@ import { WalletTransactionEntity } from 'src/wallet/entities/wallet-transaction.
 import { DecimalColumnTransformer } from 'src/common/transformers/decimal-column.transformer';
 import { OrderStatus } from '@unlockit/shared';
 import { ExactData, OrderEntity as IOrderEntity } from '@unlockit/shared';
+import { OrderEntityDoc } from 'src/docs/orders/entities/order.entity.doc';
 
 @Entity('orders')
 @Index(['userId'])
 @Index(['status'])
 export class OrderEntity implements IOrderEntity {
+  @OrderEntityDoc.Id()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @OrderEntityDoc.UserId(false)
   @Column('uuid', { name: 'user_id' })
   userId: string;
 
+  @OrderEntityDoc.Status()
   @Column({
     type: 'enum',
     enum: OrderStatus,
@@ -32,6 +36,7 @@ export class OrderEntity implements IOrderEntity {
   })
   status: OrderStatus;
 
+  @OrderEntityDoc.AmountPaidWallet()
   @Column('numeric', {
     name: 'amount_paid_wallet',
     precision: 10,
@@ -41,6 +46,7 @@ export class OrderEntity implements IOrderEntity {
   })
   amountPaidWallet: number;
 
+  @OrderEntityDoc.AmountPaidStripe()
   @Column('numeric', {
     name: 'amount_paid_stripe',
     precision: 10,
@@ -50,9 +56,11 @@ export class OrderEntity implements IOrderEntity {
   })
   amountPaidStripe: number;
 
+  @OrderEntityDoc.CreatedAt()
   @CreateDateColumn({ name: 'reserved_at', type: 'timestamptz' })
   createdAt: Date;
 
+  @OrderEntityDoc.CompletedAt()
   @Column({ name: 'completed_at', type: 'timestamptz', nullable: true })
   completedAt: Date | null;
 

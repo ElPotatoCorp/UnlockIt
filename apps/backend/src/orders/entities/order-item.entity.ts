@@ -14,19 +14,24 @@ import {
   ExactData,
   OrderItemEntity as IOrderItemEntity,
 } from '@unlockit/shared';
+import { OrderEntityDoc } from 'src/docs/orders/entities/order.entity.doc';
 
 @Entity('order_items')
 export class OrderItemEntity implements IOrderItemEntity {
+  @OrderEntityDoc.Id(false)
   @PrimaryColumn('uuid', { name: 'order_id' })
   orderId: string;
 
+  @OrderEntityDoc.GameId(false)
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
+  @OrderEntityDoc.Quantity()
   @Column('smallint')
   quantity: number;
 
   /** Price per unit at the moment the order was placed. */
+  @OrderEntityDoc.UnitPrice()
   @Column('numeric', {
     name: 'unit_price',
     precision: 10,
