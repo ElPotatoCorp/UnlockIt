@@ -37,13 +37,13 @@ export class PurchasesController {
 
   // --- Reviews ---
   @Post(':orderId/:gameId/review')
-  addReview(
+  async addReview(
     @User('sub') userId: string,
     @Param('orderId', new ParseUUIDPipe({ version: '4' })) orderId: string,
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() createReviewDto: CreateReviewDto,
   ) {
-    this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
+    await this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
   }
 
   @Patch(':orderId/:gameId/review')
