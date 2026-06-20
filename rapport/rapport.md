@@ -939,7 +939,7 @@ Grâce à cette architecture, chaque page devient un bundle indépendant, charg�
 
 ### 2.3.6 PixiJS
 
-L’arrière‑plan animé constituait l’un des éléments visuels les plus visibles et les plus délicats de la nouvelle version d’UnlockIt. La première implémentation reposait sur un simple <code class="c">\<canvas\></code> et de la logique Typescript maison. Bien que globalement performante — et comme l’a confirmé l’analyse avec **Firefox Profiler**, sans surcharge matérielle — cette version présentait plusieurs problèmes visuels : floutage lors du zoom, rendu étrange hors du format 16:9, et comportement peu satisfaisant sur mobile. Par précaution, nous avions même temporairement limité le framerate à 4 FPS pour éviter d’être alertés par des pourcentages d’utilisation GPU affichés par le gestionnaire de tâches, alors que la charge réelle restait faible.
+L’arrière‑plan animé constituait l’un des éléments visuels les plus visibles et les plus délicats de la nouvelle version d’UnlockIt. La première implémentation reposait sur un simple <code class="c">\<canvas\></code> et de la logique Typescript maison. Bien que globalement performante (et comme l’a confirmé l’analyse avec **Firefox Profiler**, sans surcharge matérielle), cette version présentait plusieurs problèmes visuels : floutage lors du zoom, rendu étrange hors du format 16:9, et comportement peu satisfaisant sur mobile. Par précaution, nous avions même temporairement limité le framerate à 4 FPS pour éviter d’être alertés par des pourcentages d’utilisation GPU affichés par le gestionnaire de tâches, alors que la charge réelle restait faible.
 
 Pour corriger ces défauts visuels tout en conservant les bonnes performances, nous avons réécrit le background avec PixiJS, une bibliothèque 2D s’appuyant sur WebGL. PixiJS facilite la gestion d’une scène graphique, la manipulation de sprites, la création de textures et la boucle de rendu, tout en exploitant l’accélération matérielle pour déléguer au GPU les opérations coûteuses. Grosso modo, PixiJS transforme le <code class="c">\<canvas\></code> en une véritable scène graphique, comparable à ce qu’on utiliserait pour un petit jeu vidéo ou un moteur d’animation, mais avec une simplicité d’utilisation bien supérieure à un canvas HTML classique.
 
@@ -1201,7 +1201,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 Pour illustrer concrètement l’utilisation de cette nouvelle couche API, on peut observer le fonctionnement du composant <code class="c">Login.tsx</code>. Ce composant ne s’occupe plus de la logique réseau ni de la gestion des erreurs HTTP : il se contente d’appeler le hook métier <code class="c">useAuth</code>, qui lui fournit des fonctions prêtes à l’emploi comme <code class="c">login</code> ou <code class="c">logout</code>. Le composant reste ainsi focalisé sur son rôle premier : afficher un formulaire, réagir aux actions de l’utilisateur et mettre à jour l’interface en fonction de l’état global.
 
-Lorsqu’un utilisateur soumet le formulaire, le composant appelle simplement <code class="c">login</code>, puis <code class="c">loadUser</code> pour récupérer les informations du profil. Toute la logique complexe — appels réseau, gestion des erreurs, rafraîchissement de session, stockage du JWT — est entièrement prise en charge par le hook et le service. Le composant devient donc beaucoup plus lisible et facile à maintenir.
+Lorsqu’un utilisateur soumet le formulaire, le composant appelle simplement <code class="c">login</code>, puis <code class="c">loadUser</code> pour récupérer les informations du profil. Toute la logique complexe : appels réseau, gestion des erreurs, rafraîchissement de session, stockage du JWT, etc.; est entièrement prise en charge par le hook et le service. Le composant devient donc beaucoup plus lisible et facile à maintenir.
 
 ```tsx
 const Login: FC = () => {
@@ -1296,7 +1296,7 @@ Cette architecture clarifie le rôle de chaque couche et rend l’ensemble beauc
 
 La première version du projet reposait principalement sur des tests manuels. Cette approche fonctionnait tant que l’application restait simple, mais elle devenait rapidement chronophage à mesure que les fonctionnalités se multipliaient. Chaque nouvelle évolution nécessitait de repasser manuellement sur plusieurs parcours utilisateurs, ce qui augmentait le risque d’erreurs et de régressions.
 
-Pour sécuriser davantage le développement, nous avons intégré **Playwright**, un outil moderne de tests end‑to‑end capable de simuler un utilisateur réel : navigation, clics, formulaires, redimensionnement, interactions mobiles, etc. L’objectif était de couvrir les parcours critiques — authentification, navigation, panier, wishlist, historique d’achats — et de garantir qu’ils restent fonctionnels au fil des mises à jour.
+Pour sécuriser davantage le développement, nous avons intégré **Playwright**, un outil moderne de tests end‑to‑end capable de simuler un utilisateur réel : navigation, clics, formulaires, redimensionnement, interactions mobiles, etc. L’objectif était de couvrir les parcours critiques (authentification, navigation, panier, wishlist, historique d’achats) et de garantir qu’ils restent fonctionnels au fil des mises à jour.
 
 Playwright s’inscrit dans la même logique que le reste du projet : analyser les problèmes, comprendre leur origine et mettre en place des solutions robustes. Là où React Scan ou les outils de profiling nous aident à comprendre le comportement interne de l’application, Playwright nous permet de valider son comportement externe, celui que perçoit réellement l’utilisateur.
 
@@ -1370,28 +1370,26 @@ Cette automatisation complète parfaitement les autres outils utilisés dans le 
 
 ## 2.6 Build et compression
 
-L’optimisation du build de production ne se limite pas à la minification du JavaScript.  
-Dans ce projet, plusieurs techniques complémentaires ont été mises en œuvre afin de réduire la taille des fichiers, améliorer le temps de chargement et optimiser le comportement du navigateur lors de l’exécution.
+L'optimisation d'une application web ne se limite pas au développement de nouvelles fonctionnalités. Une fois l'application terminée, il devient tout aussi important de s'intéresser à la manière dont elle est distribuée aux utilisateurs. En effet, même une application parfaitement conçue peut offrir une expérience dégradée si les ressources téléchargées sont trop volumineuses ou mal organisées.
 
-Ces optimisations reposent sur quatre axes principaux :
+Au cours du projet, nous avons constaté que nos fichiers dépassaient la taille recommandée de 500ko, cela était due à certaines dépendances, notamment React et PixiJS qui représentaient chacun une part importante du poids total de l'application. Cette observation nous a conduits à étudier différentes stratégies permettant de réduire les temps de chargement, d'améliorer l'utilisation du cache navigateur et de limiter la quantité de données transférées sur le réseau.
 
-- **minification du code** (Terser)  
-- **compression avancée** (Gzip + Brotli)  
-- **découpage manuel des bundles** (*manual chunks*)  
-- **analyse et visualisation du graphe de dépendances** (Visualizer)
+Les optimisations mises en place reposent principalement sur quatre axes complémentaires : la minification du code, la compression des ressources, le découpage manuel des bundles et l'analyse de la structure finale du build. Bien que chacune de ces techniques puisse être utilisée indépendamment, leur combinaison permet d'obtenir un résultat significativement plus efficace qu'une simple compilation standard.
 
 ### 2.6.1 Terser
 
-La minification consiste à transformer le code JavaScript lisible par les développeurs en une version plus compacte, tout en conservant un comportement identique.
+La première étape consiste à réduire la quantité de code réellement distribuée aux utilisateurs. Lors du développement, le code source est volontairement structuré pour être lisible et maintenable. Les noms de variables sont explicites, les commentaires facilitent la compréhension et l'indentation améliore la navigation dans les fichiers. Ces éléments sont indispensables pour les développeurs mais n'apportent aucune valeur au navigateur lors de l'exécution.
 
-Grâce à **Terser**, plusieurs transformations sont appliquées automatiquement :
+Le processus de minification consiste donc à transformer ce code en une version plus compacte tout en conservant exactement le même comportement fonctionnel. Pour cela, nous avons utilisé **Terser**, un outil spécialisé dans l'optimisation des bundles JavaScript.
 
-- suppression des commentaires  
-- suppression des espaces et indentations  
-- raccourcissement des identifiants  
-- simplification d’expressions  
-- élimination du *dead code*  
-- suppression des <code class="c">console.log</code> et <code class="c">debugger</code>
+Grâce à cet outil, plusieurs transformations sont appliquées automatiquement :
+
+- suppression des commentaires ;
+- suppression des espaces et indentations inutiles ;
+- raccourcissement des identifiants ;
+- simplification d'expressions ;
+- élimination du code mort (*dead code*) ;
+- suppression des instructions de débogage telles que <code class="c">console.log</code> ou <code class="c">debugger</code>.
 
 Exemple :
 
@@ -1407,7 +1405,14 @@ devient :
 function calculateTotal(t,n){return t*n}
 ```
 
-Cette réduction, appliquée à l’ensemble du code, permet de diminuer significativement la taille des bundles. En réalité vite utilise déjà OXC mais Terser est plus lent mais plus performant, cela nous coute rien. Autrement OXC aurait été suffisant mais Terser est légèrement mieux.
+Cette réduction, appliquée à l'ensemble du code applicatif, contribue directement à diminuer la taille des bundles générés. Bien que Vite utilise aujourd'hui OXC comme moteur de minification par défaut, nous avons choisi de conserver Terser pour la génération du build de production. Ce dernier est généralement plus lent lors de la phase de compilation, mais il applique des optimisations plus agressives et produit souvent un résultat légèrement plus compact.
+
+Dans notre contexte, ce temps de compilation supplémentaire reste négligeable puisqu'il n'impacte que les développeurs au moment du déploiement. Nous avons donc privilégié la qualité de l'artefact final plutôt que la vitesse de génération du build.
+
+Les tableaux suivants permettent d'observer l'impact de cette étape sur les différents bundles générés.
+
+<details class="accordion">
+<summary>Voir la comparaison</summary>
 
 <div class="before">
 
@@ -1481,25 +1486,27 @@ dist/assets/pixi-D5OU-vt1.js              469.04 kB
 
 </div>
 
+</details>
+
 ---
 
 ### 2.6.2 Compression des assets : Gzip + Brotli
 
-En complément de la minification, les fichiers générés sont compressés via deux algorithmes :
+La minification constitue une première étape importante, mais elle ne permet pas à elle seule d'exploiter tout le potentiel d'optimisation disponible. Même après suppression des espaces, commentaires et portions de code inutiles, les fichiers générés peuvent encore représenter plusieurs centaines de kilo-octets, notamment lorsqu'ils embarquent des bibliothèques importantes.
 
-- **Gzip**, largement supporté par tous les navigateurs
-- **Brotli**, plus récent et offrant un taux de compression supérieur  
+Afin de réduire davantage la quantité de données réellement transférée entre le serveur et le navigateur, nous avons mis en place une stratégie de compression reposant sur deux algorithmes complémentaires : **Gzip** et **Brotli**.
 
-Grâce au plugin <code class="c">vite-plugin-compression</code>, chaque fichier <code class="c">.js</code>, <code class="c">.css</code>et <code class="c">.html</code>est produit en deux versions :
+Gzip est aujourd'hui supporté par la quasi-totalité des navigateurs et constitue une référence dans l'écosystème web. Brotli est plus récent mais offre généralement de meilleurs taux de compression, en particulier sur les fichiers JavaScript et CSS volumineux. Utiliser simultanément ces deux formats permet de garantir une compatibilité maximale tout en profitant des meilleures performances possibles lorsque le navigateur les supporte.
 
-- <code class="c">*.gz</code>(Gzip)  
-- <code class="c">*.br</code>(Brotli)
+Grâce au plugin <code class="c">vite-plugin-compression</code>, chaque ressource JavaScript, CSS ou HTML est automatiquement générée dans plusieurs versions compressées.
 
-Les serveurs modernes choisissent automatiquement la version la plus efficace selon le navigateur du client.
+Les serveurs modernes sélectionnent ensuite dynamiquement la version la plus adaptée aux capacités du navigateur. Ce mécanisme est totalement transparent pour l'utilisateur final et ne nécessite aucune intervention supplémentaire côté client.
 
-Cette étape permet de réduire la taille transférée de **30 à 70 % supplémentaires**, notamment sur les gros bundles comme React ou PixiJS.
+L'intérêt de cette approche est particulièrement visible sur les dépendances les plus lourdes du projet. Des bibliothèques comme React ou PixiJS contiennent une grande quantité de code répétitif que les algorithmes de compression parviennent à réduire efficacement. Dans certains cas, la taille réellement transférée peut être réduite de plus de moitié par rapport au fichier initial.
 
-```
+Les résultats obtenus lors de la génération du build illustrent clairement ce gain :
+
+```txt
 dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/index.html.br                          3.06kb / brotliCompress: 1.06kb
 ...
 dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb / brotliCompress: 6.63kb
@@ -1515,18 +1522,27 @@ dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br
 
 ### 2.6.3 Découpage manuel des bundles
 
-Afin d’améliorer le caching et d’éviter qu’un changement mineur invalide tout le bundle, un découpage manuel a été mis en place.
+Lors des premiers builds de production, nous avons constaté qu'une partie importante du code était regroupée dans quelques bundles particulièrement volumineux. Cette approche reste acceptable pour de petites applications, mais elle devient rapidement problématique lorsqu'un projet commence à accumuler de nombreuses dépendances externes.
 
-Ce découpage sépare explicitement les dépendances majeures :
+Le principal inconvénient concerne la gestion du cache navigateur. Lorsqu'un bundle contient à la fois du code métier et des bibliothèques tierces, une simple modification dans l'application peut obliger l'utilisateur à retélécharger l'ensemble du fichier, même si les dépendances embarquées n'ont pas changé.
 
-- **react** : React, ReactDOM, Scheduler  
-- **router** : React Router  
-- **helmet** : React Helmet Async  
-- **vendor** : Zustand, use-debounce, react-fast-compare, shallowEqual, react-hook-form  
-- **ui** : composants UI internes  
-- **api** : couche API interne  
-- **pixi** : moteur PixiJS  
-- **index** : code applicatif principal
+Cette situation est particulièrement inefficace pour des bibliothèques telles que React ou PixiJS, dont le contenu évolue rarement entre deux déploiements successifs. En les mélangeant au reste du code applicatif, on réduit considérablement l'efficacité du cache.
+
+Pour résoudre ce problème, nous avons mis en place un découpage manuel des bundles grâce à la fonctionnalité <code class="c">manualChunks</code> de Rollup. L'objectif est de regrouper les dépendances selon leur rôle afin qu'elles puissent évoluer indépendamment les unes des autres.
+
+Les principales catégories définies sont les suivantes :
+
+* React et son écosystème ;
+* le système de routage ;
+* la gestion des métadonnées SEO ;
+* les dépendances utilitaires ;
+* les composants d'interface ;
+* la couche API ;
+* PixiJS ;
+* le code applicatif principal.
+
+<details class="accordion">
+<summary>Voir le <code class="c">vite.config.ts</code></summary>
 
 ```ts
 //  frontend/vite.config.ts
@@ -1585,18 +1601,20 @@ export default defineConfig({
 })
 ```
 
-Ce découpage permet :
+</details>
 
-- un meilleur caching (React ne change presque jamais)  
-- un chargement plus rapide des pages  
-- une meilleure parallélisation des téléchargements  
-- une réduction du bundle principal
+Cette séparation présente plusieurs avantages. Tout d'abord, elle améliore considérablement l'efficacité du cache navigateur puisque les bibliothèques stables peuvent être conservées plus longtemps. Elle favorise également la parallélisation des téléchargements, le navigateur pouvant récupérer plusieurs ressources simultanément. Enfin, elle réduit la taille du bundle principal, ce qui accélère le démarrage initial de l'application.
+
+Les comparaisons suivantes permettent d'observer l'évolution de la structure du build après la mise en place de cette stratégie.
+
+<details class="accordion">
+<summary>Voir la comparaison</summary>
 
 <div class="before">
 
 #### Avant
 
-```
+```txt
 dist/index.html                                     2.76 kB
 dist/assets/Cookies-UiqeZG4K.css                    0.11 kB
 dist/assets/Login-C0AxRG4F.css                      0.71 kB
@@ -1643,7 +1661,7 @@ dist/assets/index-DaygSgMl.js                     269.69 kB
 
 #### Après
 
-```
+```txt
 /UnlockIt/apps/frontend/index.html.br                          3.06kb
 /UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          2.45kb
 /UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          2.62kb
@@ -1672,28 +1690,25 @@ dist/assets/index-DaygSgMl.js                     269.69 kB
 
 </div>
 
+</details>
+
 ---
 
 ### 2.6.4 Visualisation du graphe de dépendances
 
-Pour analyser la structure finale du build, le plugin **rollup-plugin-visualizer** a été intégré.
+À mesure que les optimisations se sont multipliées, il est devenu plus difficile d'évaluer précisément leur impact sur la structure finale du build. Les statistiques fournies par Vite donnent une indication sur la taille des fichiers générés, mais elles ne permettent pas toujours de comprendre comment les différentes dépendances sont regroupées ni quelles parties du projet occupent réellement le plus d'espace.
 
-Il génère un fichier <code class="c">stats.html</code> permettant :
+Afin d'obtenir une vision plus globale du résultat produit par la compilation, nous avons intégré le plugin **rollup-plugin-visualizer**.
 
-- d’identifier les dépendances les plus lourdes  
-- de visualiser les relations entre modules  
-- de vérifier que les <code class="c">manualChunks</code> fonctionnent correctement  
-- d’optimiser le découpage si nécessaire
+Cet outil génère un rapport interactif sous la forme d'un fichier <code class="c">stats.html</code>. Chaque module y est représenté graphiquement selon sa taille réelle dans le bundle final, ce qui facilite l'identification des dépendances les plus coûteuses ainsi que l'analyse des relations entre les différents composants de l'application.
 
-Cet outil a notamment permis de confirmer que :
+Au-delà de son aspect visuel, cet outil s'est révélé particulièrement utile pour valider les optimisations précédemment mises en place. Il nous a notamment permis de vérifier que les différents groupes définis via <code class="c">manualChunks</code> étaient correctement isolés et qu'aucune dépendance importante ne se retrouvait accidentellement dans le bundle principal.
 
-- React, Router, Pixi et l’API sont bien isolés  
-- les composants UI sont regroupés dans un chunk dédié  
-- aucune dépendance lourde ne se retrouve dans le bundle principal
+L'analyse du rapport confirme notamment que React, React Router, PixiJS et la couche API sont regroupés dans des chunks distincts. Les composants d'interface sont également isolés dans un bundle dédié, ce qui améliore la lisibilité globale de l'architecture générée lors du build.
 
 ![Rollup report treemap](src/assets//compression.png)
 
----
+La visualisation constitue ainsi une étape de validation complémentaire aux mesures de taille. Elle permet non seulement de constater qu'une optimisation fonctionne, mais également de comprendre précisément pourquoi elle fonctionne et quels modules en bénéficient réellement.
 
 ## 2.7 Difficultés rencontrées et solutions
 

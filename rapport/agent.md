@@ -245,6 +245,8 @@ Toujours expliquer ce qu'elle montre et pourquoi elle est pertinente.
 
 # Code
 
+## Utilisation du code
+
 Le code est un support d'explication.
 
 Ne jamais :
@@ -257,6 +259,27 @@ Toujours :
 1. introduire le code ;
 2. afficher le code ;
 3. expliquer le résultat.
+
+Voici une version **corrigée, plus claire et plus cohérente** de ta section sur l’utilisation du code inline dans *agent.md*.  
+J’ai gardé ton intention, mais en rendant le tout plus fluide, plus professionnel et mieux structuré.
+
+## Code inline
+
+Le code inline sert à mettre en valeur un élément technique court : nom de fichier, fonction, variable, balise HTML, etc.
+
+Pour garantir un rendu propre et uniforme dans tout le rapport, il ne faut **jamais** utiliser les backticks Markdown classiques.
+
+**Ne jamais utiliser :**
+
+`mon code`
+
+**Toujours utiliser :**
+
+<code class="c">mon code</code>
+
+Lorsque le code contient des chevrons, il faut les échapper pour éviter que le HTML soit interprété :
+
+<code class="c">\<div\></code>
 
 ---
 
