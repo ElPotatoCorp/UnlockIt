@@ -864,33 +864,76 @@ Cependant, comprendre comment un navigateur répartit réellement le travail (ex
 
 ### 2.3.5 Lazy Loading et Suspense
 
-L'une des optimisations les plus importantes apportées à cette nouvelle version concerne la stratégie de chargement des pages. Dans la première version du projet, l'ensemble des routes principales était importé directement au démarrage de l'application. Même lorsqu'un utilisateur ne visitait qu'une petite partie du site, il téléchargeait malgré tout une quantité importante de JavaScript.
+L’une des optimisations majeures apportées à cette nouvelle version concerne la manière dont les pages sont chargées. Dans la première version du projet, toutes les routes principales étaient importées dès le démarrage de l’application. Même lorsqu’un utilisateur ne consultait qu’une seule page, il téléchargeait malgré tout l’ensemble du code JavaScript du site. Cette approche reste acceptable pour une petite application, mais devient rapidement coûteuse lorsque le nombre de pages augmente : le navigateur doit charger, analyser et exécuter davantage de code avant d’afficher la moindre interface.
 
-Cette approche reste acceptable pour de petites applications, mais devient rapidement problématique lorsque le nombre de pages augmente. Le navigateur doit télécharger, analyser et exécuter davantage de code avant de pouvoir afficher l'interface.
-
-Pour résoudre ce problème, nous avons mis en place une stratégie de **code splitting** basée sur **React.lazy** et **Suspense**.
+Pour résoudre ce problème, nous avons mis en place une stratégie de **code splitting** basée sur **React.lazy** et **Suspense**. Chaque page importante est désormais chargée dynamiquement, uniquement lorsque l’utilisateur en a réellement besoin.
 
 ```tsx
-const ProductPage = lazy(() => import("./pages/ProductPage"));
-
-<Suspense fallback={<Loader />}>
-    <ProductPage />
-</Suspense>
+const Home = lazy(() => import("./pages/home/Home"));
+const Search = lazy(() => import("./pages/search/Search"));
+// ...
 ```
 
-Avec cette approche, le code d'une page n'est téléchargé qu'au moment où l'utilisateur en a réellement besoin. Chaque route importante devient ainsi un bundle indépendant pouvant être chargé dynamiquement.
+Pour éviter de répéter la même structure dans chaque route, une petite fonction utilitaire <code class="c">lazyRoute()</code> encapsule automatiquement le composant dans un <code class="c">\<Suspense\></code> avec un loader personnalisé :
 
-Cette optimisation apporte plusieurs avantages :
+```tsx
+function lazyRoute(element: React.ReactNode) {
+  return (
+    <Suspense fallback={<Loader />}>
+      {element}
+    </Suspense>
+  );
+}
+```
 
-- réduction significative de la taille du bundle initial ;
-- diminution du temps de téléchargement lors du premier chargement ;
-- réduction du temps d'analyse et d'exécution JavaScript ;
-- amélioration des métriques Lighthouse ;
-- meilleure expérience utilisateur sur les connexions lentes.
+Le composant **Loader** affiche un spinner (composant <code class="c">Loading</code> réutilisé depuis un autre projet) et sert d’indicateur visuel pendant le chargement d’une page, évitant ainsi à l’utilisateur de se retrouver face à un écran vide.
 
-Le composant **Suspense** joue ici un rôle essentiel. Lorsqu'une ressource n'est pas encore disponible, React affiche temporairement un composant de remplacement (*fallback*), généralement un loader ou un skeleton. L'utilisateur obtient ainsi un retour visuel immédiat plutôt qu'un écran vide.
+```tsx
+export function Loader() {
+  return (
+    <div id="page-loading">
+      <Loading />
+    </div>
+  );
+}
+```
 
-Cette technique s'est révélée particulièrement efficace pour les pages rarement consultées, comme certaines pages de paramètres ou de gestion du compte. Leur code n'est chargé que lorsqu'il devient réellement nécessaire, ce qui contribue à maintenir une interface réactive même lorsque l'application continue de s'enrichir.
+Voici un exemple forcé avec une mauvaise connexion (Regular 2G) : on peut voir apparaître rapidement le spinner entre les pages. En général, on ne le voit jamais ou seulement une fraction de seconde grâce à l’optimisation des fichiers et à la réduction des dépendances ; voir la section <a href="#26-build-et-compression">2.6 Build et compression</a> pour plus d’informations sur la taille des bundles et le découpage en chunks.
+
+![Loader](src/assets/loader.gif)
+
+<details class="accordion">
+<summary>Utilisation dans le <code class="c">App.tsx</code></summary>
+
+```tsx
+export default function App() {
+  return (
+    <...>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<Home />}/>
+            {["/home", "/store", "/shop"].map((path) => (
+              <Route key={path} path={path} element={<Navigate to="/" replace />} />
+            ))}
+
+            <Route path="/search" element={lazyRoute(<Search />)} />
+            <Route path="/search/:term" element={lazyRoute(<Search />)} />
+
+            ...
+
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </...>
+  );
+}
+```
+
+</details>
+
+Grâce à cette architecture, chaque page devient un bundle indépendant, chargé uniquement lorsqu’elle est visitée. Cela réduit significativement la taille du bundle initial, diminue le temps de téléchargement et le temps d’analyse/exécution JavaScript au premier chargement, améliore les métriques Lighthouse (notamment Performance et Best Practices) et offre une meilleure expérience utilisateur sur les connexions lentes. Le composant **Suspense** est central : lorsqu’un module n’est pas encore disponible, React affiche le *fallback* (le <code class="c">Loader</code>), fournissant un retour visuel immédiat et améliorant la perception de fluidité.
 
 ---
 
@@ -1526,6 +1569,10 @@ La comparaison entre les deux projets est sans ambiguïté : le loader fonctionn
 Ce constat confirmait que notre implémentation était correcte et que le problème ne venait pas de notre code, mais bien d’un changement interne dans React Router.
 
 La solution la plus raisonnable, compte tenu des délais du projet, a donc été de downgrader React Router vers la version 6, ce qui a immédiatement rétabli le fonctionnement attendu de Suspense. Ce choix implique de conserver une version légèrement moins récente, mais cela n’a pas d’impact majeur sur la stabilité de l’application. La seule conséquence est un avertissement lié au fait que la version 7 corrige certaines vulnérabilités mineures, mais aucune n’est critique dans notre contexte.
+
+### 2.7.3 : Symétrie du Background
+
+Sur la droite dessiner vers le centre. Voila.
 
 # 3. Backend
 
