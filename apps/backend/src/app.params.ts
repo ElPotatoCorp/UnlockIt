@@ -76,6 +76,10 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Wallet',
       'Endpoints related to wallet management, including addition of funds, retrieving the balance, or seeing all transactions'
     )
+    .addTag(
+      'Checkout',
+      'Endpoints related to a checkout, for now including only the payment process using wallet only (we are still in dev)'
+    )
     .addGlobalResponse({
       status: 500,
       description:
