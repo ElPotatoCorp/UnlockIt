@@ -16,7 +16,7 @@ export class WishlistEntity implements IWishlistEntity {
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
-  @WishlistEntityDoc.GameId()
+  @WishlistEntityDoc.GameId(false)
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 

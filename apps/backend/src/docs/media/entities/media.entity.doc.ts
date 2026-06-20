@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 
 export const MediaEntityDoc = {
   Id: () =>
@@ -12,15 +13,7 @@ export const MediaEntityDoc = {
       }),
     ),
 
-  GameId: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'Game ID',
-        description: 'ID of the game this media belongs to.',
-        type: Number,
-        example: 42,
-      }),
-    ),
+  GameId: GamePrimitiveEntityDoc.Id,
 
   Url: (required = true) =>
     applyDecorators(
