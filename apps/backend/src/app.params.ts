@@ -38,6 +38,7 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Series',
       'Endpoints related to series management, including creation, retrieval, updating, and deletion of series',
     )
+    .addTag('Wishlist', 'Endpoints related to the authenticated user\'s wishlist')
     .addGlobalResponse({
       status: 500,
       description:

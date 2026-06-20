@@ -1,4 +1,5 @@
 import { ExactData, WishlistEntity as IWishlistEntity } from '@unlockit/shared';
+import { WishlistEntityDoc } from 'src/docs/wishlist/entities/wishlist.entity.doc';
 import { GameEntity } from 'src/games/entities/game.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
@@ -11,12 +12,15 @@ import {
 
 @Entity('wishlist')
 export class WishlistEntity implements IWishlistEntity {
+  @WishlistEntityDoc.UserId()
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
+  @WishlistEntityDoc.GameId()
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
 
+  @WishlistEntityDoc.AddedAt()
   @CreateDateColumn({ name: 'added_at', type: 'timestamptz' })
   addedAt: Date;
 
