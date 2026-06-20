@@ -143,6 +143,7 @@ export const SearchGameOptionsDtoDoc = {
         title: 'Platforms filter',
         description: 'Filter games by supported platforms.',
         type: PartialGamePlatformDto,
+        required: false
       }),
     ),
 };
