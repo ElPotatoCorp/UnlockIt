@@ -63,6 +63,11 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Purchases',
       'Endpoints related to purchases, such as seeing all purchases, one, the keys, and also to manage reviews (creation, modification, deletion)'
     )
+    .addTag(
+      'Tickets',
+      'Endpoints related to tickets management, including creation by anyone, retrieval by owner and employees, updating and deletionn by employees of tickets'
+    )
+    .addTag('Employees', 'Warning: Not implemented yet')
     .addGlobalResponse({
       status: 500,
       description:
