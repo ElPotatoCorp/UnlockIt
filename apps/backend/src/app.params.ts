@@ -55,6 +55,14 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Single endpoints to vote for a review'
     )
     .addTag('Wishlist', 'Endpoints related to the authenticated user\'s wishlist')
+    .addTag(
+      'Cart',
+      'Endpoints related to cart content management, including retrieval, addition, updating, and deletion of items'
+    )
+    .addTag(
+      'Purchases',
+      'Endpoints related to purchases, such as seeing all purchases, one, the keys, and also to manage reviews (creation, modification, deletion)'
+    )
     .addGlobalResponse({
       status: 500,
       description:

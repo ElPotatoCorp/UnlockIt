@@ -86,19 +86,19 @@ export class PurchasesService {
 
   // --- Reviews ---
   async addReview(userId: string, orderId: string, gameId: number, createReviewDto: CreateReviewDto) {
-    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
 
     this.reviewsService.create(userId, gameId, createReviewDto);
   }
 
   async updateReview(userId: string, orderId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
-    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
 
     this.reviewsService.update(userId, gameId, updateReviewDto);
   }
 
   async removeReview(userId: string, orderId: string, gameId: number) {
-    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
 
     this.reviewsService.remove(userId, gameId);
   }
