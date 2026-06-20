@@ -19,7 +19,7 @@ export class MediaEntity implements IMediaEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
 
-  @MediaEntityDoc.GameId()
+  @MediaEntityDoc.GameId(false)
   @Column('bigint', { name: 'game_id' })
   gameId: number;
 

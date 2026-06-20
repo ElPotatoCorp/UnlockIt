@@ -12,7 +12,7 @@ import {
 
 @Entity('wishlist')
 export class WishlistEntity implements IWishlistEntity {
-  @WishlistEntityDoc.UserId()
+  @WishlistEntityDoc.UserId(false)
   @PrimaryColumn('uuid', { name: 'user_id' })
   userId: string;
 
