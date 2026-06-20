@@ -35,6 +35,18 @@ function applyAppDocumentation(app: INestApplication<any>): void {
       'Endpoints related to game management, including creation, retrieval, updating, and deletion of games',
     )
     .addTag(
+      'Tags',
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of tags'
+    )
+    .addTag(
+      'Developers',
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of developers'
+    )
+    .addTag(
+      'Publishers',
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of publishers'
+    )
+    .addTag(
       'Series',
       'Endpoints related to series management, including creation, retrieval, updating, and deletion of series',
     )
