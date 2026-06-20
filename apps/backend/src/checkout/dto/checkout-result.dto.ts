@@ -1,7 +1,8 @@
-import { CheckoutResult, ExactData, Order } from '@unlockit/shared';
+import { CheckoutResult, ExactData } from '@unlockit/shared';
+import { OrderDto } from 'src/orders/dto/order.dto';
 
 export class CheckoutResultDto implements CheckoutResult {
-  order: Order;
+  order: OrderDto;
   clientSecret: string | null;
 }
 

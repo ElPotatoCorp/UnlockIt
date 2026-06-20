@@ -4,7 +4,7 @@ import { LessThan, Repository } from 'typeorm';
 import { OrderEntity } from './entities/order.entity';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
-import { OrderDetailDto } from './dto/order-detail.dto';
+import { OrderDto } from './dto/order.dto';
 import { OrderMapper } from './order.mapper';
 import { OrderStatus } from '@unlockit/shared';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -29,7 +29,7 @@ export class OrdersService {
     );
   }
 
-  async findOne(orderId: string, userId: string): Promise<OrderDetailDto> {
+  async findOne(orderId: string, userId: string): Promise<OrderDto> {
     const order = await this.commonService.entities.fetchEntityOrFail(
       this.orderRepository,
       {
@@ -45,7 +45,7 @@ export class OrdersService {
       }
     );
 
-    return OrderMapper.toDetail(order);
+    return OrderMapper.toOrder(order);
   }
 
   @Cron(CronExpression.EVERY_5_MINUTES)

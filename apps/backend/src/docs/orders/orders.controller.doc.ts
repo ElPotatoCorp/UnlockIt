@@ -11,8 +11,8 @@ import {
 import { ApiAuth } from 'src/docs/auth/decorators/api-auth.decorator';
 import { PaginatedDto } from 'src/common/pagination/dto/paginated.dto';
 import { PaginatedDtoSchemaDoc } from 'src/docs/common/dto/paginated.dto.doc';
-import { SummaryOrderDto } from 'src/orders/dto/summary-order.dto';
-import { OrderDetailDto } from 'src/orders/dto/order-detail.dto';
+import { OrderSummaryDto } from 'src/orders/dto/summary-order.dto';
+import { OrderDto } from 'src/orders/dto/order.dto';
 
 const ORDER_ID_PATH_PARAM = ApiParam({
   name: 'id',
@@ -33,10 +33,10 @@ export const OrdersControllerDoc = {
         description:
           "Returns a paginated list of the authenticated user's orders.",
       }),
-      ApiExtraModels(PaginatedDto, SummaryOrderDto),
+      ApiExtraModels(PaginatedDto, OrderSummaryDto),
       ApiOkResponse({
         description: 'Paginated list of orders.',
-        schema: PaginatedDtoSchemaDoc(SummaryOrderDto),
+        schema: PaginatedDtoSchemaDoc(OrderSummaryDto),
       }),
       ApiBadRequestResponse({ description: 'Invalid pagination parameters.' }),
     ),
@@ -49,7 +49,7 @@ export const OrdersControllerDoc = {
         description: 'Returns full order detail, including line items.',
       }),
       ORDER_ID_PATH_PARAM,
-      ApiOkResponse({ description: 'Order found.', type: OrderDetailDto }),
+      ApiOkResponse({ description: 'Order found.', type: OrderDto }),
       ApiNotFoundResponse({
         description:
           'No order found with the specified ID, or it does not belong to the authenticated user.',

@@ -3,7 +3,7 @@ import { OrderItemDto } from './order-item.dto';
 import { OrderEntityDoc } from 'src/docs/orders/entities/order.entity.doc';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class OrderDetailDto implements Order {
+export class OrderDto implements Order {
   @OrderEntityDoc.Id(false)
   id: string;
 
@@ -30,4 +30,4 @@ export class OrderDetailDto implements Order {
   items: OrderItemDto[];
 }
 
-const _assertExact: ExactData<Order, OrderDetailDto> = true;
+const _assertExact: ExactData<Order, OrderDto> = true;

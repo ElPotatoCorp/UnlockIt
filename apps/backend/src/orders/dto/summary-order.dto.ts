@@ -1,7 +1,7 @@
 import { ExactData, OrderStatus, OrderSummary } from '@unlockit/shared';
 import { OrderEntityDoc } from 'src/docs/orders/entities/order.entity.doc';
 
-export class SummaryOrderDto implements OrderSummary {
+export class OrderSummaryDto implements OrderSummary {
   @OrderEntityDoc.Id(false)
   id: string;
 
@@ -21,4 +21,4 @@ export class SummaryOrderDto implements OrderSummary {
   completedAt: Date | null;
 }
 
-const _assertExact: ExactData<OrderSummary, SummaryOrderDto> = true;
+const _assertExact: ExactData<OrderSummary, OrderSummaryDto> = true;
