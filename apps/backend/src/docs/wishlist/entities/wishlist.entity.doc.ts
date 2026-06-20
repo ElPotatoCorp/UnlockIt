@@ -1,29 +1,12 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 
 export const WishlistEntityDoc = {
-  UserId: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'User ID',
-        description: 'The UUID of the user who added the game to their wishlist.',
-        type: String,
-        format: 'uuid',
-        example: '08dbd076-c3d8-46d4-bb0d-ebedc8bebd1f',
-        readOnly: true,
-      }),
-    ),
+  UserId: UserEntityDoc.Id,
 
-  GameId: () =>
-    applyDecorators(
-      ApiProperty({
-        title: 'Game ID',
-        description: 'The ID of the wishlisted game.',
-        type: Number,
-        example: 42,
-        readOnly: true,
-      }),
-    ),
+  GameId: GamePrimitiveEntityDoc.Id,
 
   AddedAt: () =>
     applyDecorators(
