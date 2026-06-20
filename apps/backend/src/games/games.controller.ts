@@ -36,7 +36,6 @@ import { User } from 'src/user/decorators/user.decorator';
 import { BulkDuplicatedEntryPipe } from 'src/common/entities/pipes/bulk-duplicated-entry.pipe';
 import { StockEntity } from 'src/stocks/entities/stock.entity';
 import { EntityExistsPipe } from 'src/common/entities/pipes/entity-exists.pipe';
-import { ReviewVoteDto } from 'src/reviews/dto/review-vote.dto';
 import { GameMapper } from './game.mapper';
 
 @GamesControllerDoc.Controller()
