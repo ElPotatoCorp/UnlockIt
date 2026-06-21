@@ -26,6 +26,33 @@ export const authService = {
         }
     },
 
+    forgottenPassword: async (identifier: string) => {
+        try {
+            const res = await api.post("/auth/forgotten-password", { identifier });
+            return res.data.resetToken; // DEV ONLY
+        } catch (err: any) {
+            const s = err.response?.status;
+
+            if (s === 400) throw { message: "Identifiant invalide." };
+            if (s === 429) throw { message: "Trop de demandes. Réessayez plus tard." };
+            throw { message: "Erreur serveur." };
+        }
+    },
+
+    resetPassword: async (resetToken: string, password: string) => {
+        try {
+            await api.post(`/auth/reset-password/${resetToken}`, { password });
+        } catch (err: any) {
+            const s = err.response?.status;
+
+            if (s === 400) throw { message: "Mot de passe trop faible ou invalide." };
+            if (s === 404) throw { message: "Lien de réinitialisation invalide ou expiré." };
+            if (s === 422) throw { message: "Utilisateur introuvable." };
+            if (s === 429) throw { message: "Trop de tentatives. Réessayez plus tard." };
+            throw { message: "Erreur serveur." };
+        }
+    },
+
     fetchSession: async () => {
         try {
             const res = await api.get("/auth/me");

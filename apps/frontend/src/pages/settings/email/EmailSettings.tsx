@@ -13,7 +13,9 @@ export const EmailSettings: FC = () => {
   if (!user) return null;
 
   const currentEmail = user.email || "Non renseigné";
-  const maskedEmail = user.email ? currentEmail.replace(/(.{3}).+(@.+)/, "$1***$2") : "Non renseigné";
+  const maskedEmail = user.email
+    ? currentEmail.replace(/(.{3}).+(@.+)/, "$1***$2")
+    : "Non renseigné";
 
   const hasAt = email.includes("@");
   const hasDomain = /\.[a-z]{2,}$/.test(email);
@@ -62,9 +64,6 @@ export const EmailSettings: FC = () => {
             readOnly
             className={`${cardStyles.cardInput} ${styles.readonly}`}
           />
-          <small className={styles.helper}>
-            Cette adresse est utilisée pour vos connexions et vos notifications importantes.
-          </small>
         </div>
 
         <div className={styles.inputWrapper}>

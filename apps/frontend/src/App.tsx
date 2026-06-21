@@ -5,6 +5,7 @@ import { Loader } from "./features/loader/Loader";
 import { HelmetProvider } from "react-helmet-async";
 import { NotFound } from "./features/not-found/NotFound";
 import { ModalProvider } from "./components/common/modal-provider/ModalProvider";
+import { ProfileRedirect } from "./features/profile/ProfileRedirect";
 
 /** @ts-ignore */
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
@@ -21,6 +22,8 @@ const Cookies = lazy(() => import("./pages/cookies/Cookies"));
 const Refunds = lazy(() => import("./pages/refunds/Refunds"));
 const Login = lazy(() => import("./features/login/Login"));
 const Register = lazy(() => import("./features/register/Register"));
+const ForgottenPassword = lazy(() => import("./features/forgotten-password/ForgottenPassword"));
+const ResetPassword = lazy(() => import("./features/reset-password/ResetPassword"));
 const Home = lazy(() => import("./pages/home/Home"));
 const Search = lazy(() => import("./pages/search/Search"));
 const Wishlist = lazy(() => import("./pages/wishlist/Wishlist"));
@@ -58,6 +61,8 @@ export default function App() {
               <Route path="/refunds" element={lazyRoute(<Refunds />)} />
               <Route path="/login" element={lazyRoute(<Login />)} />
               <Route path="/register" element={lazyRoute(<Register />)} />
+              <Route path="/forgotten-password" element={lazyRoute(<ForgottenPassword />)} />
+              <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
               <Route path="/search" element={lazyRoute(<Search />)} />
               <Route path="/search/:term" element={lazyRoute(<Search />)} />
               <Route path="/wishlist" element={lazyRoute(<Wishlist />)} />
@@ -69,6 +74,7 @@ export default function App() {
               <Route path="/cart" element={lazyRoute(<Cart />)} />
               <Route path="/users/:userId" element={lazyRoute(<UserProfile />)} />
 
+              <Route path="/profile" element={<ProfileRedirect />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

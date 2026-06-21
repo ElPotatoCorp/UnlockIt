@@ -13,6 +13,14 @@ export function useAuth() {
     await authService.register(username, email, password);
   };
 
+  const forgottenPassword = async (identifier: string) => {
+    return await authService.forgottenPassword(identifier);
+  };
+
+  const resetPassword = async (resetToken: string, password: string) => {
+    await authService.resetPassword(resetToken, password);
+  };
+
   const fetchSession = async () => {
     try {
       const data = await authService.fetchSession();
@@ -40,5 +48,7 @@ export function useAuth() {
     register,
     logout,
     fetchSession,
+    forgottenPassword,
+    resetPassword,
   };
 }

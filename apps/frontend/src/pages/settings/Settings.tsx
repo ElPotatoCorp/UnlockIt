@@ -4,17 +4,13 @@ import { useAuth } from "../../api/hooks/useAuth.hook";
 import { useUser } from "../../api/hooks/useUser.hook";
 import styles from "./settings.module.css";
 
-/*
-import { AccountDetails } from "./account-details/AccountDetails";
-import { PasswordSettings } from "./password/PasswordSettings";
-import { EmailSettings } from "./email/EmailSettings";
-import { Wallet } from "./wallet/Wallet";
-*/
 import { Profile } from "./profile/Profile";
 import { AccountDangerZone } from "./danger-zone/AccountDangerZone";
 import Loading from "../../components/common/loading/Loading";
 import { AccountDetails } from "./account-details/AccountDetails";
 import { Wallet } from "./wallet/Wallet";
+import { EmailSettings } from "./email/EmailSettings";
+import { PasswordSettings } from "./password/PasswordSettings";
 
 const Settings: FC = () => {
   const { isLogged, fetchSession } = useAuth();
@@ -23,9 +19,6 @@ const Settings: FC = () => {
   const [checkingSession, setCheckingSession] = useState(true);
   const [loadingData, setLoadingData] = useState(false);
 
-  // Ensures session state is fresh if this page is hit directly (e.g. on refresh).
-  // TODO: if there's already an app-level bootstrap that calls fetchSession on mount
-  // (e.g. in App.tsx), this is redundant and can be dropped in favor of just reading isLogged.
   useEffect(() => {
     fetchSession().finally(() => setCheckingSession(false));
   }, []);
@@ -35,9 +28,6 @@ const Settings: FC = () => {
 
     setLoadingData(true);
     Promise.all([loadUser(), loadProfile(), loadBilling()]).finally(() => setLoadingData(false));
-    // Note: loadUser/loadProfile/loadBilling swallow non-auth errors silently (see useUser.hook.ts),
-    // so there's no real error message to surface here if e.g. the server 500s — only a generic
-    // fallback below if `user` ends up empty.
   }, [checkingSession, isLogged]);
 
   if (checkingSession || loadingData) {
@@ -74,13 +64,11 @@ const Settings: FC = () => {
         <AccountDetails />
       </div>
 
-      {/*
       <div className={styles.cardGrid}>
         <EmailSettings />
         <PasswordSettings />
       </div>
-      */}
-
+      
       <div className={styles.cardGrid}>
         <Wallet />
       </div>
