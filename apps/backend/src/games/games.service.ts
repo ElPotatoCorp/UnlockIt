@@ -327,8 +327,8 @@ export class GamesService {
   }
 
   // --- Reviews ---
-  getReviews(gameId: number, paginationQueryDto: PaginationQueryDto) {
-    return this.reviewsService.findAll(gameId, paginationQueryDto);
+  getReviews(gameId: number, paginationQueryDto: PaginationQueryDto, userId?: string) {
+    return this.reviewsService.findAll(gameId, paginationQueryDto, userId);
   }
 
   // --- Stock ---

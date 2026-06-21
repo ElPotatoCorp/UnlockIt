@@ -248,12 +248,14 @@ export class GamesController {
   // --- Reviews ---
   @GamesControllerDoc.GetReviews()
   @Public()
+  @UseGuards(JwtAuthOptionalGuard)
   @Get(':id/reviews')
   getReviews(
     @Param('id', ParseIntPipe) id: number,
     @Query() paginationQueryDto: PaginationQueryDto,
+    @User('sub') userId?: string,
   ) {
-    return this.gamesService.getReviews(id, paginationQueryDto);
+    return this.gamesService.getReviews(id, paginationQueryDto, userId);
   }
 
   // --- Stocks ---

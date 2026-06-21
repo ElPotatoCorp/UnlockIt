@@ -3,7 +3,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReviewEntity } from './entities/review.entity';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { ReviewVoteEntity } from './entities/review-vote.entity';
@@ -26,8 +26,8 @@ export class ReviewsService {
     return this.reviewRepository.save(review);
   }
 
-  findAll(gameId: number, paginationQueryDto: PaginationQueryDto) {
-    return this.commonService.pagination.getPaginatedResponse(
+  async findAll(gameId: number, paginationQueryDto: PaginationQueryDto, userId?: string) {
+    const res = await this.commonService.pagination.getPaginatedResponse(
       this.reviewRepository,
       paginationQueryDto,
       {
@@ -35,6 +35,19 @@ export class ReviewsService {
         transform: { fn: ReviewMapper.toReview },
       },
     );
+
+    if (userId) {
+      const reviewIds = res.data.map(review => review.id);
+      const voted = await this.getUserVotes(userId, reviewIds);
+      const votedSet = new Set(voted.map(v => v.reviewId));
+
+      res.data.map(review => ({
+        ...review,
+        ...(votedSet.has(review.id) ? { voted: voted.find(vote => vote.reviewId === review.id) } : { })
+      }))
+    }
+
+    return res;
   }
 
   findOne(userId: string, gameId: number) {
@@ -87,6 +100,15 @@ export class ReviewsService {
       await this.reviewRepository.update(review.id, { ...newCounts });
       return value;
     });
+  }
+
+  async getUserVotes(userId: string, reviewIds: string[]) {
+    const votes = await this.reviewVoteRepository.find({ where: {
+      userId,
+      reviewId: In(reviewIds),
+    }});
+
+    return votes.map(vote => ({ reviewId: vote.reviewId, helpful: vote.helpful }));
   }
 
   update(userId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
