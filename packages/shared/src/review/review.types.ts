@@ -14,7 +14,7 @@ export type ReviewEntity = {
   rate: number;
 
   helpfulCount: number;
-  unhelpfulCount: number;
+  unHelpfulCount: number;
 
   lastEdited: Date | null;
 }

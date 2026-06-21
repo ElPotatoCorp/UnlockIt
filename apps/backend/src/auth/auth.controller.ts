@@ -29,10 +29,9 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { TicketsService } from 'src/tickets/tickets.service';
 import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { EntityFetchPipe } from 'src/common/entities/pipes/fetch-entity.pipe';
-import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 import coreConfig from 'src/config/core.config';
 import { UserMapper } from 'src/user/user.mapper';
+import { JwtAuthOptionalGuard } from './guards/jwt-auth-optional.guard';
 
 @AuthControllerDoc.Controller()
 @Controller('auth')
@@ -95,24 +94,26 @@ export class AuthController {
     this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
   }
 
+  @AuthControllerDoc.ForgottenPassword()
   @Public()
   @Throttle({ authResetPassword: {} })
   @Post('forgotten-password')
-  @HttpCode(HttpStatus.OK)
-  forgottenPassword(@Body() createPasswordResetDto: CreatePasswordResetDto) {
+  async forgottenPassword(@Body() createPasswordResetDto: CreatePasswordResetDto) {
     // In practice, the ticket id should not be returned
     // However, in this case, because we are in dev with no mailing system, we do that way
-    return this.ticketService.createPasswordResetTicket(createPasswordResetDto);
+    return { resetToken: await this.ticketService.createPasswordResetTicket(createPasswordResetDto)};
   }
 
+  @AuthControllerDoc.ResetPassword()
   @Public()
   @Throttle({ authResetPassword: {} })
-  @Post('reset-password/:ticketId')
+  @Post('reset-password/:resetToken')
+  @HttpCode(HttpStatus.OK)
   resetPassword(
-    @Param('ticketId', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(TicketEntity)) ticket: TicketEntity,
+    @Param('resetToken', new ParseUUIDPipe({ version: '4' })) ticketId: string,
     @Body() resetPasswordDto: ResetPasswordDto,
   ) {
-    return this.authService.resetPassword(ticket, resetPasswordDto);
+    return this.authService.resetPassword(ticketId, resetPasswordDto);
   }
 
   @AuthControllerDoc.Refresh()
@@ -137,9 +138,13 @@ export class AuthController {
   }
 
   @AuthControllerDoc.Logout()
+  @Public()
+  @UseGuards(JwtAuthOptionalGuard)
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  logout(@User('sid') sessionId: string, @Response({ passthrough: true }) res) {
+  logout(@Response({ passthrough: true }) res, @User('sid') sessionId?: string) {
+    if (!sessionId) return;
+
     this.authService.logout(sessionId);
 
     res.clearCookie(this.jwt.accessTokenCookieName);

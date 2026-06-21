@@ -33,7 +33,7 @@ export class ReviewEntity implements IReviewEntity {
 
   @ReviewEntityDoc.UnhelpfulCount()
   @Column('int', { default: 0 })
-  unhelpfulCount: number;
+  unHelpfulCount: number;
 
   @ReviewEntityDoc.LastEdited()
   @Column('timestamptz', { nullable: true })

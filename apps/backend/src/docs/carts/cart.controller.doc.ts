@@ -46,7 +46,14 @@ export const CartControllerDoc = {
       }),
       ApiOkResponse({
         description: 'Total price.',
-        schema: { type: 'number', example: 49.99 },
+        schema: {
+          properties: {
+            total: {
+              type: 'number',
+              example: 49.99,
+            },
+          },
+        },
       }),
     ),
   

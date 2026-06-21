@@ -6,11 +6,14 @@ import {
   ApiCreatedResponse,
   ApiExtraModels,
   ApiNoContentResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
+  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ApiAuth } from './decorators/api-auth.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -24,6 +27,8 @@ import {
   DuplicatedEntryException,
 } from 'src/common/dto/duplicated-entry.dto';
 import { UserDto } from 'src/user/dto/user.dto';
+import { ResetPasswordDto } from 'src/auth/dto/reset-password.dto';
+import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -137,6 +142,71 @@ export const AuthControllerDoc = {
       }),
       ApiTooManyRequestsResponse({
         description: 'Too many login attempts. Please try again later.',
+      }),
+    ),
+
+    // POST /auth/forgotten-password
+  ForgottenPassword: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'Request a password reset',
+        description:
+          'Creates a password reset ticket for the given identifier (username or email).\n\n' +
+          '**Dev-only behavior:** there is no mailing system yet, so the ticket ID is returned directly in the response body instead of being emailed. This must not ship to production as-is — the ticket ID should only ever reach the user via a sent email.',
+      }),
+      ApiBody({
+        type: CreatePasswordResetDto,
+        examples: {
+          withUsername: {
+            summary: 'With Username',
+            value: { identifier: 'johndoe' },
+          },
+          withEmail: {
+            summary: 'With Email',
+            value: { identifier: 'john.doe@example.com' },
+          },
+        },
+      }),
+      ApiCreatedResponse({
+        description: 'Password reset ticket created.',
+        schema: {
+          example: { resetToken: '7c9e6679-7425-40de-944b-e07fc1f90ae7' },
+        },
+      }),
+      ApiBadRequestResponse({ description: 'Validation failed.' }),
+      ApiTooManyRequestsResponse({
+        description: 'Too many password reset requests. Please try again later.',
+      }),
+    ),
+
+  // POST /auth/reset-password/:ticketId
+  ResetPassword: () =>
+    applyDecorators(
+      ApiOperation({
+        summary: 'Reset password using a ticket',
+        description:
+          'Sets a new password using the ticket ID returned by POST /auth/forgotten-password. The ticket is single-use.',
+      }),
+      ApiParam({
+        name: 'resetToken',
+        type: String,
+        format: 'uuid',
+        description: 'UUID of the password reset ticket.',
+        example: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
+      }),
+      ApiBody({ type: ResetPasswordDto }),
+      ApiOkResponse({ description: 'Password updated successfully.' }),
+      ApiNotFoundResponse({
+        description: 'No ticket found with the specified ID.',
+      }),
+      ApiBadRequestResponse({
+        description: 'Validation failed (weak or too short password).',
+      }),
+      ApiUnprocessableEntityResponse({
+        description: 'The user the request was made for does not exist anymore.'
+      }),
+      ApiTooManyRequestsResponse({
+        description: 'Too many attempts. Please try again later.',
       }),
     ),
 

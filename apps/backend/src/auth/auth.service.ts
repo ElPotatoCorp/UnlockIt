@@ -17,15 +17,22 @@ import { CreateJwtPayloadDto } from './dto/jwt-payload.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { TicketEntity } from 'src/tickets/entities/ticket.entity';
 import { hashPassword } from 'src/user/entities/user.entity';
+import { CommonService } from 'src/common/common.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { LessThan, Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    private sessionsService: SessionsService,
-    @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
+    @InjectRepository(TicketEntity)
+    private readonly reviewRepository: Repository<TicketEntity>,
+    private readonly userService: UserService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+    private readonly sessionsService: SessionsService,
+    private readonly commonService: CommonService,
+    @Inject(jwtConfig.KEY)
+    private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
 
   async validateUser(identifier: string, pass: string) {
@@ -97,9 +104,20 @@ export class AuthService {
   }
 
   async resetPassword(
-    ticket: TicketEntity,
+    ticketId: string,
     resetPasswordDto: ResetPasswordDto,
   ) {
+    let fifteenMinutesLater = new Date();
+    fifteenMinutesLater.setMinutes(fifteenMinutesLater.getMinutes() + 15);
+
+    const ticket = await this.commonService.entities.fetchEntityOrFail(
+      this.reviewRepository,
+      { where: {
+        id: ticketId,
+        createdAt: LessThan(fifteenMinutesLater),
+      }},
+    );
+    
     const user = await this.usersService.findOne({ email: ticket.email });
 
     if (!user) {

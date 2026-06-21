@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderStatus } from '@unlockit/shared';
@@ -58,7 +58,9 @@ export class PurchasesService {
       relations: { order: true, game: true },
     });
 
-    const review = await this.reviewsService.findOne(userId, gameId);
+    const review = await this.reviewsService.findOne(userId, gameId)
+      .then(value => value)
+      .catch(() => undefined);
 
     return PurchaseMapper.toPurchase(item, review);
   }
@@ -86,19 +88,20 @@ export class PurchasesService {
 
   // --- Reviews ---
   async addReview(userId: string, orderId: string, gameId: number, createReviewDto: CreateReviewDto) {
-    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
+    if (await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }) !== true)
+      throw new ConflictException('You already made a review of this game');
 
     this.reviewsService.create(userId, gameId, createReviewDto);
   }
 
   async updateReview(userId: string, orderId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
-    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
+    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
 
     this.reviewsService.update(userId, gameId, updateReviewDto);
   }
 
   async removeReview(userId: string, orderId: string, gameId: number) {
-    await this.commonService.entities.failIfDuplicated(this.orderItemRepository, { orderId, gameId }, 'orderId', 'gameId');
+    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
 
     this.reviewsService.remove(userId, gameId);
   }

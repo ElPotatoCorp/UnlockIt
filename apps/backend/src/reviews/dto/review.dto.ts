@@ -2,7 +2,7 @@ import { ExactData, Review } from "@unlockit/shared";
 import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
 
 export class ReviewDto implements Review {
-  @ReviewEntityDoc.Id()
+  @ReviewEntityDoc.Id(false)
   id: string;
 
   @ReviewEntityDoc.UserId(false)
@@ -18,7 +18,7 @@ export class ReviewDto implements Review {
   @ReviewEntityDoc.HelpfulCount()
   helpfulCount: number;
   @ReviewEntityDoc.UnhelpfulCount()
-  unhelpfulCount: number;
+  unHelpfulCount: number;
 
   @ReviewEntityDoc.LastEdited()
   lastEdited: Date | null;

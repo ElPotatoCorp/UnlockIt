@@ -41,7 +41,6 @@ export class WishlistController {
 
   @WishlistControllerDoc.Add()
   @Post(':id')
-  @HttpCode(HttpStatus.OK)
   add(
     @User('sub') userId: string,
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,

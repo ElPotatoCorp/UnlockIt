@@ -30,8 +30,8 @@ export class CartController {
 
   @CartControllerDoc.Total()
   @Get('total')
-  total(@User('cartId') cartId: string) {
-    return this.cartService.total(cartId);
+  async total(@User('cartId') cartId: string) {
+    return { total: await this.cartService.total(cartId) };
   }
 
   @CartControllerDoc.Toggle()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -44,14 +44,49 @@ export class ReviewsService {
     );
   }
 
-  async vote(userId: string, reviewId: string, reviewVoteDto: ReviewVoteDto) {
-    const vote = this.reviewVoteRepository.create({ 
-      reviewId,
-      userId,
-      ...reviewVoteDto
-    });
+  async vote(userId: string, review: ReviewEntity, reviewVoteDto: ReviewVoteDto) {
+    if (review.userId === userId)
+      throw new ForbiddenException('You cannot vote for your own review')
 
-    return this.reviewVoteRepository.save(vote);
+    const { helpful } = reviewVoteDto;
+    let vote = await this.reviewVoteRepository.findOneBy({ reviewId: review.id, userId });
+
+
+    if (!vote) {
+      vote = this.reviewVoteRepository.create({ 
+        reviewId: review.id,
+        userId,
+      });
+    }
+
+    if (vote.helpful === helpful)
+      return vote;
+
+    const newCounts = {
+      helpfulCount: review.helpfulCount,
+      unHelpfulCount: review.unHelpfulCount,
+    }
+    if (vote.helpful === null) {
+      if (helpful === true)
+        newCounts.helpfulCount += 1;
+      else
+        newCounts.unHelpfulCount += 1;
+    } else if (vote.helpful === false) {
+      newCounts.unHelpfulCount -= 1;
+      if (helpful === true)
+        newCounts.helpfulCount += 1;
+    } else {
+      newCounts.helpfulCount -= 1;
+      if (helpful === false)
+        newCounts.unHelpfulCount += 1;
+    }
+
+    vote.helpful = helpful;
+
+    return this.reviewVoteRepository.save(vote).then(async value => {
+      await this.reviewRepository.update(review.id, { ...newCounts });
+      return value;
+    });
   }
 
   update(userId: string, gameId: number, updateReviewDto: UpdateReviewDto) {

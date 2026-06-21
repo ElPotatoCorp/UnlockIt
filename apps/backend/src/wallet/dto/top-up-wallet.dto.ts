@@ -1,12 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { ExactData, TopUpWallet } from '@unlockit/shared';
 import { Type } from 'class-transformer';
 import { IsNumber, Min } from 'class-validator';
-import { WalletTransactionEntityDoc } from 'src/docs/wallet/entities/wallet-transaction.entity.doc';
 
 export class TopUpWalletDto implements TopUpWallet {
-  @WalletTransactionEntityDoc.Amount()
+  @ApiProperty({
+    title: 'Amount',
+    description: 'The amount to top-up the wallet with.',
+    type: Number,
+    minimum: 5.00,
+    example: 50,
+  })
   @IsNumber({ allowNaN: false, allowInfinity: false, maxDecimalPlaces: 2 })
-  @Min(0.01)
+  @Min(5.00)
   @Type(() => Number)
   amount: number;
 }
