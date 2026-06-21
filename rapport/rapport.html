@@ -413,9 +413,15 @@ code {
     <li class="lvl2"><a href="#33-validation-et-sécurité">3.3 Validation et sécurité</a></li>
     <li class="lvl2"><a href="#34-maintenabilité">3.4 Maintenabilité</a></li>
     <li class="lvl2"><a href="#35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</a></li>
-    <li><a href="#4-conclusion">4. Conclusion</a></li>
-    <li class="lvl2"><a href="#41-bilan">4.1 Bilan</a></li>
-    <li class="lvl2"><a href="#42-perspectives">4.2 Perspectives</a></li>
+    <li><a href="#4-infrastructure">4. Infrastructure</a></li>
+    <li class="lvl2"><a href="#41-une-organisation-en-monorepo">4.1 Une organisation en monorepo</a></li>
+    <li class="lvl2"><a href="#42-le-package-partagé-entre-frontend-et-backend">4.2 Le package partagé entre frontend et backend</a></li>
+    <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
+    <li class="lvl2"><a href="#44-gestion-des-configurations-denvironnement">4.4 Gestion des configurations d'environnement</a></li>
+    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#5-conclusion">5. Conclusion</a></li>
+    <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
+    <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 </div>
 <h1 id="1-introduction">1. Introduction</h1>
@@ -1602,72 +1608,40 @@ dist/C:/xampp/htdocs/unlock-it/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br
 <summary>Voir la comparaison</summary>
 <div class="before">
 <h4 id="avant-1">Avant</h4>
-<pre class="hljs"><code><div>dist/index.html                                     2.76 kB
-dist/assets/Cookies-UiqeZG4K.css                    0.11 kB
-dist/assets/Login-C0AxRG4F.css                      0.71 kB
-dist/assets/Home-CU98n8zi.css                       1.32 kB
-dist/assets/Register-B7OLBotr.css                   1.58 kB
-dist/assets/Button-COE2YxU5.css                     2.66 kB
-dist/assets/Search-CEFxeslf.css                     3.38 kB
-dist/assets/index-D1xD0r0f.css                     20.96 kB
-dist/assets/webworkerAll-1SXaDC3g.js                0.06 kB
-dist/assets/CanvasRenderer-D4cphG7M.js              0.06 kB
-dist/assets/WebGLRenderer-C5idXNI2.js               0.07 kB
-dist/assets/WebGPURenderer-MMTupWOb.js              0.07 kB
-dist/assets/init-CpC2NTHW.js                        0.12 kB
-dist/assets/browserAll-C94rMvy0.js                  0.24 kB
-dist/assets/getTextureBatchBindGroup-BCtPyCB7.js    0.34 kB
-dist/assets/chunk-NMqb_1LM.js                       0.69 kB
-dist/assets/CanvasPool-lV4NR6ei.js                  0.76 kB
-dist/assets/useGames.hook-DP_avpiw.js               1.59 kB
-dist/assets/UnlockItHelmet-DLxbOf9V.js              2.09 kB
-dist/assets/Cookies-tkxTrePq.js                     2.48 kB
-dist/assets/Login-DB3EKccR.js                       2.60 kB
-dist/assets/Refunds-CF1gWARf.js                     2.66 kB
-dist/assets/Legal-CX0ckya-.js                       2.94 kB
-dist/assets/Register-CcYV_0L2.js                    3.62 kB
-dist/assets/Privacy-nqquNPmX.js                     4.76 kB
-dist/assets/Home-CwRyhMtk.js                        4.94 kB
-dist/assets/canvasUtils-BGWjEWTM.js                 6.12 kB
-dist/assets/jsx-runtime-JC2Pqqy6.js                 7.98 kB
-dist/assets/BufferResource-BnDyU-YP.js             10.83 kB
-dist/assets/Search-DoU96MOZ.js                     18.54 kB
-dist/assets/Button-BfgmK8-z.js                     31.18 kB
-dist/assets/FilterSystem-eB1XfaGO.js               40.43 kB
-dist/assets/FederatedEventTarget-4MfRMyfR.js       42.75 kB
-dist/assets/axios.instance-CniEnODU.js             69.71 kB
-dist/assets/RenderTargetSystem-DB8lGoqg.js         78.19 kB
-dist/assets/Geometry-BeqX92IE.js                  101.09 kB
-dist/assets/Background-CP25DxqL.js                198.99 kB
-dist/assets/index-DaygSgMl.js                     269.69 kB
+<pre class="hljs"><code><div>dist/index.html                               2.69 kB
+dist/assets/index-BoaJto8A.css               72.69 kB
+dist/assets/webworkerAll-CAK8RBGT.js          0.05 kB
+dist/assets/init-BYgQinKG.js                  0.11 kB
+dist/assets/browserAll-s-NtV_ZP.js            0.19 kB
+dist/assets/RenderTargetSystem-D7b02OGI.js   78.19 kB
+dist/assets/Geometry-D0qPxWPZ.js            101.78 kB
+dist/assets/index-VbOFR_5W.js               893.52 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
 </div></code></pre>
 </div>
 <div class="after">
 <h4 id="après-1">Après</h4>
-<pre class="hljs"><code><div>/UnlockIt/apps/frontend/index.html.br                          3.06kb
-/UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          2.45kb
-/UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          2.62kb
-/UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       6.68kb
-/UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             4.82kb
-/UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            1.29kb
-/UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            2.56kb
-/UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           15.79kb
-/UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            2.89kb
-/UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        1.55kb
-/UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         3.56kb
-/UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           18.09kb
-/UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           7.71kb
-/UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          3.12kb
-/UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          4.67kb
-/UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              5.17kb
-/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb
-/UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            34.91kb
-/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb
-/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb
-/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb
-/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb
-/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb
-/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb
+<pre class="hljs"><code><div>dist/index.html                               3.13 kB
+dist/assets/Cookies-UiqeZG4K.css              0.11 kB
+dist/assets/ResetPassword-D1X87k5S.css        0.38 kB
+...
+dist/assets/Background-BgQMN0Er.js            6.83 kB
+dist/assets/helmet-BEWe_TGa.js               16.16 kB
+dist/assets/Search-5Cjye_-J.js               20.38 kB
+dist/assets/router-Fyyk7RJ2.js               20.56 kB
+dist/assets/Settings-1AiFYtGY.js             23.20 kB
+dist/assets/Game-BeXVvPTl.js                 27.78 kB
+dist/assets/vendor-B06n5S0l.js               28.89 kB
+dist/assets/index-BrKeFHW3.js                39.54 kB
+dist/assets/Purchase-DbJ9I7WF.js             53.46 kB
+dist/assets/ui-gR1ymoNF.js                   62.14 kB
+dist/assets/api-ga1waxeO.js                  73.03 kB
+dist/assets/react-DaLoBRo7.js               181.55 kB
+dist/assets/pixi-D5OU-vt1.js                469.04 kB
 </div></code></pre>
 </div>
 </details>
@@ -1712,22 +1686,295 @@ dist/assets/index-DaygSgMl.js                     269.69 kB
 <p>La solution la plus raisonnable, compte tenu des délais du projet, a donc été de downgrader React Router vers la version 6, ce qui a immédiatement rétabli le fonctionnement attendu de Suspense. Ce choix implique de conserver une version légèrement moins récente, mais cela n’a pas d’impact majeur sur la stabilité de l’application. La seule conséquence est un avertissement lié au fait que la version 7 corrige certaines vulnérabilités mineures, mais aucune n’est critique dans notre contexte.</p>
 <h1 id="3-backend">3. Backend</h1>
 <h2 id="31-migration-vers-nestjs">3.1 Migration vers NestJS</h2>
-<p>...</p>
+<h3 id="311-constat-technique-sur-le-backend-existant">3.1.1 Constat technique sur le backend existant</h3>
+<p>Avant de détailler les choix qui ont guidé la réécriture du backend, il est utile de revenir sur ce que représentait concrètement l’ancienne version, celle développée en PHP pur durant la SAÉ 3.01. Cette version reposait sur un mini-framework maison, reprenant les grandes lignes du modèle MVC déjà évoqué en introduction, mais construit autour de quatre briques principales : un routeur (<code class="c">Router.php</code>), une couche de requête et de réponse (<code class="c">Request.php</code>, <code class="c">Response.php</code>) et un système de middleware. Ce choix avait du sens à l’époque : il nous permettait de comprendre en profondeur le fonctionnement d’une API HTTP, sans la dépendance ni l’abstraction qu’aurait introduites un framework complet.</p>
+<p>Le routeur fonctionnait par enregistrement manuel : chaque route était déclarée explicitement, en associant une méthode HTTP, un chemin (pouvant contenir des paramètres dynamiques comme <code class="c">{id}</code>) et un gestionnaire.</p>
+<pre class="hljs"><code><div><span class="hljs-variable">$router</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;/api/games&#x27;</span>, [<span class="hljs-keyword">new</span> <span class="hljs-title class_">GameController</span>(), <span class="hljs-string">&#x27;index&#x27;</span>]);
+<span class="hljs-variable">$router</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;/api/games/{id}&#x27;</span>, [<span class="hljs-keyword">new</span> <span class="hljs-title class_">GameController</span>(), <span class="hljs-string">&#x27;show&#x27;</span>]);
+</div></code></pre>
+<p>Ce fonctionnement, bien que tout à fait lisible pour un projet de cette taille, présentait une limite que nous n’avions pas anticipée au départ : chaque route instancie elle-même son contrôleur, directement dans la table de routage. Le contrôleur ne reçoit donc aucune dépendance de l’extérieur ; s’il a besoin d’autre chose qu’un accès à la base de données, c’est à chaque méthode du contrôleur d’aller la chercher elle-même, généralement par un appel statique. Il n’existe aucun mécanisme central capable de dire « voici les outils dont ce contrôleur a besoin, fournis-les-lui automatiquement » : ce mécanisme, l’injection de dépendances, est précisément ce qui manquait le plus à mesure que le projet grossissait.</p>
+<p>Le second problème, plus structurel, concernait l’accès aux données. Le modèle <code class="c">Game</code> reposait sur des fonctions PostgreSQL dédiées, appelées depuis PHP via une couche de constantes SQL. Récupérer un jeu unique avec l’ensemble de ses informations illustrait bien la limite de cette approche :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Game</span>
+</span>{
+    <span class="hljs-comment">/* Code */</span>
+ 
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findByID</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> <span class="hljs-variable">$id</span></span>): ?<span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-variable">$game</span> = <span class="hljs-title class_">Database</span>::<span class="hljs-title function_ invoke__">queryOne</span>(<span class="hljs-title class_">DefaultQuery\Game</span>::<span class="hljs-variable constant_">GET_GAME_FULL</span>, [<span class="hljs-variable">$id</span>]);
+ 
+        <span class="hljs-keyword">if</span> (!<span class="hljs-variable">$game</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        }
+ 
+        <span class="hljs-comment">// Get related data</span>
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;categories&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getCategories</span>(<span class="hljs-variable">$id</span>);
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;genres&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getGenres</span>(<span class="hljs-variable">$id</span>);
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;platforms&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getPlatforms</span>(<span class="hljs-variable">$id</span>);
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;developers&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getDevelopers</span>(<span class="hljs-variable">$id</span>);
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;publishers&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getPublishers</span>(<span class="hljs-variable">$id</span>);
+        <span class="hljs-variable">$game</span>[<span class="hljs-string">&#x27;media&#x27;</span>] = <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">getMedia</span>(<span class="hljs-variable">$id</span>);
+ 
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$game</span>;
+    }
+ 
+    <span class="hljs-keyword">private</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCategories</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> <span class="hljs-variable">$gameId</span></span>): <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Database</span>::<span class="hljs-title function_ invoke__">queryValues</span>(<span class="hljs-title class_">DefaultQuery\Game</span>::<span class="hljs-variable constant_">GET_GAME_CATEGORIES_NAME</span>, [<span class="hljs-variable">$gameId</span>]);
+    }
+ 
+    <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Nous avons rapidement constaté qu’afficher la fiche complète d’un seul jeu déclenchait sept requêtes SQL distinctes : une pour les données principales, puis une par relation (<code class="c">getGenres</code>, <code class="c">getPlatforms</code>, <code class="c">getDevelopers</code>, <code class="c">getPublishers</code> et <code class="c">getMedia</code> reprenant chacune exactement le même schéma que <code class="c">getCategories</code>). Ce comportement, connu sous le nom de problème N+1, n’était pas rédhibitoire avec le volume de données de l’époque, mais il montrait bien que la responsabilité d’assembler les données reposait entièrement sur le code applicatif, plutôt que d’être déléguée à un mécanisme générique capable de charger plusieurs relations en une seule fois.</p>
+<p>Pris séparément, ni l’absence d’injection de dépendances ni la multiplication des requêtes n’étaient bloquantes. Mais ces deux constats, ajoutés à l’absence de typage fort, de validation centralisée et de documentation générée automatiquement, dessinaient le portrait d’un backend fonctionnel, mais arrivé aux limites de ce qu’une architecture artisanale peut raisonnablement supporter.</p>
+<h3 id="312-réécriture-complète-plutôt-que-portage-progressif">3.1.2 Réécriture complète plutôt que portage progressif</h3>
+<p>Face à ces constats, le choix du framework de remplacement ne s’est pas porté sur n’importe quelle solution capable de servir une API REST. <strong>NestJS</strong> présentait un avantage déterminant : il répond directement, et avec un seul outil cohérent, à chacune des limites identifiées plus haut. Son conteneur d’injection de dépendances règle le problème du couplage et de l’instanciation manuelle ; son intégration avec <strong>TypeORM</strong> règle la dispersion de la logique d’accès aux données entre PHP et SQL ; et son système de décorateurs permet de coupler validation, autorisation et documentation directement au code, plutôt que de les traiter comme des préoccupations séparées. S’ajoute à cela un avantage plus pragmatique : NestJS repose sur TypeScript, le même langage que celui déjà utilisé côté frontend, ce qui ouvre la possibilité de partager des types entre les deux applications (nous y revenons au chapitre 4).</p>
+<p>Une fois ce choix posé, une question s’est rapidement imposée : fallait-il porter l’existant progressivement vers cette nouvelle base technique, domaine par domaine, ou repartir d’une page blanche ? Le réflexe le plus prudent, sur le papier, aurait été le portage progressif : conserver une application fonctionnelle à chaque étape, migrer un module, vérifier qu’il fonctionne, puis passer au suivant.</p>
+<p>Dans notre cas, cette option s’est révélée moins réaliste qu’il n’y paraît. L’écart entre les deux architectures n’était pas une question de syntaxe, mais une question de paradigme. L’ancien backend ne formalisait jamais la notion de dépendance explicite entre composants : un contrôleur appelait un modèle, qui appelait une fonction SQL, sans qu’aucune structure ne décrive ce graphe de dépendances. NestJS, à l’inverse, impose de déclarer explicitement, dès la création d’un module, tout ce dont il dépend et tout ce qu’il expose (nous détaillons ce mécanisme en <a href="#321-découpage-par-domaine">3.2.1</a>).</p>
+<p>Porter le projet domaine par domaine aurait donc demandé, pour chaque module, de reconstituer à la main un graphe de dépendances qui n’avait jamais existé formellement côté PHP, tout en maintenant en parallèle les domaines pas encore migrés dans l’ancien paradigme. Nous aurions dû faire cohabiter deux philosophies d’architecture pendant toute la durée de la migration, ce qui revenait presque à maintenir deux backends en même temps. Réécrire entièrement le backend, en repensant directement l’ensemble du modèle de données et des dépendances entre domaines, nous a finalement semblé plus rapide et plus sain que ce portage progressif, malgré l’investissement initial plus important.</p>
 <h2 id="32-architecture-modulaire">3.2 Architecture modulaire</h2>
+<p>Le second axe de la refonte concernait la manière dont le code lui-même est organisé. Là où l’ancien backend regroupait les fichiers par rôle technique (tous les contrôleurs dans un dossier, tous les modèles dans un autre), la nouvelle architecture regroupe le code par domaine métier : chaque fonctionnalité (les jeux, les avis, la wishlist, etc.) possède son propre module, contenant à la fois son contrôleur, sa logique métier et sa persistance. Le schéma suivant résume la circulation d’une requête à travers ces différentes couches, du frontend jusqu’à la base de données :</p>
 <pre><code class="language-mermaid"><div class="mermaid">flowchart LR
-
+ 
 Frontend
 --> Controller
-
+ 
 Controller
 --> Service
-
+ 
 Service
 --> Repository
-
+ 
 Repository
 --> PostgreSQL
 </div></code></pre>
+<p><em>Flux de traitement d’une requête dans le nouveau backend.</em></p>
+<p>Chacune de ces couches a une responsabilité unique : le contrôleur reçoit la requête HTTP et délègue immédiatement le travail, le service contient la logique métier, et le repository (fourni par TypeORM) s’occupe de traduire les opérations en requêtes SQL. Les trois sous-parties suivantes détaillent comment ce découpage se traduit concrètement dans le code, à travers l’exemple du domaine <code class="c">games</code>.</p>
+<h3 id="321-découpage-par-domaine">3.2.1 Découpage par domaine</h3>
+<p>Avant d’entrer dans le détail du code, la comparaison des arborescences de fichiers donne déjà une idée assez parlante de ce que ce découpage par domaine change concrètement :</p>
+<details class="accordion">
+<summary>Voir la comparaison des arborescences</summary>
+<div class="before">
+<h3>Avant</h3>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "src"
+        "Controllers"
+            "GameController.php"
+        "Models"
+            "Game.php"
+        "Core"
+            "DefaultQuery"
+                "Game.php"
+    "database"
+        "03_func_game.sql"
+</div></code></pre>
+</div>
+<div class="after">
+<h3>Après</h3>
+<pre><code class="language-mermaid"><div class="mermaid">treeView-beta
+    "games"
+        "dto"
+            "create-game.dto.ts"
+            "game-detail.dto.ts"
+            "search-game-options.dto.ts"
+            "summary-game.dto.ts"
+            "update-game.dto.ts"
+        "entities"
+            "game.entity.ts"
+        "game.mapper.ts"
+        "games.controller.ts"
+        "games.module.ts"
+        "games.service.ts"
+</div></code></pre>
+</div>
+</details>
+Ce qui était auparavant réparti dans quatre fichiers, situés dans trois dossiers différents (sans compter la fonction SQL elle-même), est désormais regroupé dans un seul dossier, qui constitue le module dans son intégralité. Cette déclaration tient dans un seul fichier, qui sert à la fois de point d’entrée et de carte des dépendances du domaine :
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Module</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nestjs/common&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamesService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./games.service&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamesController</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./games.controller&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">TypeOrmModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nestjs/typeorm&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GameEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./entities/game.entity&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">UploadModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/upload/upload.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">TagsModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/tags/tags.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DevelopersModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/developers/developers.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamePlatformEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/platforms/entities/game-platform.entity&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MediaEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/media/entities/media.entity&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">PublishersModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/publishers/publishers.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">StocksModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/stocks/stocks.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">WishlistModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/wishlist/wishlist.module&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ReviewsModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/reviews/reviews.module&#x27;</span>;
+ 
+<span class="hljs-meta">@Module</span>({
+  <span class="hljs-attr">imports</span>: [
+    <span class="hljs-title class_">TypeOrmModule</span>.<span class="hljs-title function_">forFeature</span>([<span class="hljs-title class_">GameEntity</span>, <span class="hljs-title class_">GamePlatformEntity</span>, <span class="hljs-title class_">MediaEntity</span>]),
+    <span class="hljs-title class_">TagsModule</span>,
+    <span class="hljs-title class_">DevelopersModule</span>,
+    <span class="hljs-title class_">PublishersModule</span>,
+    <span class="hljs-title class_">WishlistModule</span>,
+    <span class="hljs-title class_">ReviewsModule</span>,
+    <span class="hljs-title class_">StocksModule</span>,
+    <span class="hljs-title class_">UploadModule</span>,
+  ],
+  <span class="hljs-attr">controllers</span>: [<span class="hljs-title class_">GamesController</span>],
+  <span class="hljs-attr">providers</span>: [<span class="hljs-title class_">GamesService</span>],
+  <span class="hljs-attr">exports</span>: [<span class="hljs-title class_">TypeOrmModule</span>],
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesModule</span> {}
+</div></code></pre>
+<p>Ce fichier répond à lui seul à une question que l’ancien backend ne formalisait jamais : de quoi ce domaine dépend-il réellement ? Le décorateur <code class="c">@Module</code> déclare explicitement les sept autres modules nécessaires au fonctionnement du domaine <code class="c">games</code> (étiquettes, développeurs, éditeurs, wishlist, avis, stocks, upload), ainsi que les entités TypeORM auxquelles il a directement accès. C’est précisément ce graphe de dépendances qui, côté PHP, n’existait que de manière implicite, dispersé dans les appels statiques d’un modèle à l’autre.</p>
+<p>Cette déclaration ne reste pas théorique : elle alimente directement le conteneur d’injection de dépendances de NestJS, qui se charge ensuite d’instancier et de fournir automatiquement chaque dépendance là où elle est demandée. Le constructeur du service en est l’illustration la plus directe :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesService</span> {
+  <span class="hljs-comment">/* Code */</span>
+ 
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    <span class="hljs-meta">@InjectRepository</span>(GameEntity)
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">gameRepository</span>: <span class="hljs-title class_">Repository</span>&lt;<span class="hljs-title class_">GameEntity</span>&gt;,
+    <span class="hljs-meta">@InjectRepository</span>(GamePlatformEntity)
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">platformRepository</span>: <span class="hljs-title class_">Repository</span>&lt;<span class="hljs-title class_">GamePlatformEntity</span>&gt;,
+    <span class="hljs-meta">@InjectRepository</span>(MediaEntity)
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">mediaRepository</span>: <span class="hljs-title class_">Repository</span>&lt;<span class="hljs-title class_">MediaEntity</span>&gt;,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">wishlistService</span>: <span class="hljs-title class_">WishlistService</span>,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">reviewsService</span>: <span class="hljs-title class_">ReviewsService</span>,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">stocksService</span>: <span class="hljs-title class_">StocksService</span>,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">commonService</span>: <span class="hljs-title class_">CommonService</span>,
+  </span>) {}
+ 
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Sept dépendances sont injectées ici sans qu’aucune ne soit instanciée manuellement par le développeur. À titre de comparaison, l’ancien <code class="c">GameController</code> n’avait, de son côté, aucune dépendance déclarée : il accédait à tout (base de données, logique métier) à travers des appels statiques sur la classe <code class="c">Game</code>, ce qui revient à dépendre de tout implicitement plutôt que de rien explicitement.</p>
+<h3 id="322-de-la-requête-sql-brute-à-typeorm">3.2.2 De la requête SQL brute à TypeORM</h3>
+<p>Le second changement majeur concerne la façon dont les données sont décrites et chargées. Côté PHP, chaque relation entre deux tables se traduisait par une fonction PostgreSQL dédiée, comme celle utilisée pour récupérer les catégories d’un jeu :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> REPLACE <span class="hljs-keyword">FUNCTION</span> get_game_categories(p_game_id <span class="hljs-type">BIGINT</span>)
+<span class="hljs-keyword">RETURNS</span> SETOF category
+<span class="hljs-keyword">LANGUAGE</span> plpgsql
+<span class="hljs-keyword">AS</span>
+$$
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">RETURN</span> QUERY
+    <span class="hljs-keyword">SELECT</span> c.<span class="hljs-operator">*</span>
+    <span class="hljs-keyword">FROM</span> category c
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> game_category gc <span class="hljs-keyword">ON</span> c.id <span class="hljs-operator">=</span> gc.category_id
+    <span class="hljs-keyword">WHERE</span> gc.game_id <span class="hljs-operator">=</span> p_game_id;
+<span class="hljs-keyword">END</span>;
+$$;
+</div></code></pre>
+<p>Cette fonction devait être écrite une première fois en SQL, référencée une seconde fois côté PHP sous forme de constante, puis appelée une troisième fois dans le modèle (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>). La même information, à savoir qu’un jeu possède plusieurs entités associées, était donc répétée à trois endroits différents, sans qu’aucun de ces trois endroits ne puisse être considéré comme la source de vérité.</p>
+<p>Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l’entité, comme on peut le voir pour la relation entre un jeu et ses étiquettes :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@ManyToMany</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">TagEntity</span>, <span class="hljs-function">(<span class="hljs-params">tag</span>) =&gt;</span> tag.<span class="hljs-property">games</span>)
+<span class="hljs-meta">@JoinTable</span>({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;game_tags&#x27;</span>,
+  <span class="hljs-attr">joinColumn</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;game_id&#x27;</span>, <span class="hljs-attr">referencedColumnName</span>: <span class="hljs-string">&#x27;id&#x27;</span> },
+  <span class="hljs-attr">inverseJoinColumn</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;tag_id&#x27;</span>, <span class="hljs-attr">referencedColumnName</span>: <span class="hljs-string">&#x27;id&#x27;</span> },
+})
+<span class="hljs-attr">tags</span>: <span class="hljs-title class_">TagEntity</span>[];
+</div></code></pre>
+<p>Cette unique déclaration suffit ensuite à TypeORM pour générer les jointures nécessaires, sans qu’il soit besoin d’écrire une fonction SQL séparée ni une constante intermédiaire. Le bénéfice devient particulièrement visible au moment de charger un jeu avec l’ensemble de ses relations, directement depuis le contrôleur :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Get</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
+<span class="hljs-title function_">findOne</span>(<span class="hljs-params">
+  <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityFetchPipe(GameEntity, <span class="hljs-string">&#x27;id&#x27;</span>, { relations: {
+    tags: <span class="hljs-literal">true</span>,
+    publishers: <span class="hljs-literal">true</span>,
+    developers: <span class="hljs-literal">true</span>,
+    platforms: <span class="hljs-literal">true</span>,
+    media: <span class="hljs-literal">true</span>,
+    series: <span class="hljs-literal">true</span>,
+  }})) <span class="hljs-attr">game</span>: <span class="hljs-title class_">GameEntity</span>,
+  <span class="hljs-meta">@User</span>(<span class="hljs-string">&#x27;sub&#x27;</span>) <span class="hljs-attr">userId</span>?: <span class="hljs-built_in">string</span>,
+</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">gamesService</span>.<span class="hljs-title function_">findOne</span>(game, userId);
+}
+</div></code></pre>
+<p>Là où l’ancienne version déclenchait sept requêtes successives pour assembler un seul jeu complet (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>), cette déclaration laisse TypeORM se charger lui-même d’aller chercher les six relations nécessaires, sans que le développeur n’ait à écrire la moindre requête. Nous reviendrons en détail sur le pipe <code class="c">EntityFetchPipe</code> lui-même en <a href="#323-mutualisation-du-code-transverse">3.2.3</a>, puisqu’il s’agit d’un outil générique réutilisé dans tout le backend, et pas seulement pour les jeux.</p>
+<p>Cette approche n’élimine cependant pas tous les cas où une requête fine reste nécessaire. La recherche de jeux avec filtres combinés (prix, date de sortie, tags, plateformes...) repose par exemple sur un query builder construit à la main plutôt que sur une relation simple, car aucune déclaration ne permettait d’exprimer correctement une combinaison aussi variable de filtres. TypeORM nous a donc fait gagner en lisibilité sur les cas standards, sans nous priver de la possibilité de redescendre au niveau de la requête quand la situation l’exigeait.</p>
+<p>Un autre bénéfice, plus discret, concerne les contraintes de validation. Sur l’entité <code class="c">games</code>, certaines règles métier sont désormais déclarées directement aux côtés des colonnes concernées :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>(<span class="hljs-string">&#x27;games&#x27;</span>)
+<span class="hljs-meta">@Check</span>(<span class="hljs-string">`&quot;price&quot; &gt;= 0`</span>)
+<span class="hljs-meta">@Check</span>(<span class="hljs-string">`&quot;metacritic_score&quot; BETWEEN 0 AND 100 OR &quot;metacritic_score&quot; IS NULL`</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GameEntity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">IGameEntity</span> {
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Ces contraintes, un prix qui ne peut pas être négatif, un score Metacritic compris entre 0 et 100, vivent désormais au même endroit que la définition du schéma, plutôt que d’être reléguées dans un fichier SQL séparé qu’il faut aller chercher pour comprendre les règles réellement appliquées. Le champ <code class="c">price</code> a par ailleurs nécessité un traitement particulier que nous détaillons en <a href="#35-difficultés-rencontrées-et-solutions">3.5</a>, TypeORM ne gérant pas nativement les colonnes décimales de PostgreSQL de la façon que l’on pourrait attendre.</p>
+<h3 id="323-mutualisation-du-code-transverse">3.2.3 Mutualisation du code transverse</h3>
+<p>Le découpage par domaine ne doit pas faire oublier qu’un certain nombre de besoins reviennent à l’identique d’un module à l’autre : vérifier qu’une entité existe avant de la modifier, la récupérer avec ses relations, paginer une liste de résultats. Plutôt que de réécrire cette logique dans chaque module, comme c’était implicitement le cas côté PHP (chaque contrôleur gérant ses propres erreurs et sa propre pagination), ces besoins ont été regroupés dans un module commun, mutualisé entre tous les domaines.</p>
+<p><code class="c">EntityExistsPipe</code> en est un bon exemple. Il s’agit d’une fabrique de pipes : une fonction qui, à partir d’une entité TypeORM, génère une classe de pipe prête à être utilisée dans n’importe quel contrôleur :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title class_">EntityExistsPipe</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>&gt;(
+  <span class="hljs-attr">entityClass</span>: <span class="hljs-title class_">Type</span>&lt;T&gt;,
+  <span class="hljs-attr">field</span>: keyof T = <span class="hljs-string">&#x27;id&#x27;</span> <span class="hljs-keyword">as</span> keyof T,
+): <span class="hljs-title class_">Type</span>&lt;<span class="hljs-title class_">PipeTransform</span>&gt; {
+  <span class="hljs-meta">@Injectable</span>()
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">EntityExistsMixin</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PipeTransform</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">dataSource</span>: <span class="hljs-title class_">DataSource</span></span>) { }
+ 
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">transform</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">unknown</span>, <span class="hljs-attr">_metadata</span>: <span class="hljs-title class_">ArgumentMetadata</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">unknown</span>&gt; {
+      <span class="hljs-keyword">const</span> repository = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataSource</span>.<span class="hljs-title function_">getRepository</span>(entityClass);
+      <span class="hljs-keyword">const</span> where = buildWhere&lt;T&gt;([field], [value]);
+      <span class="hljs-keyword">const</span> found = <span class="hljs-keyword">await</span> <span class="hljs-title function_">entityExists</span>(repository, where);
+ 
+      <span class="hljs-keyword">if</span> (!found) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NotFoundException</span>(
+          <span class="hljs-title function_">buildNotFoundMessage</span>(repository, where),
+        );
+      }
+ 
+      <span class="hljs-keyword">return</span> value;
+    }
+  }
+ 
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">mixin</span>(<span class="hljs-title class_">EntityExistsMixin</span>);
+}
+</div></code></pre>
+<p>Ce pipe ne connaît rien des jeux, des étiquettes ou des avis : il sait seulement vérifier qu’une ligne existe pour une entité et un identifiant donnés, et renvoyer une erreur 404 proprement formatée si ce n’est pas le cas. Il se retrouve ainsi utilisé de façon identique pour des entités complètement différentes, par exemple lorsqu’il s’agit d’ajouter une étiquette à un jeu :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesController</span> {
+  <span class="hljs-comment">/* Code */</span>
+ 
+  <span class="hljs-meta">@MinRole</span>(<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">MODERATOR</span>)
+  <span class="hljs-meta">@Post</span>(<span class="hljs-string">&#x27;:id/tags/:tagId&#x27;</span>)
+  <span class="hljs-meta">@HttpCode</span>(<span class="hljs-title class_">HttpStatus</span>.<span class="hljs-property">OK</span>)
+  <span class="hljs-title function_">addTag</span>(<span class="hljs-params">
+    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(GameEntity)) <span class="hljs-attr">gameId</span>: <span class="hljs-built_in">number</span>,
+    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;tagId&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">tagId</span>: <span class="hljs-built_in">number</span>,
+  </span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">gamesService</span>.<span class="hljs-title function_">addTag</span>(gameId, tagId);
+  }
+ 
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Les deux identifiants de la route sont validés avant même que le code de la méthode ne s’exécute, sans qu’il soit nécessaire d’écrire le moindre <code class="c">if (!found)</code> dans le contrôleur ou le service. La variante <code class="c">EntityFetchPipe</code>, déjà rencontrée en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, suit exactement la même logique, à la différence qu’elle renvoie l’entité elle-même (avec ses relations éventuelles) plutôt que son simple identifiant. Les rôles requis par certaines routes (<code class="c">@MinRole</code>) et les guards d’authentification rencontrés au passage seront détaillés en 3.3 ; ce qui nous intéresse ici est uniquement la réutilisation du pipe, indépendamment de l’entité ciblée.</p>
+<p>La pagination suit le même principe de mutualisation. Le module commun expose un service unique, capable de paginer indifféremment un repository simple ou une requête plus complexe construite avec un query builder :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PaginationService</span> {
+  <span class="hljs-comment">/* Code */</span>
+ 
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getPaginatedResponse&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>, U = T&gt;(
+    <span class="hljs-attr">repositoryOrQuery</span>: <span class="hljs-title class_">Repository</span>&lt;T&gt; | <span class="hljs-title class_">SelectQueryBuilder</span>&lt;T&gt;,
+    <span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span>,
+    <span class="hljs-attr">optionsOrTransform</span>?: <span class="hljs-title class_">PaginatedResponseOptions</span>&lt;T, U&gt; | <span class="hljs-title class_">PaginatedResponseTransform</span>&lt;T, U&gt;,
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">PaginatedDto</span>&lt;U&gt;&gt; {
+    <span class="hljs-comment">/* Implémentation */</span>
+  }
+ 
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Cette méthode calcule elle-même le décalage à partir de la page et de la limite demandées, applique éventuellement une fonction de transformation (élément par élément ou sur l’ensemble des résultats), et renvoie une erreur 404 plutôt qu’une liste vide silencieuse si la page demandée dépasse le nombre total de résultats. Elle est ensuite appelée de la même manière depuis n’importe quel domaine, ici pour lister les jeux :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesService</span> {
+  <span class="hljs-comment">/* Code */</span>
+ 
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">findAll</span>(<span class="hljs-params"><span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">commonService</span>.<span class="hljs-property">pagination</span>.<span class="hljs-title function_">getPaginatedResponse</span>(
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">gameRepository</span>,
+      paginationQueryDto,
+      { <span class="hljs-attr">transform</span>: { <span class="hljs-attr">fn</span>: <span class="hljs-title class_">GameMapper</span>.<span class="hljs-property">toSummary</span> } },
+    );
+  }
+ 
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en 3.2.2.</p>
 <h2 id="33-validation-et-sécurité">3.3 Validation et sécurité</h2>
 <p>...</p>
 <h2 id="34-maintenabilité">3.4 Maintenabilité</h2>

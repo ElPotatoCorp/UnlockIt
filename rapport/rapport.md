@@ -1621,44 +1621,19 @@ Les comparaisons suivantes permettent d'observer l'évolution de la structure du
 #### Avant
 
 ```txt
-dist/index.html                                     2.76 kB
-dist/assets/Cookies-UiqeZG4K.css                    0.11 kB
-dist/assets/Login-C0AxRG4F.css                      0.71 kB
-dist/assets/Home-CU98n8zi.css                       1.32 kB
-dist/assets/Register-B7OLBotr.css                   1.58 kB
-dist/assets/Button-COE2YxU5.css                     2.66 kB
-dist/assets/Search-CEFxeslf.css                     3.38 kB
-dist/assets/index-D1xD0r0f.css                     20.96 kB
-dist/assets/webworkerAll-1SXaDC3g.js                0.06 kB
-dist/assets/CanvasRenderer-D4cphG7M.js              0.06 kB
-dist/assets/WebGLRenderer-C5idXNI2.js               0.07 kB
-dist/assets/WebGPURenderer-MMTupWOb.js              0.07 kB
-dist/assets/init-CpC2NTHW.js                        0.12 kB
-dist/assets/browserAll-C94rMvy0.js                  0.24 kB
-dist/assets/getTextureBatchBindGroup-BCtPyCB7.js    0.34 kB
-dist/assets/chunk-NMqb_1LM.js                       0.69 kB
-dist/assets/CanvasPool-lV4NR6ei.js                  0.76 kB
-dist/assets/useGames.hook-DP_avpiw.js               1.59 kB
-dist/assets/UnlockItHelmet-DLxbOf9V.js              2.09 kB
-dist/assets/Cookies-tkxTrePq.js                     2.48 kB
-dist/assets/Login-DB3EKccR.js                       2.60 kB
-dist/assets/Refunds-CF1gWARf.js                     2.66 kB
-dist/assets/Legal-CX0ckya-.js                       2.94 kB
-dist/assets/Register-CcYV_0L2.js                    3.62 kB
-dist/assets/Privacy-nqquNPmX.js                     4.76 kB
-dist/assets/Home-CwRyhMtk.js                        4.94 kB
-dist/assets/canvasUtils-BGWjEWTM.js                 6.12 kB
-dist/assets/jsx-runtime-JC2Pqqy6.js                 7.98 kB
-dist/assets/BufferResource-BnDyU-YP.js             10.83 kB
-dist/assets/Search-DoU96MOZ.js                     18.54 kB
-dist/assets/Button-BfgmK8-z.js                     31.18 kB
-dist/assets/FilterSystem-eB1XfaGO.js               40.43 kB
-dist/assets/FederatedEventTarget-4MfRMyfR.js       42.75 kB
-dist/assets/axios.instance-CniEnODU.js             69.71 kB
-dist/assets/RenderTargetSystem-DB8lGoqg.js         78.19 kB
-dist/assets/Geometry-BeqX92IE.js                  101.09 kB
-dist/assets/Background-CP25DxqL.js                198.99 kB
-dist/assets/index-DaygSgMl.js                     269.69 kB
+dist/index.html                               2.69 kB
+dist/assets/index-BoaJto8A.css               72.69 kB
+dist/assets/webworkerAll-CAK8RBGT.js          0.05 kB
+dist/assets/init-BYgQinKG.js                  0.11 kB
+dist/assets/browserAll-s-NtV_ZP.js            0.19 kB
+dist/assets/RenderTargetSystem-D7b02OGI.js   78.19 kB
+dist/assets/Geometry-D0qPxWPZ.js            101.78 kB
+dist/assets/index-VbOFR_5W.js               893.52 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
 ```
 
 </div>
@@ -1668,30 +1643,23 @@ dist/assets/index-DaygSgMl.js                     269.69 kB
 #### Après
 
 ```txt
-/UnlockIt/apps/frontend/index.html.br                          3.06kb
-/UnlockIt/apps/frontend/assets/Cookies-DR5NdOr3.js.br          2.45kb
-/UnlockIt/apps/frontend/assets/Refunds-BnK6OvgC.js.br          2.62kb
-/UnlockIt/apps/frontend/assets/Background-CukwmJR_.js.br       6.68kb
-/UnlockIt/apps/frontend/assets/Home-BMpoE3-N.js.br             4.82kb
-/UnlockIt/apps/frontend/assets/Home-CU98n8zi.css.br            1.29kb
-/UnlockIt/apps/frontend/assets/Login-Dcmp3sRo.js.br            2.56kb
-/UnlockIt/apps/frontend/assets/helmet-JdfEq1Ls.js.br           15.79kb
-/UnlockIt/apps/frontend/assets/Legal-BpHE1FI5.js.br            2.89kb
-/UnlockIt/apps/frontend/assets/Register-B7OLBotr.css.br        1.55kb
-/UnlockIt/apps/frontend/assets/Register-DKQIHVl9.js.br         3.56kb
-/UnlockIt/apps/frontend/assets/index-CXPQlizz.css.br           18.09kb
-/UnlockIt/apps/frontend/assets/Search-Cx-u2G8I.js.br           7.71kb
-/UnlockIt/apps/frontend/assets/Search-By_-Ccw_.css.br          3.12kb
-/UnlockIt/apps/frontend/assets/Privacy-YAYa-R_m.js.br          4.67kb
-/UnlockIt/apps/frontend/assets/ui-B8J3Plgw.css.br              5.17kb
-/UnlockIt/apps/frontend/assets/UnlockItHelmet-BGK7a8f6.js.br   2.08kb
-/UnlockIt/apps/frontend/assets/index-CFUwInI2.js.br            34.91kb
-/UnlockIt/apps/frontend/assets/router-Dja-W-oD.js.br           20.09kb
-/UnlockIt/apps/frontend/assets/vendor-QzHy5b41.js.br           27.68kb
-/UnlockIt/apps/frontend/assets/api-eJIyGYhM.js.br              60.42kb
-/UnlockIt/apps/frontend/assets/ui-BGNp2rZQ.js.br               44.38kb
-/UnlockIt/apps/frontend/assets/react-CaPFs6it.js.br            177.30kb
-/UnlockIt/apps/frontend/assets/pixi-D5OU-vt1.js.br             458.05kb
+dist/index.html                               3.13 kB
+dist/assets/Cookies-UiqeZG4K.css              0.11 kB
+dist/assets/ResetPassword-D1X87k5S.css        0.38 kB
+...
+dist/assets/Background-BgQMN0Er.js            6.83 kB
+dist/assets/helmet-BEWe_TGa.js               16.16 kB
+dist/assets/Search-5Cjye_-J.js               20.38 kB
+dist/assets/router-Fyyk7RJ2.js               20.56 kB
+dist/assets/Settings-1AiFYtGY.js             23.20 kB
+dist/assets/Game-BeXVvPTl.js                 27.78 kB
+dist/assets/vendor-B06n5S0l.js               28.89 kB
+dist/assets/index-BrKeFHW3.js                39.54 kB
+dist/assets/Purchase-DbJ9I7WF.js             53.46 kB
+dist/assets/ui-gR1ymoNF.js                   62.14 kB
+dist/assets/api-ga1waxeO.js                  73.03 kB
+dist/assets/react-DaLoBRo7.js               181.55 kB
+dist/assets/pixi-D5OU-vt1.js                469.04 kB
 ```
 
 </div>
