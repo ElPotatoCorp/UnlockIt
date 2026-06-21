@@ -6,6 +6,7 @@ import { GameFactory } from 'database/factories/game.factory';
 import { StockFactory } from 'database/factories/stock.factory';
 import { randomUUID } from 'crypto';
 import { EmployeeRole } from '@unlockit/shared';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 // I don't know how to make it absolutely dynamic so I just put every possibilities here
 const FACTORIES: [name: string, factory: any][] = [
@@ -23,6 +24,23 @@ type SpecificOptions = {
   count: number;
   overrides?: Record<string, any>;
 };
+
+async function createOwnerElseARandomOne(dataSource: DataSource, userFactory: UserFactory) {
+  if (await dataSource.manager.exists(UserEntity, { where: { username: 'TestUser' } }))
+    return userFactory.create();
+  
+  const uuid = randomUUID();
+  return userFactory.create({
+    id: uuid,
+    username: "TestUser",
+    email: 'test@test.test',
+    password: "Test123&",
+    employee: {
+      role: EmployeeRole.OWNER,
+      createdBy: uuid,
+    },
+  })
+}
 
 function createOverrides(rawArgs: string[]): Record<string, any> {
   return Object.fromEntries(rawArgs.map((arg) => arg.split('=').slice(0, 2)));
@@ -60,24 +78,13 @@ async function init(dataSource: DataSource) {
 
   console.log('-> Seeding batch: Users');
   const users = await userFactory.createMany(4);
-
-  const uuid = randomUUID();
-  users.push(await userFactory.create({
-    id: uuid,
-    username: "TestUser",
-    email: 'test@test.test',
-    password: "Test123&",
-    employee: {
-      role: EmployeeRole.OWNER,
-      createdBy: uuid,
-    },
-  }))
-  
+  users.push(await createOwnerElseARandomOne(dataSource, userFactory));
   console.log(`   Created ${users.length} default users.`);
 
   console.log('-> Seeding batch: Games');
-  const games = await gameFactory.createMany(64);
-  console.log(`   Created ${games.length} default games.`);
+  const games = await gameFactory.createMany(64)
+    .then(games => { console.log(`   Created ${games.length} default games.`); })
+    .catch(() => console.log('All games were already created, skipping...'));
 
   console.log('-> Seeding batch: Stocks');
   const stocks = await stockFactory.createMany(10000);
