@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styles from "./gameActivationKey.module.css";
-import iconCopy from "./copy.png";
 import { RevealCard } from "../../../../components/ui/reveal-card/RevealCard";
 import { purchaseService } from "../../../../api/services/purchase.service";
+
+import CopyIcon from "../../../../assets/copy.svg?react";
 
 interface GameActivationKeyProps {
     orderId: string;
@@ -65,7 +66,7 @@ export const GameActivationKey = ({ orderId, gameId }: GameActivationKeyProps) =
                                 ))}
 
                                 <button className={styles.copyBtn} onClick={handleCopy}>
-                                    <img src={iconCopy} className={styles.icon} />
+                                    <CopyIcon className={styles.icon}/>
                                 </button>
                             </div>
                         ) : (

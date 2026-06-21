@@ -6,6 +6,7 @@ import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import { MediaCarousel } from "./media-carousel/MediaCarousel";
 import { GameSummary } from "./game-summary/GameSummary";
 import { GameInfo } from "./game-info/GameInfo";
+import { ReviewsSection } from "./reviews-section/ReviewsSection";
 
 const Game = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,17 +46,15 @@ const Game = () => {
       <div className={styles.main}>
         <MediaCarousel media={media} />
 
-        <GameSummary game={selectedGame}/>
+        <GameSummary game={selectedGame} />
       </div>
 
-      <GameInfo game={selectedGame}/>
+      <GameInfo game={selectedGame} />
 
       {/* COMMENTAIRES */}
       <section className={styles.section}>
         <h2>Commentaires</h2>
-        <div className={styles.placeholder}>
-          <p>TODO : commentaires</p>
-        </div>
+        <ReviewsSection gameId={selectedGame.id} />
       </section>
     </div>
   );

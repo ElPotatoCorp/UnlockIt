@@ -1,0 +1,70 @@
+.section {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--color-smoke);
+    border: 1px solid var(--color-carbon);
+    border-radius: 10px;
+}
+
+.subtitle {
+    font-family: var(--font-title);
+    color: var(--color-blue);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    margin-top: 10px;
+
+    background: var(--color-tar);
+    color: var(--color-white);
+    border: 1px solid var(--color-carbon);
+    border-radius: 8px;
+
+    font-family: var(--font-text);
+    font-size: 1rem;
+    resize: vertical;
+
+    transition: border 0.2s ease, background 0.2s ease;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    background: var(--color-carbon);
+}
+
+.button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+
+    background: var(--color-blue);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+
+    font-family: var(--font-title);
+    cursor: var(--cursor-pointer);
+    transition: background 0.3s ease;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--color-green);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: var(--cursor-not-allowed);
+}
+
+.delete {
+    background: var(--color-error);
+}
+
+.delete:hover:not(:disabled) {
+    background: #ff4a4a;
+}

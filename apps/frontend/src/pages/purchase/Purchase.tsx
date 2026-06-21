@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import styles from "./purchasePage.module.css";
+import styles from "./purchase.module.css";
 
 import { usePurchases } from "../../api/hooks/usePurchases.hook";
 import { useGames } from "../../api/hooks/useGames.hook";

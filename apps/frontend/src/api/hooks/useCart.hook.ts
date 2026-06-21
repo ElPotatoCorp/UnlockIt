@@ -2,7 +2,13 @@ import { useCartStore } from "../stores/cart.store";
 import { cartService } from "../services/cart.service";
 
 export function useCart() {
-    const { cart, totalPrice, setCart, setTotalPrice, clearCartState } = useCartStore();
+    const {
+        cart,
+        totalPrice,
+        setCart,
+        setTotalPrice,
+        clearCartState
+    } = useCartStore();
 
     const fetchCart = async (page = 1, limit = 20) => {
         const data = await cartService.list(page, limit);
@@ -29,6 +35,7 @@ export function useCart() {
     const toggleItem = async (id: number, state?: boolean) => {
         await cartService.toggle(id, state);
         await fetchCart();
+        await fetchTotal();
     };
 
     const clearCart = async () => {
@@ -42,7 +49,6 @@ export function useCart() {
 
         fetchCart,
         fetchTotal,
-
         addToCart,
         removeFromCart,
         toggleItem,

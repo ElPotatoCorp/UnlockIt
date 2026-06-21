@@ -17,63 +17,19 @@ export function usePurchases() {
         return await purchaseService.getKeys(orderId, gameId);
     };
 
-    const createReview = async (
-        orderId: string,
-        gameId: number,
-        review: { content: string; rate: number }
-    ) => {
+    const createReview = async (orderId: string, gameId: number, review: { content: string; rate: number }) => {
         await purchaseService.createReview(orderId, gameId, review);
-
-        setPurchases((prev) => {
-            if (!prev) return prev;
-
-            return {
-                ...prev,
-                data: prev.data.map((p) =>
-                    p.orderId === orderId && p.gameId === gameId
-                        ? { ...p, review }
-                        : p
-                ),
-            };
-        });
+        await fetchPurchases();
     };
 
-    const updateReview = async (
-        orderId: string,
-        gameId: number,
-        review: { content: string; rate: number }
-    ) => {
+    const updateReview = async (orderId: string, gameId: number, review: { content: string; rate: number }) => {
         await purchaseService.updateReview(orderId, gameId, review);
-
-        setPurchases((prev) => {
-            if (!prev) return prev;
-
-            return {
-                ...prev,
-                data: prev.data.map((p) =>
-                    p.orderId === orderId && p.gameId === gameId
-                        ? { ...p, review }
-                        : p
-                ),
-            };
-        });
+        await fetchPurchases();
     };
 
     const deleteReview = async (orderId: string, gameId: number) => {
         await purchaseService.deleteReview(orderId, gameId);
-
-        setPurchases((prev) => {
-            if (!prev) return prev;
-
-            return {
-                ...prev,
-                data: prev.data.map((p) =>
-                    p.orderId === orderId && p.gameId === gameId
-                        ? { ...p, review: null }
-                        : p
-                ),
-            };
-        });
+        await fetchPurchases();
     };
 
     return {

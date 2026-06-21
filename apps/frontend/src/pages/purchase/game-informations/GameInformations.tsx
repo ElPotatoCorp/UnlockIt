@@ -1,6 +1,7 @@
+import { Card } from "../../../components/common/card/Card";
+import { GamePostReview } from "../../../components/ui/game-post-review/GamePostReview";
 import { GameActivationKey } from "./game-activation-key/GameActivationKey";
 import { GameExtraInfo } from "./game-extra-info/GameExtraInfo";
-import { GamePostReview } from "./game-post-review/GamePostReview";
 import styles from "./gameInformations.module.css";
 
 import type { Purchase, GameDetail } from "@unlockit/shared";
@@ -13,7 +14,7 @@ interface GameInformationsProps {
 
 export const GameInformations = ({ purchase, keys, game }: GameInformationsProps) => {
     return (
-        <div className={styles.card}>
+        <Card>
             <div className={styles.purchaseId}>
                 <p>{purchase.orderId}</p>
             </div>
@@ -46,6 +47,6 @@ export const GameInformations = ({ purchase, keys, game }: GameInformationsProps
                     <GamePostReview purchase={purchase} />
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };

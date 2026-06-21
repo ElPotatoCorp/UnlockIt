@@ -1,15 +1,40 @@
 import styles from "./gameExtraInfo.module.css";
 import { Link } from "react-router-dom";
 
-import iconMacOs from "/images/mac-os.png";
-import iconLinux from "/images/linux.png";
-import iconWindows from "/images/windows.png";
+import IconWindows from "../../../../assets/windows.svg?react";
+import IconMac from "../../../../assets/mac-os.svg?react";
+import IconLinux from "../../../../assets/linux.svg?react";
+import IconIos from "../../../../assets/ios.svg?react";
+import IconAndroid from "../../../../assets/android.svg?react";
+import IconSwitch from "../../../../assets/switch.svg?react";
+import IconPlayStation from "../../../../assets/playstation.svg?react";
+import IconXboxOne from "../../../../assets/xbox-one.svg?react";
+import IconXboxSeries from "../../../../assets/xbox-series.svg?react";
+
 
 interface GameExtraInfoProps {
     game_id: number;
     short_description: string;
-    platforms: Record<string, boolean>; 
+    platforms: Record<string, boolean>;
 }
+
+const PLATFORM_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+    windows: IconWindows,
+    mac: IconMac,
+    linux: IconLinux,
+    ios: IconIos,
+    android: IconAndroid,
+    switch: IconSwitch,
+    ps4: IconPlayStation,
+    ps5: IconPlayStation,
+    xboxOne: IconXboxOne,
+    xboxSeries: IconXboxSeries,
+};
+
+const VALID_PLATFORMS = [
+    "windows", "mac", "linux", "ios", "android",
+    "switch", "ps4", "ps5", "xboxOne", "xboxSeries"
+];
 
 export const GameExtraInfo = ({
     game_id,
@@ -17,18 +42,9 @@ export const GameExtraInfo = ({
     platforms
 }: GameExtraInfoProps) => {
 
-    const getPlatformIcon = (platform: string) => {
-        switch (platform.toLowerCase()) {
-            case "windows": return iconWindows;
-            case "macos": return iconMacOs;
-            case "linux": return iconLinux;
-            default: return null;
-        }
-    };
-
-    const platformList = Object.entries(platforms)
-        .filter(([_, enabled]) => enabled)
-        .map(([name]) => name);
+    const enabledPlatforms = VALID_PLATFORMS.filter(
+        (key) => platforms[key]
+    );
 
     return (
         <div className={styles.section}>
@@ -48,14 +64,15 @@ export const GameExtraInfo = ({
                 <span className={styles.label}>Plateformes :</span>
 
                 <ul className={styles.rowList}>
-                    {platformList.map((p, i) => (
-                        <li key={i} className={styles.platformItem}>
-                            {p}
-                            {getPlatformIcon(p) && (
-                                <img src={getPlatformIcon(p)!} className={styles.platformIcon} />
-                            )}
-                        </li>
-                    ))}
+                    {enabledPlatforms.map((platform) => {
+                        const Icon = PLATFORM_ICONS[platform];
+                        return (
+                            <li key={platform} className={styles.platformItem}>
+                                {platform}
+                                {Icon && <Icon className={styles.platformIcon} />}
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         </div>

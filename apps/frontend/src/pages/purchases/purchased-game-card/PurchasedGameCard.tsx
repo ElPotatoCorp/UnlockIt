@@ -31,7 +31,7 @@ export const PurchasedGameCard = ({ purchase }: Props) => {
 
                 <div className={styles.actions}>
                     <Link
-                        to={`/purchase/${orderId}/${game.id}`}
+                        to={`/purchases/${orderId}/${game.id}`}
                         className={styles.viewLink}
                     >
                         Voir l’achat →

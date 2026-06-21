@@ -1,0 +1,107 @@
+.title {
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    color: var(--color-green);
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    color: var(--color-mist);
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--color-smoke);
+    border-radius: 10px;
+    border: 1px solid var(--color-carbon);
+}
+
+.sectionTitle {
+    font-family: var(--font-title);
+    color: var(--color-blue);
+    margin-bottom: 12px;
+}
+
+.cartList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-carbon);
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-family: var(--font-title);
+}
+
+.totalValue {
+    color: var(--color-green);
+    font-size: 1.3rem;
+}
+
+.walletBox {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-title);
+}
+
+.walletValue {
+    color: var(--color-green);
+}
+
+.warning {
+    color: var(--color-error);
+    margin-top: 8px;
+}
+
+.payBtn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-blue);
+    color: var(--color-white);
+    font-family: var(--font-title);
+    cursor: var(--cursor-pointer);
+    transition: background 0.3s ease;
+}
+
+.payBtn:hover:not(:disabled) {
+    background: var(--color-green);
+}
+
+.payBtn:disabled {
+    opacity: 0.5;
+    cursor: var(--cursor-not-allowed);
+}
+
+.backBtn,
+.successBtn {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--color-tar);
+    border: 1px solid var(--color-carbon);
+    color: var(--color-white);
+    font-family: var(--font-text);
+    cursor: var(--cursor-pointer);
+    transition: background 0.3s ease;
+}
+
+.backBtn:hover,
+.successBtn:hover {
+    background: var(--color-smoke);
+}
