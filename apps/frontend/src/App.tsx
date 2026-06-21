@@ -23,6 +23,7 @@ const Login = lazy(() => import("./features/login/Login"));
 const Register = lazy(() => import("./features/register/Register"));
 const Home = lazy(() => import("./pages/home/Home"));
 const Search = lazy(() => import("./pages/search/Search"));
+const Wishlist = lazy(() => import("./pages/wishlist/Wishlist"));
 
 function lazyRoute(element: React.ReactNode) {
   return (
@@ -52,6 +53,7 @@ export default function App() {
               <Route path="/register" element={lazyRoute(<Register />)} />
               <Route path="/search" element={lazyRoute(<Search />)} />
               <Route path="/search/:term" element={lazyRoute(<Search />)} />
+              <Route path="/wishlist" element={lazyRoute(<Wishlist />)} />
 
               <Route path="*" element={<NotFound />} />
             </Route>

@@ -1,0 +1,105 @@
+/* Structure générale */
+.card {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* Croix de suppression */
+.removeButton {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--color-smoke);
+    border: none;
+    color: var(--color-white);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: var(--cursor-pointer);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease;
+}
+
+.removeButton:hover {
+    background: var(--color-error);
+}
+
+/* Image */
+.imageWrapper {
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.imageWrapper img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Infos */
+.infoWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title {
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    margin-bottom: 10px;
+}
+
+/* Prix + date */
+.priceBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price {
+    font-size: var(--text-body);
+    font-weight: bold;
+    color: var(--color-green);
+}
+
+.addedAt {
+    font-size: var(--text-tiny);
+    color: var(--color-mist);
+}
+
+/* Actions */
+.actions {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.viewLink {
+    font-size: var(--text-body);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .card {
+        flex-direction: column;
+    }
+
+    .imageWrapper {
+        width: 100%;
+    }
+
+    .imageWrapper img {
+        height: 160px;
+    }
+
+    .actions {
+        justify-content: flex-start;
+    }
+}

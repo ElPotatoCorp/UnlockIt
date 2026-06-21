@@ -27,6 +27,20 @@ export function useWishlist() {
 
     const removeFromWishlist = async (gameId: number) => {
         await wishlistService.remove(gameId);
+
+        setWishlist((prev) => {
+            if (!prev) return prev;
+
+            return {
+                ...prev,
+                data: prev.data.filter((item) => {
+                    const game = item.game ?? item;
+                    return game.id !== gameId;
+                }),
+                total: Math.max(prev.total - 1, 0),
+            };
+        });
+
         setIsInWishlist(false);
     };
 
