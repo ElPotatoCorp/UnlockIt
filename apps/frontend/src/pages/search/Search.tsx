@@ -8,19 +8,21 @@ import { SearchResults } from "./search-result/SearchResults";
 import { useWishlist } from "../../api/hooks/useWishlist.hook";
 import { useAuth } from "../../api/hooks/useAuth.hook";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import { useCart } from "../../api/hooks/useCart.hook";
 import styles from "./search.module.css";
 
 const Search: FC = () => {
   const { games, searchGames } = useGames();
   const { isLogged } = useAuth();
   const { addToWishlist, removeFromWishlist } = useWishlist();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
   const { term } = useParams<{ term: string }>();
   const [filters, setFilters] = useState<SearchBody>({
-    order: { by: "popular", asc: false },
+    order: { by: "popular", asc: true },
     price: undefined,
     type: GameType.GAME,
     tags: [],
@@ -35,17 +37,30 @@ const Search: FC = () => {
   const [debouncedFilters] = useDebounce(filters, 300);
   const [debouncedPage] = useDebounce(page, 300);
 
-  const buildSearchOptions = (): SearchBody => ({
-    ...debouncedFilters,
-    price: debouncedFilters.price?.min || debouncedFilters.price?.max
-      ? {
-        min: Number(debouncedFilters.price.min || 0),
-        max: debouncedFilters.price.max
-          ? Number(debouncedFilters.price.max)
-          : undefined,
-      }
-      : undefined,
-  });
+  const buildSearchOptions = (): SearchBody => {
+    const opts: SearchBody = {
+      ...debouncedFilters,
+      price: debouncedFilters.price?.min || debouncedFilters.price?.max
+        ? {
+          min: Number(debouncedFilters.price.min || 0),
+          max: debouncedFilters.price.max
+            ? Number(debouncedFilters.price.max)
+            : undefined,
+        }
+        : undefined,
+    };
+
+    if (!opts.tags?.length) delete opts.tags;
+    if (!opts.developers?.length) delete opts.developers;
+    if (!opts.publishers?.length) delete opts.publishers;
+
+    if (opts.release?.when && !opts.release.date) delete opts.release?.date;
+
+    if (opts.platforms && Object.values(opts.platforms).every((v) => !v))
+      delete opts.platforms;
+
+    return opts;
+  };
 
   useEffect(() => {
     const options = buildSearchOptions();
@@ -65,13 +80,17 @@ const Search: FC = () => {
     run();
   }, [debouncedTerm, debouncedPage, debouncedFilters]);
 
-  const handleAddToCart = (id: number) => {
+  const handleAddToCart = async (id: number) => {
     if (!isLogged) {
       navigate("/login");
       return;
     }
 
-    console.log("TODO : ADD Cart API frontend layer:", id);
+    try {
+      await addToCart(id);
+    } catch (err) {
+      console.error(`Erreur lors de l'ajout au panier : ${id}`, err);
+    }
   };
 
   const handleToggleWishlist = async (gameId: number) => {
