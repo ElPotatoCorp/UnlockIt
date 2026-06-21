@@ -475,7 +475,7 @@ code {
 <p><em>Architecture simplifiée de UnlockIt (SAÉ 3.01).</em></p>
 <p>* Si du code s'affiche à la place du schéma, rafraichissez la page.</p>
 </div>
-<p>Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. L’absence d’outils d’analyse et de tests automatisés compliquait également la détection des régressions et l’optimisation des performances.</p>
+<p>Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. Certains endpoints en backend faisaient 4 à 5 requêtes SQL de manières silencieuse et les implémentations était très rigides et peu modulaires. L’absence d’outils d’analyse compliquait également la détection des régressions et l’optimisation des performances.</p>
 <p>Bien que fonctionnelle et suffisamment robuste pour être présentée lors de la première soutenance, cette version s’apparentait davantage à un produit minimum viable (MVP) qu’à une base technique durable. Avec la montée en compétences de l’équipe, les parties les plus anciennes du code nous sont apparues comme insuffisamment structurées, parfois mal écrites, voire difficilement lisibles en comparaison des fonctionnalités plus récentes. Le projet tenait, mais ses fondations étaient fragiles. Pour envisager une évolution pérenne, une refonte devenait nécessaire.</p>
 <p>Ces constats nous ont naturellement conduits à envisager une seconde itération du projet, non plus centrée sur l’ajout de fonctionnalités, mais sur une amélioration profonde de sa qualité technique et de son architecture.</p>
 <h2 id="12-présentation-des-membres">1.2 Présentation des membres</h2>
@@ -523,7 +523,7 @@ Backend • Base de données • Documentation • Optimisation • Scripts</p>
 <h2 id="13-pourquoi-une-refonte-complète-">1.3 Pourquoi une refonte complète ?</h2>
 <p>À l'issue de la SAÉ 3.01, nous disposions d'une application fonctionnelle répondant à la majorité des objectifs initiaux. Malgré ce résultat satisfaisant, nous avions pleinement conscience des limites de notre implémentation. Une grande partie de l'architecture avait été construite progressivement, au fur et à mesure de l'ajout de nouvelles fonctionnalités et de notre montée en compétences durant le projet.</p>
 <p>Avec le recul, certaines décisions techniques prises au début du développement ne correspondaient plus à nos besoins actuels. Plusieurs composants étaient devenus trop volumineux, certaines responsabilités étaient mal réparties et une partie du code était devenue difficile à maintenir. Ajouter une nouvelle fonctionnalité nécessitait parfois de modifier plusieurs zones de l'application, augmentant le risque d'introduire des régressions.</p>
-<p>De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, les tests automatisés, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.</p>
+<p>De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.</p>
 <p>La SAÉ 4.01 nous a offert l'opportunité de revenir sur ce projet avec un regard plus critique et davantage d'expérience. Plutôt que d'ajouter de nouvelles fonctionnalités sur des fondations que nous jugions désormais fragiles, nous avons fait le choix de repartir de zéro.</p>
 <p>Cette décision peut sembler radicale, mais elle nous a permis de repenser entièrement l'application :</p>
 <ul>
@@ -1789,22 +1789,7 @@ Repository
 </div>
 </details>
 Ce qui était auparavant réparti dans quatre fichiers, situés dans trois dossiers différents (sans compter la fonction SQL elle-même), est désormais regroupé dans un seul dossier, qui constitue le module dans son intégralité. Cette déclaration tient dans un seul fichier, qui sert à la fois de point d’entrée et de carte des dépendances du domaine :
-<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Module</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nestjs/common&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamesService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./games.service&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamesController</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./games.controller&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">TypeOrmModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@nestjs/typeorm&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GameEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./entities/game.entity&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">UploadModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/upload/upload.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">TagsModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/tags/tags.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DevelopersModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/developers/developers.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">GamePlatformEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/platforms/entities/game-platform.entity&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MediaEntity</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/media/entities/media.entity&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">PublishersModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/publishers/publishers.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">StocksModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/stocks/stocks.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">WishlistModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/wishlist/wishlist.module&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ReviewsModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;src/reviews/reviews.module&#x27;</span>;
- 
-<span class="hljs-meta">@Module</span>({
+<pre class="hljs"><code><div><span class="hljs-meta">@Module</span>({
   <span class="hljs-attr">imports</span>: [
     <span class="hljs-title class_">TypeOrmModule</span>.<span class="hljs-title function_">forFeature</span>([<span class="hljs-title class_">GameEntity</span>, <span class="hljs-title class_">GamePlatformEntity</span>, <span class="hljs-title class_">MediaEntity</span>]),
     <span class="hljs-title class_">TagsModule</span>,
@@ -1845,7 +1830,13 @@ Ce qui était auparavant réparti dans quatre fichiers, situés dans trois dossi
 </div></code></pre>
 <p>Sept dépendances sont injectées ici sans qu’aucune ne soit instanciée manuellement par le développeur. À titre de comparaison, l’ancien <code class="c">GameController</code> n’avait, de son côté, aucune dépendance déclarée : il accédait à tout (base de données, logique métier) à travers des appels statiques sur la classe <code class="c">Game</code>, ce qui revient à dépendre de tout implicitement plutôt que de rien explicitement.</p>
 <h3 id="322-de-la-requête-sql-brute-à-typeorm">3.2.2 De la requête SQL brute à TypeORM</h3>
-<p>Le second changement majeur concerne la façon dont les données sont décrites et chargées. Côté PHP, chaque relation entre deux tables se traduisait par une fonction PostgreSQL dédiée, comme celle utilisée pour récupérer les catégories d’un jeu :</p>
+<p>Le second changement majeur concerne la façon dont les données sont décrites et chargées. Côté PHP, chaque relation entre deux tables se traduisait par une fonction PostgreSQL dédiée.</p>
+<p>Une fonction devait être écrite une première fois en SQL, référencée une seconde fois côté PHP sous forme de constante, puis appelée une troisième fois dans le modèle (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>). La même information, à savoir qu’un jeu possède plusieurs entités associées, était donc répétée à trois endroits différents, sans qu’aucun de ces trois endroits ne puisse être considéré comme la source de vérité.</p>
+<p>Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l’entité.</p>
+<details class="accordion">
+<summary>Voir différence entre une relation PHP et TypeORM</summary>
+<div class="before">
+<h3>Avant</h3>
 <pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> REPLACE <span class="hljs-keyword">FUNCTION</span> get_game_categories(p_game_id <span class="hljs-type">BIGINT</span>)
 <span class="hljs-keyword">RETURNS</span> SETOF category
 <span class="hljs-keyword">LANGUAGE</span> plpgsql
@@ -1860,8 +1851,9 @@ $$
 <span class="hljs-keyword">END</span>;
 $$;
 </div></code></pre>
-<p>Cette fonction devait être écrite une première fois en SQL, référencée une seconde fois côté PHP sous forme de constante, puis appelée une troisième fois dans le modèle (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>). La même information, à savoir qu’un jeu possède plusieurs entités associées, était donc répétée à trois endroits différents, sans qu’aucun de ces trois endroits ne puisse être considéré comme la source de vérité.</p>
-<p>Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l’entité, comme on peut le voir pour la relation entre un jeu et ses étiquettes :</p>
+</div>
+<div class="after">
+<h3>Après</h3>
 <pre class="hljs"><code><div><span class="hljs-meta">@ManyToMany</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">TagEntity</span>, <span class="hljs-function">(<span class="hljs-params">tag</span>) =&gt;</span> tag.<span class="hljs-property">games</span>)
 <span class="hljs-meta">@JoinTable</span>({
   <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;game_tags&#x27;</span>,
@@ -1870,19 +1862,25 @@ $$;
 })
 <span class="hljs-attr">tags</span>: <span class="hljs-title class_">TagEntity</span>[];
 </div></code></pre>
+</div>
+</details>
 <p>Cette unique déclaration suffit ensuite à TypeORM pour générer les jointures nécessaires, sans qu’il soit besoin d’écrire une fonction SQL séparée ni une constante intermédiaire. Le bénéfice devient particulièrement visible au moment de charger un jeu avec l’ensemble de ses relations, directement depuis le contrôleur :</p>
 <pre class="hljs"><code><div><span class="hljs-meta">@Get</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
-<span class="hljs-title function_">findOne</span>(<span class="hljs-params">
-  <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityFetchPipe(GameEntity, <span class="hljs-string">&#x27;id&#x27;</span>, { relations: {
-    tags: <span class="hljs-literal">true</span>,
-    publishers: <span class="hljs-literal">true</span>,
-    developers: <span class="hljs-literal">true</span>,
-    platforms: <span class="hljs-literal">true</span>,
-    media: <span class="hljs-literal">true</span>,
-    series: <span class="hljs-literal">true</span>,
-  }})) <span class="hljs-attr">game</span>: <span class="hljs-title class_">GameEntity</span>,
+<span class="hljs-title function_">findOne</span>(
+  <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-title class_">ParseIntPipe</span>, <span class="hljs-title class_">EntityFetchPipe</span>(<span class="hljs-title class_">GameEntity</span>, <span class="hljs-string">&#x27;id&#x27;</span>, {
+    
+    <span class="hljs-attr">relations</span>: { <span class="hljs-comment">// On précise ici quelle(s) relation(s) charger</span>
+      <span class="hljs-attr">tags</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">publishers</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">developers</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">platforms</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">media</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">series</span>: <span class="hljs-literal">true</span>,
+    }, <span class="hljs-comment">// Tout est séléctionné en une seule requête</span>
+
+  })) <span class="hljs-attr">game</span>: <span class="hljs-title class_">GameEntity</span>,
   <span class="hljs-meta">@User</span>(<span class="hljs-string">&#x27;sub&#x27;</span>) <span class="hljs-attr">userId</span>?: <span class="hljs-built_in">string</span>,
-</span>) {
+) {
   <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">gamesService</span>.<span class="hljs-title function_">findOne</span>(game, userId);
 }
 </div></code></pre>
@@ -1899,43 +1897,39 @@ $$;
 <p>Ces contraintes, un prix qui ne peut pas être négatif, un score Metacritic compris entre 0 et 100, vivent désormais au même endroit que la définition du schéma, plutôt que d’être reléguées dans un fichier SQL séparé qu’il faut aller chercher pour comprendre les règles réellement appliquées. Le champ <code class="c">price</code> a par ailleurs nécessité un traitement particulier que nous détaillons en <a href="#35-difficultés-rencontrées-et-solutions">3.5</a>, TypeORM ne gérant pas nativement les colonnes décimales de PostgreSQL de la façon que l’on pourrait attendre.</p>
 <h3 id="323-mutualisation-du-code-transverse">3.2.3 Mutualisation du code transverse</h3>
 <p>Le découpage par domaine ne doit pas faire oublier qu’un certain nombre de besoins reviennent à l’identique d’un module à l’autre : vérifier qu’une entité existe avant de la modifier, la récupérer avec ses relations, paginer une liste de résultats. Plutôt que de réécrire cette logique dans chaque module, comme c’était implicitement le cas côté PHP (chaque contrôleur gérant ses propres erreurs et sa propre pagination), ces besoins ont été regroupés dans un module commun, mutualisé entre tous les domaines.</p>
-<p><code class="c">EntityExistsPipe</code> en est un bon exemple. Il s’agit d’une fabrique de pipes : une fonction qui, à partir d’une entité TypeORM, génère une classe de pipe prête à être utilisée dans n’importe quel contrôleur :</p>
-<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title class_">EntityExistsPipe</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>&gt;(
+<p><code class="c">EntityExistsPipe</code> en est un bon exemple. Il s’agit d’une fabrique de pipes : une fonction qui, à partir d’une entité TypeORM, génère une classe de pipe prête à être utilisée dans n’importe quel contrôleur</p>
+<details class="accordion">
+<summary>Voir comment une fabrique de pipe se décrit</summary>
+<pre class="hljs"><code><div><span class="hljs-comment">// Cette function défini comment fabrique d&#x27;autre pipe...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title class_">EntityExistsPipe</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>&gt;(
   <span class="hljs-attr">entityClass</span>: <span class="hljs-title class_">Type</span>&lt;T&gt;,
   <span class="hljs-attr">field</span>: keyof T = <span class="hljs-string">&#x27;id&#x27;</span> <span class="hljs-keyword">as</span> keyof T,
 ): <span class="hljs-title class_">Type</span>&lt;<span class="hljs-title class_">PipeTransform</span>&gt; {
+
+  <span class="hljs-comment">// Ceci est le pipe</span>
   <span class="hljs-meta">@Injectable</span>()
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">EntityExistsMixin</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PipeTransform</span> {
     <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">dataSource</span>: <span class="hljs-title class_">DataSource</span></span>) { }
  
     <span class="hljs-keyword">async</span> <span class="hljs-title function_">transform</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">unknown</span>, <span class="hljs-attr">_metadata</span>: <span class="hljs-title class_">ArgumentMetadata</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">unknown</span>&gt; {
-      <span class="hljs-keyword">const</span> repository = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataSource</span>.<span class="hljs-title function_">getRepository</span>(entityClass);
-      <span class="hljs-keyword">const</span> where = buildWhere&lt;T&gt;([field], [value]);
-      <span class="hljs-keyword">const</span> found = <span class="hljs-keyword">await</span> <span class="hljs-title function_">entityExists</span>(repository, where);
- 
-      <span class="hljs-keyword">if</span> (!found) {
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NotFoundException</span>(
-          <span class="hljs-title function_">buildNotFoundMessage</span>(repository, where),
-        );
-      }
- 
-      <span class="hljs-keyword">return</span> value;
+      <span class="hljs-comment">/* Implémentation */</span>
     }
   }
  
+  <span class="hljs-comment">// A l&#x27;aide de cette function :</span>
   <span class="hljs-keyword">return</span> <span class="hljs-title function_">mixin</span>(<span class="hljs-title class_">EntityExistsMixin</span>);
+
 }
 </div></code></pre>
-<p>Ce pipe ne connaît rien des jeux, des étiquettes ou des avis : il sait seulement vérifier qu’une ligne existe pour une entité et un identifiant donnés, et renvoyer une erreur 404 proprement formatée si ce n’est pas le cas. Il se retrouve ainsi utilisé de façon identique pour des entités complètement différentes, par exemple lorsqu’il s’agit d’ajouter une étiquette à un jeu :</p>
+</details>
+<p>Ce pipe ne connaît rien des jeux, des étiquettes ou des avis : il sait seulement vérifier qu’une ligne existe pour une entité et un identifiant donnés, et renvoyer une erreur 404 (Non trouvé) proprement formatée si ce n’est pas le cas. Il se retrouve ainsi utilisé de façon identique pour des entités complètement différentes, par exemple lorsqu’il s’agit d’ajouter une étiquette à un jeu :</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesController</span> {
   <span class="hljs-comment">/* Code */</span>
  
-  <span class="hljs-meta">@MinRole</span>(<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">MODERATOR</span>)
   <span class="hljs-meta">@Post</span>(<span class="hljs-string">&#x27;:id/tags/:tagId&#x27;</span>)
-  <span class="hljs-meta">@HttpCode</span>(<span class="hljs-title class_">HttpStatus</span>.<span class="hljs-property">OK</span>)
   <span class="hljs-title function_">addTag</span>(<span class="hljs-params">
-    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(GameEntity)) <span class="hljs-attr">gameId</span>: <span class="hljs-built_in">number</span>,
-    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;tagId&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">tagId</span>: <span class="hljs-built_in">number</span>,
+    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(GameEntity)) <span class="hljs-attr">gameId</span>: <span class="hljs-built_in">number</span>,  <span class="hljs-comment">// Ici</span>
+    <span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;tagId&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">tagId</span>: <span class="hljs-built_in">number</span>, <span class="hljs-comment">// Et là</span>
   </span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">gamesService</span>.<span class="hljs-title function_">addTag</span>(gameId, tagId);
   }
@@ -1944,22 +1938,31 @@ $$;
 }
 </div></code></pre>
 <p>Les deux identifiants de la route sont validés avant même que le code de la méthode ne s’exécute, sans qu’il soit nécessaire d’écrire le moindre <code class="c">if (!found)</code> dans le contrôleur ou le service. La variante <code class="c">EntityFetchPipe</code>, déjà rencontrée en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, suit exactement la même logique, à la différence qu’elle renvoie l’entité elle-même (avec ses relations éventuelles) plutôt que son simple identifiant. Les rôles requis par certaines routes (<code class="c">@MinRole</code>) et les guards d’authentification rencontrés au passage seront détaillés en 3.3 ; ce qui nous intéresse ici est uniquement la réutilisation du pipe, indépendamment de l’entité ciblée.</p>
-<p>La pagination suit le même principe de mutualisation. Le module commun expose un service unique, capable de paginer indifféremment un repository simple ou une requête plus complexe construite avec un query builder :</p>
+<p>La pagination suit le même principe de mutualisation. Le module commun expose un service unique, capable de paginer indifféremment un repository simple ou une requête plus complexe construite avec un query builder.</p>
+<details class="accordion">
+<summary>Voir signatures</summary>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PaginationService</span> {
   <span class="hljs-comment">/* Code */</span>
  
   <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getPaginatedResponse&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>, U = T&gt;(
-    <span class="hljs-attr">repositoryOrQuery</span>: <span class="hljs-title class_">Repository</span>&lt;T&gt; | <span class="hljs-title class_">SelectQueryBuilder</span>&lt;T&gt;,
+    <span class="hljs-attr">repository</span>: <span class="hljs-title class_">Repository</span>&lt;T&gt;,
     <span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span>,
-    <span class="hljs-attr">optionsOrTransform</span>?: <span class="hljs-title class_">PaginatedResponseOptions</span>&lt;T, U&gt; | <span class="hljs-title class_">PaginatedResponseTransform</span>&lt;T, U&gt;,
-  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">PaginatedDto</span>&lt;U&gt;&gt; {
-    <span class="hljs-comment">/* Implémentation */</span>
-  }
+    <span class="hljs-attr">options</span>?: <span class="hljs-title class_">PaginatedResponseOptions</span>&lt;T, U&gt;,
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">PaginatedDto</span>&lt;U&gt;&gt;;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> getPaginatedResponse&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ObjectLiteral</span>, U = T&gt;(
+    <span class="hljs-attr">queryBuilder</span>: <span class="hljs-title class_">SelectQueryBuilder</span>&lt;T&gt;,
+    <span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span>,
+    <span class="hljs-attr">transform</span>?: <span class="hljs-title class_">PaginatedResponseTransform</span>&lt;T, U&gt;,
+  ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">PaginatedDto</span>&lt;U&gt;&gt;;
  
   <span class="hljs-comment">/* Code */</span>
 }
 </div></code></pre>
-<p>Cette méthode calcule elle-même le décalage à partir de la page et de la limite demandées, applique éventuellement une fonction de transformation (élément par élément ou sur l’ensemble des résultats), et renvoie une erreur 404 plutôt qu’une liste vide silencieuse si la page demandée dépasse le nombre total de résultats. Elle est ensuite appelée de la même manière depuis n’importe quel domaine, ici pour lister les jeux :</p>
+</details>
+<p>Cette méthode calcule elle-même le décalage à partir de la page et de la limite demandées, applique éventuellement une fonction de transformation (élément par élément ou sur l’ensemble des résultats), et renvoie une erreur 404 (Non trouvé) plutôt qu’une liste vide silencieuse si la page demandée dépasse le nombre total de résultats. Elle est ensuite appelée de la même manière depuis n’importe quel domaine.</p>
+<details class="accordion">
+<summary>Voir exemple</summary>
 <pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GamesService</span> {
   <span class="hljs-comment">/* Code */</span>
  
@@ -1974,11 +1977,191 @@ $$;
   <span class="hljs-comment">/* Code */</span>
 }
 </div></code></pre>
+</details>
 <p>Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en 3.2.2.</p>
 <h2 id="33-validation-et-sécurité">3.3 Validation et sécurité</h2>
-<p>...</p>
+<h3 id="331-authentification-par-jeton-plutôt-que-par-session">3.3.1 Authentification par jeton plutôt que par session</h3>
+<p>Côté PHP, l'authentification reposait entièrement sur une session stockée en base de données, identifiée par un cookie <code class="c">session_id</code>. Chaque requête authentifiée déclenchait donc un aller-retour vers la base pour vérifier que cette session existait toujours. Le système n'était pas naïf pour autant : à la connexion, plutôt que de créer systématiquement une nouvelle session, le contrôleur vérifiait d'abord si une session valide existait déjà pour cet utilisateur, et la réutilisait le cas échéant.</p>
+<p>La validation elle-même intégrait par ailleurs un indicateur de sécurité qu'il est facile de négliger dans un système de ce type.</p>
+<details class="accordion">
+<summary>Voir validation de session</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validate</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$sessionId</span></span>): ?<span class="hljs-title">array</span>
+</span>{
+    <span class="hljs-comment">/* Code */</span>
+
+    <span class="hljs-variable">$session</span> = <span class="hljs-title class_">Database</span>::<span class="hljs-title function_ invoke__">queryOne</span>(<span class="hljs-title class_">DefaultQuery\Session</span>::<span class="hljs-variable constant_">GET_SESSION</span>, [<span class="hljs-variable">$sessionId</span>]);
+
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable">$session</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$session</span>[<span class="hljs-string">&#x27;is_unsafe&#x27;</span>]) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">updateLastSeen</span>(<span class="hljs-variable">$sessionId</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$session</span>;
+}
+</div></code></pre>
+</details>
+<p>Une session pouvait ainsi être marquée comme compromise (<code class="c">is_unsafe</code>) sans être supprimée, ce qui permettait de la refuser tout en conservant une trace.</p>
+<p>Côté NestJS, cette responsabilité a été redistribuée plutôt que simplement supprimée. L'essentiel de l'authentification repose désormais sur <strong>Passport</strong>, sous la forme de stratégies déclarées une fois et réutilisées par des guards.</p>
+<p>Le jeton continue de voyager dans un cookie, comme l'ancien <code class="c">session_id</code>, mais sa validité ne dépend plus d'une requête en base : la signature suffit. <code class="c">validate</code> n'a même rien à faire, puisque Passport n'arrive à cette étape qu'après avoir déjà vérifié cette signature.</p>
+<details class="accordion">
+<summary>Voir comment le système d'authentification vérifie qu'une route est publique</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtAuthGuard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">AuthGuard</span>(<span class="hljs-string">&#x27;jwt&#x27;</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">reflector</span>: <span class="hljs-title class_">Reflector</span></span>) {
+    <span class="hljs-variable language_">super</span>();
+  }
+
+  <span class="hljs-title function_">canActivate</span>(<span class="hljs-params"><span class="hljs-attr">context</span>: <span class="hljs-title class_">ExecutionContext</span></span>) {
+    <span class="hljs-comment">// On vérifie juste si l&#x27;endpoint est accessible à tous (Publique)</span>
+    <span class="hljs-keyword">const</span> isPublic = <span class="hljs-title function_">someCode</span>();
+    <span class="hljs-keyword">if</span> (isPublic) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// Sinon, on laisse faire Passport</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">canActivate</span>(context);
+  }
+}
+</div></code></pre>
+</details>
+<p>Ce guard est déclaré globalement : par défaut, toute route exige un jeton valide. C'est l'inverse de l'ancien fonctionnement, où chaque méthode de contrôleur décidait elle-même, au cas par cas, si elle devait vérifier le cookie de session (<code class="c">AuthController::me</code> le faisait, <code class="c">GameController::index</code> ne le faisait pas). Pour échapper à cette vérification globale, une route doit s'en exclure explicitement :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Public</span>() <span class="hljs-comment">// &lt;-- Rend un endpoint accessible au publique</span>
+<span class="hljs-meta">@Get</span>(<span class="hljs-string">&#x27;ma-route&#x27;</span>)
+<span class="hljs-title function_">maRoute</span>(<span class="hljs-params"><span class="hljs-comment">/* Paramètres */</span></span>) {<span class="hljs-comment">/* Implémentation */</span>}
+</div></code></pre>
+<p>Une troisième variante répond à un besoin que nous avons déjà croisé en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, sans le détailler à l'époque : certaines routes (la recherche de jeux, la fiche d'un jeu) doivent rester accessibles sans connexion, tout en se comportant différemment si l'utilisateur est identifié.</p>
+<p>C'est <code class="c">JwtAuthOptionalGuard</code>, combiné au décorateur <code class="c">@User('sub')</code> rendu optionnel, qui permettait à <code class="c">GamesController.findOne</code> de renvoyer un indicateur <code class="c">wishlisted</code> pour un utilisateur connecté, sans pour autant bloquer l'accès à un visiteur anonyme.</p>
+<p>Reste la question de la déconnexion et du renouvellement, qui est précisément l'endroit où la notion de session n'a pas disparu, elle a simplement changé de rôle. Le jeton d'accès est volontairement éphémère, et son renouvellement passe par un second jeton, vérifié cette fois contre une session bien réelle :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtRefreshStrategy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PassportStrategy</span>(<span class="hljs-title class_">Strategy</span>, <span class="hljs-string">&#x27;jwt-refresh&#x27;</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">authService</span>: <span class="hljs-title class_">AuthService</span>, <span class="hljs-attr">jwt</span>: <span class="hljs-title class_">ConfigType</span>&lt;<span class="hljs-keyword">typeof</span> jwtConfig&gt;</span>) {
+    <span class="hljs-comment">/* On récupère le jeton expiré avec un peu de code délibérement non inclus ici */</span>
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">validate</span>(<span class="hljs-params"><span class="hljs-attr">request</span>: <span class="hljs-title class_">Request</span>, <span class="hljs-attr">payload</span>: <span class="hljs-title class_">JwtPayloadDto</span></span>) {
+    <span class="hljs-keyword">const</span> refreshToken = request.<span class="hljs-property">cookies</span>?.[<span class="hljs-variable language_">this</span>.<span class="hljs-property">jwt</span>.<span class="hljs-property">refreshTokenCookieName</span>];
+
+    <span class="hljs-comment">// On vérifie que tout va bien avec la session actuellement utilisée</span>
+    <span class="hljs-comment">// Si non, des errors 403 (Non autorisé) sont renvoyé</span>
+    <span class="hljs-comment">// Forcant donc l&#x27;utilisateur à se reconnecter</span>
+    <span class="hljs-keyword">const</span> session = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">authService</span>.<span class="hljs-title function_">refreshAccessToken</span>(refreshToken, payload.<span class="hljs-property">sub</span>);
+
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">sub</span>: session.<span class="hljs-property">userId</span>, <span class="hljs-attr">sid</span>: session.<span class="hljs-property">id</span> };
+  }
+}
+</div></code></pre>
+<p>Le jeton d'accès n'est donc pas révocable à l'instant où on le souhaiterait, il suffit d'attendre son expiration. Mais le jeton de rafraîchissement, lui, reste systématiquement confronté à une session côté serveur : c'est cette session que l'on peut détruire pour forcer une déconnexion immédiate, exactement comme le faisait <code class="c">Session::destroy</code> côté PHP. Nous avons gardé l'idée de session traçable de l'ancien système, mais déplacé sa responsabilité : elle ne sert plus à valider chaque requête, seulement à autoriser le renouvellement du jeton d'accès.</p>
+<p>Enfin, brancher un nouveau mode de connexion reste, dans ce système, une déclaration très courte :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalAuthGuard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">AuthGuard</span>(<span class="hljs-string">&#x27;local&#x27;</span>) {}
+
+<span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalStrategy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PassportStrategy</span>(<span class="hljs-title class_">Strategy</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">authService</span>: <span class="hljs-title class_">AuthService</span></span>) {
+    <span class="hljs-variable language_">super</span>({ <span class="hljs-attr">usernameField</span>: <span class="hljs-string">&#x27;identifier&#x27;</span>, <span class="hljs-attr">passwordField</span>: <span class="hljs-string">&#x27;password&#x27;</span> });
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">validate</span>(<span class="hljs-params"><span class="hljs-attr">identifier</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">authService</span>.<span class="hljs-title function_">validateUser</span>(identifier, password);
+    <span class="hljs-keyword">if</span> (!user) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnauthorizedException</span>(<span class="hljs-string">&#x27;Invalid credentials&#x27;</span>);
+    }
+    <span class="hljs-keyword">return</span> user.<span class="hljs-property">createJwtPayloadDto</span>;
+  }
+}
+</div></code></pre>
+<p>Le champ <code class="c">identifier</code> couvre aussi bien l'email que le téléphone, ce que l'ancien <code class="c">AuthController::login</code> gérait par deux branches distinctes (<code class="c">loginWithEmail</code> / <code class="c">loginWithPhone</code>). Ici, ce choix est repoussé dans <code class="c">authService.validateUser</code>, et le contrôleur, le guard et la stratégie n'ont pas besoin de le connaître.</p>
 <h2 id="34-maintenabilité">3.4 Maintenabilité</h2>
-<p>...</p>
+<h3 id="341-un-module-complet-presque-par-accident">3.4.1 Un module complet presque par accident</h3>
+<p>L'ancien backend ne proposait aucune gestion des catégories de jeux : elles n'existaient que comme une relation en lecture, jointe à la volée (<code class="c">get_game_categories</code>, voir <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>). Rien ne permettait d'en créer, d'en renommer ou d'en supprimer une depuis l'API ; ces opérations, si elles avaient lieu, se faisaient directement en base.</p>
+<p>Avec NestJS, l'équivalent (les étiquettes, ou <code class="c">tags</code>) a été implémenté comme n'importe quel autre domaine, et s'est retrouvé complet sans que cela ait été un objectif en soi. Le module entier tient dans quatre fichiers courts.</p>
+<details class="accordion">
+<summary>Voir implémentation complète</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Module</span>({
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">TypeOrmModule</span>.<span class="hljs-title function_">forFeature</span>([<span class="hljs-title class_">TagEntity</span>])],
+  <span class="hljs-attr">controllers</span>: [<span class="hljs-title class_">TagsController</span>],
+  <span class="hljs-attr">providers</span>: [<span class="hljs-title class_">TagsService</span>],
+  <span class="hljs-attr">exports</span>: [<span class="hljs-title class_">TypeOrmModule</span>],
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsModule</span> {}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>(<span class="hljs-string">&#x27;tags&#x27;</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagEntity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ITagEntity</span> {
+  <span class="hljs-meta">@PrimaryGeneratedColumn</span>(<span class="hljs-string">&#x27;increment&#x27;</span>, { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;bigint&#x27;</span> })
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;varchar&#x27;</span>, { <span class="hljs-attr">length</span>: <span class="hljs-number">150</span>, <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span> })
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;int&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;games_count&#x27;</span>, <span class="hljs-attr">default</span>: <span class="hljs-number">0</span> })
+  <span class="hljs-attr">gamesCount</span>: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-meta">@ManyToMany</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">GameEntity</span>, <span class="hljs-function">(<span class="hljs-params">game</span>) =&gt;</span> game.<span class="hljs-property">tags</span>)
+  <span class="hljs-attr">games</span>: <span class="hljs-title class_">GameEntity</span>[];
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsService</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">tagRepository</span>: <span class="hljs-title class_">Repository</span>&lt;<span class="hljs-title class_">TagEntity</span>&gt;,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">commonService</span>: <span class="hljs-title class_">CommonService</span>,
+  </span>) {}
+
+  <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-attr">createTagDto</span>: <span class="hljs-title class_">CreateTagDto</span></span>) {
+    <span class="hljs-keyword">const</span> tag = <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">create</span>(createTagDto);
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">save</span>(tag);
+  }
+
+  <span class="hljs-title function_">findAll</span>(<span class="hljs-params"><span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">commonService</span>.<span class="hljs-property">pagination</span>.<span class="hljs-title function_">getPaginatedResponse</span>(
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>,
+      paginationQueryDto,
+      { <span class="hljs-attr">transform</span>: { <span class="hljs-attr">fn</span>: <span class="hljs-title class_">TagMapper</span>.<span class="hljs-property">toGameTag</span> } },
+    );
+  }
+
+  <span class="hljs-title function_">update</span>(<span class="hljs-params"><span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">updateTagDto</span>: <span class="hljs-title class_">UpdateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">update</span>(id, updateTagDto);
+  }
+
+  <span class="hljs-title function_">remove</span>(<span class="hljs-params"><span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">delete</span>(id);
+  }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Controller</span>(<span class="hljs-string">&#x27;tags&#x27;</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsController</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">tagsService</span>: <span class="hljs-title class_">TagsService</span></span>) {}
+
+  <span class="hljs-meta">@Post</span>()
+  <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-meta">@Body</span>(DuplicatedEntryPipe(TagEntity, <span class="hljs-string">&#x27;name&#x27;</span>)) <span class="hljs-attr">createTagDto</span>: <span class="hljs-title class_">CreateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">TagMapper</span>.<span class="hljs-title function_">toTag</span>(<span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">create</span>(createTagDto));
+  }
+
+  <span class="hljs-meta">@Public</span>()
+  <span class="hljs-meta">@Get</span>()
+  <span class="hljs-title function_">findAll</span>(<span class="hljs-params"><span class="hljs-meta">@Query</span>() <span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">findAll</span>(paginationQueryDto);
+  }
+
+  <span class="hljs-meta">@Patch</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
+  <span class="hljs-title function_">update</span>(<span class="hljs-params"><span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-meta">@Body</span>() <span class="hljs-attr">updateTagDto</span>: <span class="hljs-title class_">UpdateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">update</span>(id, updateTagDto);
+  }
+
+  <span class="hljs-meta">@Delete</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
+  <span class="hljs-title function_">remove</span>(<span class="hljs-params"><span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">remove</span>(id);
+  }
+}
+</div></code></pre>
+</details>
+<p>Aucune de ces quatre briques n'a demandé de réflexion particulière : ce sont celles que NestJS attend par défaut pour n'importe quel domaine. Le résultat est pourtant une fonctionnalité complète, création, consultation paginée, mise à jour et suppression, avec vérification des doublons et des identifiants invalides, alors que rien de comparable n'existait avant et que rien dans nos priorités n'avait identifié ce besoin comme important. C'est tout le sens d'une complétude presque par accident : la structure imposée par le framework rend une fonctionnalité complète aussi simple à écrire qu'une fonctionnalité partielle, ce qui change la décision que l'on prend spontanément. Côté PHP, écrire l'équivalent aurait demandé une fonction SQL, une constante et une méthode de modèle par opération, ce qui rend beaucoup plus tentant de ne faire que le strict nécessaire.</p>
 <h2 id="35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</h2>
 <p>...</p>
 <h1 id="5-conclusion">5. Conclusion</h1>
@@ -1992,9 +2175,10 @@ $$;
 <p>...</p>
 <h2 id="52-perspectives">5.2 Perspectives</h2>
 <h3 id="521-frozen1753">5.2.1 Frozen1753</h3>
-<p>Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances « à l’œil », sans jamais avoir mesuré quoi que ce soit. Découvrir des outils comme <strong>React Scan</strong> ou le Profiler de <strong>React Developer Tools</strong> a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. C’est probablement la compétence la plus réutilisable que je tire de cette SAÉ, bien davantage que la maîtrise d’un outil en particulier.</p>
-<p>Plusieurs chantiers commencés durant cette SAÉ mériteraient d’être poussés plus loin. Le sitemap reste aujourd’hui statique, faute de script de génération automatique à partir de la base de données (<a href="#22-référencement-et-indexation">2.2</a>) ; c’est un développement que j’aimerais intégrer si le projet venait à continuer au-delà du cadre académique. La couverture Playwright pourrait également s’étendre au-delà des parcours critiques actuels (<a href="#25-tests-automatisés">2.5</a>), et <strong>React Doctor</strong> (<a href="#23-optimisation-des-performances">2.3</a>), découvert trop tard pour être réellement exploité, est un outil que je compte essayer dès le prochain projet React.</p>
-<p>Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je crois, la meilleure preuve que cette refonte avait du sens.</p>
+<p>Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances &quot;à l’oeil&quot;, sans jamais avoir réelement mesuré quoi que ce soit. Découvrir des outils comme <strong>React Scan</strong> ou le Profiler de <strong>React Developer Tools</strong> a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. Les chunks et le build du frontend n'avaient jamais été abordé auparavant car nous ne quittions jamais le mode dev dans les projets comme pour les cours.</p>
+<p>Plusieurs chantiers commencés durant cette SAÉ mériteraient d’être poussés plus loin. Le sitemap reste aujourd’hui statique, faute de script de génération automatique à partir de la base de données (<a href="#22-référencement-et-indexation">2.2</a>) ; c’est un développement que j’aimerais intégrer si le projet venait à continuer au-delà du cadre académique. La couverture Playwright pourrait également s’étendre au-delà des premiers tests critiques faute de temps à cause de la refonte intégrale (<a href="#25-tests-automatisés">2.5</a>), et <strong>React Doctor</strong> (<a href="#23-optimisation-des-performances">2.3</a>), découvert trop tard pour être réellement exploité, est un outil que je compte essayer dès le prochain projet React.</p>
+<p>J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100% développement web et expérimenter avec <a href="#236-pixijs">PixiJS</a> pour créer des moteurs, interfaces ou prototypes visuels, pour ne pas m'arreter à un simple arrière‑plan.</p>
+<p>Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.</p>
 <h3 id="522-elpotato">5.2.2 ElPotato</h3>
 <p>...</p>
 
