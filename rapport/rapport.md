@@ -2104,7 +2104,7 @@ export class GamesService {
 
 </details>
 
-Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en 3.2.2.
+Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>.
 
 
 ## 3.3 Validation et sécurité
@@ -2144,6 +2144,22 @@ public static function validate(string $sessionId): ?array
 Une session pouvait ainsi être marquée comme compromise (<code class="c">is_unsafe</code>) sans être supprimée, ce qui permettait de la refuser tout en conservant une trace.
 
 Côté NestJS, cette responsabilité a été redistribuée plutôt que simplement supprimée. L'essentiel de l'authentification repose désormais sur **Passport**, sous la forme de stratégies déclarées une fois et réutilisées par des guards.
+
+Le contenu exact du jeton mérite d'être détaillé, puisque tout ce qui suit en dépend :
+
+```ts
+export type JwtPayload = {
+  sub: string; // Sujet (User ID)
+  sid: string; // Session ID
+  iat: number; // Date de création du jeton
+  exp: number; // Date d'expiration du jeton
+
+  cartId: string; // Cart ID
+  permission: EmployeeRole | null; // Le niveau de permission
+};
+```
+
+Ce choix n'est pas anodin : <code class="c">sub</code>, <code class="c">cartId</code> et <code class="c">permission</code> sont exactement les trois informations dont nous avions besoin à chaque requête, respectivement pour savoir qui fait la demande (<code class="c">@User('sub')</code>, vu en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>), quel panier manipuler, et quel rôle vérifier (<code class="c">RolesGuard</code>, vu plus haut). En les plaçant directement dans le jeton plutôt que de les recharger depuis la base à chaque fois, ces trois vérifications ne coûtent plus aucune requête SQL : elles sont disponibles dès que la signature du jeton est validée, sans <code class="c">find</code> TypeORM. La contrepartie est honnête à signaler : si la permission d'un utilisateur change en cours de session, l'ancien jeton continue de porter l'ancienne valeur jusqu'à son expiration ou son renouvellement, ce que l'ancien système, qui revalidait la session à chaque requête, n'avait pas à gérer.
 
 Le jeton continue de voyager dans un cookie, comme l'ancien <code class="c">session_id</code>, mais sa validité ne dépend plus d'une requête en base : la signature suffit. <code class="c">validate</code> n'a même rien à faire, puisque Passport n'arrive à cette étape qu'après avoir déjà vérifié cette signature.
 
@@ -2228,7 +2244,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 }
 ```
 
-Le champ <code class="c">identifier</code> couvre aussi bien l'email que le téléphone, ce que l'ancien <code class="c">AuthController::login</code> gérait par deux branches distinctes (<code class="c">loginWithEmail</code> / <code class="c">loginWithPhone</code>). Ici, ce choix est repoussé dans <code class="c">authService.validateUser</code>, et le contrôleur, le guard et la stratégie n'ont pas besoin de le connaître.
+Le champ <code class="c">identifier</code> couvre aussi bien l'email que le username. le téléphone, bien que possible à implémenter, est plus complexe du à son formattage particulier en fonction des pays, ce que l'ancien <code class="c">AuthController::login</code> gérait par deux branches distinctes (<code class="c">loginWithEmail</code> / <code class="c">loginWithPhone</code>) avec la partie téléphone ayant une faible vérification du formattage. Ici, le téléphone est remplacé par le username et c'est uniquement <code class="c">authService.validateUser</code> qui s'occupe de la logique, le contrôleur, le guard et la stratégie n'ayant pas besoin de connaître les détails n'étant pas leur rôle.
 
 ## 3.4 Maintenabilité
 
