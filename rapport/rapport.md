@@ -2349,6 +2349,75 @@ export class TagsController {
 
 Aucune de ces quatre briques n'a demandé de réflexion particulière : ce sont celles que NestJS attend par défaut pour n'importe quel domaine. Le résultat est pourtant une fonctionnalité complète, création, consultation paginée, mise à jour et suppression, avec vérification des doublons et des identifiants invalides, alors que rien de comparable n'existait avant et que rien dans nos priorités n'avait identifié ce besoin comme important. C'est tout le sens d'une complétude presque par accident : la structure imposée par le framework rend une fonctionnalité complète aussi simple à écrire qu'une fonctionnalité partielle, ce qui change la décision que l'on prend spontanément. Côté PHP, écrire l'équivalent aurait demandé une fonction SQL, une constante et une méthode de modèle par opération, ce qui rend beaucoup plus tentant de ne faire que le strict nécessaire.
 
+### 3.4.2 La documentation Swagger comme garde-fou
+
+Chaque route est documentée séparément de sa logique, dans un fichier dédié. La déclaration ci-dessous décrit comment se créer la documentation de manière simplifier pour <code class="c">POST /auth/login</code> :
+
+```ts
+Login: () =>
+  applyDecorators(
+    ApiOperation(/* Description de l'endpoint */),
+    ApiBody(/* Description de ce que l'on envoie à l'endpoint */),
+    ApiOkResponse(/* A quoi correspond le code 200 (OK) */),
+    ApiUnauthorizedResponse(/* A quoi correspond le code 200 (OK) */),
+    ApiTooManyRequestsResponse(/* A quoi correspond le code 200 (OK) */),
+  ),
+```
+
+Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner un identifiant et exécuter réellement la requête.
+
+<div class="before">
+<h3>Avant</h3>
+
+```php
+/**
+ * GET /api/games
+ * List all games with pagination
+ */
+public function index(Request $request): void { /* Implémentation */ }
+
+/**
+ * GET /api/games/{id}
+ * Get a single game by ID
+ */
+public function show(Request $request, string $id): void { /* Implémentation */ }
+```
+
+</div>
+
+<div class="after">
+<h3>Après</h3>
+
+![Capture de l'interface Swagger pour GET /games/{id}](placeholder-swagger-ui.gif)
+
+*Figure – Détail du endpoint généré par la déclaration ci-dessus.*
+
+Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit à la main, indépendant du code de la route :
+
+```bru
+get {
+  url: {{base_url}}/api/games/:id
+}
+
+tests {
+  test("Response structure is correct", function() {
+    if (res.status === 200) {
+      expect(res.body).to.have.property('id');
+      expect(res.body).to.have.property('name');
+      expect(res.body).to.have.property('price');
+    }
+  });
+}
+```
+
+Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même. Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.
+
+![Exécution d'une requête depuis Swagger UI via Try it out](placeholder-swagger-tryitout.gif)
+
+*Figure – Exécution de la requête et résultat affiché directement dans l'interface.*
+
+Cette bascule a une contrepartie que nous détaillons en 3.5 : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.
+
 ## 3.5 Difficultés rencontrées et solutions
 
 ...
