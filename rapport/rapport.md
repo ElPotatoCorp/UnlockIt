@@ -55,9 +55,15 @@
     <li class="lvl2"><a href="#33-validation-et-sécurité">3.3 Validation et sécurité</a></li>
     <li class="lvl2"><a href="#34-maintenabilité">3.4 Maintenabilité</a></li>
     <li class="lvl2"><a href="#35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</a></li>
-    <li><a href="#4-conclusion">4. Conclusion</a></li>
-    <li class="lvl2"><a href="#41-bilan">4.1 Bilan</a></li>
-    <li class="lvl2"><a href="#42-perspectives">4.2 Perspectives</a></li>
+    <li><a href="#4-infrastructure">4. Infrastructure</a></li>
+    <li class="lvl2"><a href="#41-une-organisation-en-monorepo">4.1 Une organisation en monorepo</a></li>
+    <li class="lvl2"><a href="#42-le-package-partagé-entre-frontend-et-backend">4.2 Le package partagé entre frontend et backend</a></li>
+    <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
+    <li class="lvl2"><a href="#44-gestion-des-configurations-denvironnement">4.4 Gestion des configurations d'environnement</a></li>
+    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
+    <li><a href="#5-conclusion">5. Conclusion</a></li>
+    <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
+    <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 
 </div>
