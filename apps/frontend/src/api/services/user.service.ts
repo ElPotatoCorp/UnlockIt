@@ -1,7 +1,7 @@
 import { api } from "../axios.instance";
 import type { UserEntity, UserProfileEntity, UserBillingEntity } from "@unlockit/shared";
 
-function normalizeAvatar(user: any) {
+export function normalizeAvatar(user: any) {
   if (!user) return user;
 
   const base = import.meta.env.VITE_API_BASE_URL;

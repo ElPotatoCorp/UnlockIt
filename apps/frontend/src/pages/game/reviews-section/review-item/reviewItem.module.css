@@ -7,15 +7,14 @@
 
 .content {
     color: var(--color-white);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    line-height: 1.5;
 }
 
 .meta {
+    margin-bottom: 12px;
     color: var(--color-mist);
     font-size: 0.9rem;
-    margin-bottom: 10px;
-    display: flex;
-    gap: 12px;
 }
 
 .rate {
@@ -25,19 +24,46 @@
 
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
-.actions button {
+.actionButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    background: var(--color-carbon);
+    border: 1px solid var(--color-tar);
+    border-radius: 8px;
+
     padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
     cursor: var(--cursor-pointer);
-    background: var(--color-blue);
-    color: var(--color-white);
-    transition: background 0.2s ease;
+
+    transition: background 0.2s ease, border 0.2s ease, transform 0.1s ease;
 }
 
-.actions button:hover {
-    background: var(--color-green);
+.actionButton:hover {
+    background: var(--color-blue);
+    border-color: var(--color-blue);
+}
+
+.actionButton:active {
+    transform: scale(0.95);
+}
+
+.icon {
+    width: 20px !important;
+    height: 20px !important;
+    fill: var(--color-white);
+}
+
+.active {
+    background: var(--color-blue) !important;
+    border-color: var(--color-blue) !important;
+}
+
+.icon {
+    width: 20px !important;
+    height: 20px !important;
+    fill: var(--color-white);
 }

@@ -30,6 +30,7 @@ const Purchases = lazy(() => import("./pages/purchases/Purchases"));
 const Settings = lazy(() => import("./pages/settings/Settings"));
 const Checkout = lazy(() => import("./pages/checkout/Checkout"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
+const UserProfile = lazy(() => import("./pages/user-profile/UserProfile"));
 
 function lazyRoute(element: React.ReactNode) {
   return (
@@ -66,6 +67,7 @@ export default function App() {
               <Route path="/settings" element={lazyRoute(<Settings />)} />
               <Route path="/checkout" element={lazyRoute(<Checkout />)} />
               <Route path="/cart" element={lazyRoute(<Cart />)} />
+              <Route path="/users/:userId" element={lazyRoute(<UserProfile />)} />
 
               <Route path="*" element={<NotFound />} />
             </Route>

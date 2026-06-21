@@ -31,10 +31,6 @@ export const ReviewAuthor = ({ userId }: Props) => {
                     Membre depuis le{" "}
                     {new Date(selectedUser.createdAt).toLocaleDateString()}
                 </span>
-
-                {selectedUser.bio && (
-                    <p className={styles.bio}>{selectedUser.bio}</p>
-                )}
             </div>
         </Link>
     );
