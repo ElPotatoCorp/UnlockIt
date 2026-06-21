@@ -64,10 +64,10 @@ export const ReviewEntityDoc = {
       })
     ),
 
-  Vote: () =>
+  Voted: () =>
     applyDecorators(
       ApiProperty({
-        title: 'Vote',
+        title: 'Voted',
         description: 'If the optionally authenticated user has voted for this review',
         type: Boolean,
         nullable: true,
