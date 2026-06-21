@@ -2410,6 +2410,8 @@ tests {
 }
 ```
 
+</div>
+
 Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même. Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.
 
 ![Exécution d'une requête depuis Swagger UI via Try it out](placeholder-swagger-tryitout.gif)

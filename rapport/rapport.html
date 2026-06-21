@@ -1977,11 +1977,254 @@ $$;
   <span class="hljs-comment">/* Code */</span>
 }
 </div></code></pre>
-<p>Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en 3.2.2.</p>
+</details>
+<p>Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>.</p>
 <h2 id="33-validation-et-sécurité">3.3 Validation et sécurité</h2>
-<p>...</p>
+<h3 id="331-authentification-par-jeton-plutôt-que-par-session">3.3.1 Authentification par jeton plutôt que par session</h3>
+<p>Côté PHP, l'authentification reposait entièrement sur une session stockée en base de données, identifiée par un cookie <code class="c">session_id</code>. Chaque requête authentifiée déclenchait donc un aller-retour vers la base pour vérifier que cette session existait toujours. Le système n'était pas naïf pour autant : à la connexion, plutôt que de créer systématiquement une nouvelle session, le contrôleur vérifiait d'abord si une session valide existait déjà pour cet utilisateur, et la réutilisait le cas échéant.</p>
+<p>La validation elle-même intégrait par ailleurs un indicateur de sécurité qu'il est facile de négliger dans un système de ce type.</p>
+<details class="accordion">
+<summary>Voir validation de session</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validate</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$sessionId</span></span>): ?<span class="hljs-title">array</span>
+</span>{
+    <span class="hljs-comment">/* Code */</span>
+
+    <span class="hljs-variable">$session</span> = <span class="hljs-title class_">Database</span>::<span class="hljs-title function_ invoke__">queryOne</span>(<span class="hljs-title class_">DefaultQuery\Session</span>::<span class="hljs-variable constant_">GET_SESSION</span>, [<span class="hljs-variable">$sessionId</span>]);
+
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable">$session</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$session</span>[<span class="hljs-string">&#x27;is_unsafe&#x27;</span>]) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-built_in">self</span>::<span class="hljs-title function_ invoke__">updateLastSeen</span>(<span class="hljs-variable">$sessionId</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$session</span>;
+}
+</div></code></pre>
+</details>
+<p>Une session pouvait ainsi être marquée comme compromise (<code class="c">is_unsafe</code>) sans être supprimée, ce qui permettait de la refuser tout en conservant une trace.</p>
+<p>Côté NestJS, cette responsabilité a été redistribuée plutôt que simplement supprimée. L'essentiel de l'authentification repose désormais sur <strong>Passport</strong>, sous la forme de stratégies déclarées une fois et réutilisées par des guards.</p>
+<p>Le contenu exact du jeton mérite d'être détaillé, puisque tout ce qui suit en dépend :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">JwtPayload</span> = {
+  <span class="hljs-attr">sub</span>: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// Sujet (User ID)</span>
+  <span class="hljs-attr">sid</span>: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// Session ID</span>
+  <span class="hljs-attr">iat</span>: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// Date de création du jeton</span>
+  <span class="hljs-attr">exp</span>: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// Date d&#x27;expiration du jeton</span>
+
+  <span class="hljs-attr">cartId</span>: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// Cart ID</span>
+  <span class="hljs-attr">permission</span>: <span class="hljs-title class_">EmployeeRole</span> | <span class="hljs-literal">null</span>; <span class="hljs-comment">// Le niveau de permission</span>
+};
+</div></code></pre>
+<p>Ce choix n'est pas anodin : <code class="c">sub</code>, <code class="c">cartId</code> et <code class="c">permission</code> sont exactement les trois informations dont nous avions besoin à chaque requête, respectivement pour savoir qui fait la demande (<code class="c">@User('sub')</code>, vu en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>), quel panier manipuler, et quel rôle vérifier (<code class="c">RolesGuard</code>, vu plus haut). En les plaçant directement dans le jeton plutôt que de les recharger depuis la base à chaque fois, ces trois vérifications ne coûtent plus aucune requête SQL : elles sont disponibles dès que la signature du jeton est validée, sans <code class="c">find</code> TypeORM. La contrepartie est honnête à signaler : si la permission d'un utilisateur change en cours de session, l'ancien jeton continue de porter l'ancienne valeur jusqu'à son expiration ou son renouvellement, ce que l'ancien système, qui revalidait la session à chaque requête, n'avait pas à gérer.</p>
+<p>Le jeton continue de voyager dans un cookie, comme l'ancien <code class="c">session_id</code>, mais sa validité ne dépend plus d'une requête en base : la signature suffit. <code class="c">validate</code> n'a même rien à faire, puisque Passport n'arrive à cette étape qu'après avoir déjà vérifié cette signature.</p>
+<details class="accordion">
+<summary>Voir comment le système d'authentification vérifie qu'une route est publique</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtAuthGuard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">AuthGuard</span>(<span class="hljs-string">&#x27;jwt&#x27;</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">reflector</span>: <span class="hljs-title class_">Reflector</span></span>) {
+    <span class="hljs-variable language_">super</span>();
+  }
+
+  <span class="hljs-title function_">canActivate</span>(<span class="hljs-params"><span class="hljs-attr">context</span>: <span class="hljs-title class_">ExecutionContext</span></span>) {
+    <span class="hljs-comment">// On vérifie juste si l&#x27;endpoint est accessible à tous (Publique)</span>
+    <span class="hljs-keyword">const</span> isPublic = <span class="hljs-title function_">someCode</span>();
+    <span class="hljs-keyword">if</span> (isPublic) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// Sinon, on laisse faire Passport</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">canActivate</span>(context);
+  }
+}
+</div></code></pre>
+</details>
+<p>Ce guard est déclaré globalement : par défaut, toute route exige un jeton valide. C'est l'inverse de l'ancien fonctionnement, où chaque méthode de contrôleur décidait elle-même, au cas par cas, si elle devait vérifier le cookie de session (<code class="c">AuthController::me</code> le faisait, <code class="c">GameController::index</code> ne le faisait pas). Pour échapper à cette vérification globale, une route doit s'en exclure explicitement :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Public</span>() <span class="hljs-comment">// &lt;-- Rend un endpoint accessible au publique</span>
+<span class="hljs-meta">@Get</span>(<span class="hljs-string">&#x27;ma-route&#x27;</span>)
+<span class="hljs-title function_">maRoute</span>(<span class="hljs-params"><span class="hljs-comment">/* Paramètres */</span></span>) {<span class="hljs-comment">/* Implémentation */</span>}
+</div></code></pre>
+<p>Une troisième variante répond à un besoin que nous avons déjà croisé en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, sans le détailler à l'époque : certaines routes (la recherche de jeux, la fiche d'un jeu) doivent rester accessibles sans connexion, tout en se comportant différemment si l'utilisateur est identifié.</p>
+<p>C'est <code class="c">JwtAuthOptionalGuard</code>, combiné au décorateur <code class="c">@User('sub')</code> rendu optionnel, qui permettait à <code class="c">GamesController.findOne</code> de renvoyer un indicateur <code class="c">wishlisted</code> pour un utilisateur connecté, sans pour autant bloquer l'accès à un visiteur anonyme.</p>
+<p>Reste la question de la déconnexion et du renouvellement, qui est précisément l'endroit où la notion de session n'a pas disparu, elle a simplement changé de rôle. Le jeton d'accès est volontairement éphémère, et son renouvellement passe par un second jeton, vérifié cette fois contre une session bien réelle :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JwtRefreshStrategy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PassportStrategy</span>(<span class="hljs-title class_">Strategy</span>, <span class="hljs-string">&#x27;jwt-refresh&#x27;</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">authService</span>: <span class="hljs-title class_">AuthService</span>, <span class="hljs-attr">jwt</span>: <span class="hljs-title class_">ConfigType</span>&lt;<span class="hljs-keyword">typeof</span> jwtConfig&gt;</span>) {
+    <span class="hljs-comment">/* On récupère le jeton expiré avec un peu de code délibérement non inclus ici */</span>
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">validate</span>(<span class="hljs-params"><span class="hljs-attr">request</span>: <span class="hljs-title class_">Request</span>, <span class="hljs-attr">payload</span>: <span class="hljs-title class_">JwtPayloadDto</span></span>) {
+    <span class="hljs-keyword">const</span> refreshToken = request.<span class="hljs-property">cookies</span>?.[<span class="hljs-variable language_">this</span>.<span class="hljs-property">jwt</span>.<span class="hljs-property">refreshTokenCookieName</span>];
+
+    <span class="hljs-comment">// On vérifie que tout va bien avec la session actuellement utilisée</span>
+    <span class="hljs-comment">// Si non, des errors 403 (Non autorisé) sont renvoyé</span>
+    <span class="hljs-comment">// Forcant donc l&#x27;utilisateur à se reconnecter</span>
+    <span class="hljs-keyword">const</span> session = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">authService</span>.<span class="hljs-title function_">refreshAccessToken</span>(refreshToken, payload.<span class="hljs-property">sub</span>);
+
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">sub</span>: session.<span class="hljs-property">userId</span>, <span class="hljs-attr">sid</span>: session.<span class="hljs-property">id</span> };
+  }
+}
+</div></code></pre>
+<p>Le jeton d'accès n'est donc pas révocable à l'instant où on le souhaiterait, il suffit d'attendre son expiration. Mais le jeton de rafraîchissement, lui, reste systématiquement confronté à une session côté serveur : c'est cette session que l'on peut détruire pour forcer une déconnexion immédiate, exactement comme le faisait <code class="c">Session::destroy</code> côté PHP. Nous avons gardé l'idée de session traçable de l'ancien système, mais déplacé sa responsabilité : elle ne sert plus à valider chaque requête, seulement à autoriser le renouvellement du jeton d'accès.</p>
+<p>Enfin, brancher un nouveau mode de connexion reste, dans ce système, une déclaration très courte :</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalAuthGuard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">AuthGuard</span>(<span class="hljs-string">&#x27;local&#x27;</span>) {}
+
+<span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalStrategy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">PassportStrategy</span>(<span class="hljs-title class_">Strategy</span>) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">authService</span>: <span class="hljs-title class_">AuthService</span></span>) {
+    <span class="hljs-variable language_">super</span>({ <span class="hljs-attr">usernameField</span>: <span class="hljs-string">&#x27;identifier&#x27;</span>, <span class="hljs-attr">passwordField</span>: <span class="hljs-string">&#x27;password&#x27;</span> });
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">validate</span>(<span class="hljs-params"><span class="hljs-attr">identifier</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">authService</span>.<span class="hljs-title function_">validateUser</span>(identifier, password);
+    <span class="hljs-keyword">if</span> (!user) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnauthorizedException</span>(<span class="hljs-string">&#x27;Invalid credentials&#x27;</span>);
+    }
+    <span class="hljs-keyword">return</span> user.<span class="hljs-property">createJwtPayloadDto</span>;
+  }
+}
+</div></code></pre>
+<p>Le champ <code class="c">identifier</code> couvre aussi bien l'email que le username. le téléphone, bien que possible à implémenter, est plus complexe du à son formattage particulier en fonction des pays, ce que l'ancien <code class="c">AuthController::login</code> gérait par deux branches distinctes (<code class="c">loginWithEmail</code> / <code class="c">loginWithPhone</code>) avec la partie téléphone ayant une faible vérification du formattage. Ici, le téléphone est remplacé par le username et c'est uniquement <code class="c">authService.validateUser</code> qui s'occupe de la logique, le contrôleur, le guard et la stratégie n'ayant pas besoin de connaître les détails n'étant pas leur rôle.</p>
 <h2 id="34-maintenabilité">3.4 Maintenabilité</h2>
-<p>...</p>
+<h3 id="341-un-module-complet-presque-par-accident">3.4.1 Un module complet presque par accident</h3>
+<p>L'ancien backend ne proposait aucune gestion des catégories de jeux : elles n'existaient que comme une relation en lecture, jointe à la volée (<code class="c">get_game_categories</code>, voir <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>). Rien ne permettait d'en créer, d'en renommer ou d'en supprimer une depuis l'API ; ces opérations, si elles avaient lieu, se faisaient directement en base.</p>
+<p>Avec NestJS, l'équivalent (les étiquettes, ou <code class="c">tags</code>) a été implémenté comme n'importe quel autre domaine, et s'est retrouvé complet sans que cela ait été un objectif en soi. Le module entier tient dans quatre fichiers courts.</p>
+<details class="accordion">
+<summary>Voir implémentation complète</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Module</span>({
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">TypeOrmModule</span>.<span class="hljs-title function_">forFeature</span>([<span class="hljs-title class_">TagEntity</span>])],
+  <span class="hljs-attr">controllers</span>: [<span class="hljs-title class_">TagsController</span>],
+  <span class="hljs-attr">providers</span>: [<span class="hljs-title class_">TagsService</span>],
+  <span class="hljs-attr">exports</span>: [<span class="hljs-title class_">TypeOrmModule</span>],
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsModule</span> {}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>(<span class="hljs-string">&#x27;tags&#x27;</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagEntity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ITagEntity</span> {
+  <span class="hljs-meta">@PrimaryGeneratedColumn</span>(<span class="hljs-string">&#x27;increment&#x27;</span>, { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;bigint&#x27;</span> })
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;varchar&#x27;</span>, { <span class="hljs-attr">length</span>: <span class="hljs-number">150</span>, <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span> })
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-meta">@Column</span>(<span class="hljs-string">&#x27;int&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;games_count&#x27;</span>, <span class="hljs-attr">default</span>: <span class="hljs-number">0</span> })
+  <span class="hljs-attr">gamesCount</span>: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-meta">@ManyToMany</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">GameEntity</span>, <span class="hljs-function">(<span class="hljs-params">game</span>) =&gt;</span> game.<span class="hljs-property">tags</span>)
+  <span class="hljs-attr">games</span>: <span class="hljs-title class_">GameEntity</span>[];
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Injectable</span>()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsService</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">tagRepository</span>: <span class="hljs-title class_">Repository</span>&lt;<span class="hljs-title class_">TagEntity</span>&gt;,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">commonService</span>: <span class="hljs-title class_">CommonService</span>,
+  </span>) {}
+
+  <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-attr">createTagDto</span>: <span class="hljs-title class_">CreateTagDto</span></span>) {
+    <span class="hljs-keyword">const</span> tag = <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">create</span>(createTagDto);
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">save</span>(tag);
+  }
+
+  <span class="hljs-title function_">findAll</span>(<span class="hljs-params"><span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">commonService</span>.<span class="hljs-property">pagination</span>.<span class="hljs-title function_">getPaginatedResponse</span>(
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>,
+      paginationQueryDto,
+      { <span class="hljs-attr">transform</span>: { <span class="hljs-attr">fn</span>: <span class="hljs-title class_">TagMapper</span>.<span class="hljs-property">toGameTag</span> } },
+    );
+  }
+
+  <span class="hljs-title function_">update</span>(<span class="hljs-params"><span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">updateTagDto</span>: <span class="hljs-title class_">UpdateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">update</span>(id, updateTagDto);
+  }
+
+  <span class="hljs-title function_">remove</span>(<span class="hljs-params"><span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagRepository</span>.<span class="hljs-title function_">delete</span>(id);
+  }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-meta">@Controller</span>(<span class="hljs-string">&#x27;tags&#x27;</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TagsController</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">tagsService</span>: <span class="hljs-title class_">TagsService</span></span>) {}
+
+  <span class="hljs-meta">@Post</span>()
+  <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-meta">@Body</span>(DuplicatedEntryPipe(TagEntity, <span class="hljs-string">&#x27;name&#x27;</span>)) <span class="hljs-attr">createTagDto</span>: <span class="hljs-title class_">CreateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">TagMapper</span>.<span class="hljs-title function_">toTag</span>(<span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">create</span>(createTagDto));
+  }
+
+  <span class="hljs-meta">@Public</span>()
+  <span class="hljs-meta">@Get</span>()
+  <span class="hljs-title function_">findAll</span>(<span class="hljs-params"><span class="hljs-meta">@Query</span>() <span class="hljs-attr">paginationQueryDto</span>: <span class="hljs-title class_">PaginationQueryDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">findAll</span>(paginationQueryDto);
+  }
+
+  <span class="hljs-meta">@Patch</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
+  <span class="hljs-title function_">update</span>(<span class="hljs-params"><span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-meta">@Body</span>() <span class="hljs-attr">updateTagDto</span>: <span class="hljs-title class_">UpdateTagDto</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">update</span>(id, updateTagDto);
+  }
+
+  <span class="hljs-meta">@Delete</span>(<span class="hljs-string">&#x27;:id&#x27;</span>)
+  <span class="hljs-title function_">remove</span>(<span class="hljs-params"><span class="hljs-meta">@Param</span>(<span class="hljs-string">&#x27;id&#x27;</span>, ParseIntPipe, EntityExistsPipe(TagEntity)) <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">tagsService</span>.<span class="hljs-title function_">remove</span>(id);
+  }
+}
+</div></code></pre>
+</details>
+<p>Aucune de ces quatre briques n'a demandé de réflexion particulière : ce sont celles que NestJS attend par défaut pour n'importe quel domaine. Le résultat est pourtant une fonctionnalité complète, création, consultation paginée, mise à jour et suppression, avec vérification des doublons et des identifiants invalides, alors que rien de comparable n'existait avant et que rien dans nos priorités n'avait identifié ce besoin comme important. C'est tout le sens d'une complétude presque par accident : la structure imposée par le framework rend une fonctionnalité complète aussi simple à écrire qu'une fonctionnalité partielle, ce qui change la décision que l'on prend spontanément. Côté PHP, écrire l'équivalent aurait demandé une fonction SQL, une constante et une méthode de modèle par opération, ce qui rend beaucoup plus tentant de ne faire que le strict nécessaire.</p>
+<h3 id="342-la-documentation-swagger-comme-garde-fou">3.4.2 La documentation Swagger comme garde-fou</h3>
+<p>Chaque route est documentée séparément de sa logique, dans un fichier dédié. La déclaration ci-dessous décrit comment se créer la documentation de manière simplifier pour <code class="c">POST /auth/login</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-title class_">Login</span>: <span class="hljs-function">() =&gt;</span>
+  <span class="hljs-title function_">applyDecorators</span>(
+    <span class="hljs-title class_">ApiOperation</span>(<span class="hljs-comment">/* Description de l&#x27;endpoint */</span>),
+    <span class="hljs-title class_">ApiBody</span>(<span class="hljs-comment">/* Description de ce que l&#x27;on envoie à l&#x27;endpoint */</span>),
+    <span class="hljs-title class_">ApiOkResponse</span>(<span class="hljs-comment">/* A quoi correspond le code 200 (OK) */</span>),
+    <span class="hljs-title class_">ApiUnauthorizedResponse</span>(<span class="hljs-comment">/* A quoi correspond le code 200 (OK) */</span>),
+    <span class="hljs-title class_">ApiTooManyRequestsResponse</span>(<span class="hljs-comment">/* A quoi correspond le code 200 (OK) */</span>),
+  ),
+</div></code></pre>
+<p>Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner un identifiant et exécuter réellement la requête.</p>
+<div class="before">
+<h3>Avant</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">/**
+ * GET /api/games
+ * List all games with pagination
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>): <span class="hljs-title">void</span> </span>{ <span class="hljs-comment">/* Implémentation */</span> }
+
+<span class="hljs-comment">/**
+ * GET /api/games/{id}
+ * Get a single game by ID
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$id</span></span>): <span class="hljs-title">void</span> </span>{ <span class="hljs-comment">/* Implémentation */</span> }
+</div></code></pre>
+</div>
+<div class="after">
+<h3>Après</h3>
+<p><img src="placeholder-swagger-ui.gif" alt="Capture de l'interface Swagger pour GET /games/{id}"></p>
+<p><em>Figure – Détail du endpoint généré par la déclaration ci-dessus.</em></p>
+<p>Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit à la main, indépendant du code de la route :</p>
+<pre class="hljs"><code><div>get {
+  url: {{base_url}}/api/games/:id
+}
+
+tests {
+  test(&quot;Response structure is correct&quot;, function() {
+    if (res.status === 200) {
+      expect(res.body).to.have.property('id');
+      expect(res.body).to.have.property('name');
+      expect(res.body).to.have.property('price');
+    }
+  });
+}
+</div></code></pre>
+</div>
+<p>Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même. Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.</p>
+<p><img src="placeholder-swagger-tryitout.gif" alt="Exécution d'une requête depuis Swagger UI via Try it out"></p>
+<p><em>Figure – Exécution de la requête et résultat affiché directement dans l'interface.</em></p>
+<p>Cette bascule a une contrepartie que nous détaillons en 3.5 : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.</p>
 <h2 id="35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</h2>
 <p>...</p>
 <h1 id="5-conclusion">5. Conclusion</h1>
@@ -1997,7 +2240,7 @@ $$;
 <h3 id="521-frozen1753">5.2.1 Frozen1753</h3>
 <p>Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances &quot;à l’oeil&quot;, sans jamais avoir réelement mesuré quoi que ce soit. Découvrir des outils comme <strong>React Scan</strong> ou le Profiler de <strong>React Developer Tools</strong> a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. Les chunks et le build du frontend n'avaient jamais été abordé auparavant car nous ne quittions jamais le mode dev dans les projets comme pour les cours.</p>
 <p>Plusieurs chantiers commencés durant cette SAÉ mériteraient d’être poussés plus loin. Le sitemap reste aujourd’hui statique, faute de script de génération automatique à partir de la base de données (<a href="#22-référencement-et-indexation">2.2</a>) ; c’est un développement que j’aimerais intégrer si le projet venait à continuer au-delà du cadre académique. La couverture Playwright pourrait également s’étendre au-delà des premiers tests critiques faute de temps à cause de la refonte intégrale (<a href="#25-tests-automatisés">2.5</a>), et <strong>React Doctor</strong> (<a href="#23-optimisation-des-performances">2.3</a>), découvert trop tard pour être réellement exploité, est un outil que je compte essayer dès le prochain projet React.</p>
-<p>J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100% développement web et expérimenter avec <a href="#236-pixijs">PixiJS</a> pour créer des moteurs, interfaces ou prototypes visuels, pour ne pas m'arreter à un simple arrière‑plan.</p>
+<p>J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100% développement web et expérimenter avec <a href="#236-pixijs">PixiJS</a> pour créer des moteurs, interfaces ou prototypes visuels, pour ne pas m'arrêter à un simple arrière‑plan.</p>
 <p>Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.</p>
 <h3 id="522-elpotato">5.2.2 ElPotato</h3>
 <p>...</p>
