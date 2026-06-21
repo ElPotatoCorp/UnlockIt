@@ -13,6 +13,8 @@ import { Wallet } from "./wallet/Wallet";
 import { Profile } from "./profile/Profile";
 import { AccountDangerZone } from "./danger-zone/AccountDangerZone";
 import Loading from "../../components/common/loading/Loading";
+import { AccountDetails } from "./account-details/AccountDetails";
+import { Wallet } from "./wallet/Wallet";
 
 const Settings: FC = () => {
   const { isLogged, fetchSession } = useAuth();
@@ -69,9 +71,7 @@ const Settings: FC = () => {
 
       <div className={styles.cardGrid}>
         <Profile />
-        {/*
         <AccountDetails />
-        */}
       </div>
 
       {/*
@@ -79,11 +79,11 @@ const Settings: FC = () => {
         <EmailSettings />
         <PasswordSettings />
       </div>
+      */}
 
       <div className={styles.cardGrid}>
         <Wallet />
       </div>
-      */}
 
       <AccountDangerZone />
     </div>

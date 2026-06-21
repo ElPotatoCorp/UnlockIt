@@ -1,0 +1,12 @@
+.section {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--color-smoke);
+    border-radius: 10px;
+}
+
+.title {
+    font-family: var(--font-title);
+    color: var(--color-blue);
+    margin-bottom: 12px;
+}

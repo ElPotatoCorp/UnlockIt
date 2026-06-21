@@ -66,21 +66,14 @@ export const userService = {
     }
   },
 
-  updateAvatar: async (file: File) => {
-    const form = new FormData();
-    form.append("avatar", file);
-
+  updateProfile: async (payload: UserProfileEntity) => {
     try {
-      const res = await api.patch("/user/avatar", form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      return `${import.meta.env.VITE_API_BASE_URL}/uploads/avatars/${res.data.avatar}`;
+      const res = await api.patch("/user/profile", payload);
+      return res.data;
     } catch (err: any) {
       const s = err.response?.status;
-      if (s === 400) throw { message: "Fichier invalide ou trop volumineux." };
+      if (s === 400) throw { message: "Données invalides." };
       if (s === 401) throw { message: "Non authentifié." };
-      if (s === 404) throw { message: "Utilisateur introuvable." };
       throw { message: "Erreur serveur." };
     }
   },
@@ -123,7 +116,8 @@ export const userService = {
       const res = await api.patch("/user/avatar", form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      return res.data.avatar;
+
+      return `${import.meta.env.VITE_API_BASE_URL}/uploads/avatars/${res.data.avatar}`;
     } catch (err: any) {
       const s = err.response?.status;
       if (s === 400) throw { message: "Fichier invalide ou trop volumineux." };
