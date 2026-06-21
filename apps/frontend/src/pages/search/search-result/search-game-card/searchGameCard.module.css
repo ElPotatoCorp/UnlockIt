@@ -87,6 +87,12 @@
     opacity: 1;
 }
 
+.icon {
+  width: 20px !important;
+  height: 20px !important;
+  fill: var(--color-white);
+}
+
 .price {
     font-weight: bold;
     color: var(--color-green);
@@ -115,7 +121,11 @@
 }
 
 .viewButton {
-    flex: 2 !important;
+  flex: 2 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .wish {
@@ -133,5 +143,5 @@
 }
 
 .wishActive:hover {
-    color: var(--color-error);
+    color: var(--color-mist);
 }

@@ -4,12 +4,14 @@ import babel from '@rolldown/plugin-babel';
 import { join } from 'path';
 import viteCompression from "vite-plugin-compression";
 import { visualizer } from "rollup-plugin-visualizer";
+import svgr from 'vite-plugin-svgr';
 
 // https://vite.dev/config/
 export default defineConfig({
   envDir: join(process.cwd(), '..', '..'),
   plugins: [
     react(),
+    svgr(),
     babel({ presets: [reactCompilerPreset()] }),
     viteCompression({ algorithm: "brotliCompress", ext: ".br" }),
     viteCompression({ algorithm: "gzip" })

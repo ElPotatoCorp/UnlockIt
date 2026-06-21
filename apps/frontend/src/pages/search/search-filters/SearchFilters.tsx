@@ -1,84 +1,110 @@
 import { type FC } from "react";
 import { Card } from "../../../components/common/card/Card";
 import styles from "./searchFilters.module.css";
+import type { SearchBody } from "@unlockit/shared";
 
 interface Props {
-    sortBy: "name" | "price_asc" | "price_desc";
-    setSortBy: React.Dispatch<React.SetStateAction<"name" | "price_asc" | "price_desc">>;
-    minPrice: string;
-    setMinPrice: React.Dispatch<React.SetStateAction<string>>;
-    maxPrice: string;
-    setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
+    filters: SearchBody;
+    setFilters: (f: SearchBody) => void;
 }
 
-export const SearchFilters: FC<Props> = ({
-    sortBy,
-    setSortBy,
-    minPrice,
-    setMinPrice,
-    maxPrice,
-    setMaxPrice,
-}) => {
-
-    const handleMinChange = (value: string) => {
-        const v = Math.max(0, Number(value));
-        setMinPrice(String(v));
-
-        if (maxPrice && v >= Number(maxPrice)) {
-            setMaxPrice(String(v + 1));
-        }
-    };
-
-    const handleMaxChange = (value: string) => {
-        const v = Math.max(0, Number(value));
-        setMaxPrice(String(v));
-
-        if (minPrice && v <= Number(minPrice)) {
-            setMinPrice(String(v - 1 >= 0 ? v - 1 : 0));
-        }
-    };
+export const SearchFilters: FC<Props> = ({ filters, setFilters }) => {
+    const update = (patch: Partial<SearchBody>) =>
+        setFilters({ ...filters, ...patch });
 
     return (
-        <aside className={styles.sidebar} aria-label="Filtres de recherche">
+        <aside className={styles.sidebar}>
             <Card className={styles.card}>
                 <h2 className={styles.title}>Filtres</h2>
 
+                {/* TRI */}
                 <div className={styles.field}>
-                    <label htmlFor="sort-select">Trier</label>
+                    <label>Trier</label>
                     <select
-                        id="sort-select"
-                        aria-label="Choisir l'ordre de tri"
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value as any)}
+                        value={filters.order.by}
+                        onChange={(e) =>
+                            update({
+                                order: {
+                                    ...filters.order,
+                                    by: e.target.value as "popular" | "price",
+                                },
+                            })
+                        }
                     >
-                        <option value="name">Nom</option>
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
+                        <option value="popular">Popularité</option>
+                        <option value="price">Prix</option>
                     </select>
                 </div>
 
+                {/* PRIX */}
                 <div className={styles.field}>
-                    <label htmlFor="min-price">Prix min</label>
+                    <label>Prix min</label>
                     <input
-                        id="min-price"
-                        aria-label="Prix minimum"
                         type="number"
-                        min={0}
-                        value={minPrice}
-                        onChange={(e) => handleMinChange(e.target.value)}
+                        value={filters.price?.min ?? ""}
+                        onChange={(e) =>
+                            update({
+                                price: {
+                                    ...filters.price,
+                                    min: Number(e.target.value),
+                                },
+                            })
+                        }
                     />
                 </div>
 
                 <div className={styles.field}>
-                    <label htmlFor="max-price">Prix max</label>
+                    <label>Prix max</label>
                     <input
-                        id="max-price"
-                        aria-label="Prix maximum"
                         type="number"
-                        min={0}
-                        value={maxPrice}
-                        onChange={(e) => handleMaxChange(e.target.value)}
+                        value={filters.price?.max ?? ""}
+                        onChange={(e) =>
+                            update({
+                                price: {
+                                    min: filters.price?.min ?? 0,
+                                    max: Number(e.target.value),
+                                },
+                            })
+                        }
                     />
+                </div>
+
+                {/* TAGS */}
+                <div className={styles.field}>
+                    <label>Tags</label>
+                    <input
+                        type="text"
+                        placeholder="IDs séparés par virgules"
+                        onChange={(e) =>
+                            update({
+                                tags: e.target.value
+                                    .split(",")
+                                    .map((x) => Number(x.trim()))
+                                    .filter(Boolean),
+                            })
+                        }
+                    />
+                </div>
+
+                {/* COMING SOON */}
+                <div className={styles.field}>
+                    <label>Sortie</label>
+                    <select
+                        value={filters.release?.when ?? ""}
+                        onChange={(e) =>
+                            update({
+                                release: {
+                                    when: e.target.value as any,
+                                },
+                            })
+                        }
+                    >
+                        <option value="">Toutes</option>
+                        <option value="coming-soon">À venir</option>
+                        <option value="before">Avant une date</option>
+                        <option value="after">Après une date</option>
+                        <option value="exact">Exacte</option>
+                    </select>
                 </div>
             </Card>
         </aside>

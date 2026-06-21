@@ -1,7 +1,7 @@
 import { type FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDebounce } from "use-debounce";
-import { GameType } from "@unlockit/shared";
+import { GameType, type SearchBody } from "@unlockit/shared";
 import { useGames } from "../../api/hooks/useGames.hook";
 import { SearchFilters } from "./search-filters/SearchFilters";
 import { SearchResults } from "./search-result/SearchResults";
@@ -11,7 +11,6 @@ import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import styles from "./search.module.css";
 
 const Search: FC = () => {
-  const { term } = useParams<{ term: string }>();
   const { games, searchGames } = useGames();
   const { isLogged } = useAuth();
   const { addToWishlist, removeFromWishlist } = useWishlist();
@@ -19,28 +18,33 @@ const Search: FC = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [sortBy, setSortBy] = useState<"name" | "price_asc" | "price_desc">("name");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const { term } = useParams<{ term: string }>();
+  const [filters, setFilters] = useState<SearchBody>({
+    order: { by: "popular", asc: false },
+    price: undefined,
+    type: GameType.GAME,
+    tags: [],
+    developers: [],
+    publishers: [],
+    platforms: {},
+    release: undefined,
+  });
+  const [page, setPage] = useState(1);
 
   const [debouncedTerm] = useDebounce(term, 300);
-  const [debouncedSortBy] = useDebounce(sortBy, 300);
-  const [debouncedMinPrice] = useDebounce(minPrice, 300);
-  const [debouncedMaxPrice] = useDebounce(maxPrice, 300);
+  const [debouncedFilters] = useDebounce(filters, 300);
+  const [debouncedPage] = useDebounce(page, 300);
 
-  const buildSearchOptions = () => ({
-    type: GameType.GAME,
-    price:
-      debouncedMinPrice || debouncedMaxPrice
-        ? {
-          min: Number(debouncedMinPrice || 0),
-          max: debouncedMaxPrice ? Number(debouncedMaxPrice) : undefined,
-        }
-        : undefined,
-    order: {
-      by: (debouncedSortBy === "name" ? "popular" : "price") as "popular" | "price",
-      asc: debouncedSortBy !== "price_desc",
-    },
+  const buildSearchOptions = (): SearchBody => ({
+    ...debouncedFilters,
+    price: debouncedFilters.price?.min || debouncedFilters.price?.max
+      ? {
+        min: Number(debouncedFilters.price.min || 0),
+        max: debouncedFilters.price.max
+          ? Number(debouncedFilters.price.max)
+          : undefined,
+      }
+      : undefined,
   });
 
   useEffect(() => {
@@ -53,13 +57,13 @@ const Search: FC = () => {
           ? debouncedTerm
           : "_"; // "tous les jeux"
 
-      await searchGames(slug, options, 1, 20);
+      await searchGames(slug, options, debouncedPage, 20);
 
       setLoading(false);
     };
 
     run();
-  }, [debouncedTerm, debouncedSortBy, debouncedMinPrice, debouncedMaxPrice]);
+  }, [debouncedTerm, debouncedPage, debouncedFilters]);
 
   const handleAddToCart = (id: number) => {
     if (!isLogged) {
@@ -118,20 +122,19 @@ const Search: FC = () => {
       </h1>
 
       <div className={styles.layout}>
-        <SearchFilters
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          minPrice={minPrice}
-          setMinPrice={setMinPrice}
-          maxPrice={maxPrice}
-          setMaxPrice={setMaxPrice}
-        />
+        <SearchFilters filters={filters} setFilters={setFilters} />
 
         <SearchResults
-          games={games?.data || []}
+          games={{
+            data: games?.data || [],
+            page: games?.page || 1,
+            limit: games?.limit || 20,
+            total: games?.total || 0,
+          }}
           loading={loading}
-          onAddToCart={(id) => handleAddToCart(id)}
-          onToggleWishlist={(id) => handleToggleWishlist(id)}
+          onAddToCart={handleAddToCart}
+          onToggleWishlist={handleToggleWishlist}
+          onPageChange={(p) => setPage(p)}
         />
       </div>
     </div>
