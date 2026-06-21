@@ -1,0 +1,41 @@
+.wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.contentWrapper {
+    position: relative;
+    padding: 10px;
+}
+
+.hiddenContent {
+    filter: blur(6px);
+    transition: filter 0.3s ease;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.revealed {
+    filter: none;
+}
+
+.revealButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 14px;
+    background: var(--color-blue);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    cursor: var(--cursor-pointer);
+    font-size: var(--text-body);
+    transition: background 0.25s ease;
+}
+
+.revealButton:hover {
+    background: var(--color-green);
+}

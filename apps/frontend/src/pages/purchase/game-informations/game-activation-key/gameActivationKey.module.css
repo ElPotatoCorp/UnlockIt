@@ -1,0 +1,61 @@
+.section {
+  margin-top: 20px;
+}
+
+.subtitle {
+  display: block;
+  font-size: var(--text-body);
+  margin-bottom: 8px;
+  color: var(--color-mist);
+}
+
+.keyContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.placeholder {
+  font-family: monospace;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--color-mist);
+  text-align: center;
+  padding: 10px 0;
+}
+
+.keysList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.keyItem {
+  font-family: monospace;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--color-white);
+}
+
+.copyBtn {
+  margin-top: 10px;
+  align-self: flex-start;
+  background: var(--color-blue);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: var(--cursor-pointer);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copyBtn:hover {
+  background: var(--color-green);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}

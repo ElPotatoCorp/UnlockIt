@@ -1,0 +1,11 @@
+.pageContent {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: var(--text-h2);
+}

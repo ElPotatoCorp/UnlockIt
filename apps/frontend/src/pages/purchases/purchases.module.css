@@ -1,0 +1,32 @@
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.title {
+  text-align: center;
+  font-size: var(--text-h2);
+  font-family: var(--font-title);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loginRequiredPage {
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.loginLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

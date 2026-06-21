@@ -1,0 +1,200 @@
+/* Valeurs générales */
+.valueWrapper {
+    margin: 0.5rem 0;
+    padding: 0.25rem 0;
+    display: block;
+    gap: 0.5rem;
+}
+
+.boxValue {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Rich text container pour HTML injecté */
+.richText {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-white);
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Paragraphes et titres internes */
+.richText p {
+    margin: 0 0 0.75rem 0;
+    color: #e6e6e6;
+}
+
+.richText h1,
+.richText h2,
+.richText h3,
+.richText h4 {
+    margin: 0.5rem 0;
+    color: var(--color-blue);
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+/* Classes provenant du HTML externe (ex: bb_paragraph, bb_tag, bb_ul) */
+.richText .bb_paragraph {
+    margin: 0 0 0.75rem 0;
+    color: #ddd;
+}
+
+.richText .bb_tag {
+    color: var(--color-blue);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+/* Listes injectées : démarrent à gauche, indentation classique */
+.richText .bb_ul,
+.richText ul,
+.richText ol {
+    margin: 0.5rem 0 0.75rem 1.25rem;
+    padding: 0;
+    color: #ddd;
+    line-height: 1.5;
+}
+
+/* Items de liste : retour à la ligne si trop long */
+.richText .bb_ul li,
+.richText li {
+    margin: 0.25rem 0;
+    white-space: normal;
+    word-break: break-word;
+    color: #e6e6e6;
+}
+
+/* Images incluses dans le HTML injecté */
+.richText .bb_img,
+.richText img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.5rem auto;
+    border-radius: 6px;
+}
+
+/* Tableaux éventuels */
+.richText table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem auto;
+    display: block;
+    overflow: auto;
+}
+
+.richText th,
+.richText td {
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: left;
+    color: #ddd;
+}
+
+/* Petits éléments forts et inline */
+.richText strong,
+.richText b {
+    color: var(--color-white);
+    font-weight: 700;
+}
+
+.richText em,
+.richText i {
+    color: #cfefff;
+}
+
+/* Scrollbar discrète pour les contenus larges */
+.richText::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.richText::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+}
+
+/* === RowList (genres / catégories / plateformes) === */
+/* Variante inspirée de ton style mais alignée à gauche et responsive */
+.rowList {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+    /* démarrer à gauche */
+    align-items: flex-start;
+}
+
+/* Chaque item peut s'étendre et revenir à la ligne si nécessaire */
+.rowList li {
+    background: var(--color-tar, #2b2b2b);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: #ccc;
+    transition: background 0.2s ease, transform 0.2s ease;
+    max-width: 100%;
+    /* autorise le wrapping */
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Accent interne si tu veux un span coloré */
+.rowList li span {
+    color: var(--color-green, #7be495);
+}
+
+/* Hover */
+.rowList li:hover {
+    background: #222;
+    transform: translateY(-4px);
+}
+
+/* Petite variante pour écrans étroits */
+@media (max-width: 600px) {
+    .richText {
+        padding: 0.5rem;
+        font-size: 0.92rem;
+    }
+
+    .rowList {
+        gap: 8px;
+    }
+
+    .rowList li {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}
+
+.audioIcon {
+    margin-left: 6px;
+}
+
+.audioNote {
+    font-family: 'Orbitron', sans-serif;
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #fff;
+}
+
+.platformIcon {
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  vertical-align: middle;
+  filter: invert(1);
+}

@@ -1,0 +1,67 @@
+.section {
+    margin-top: 20px;
+}
+
+.subtitle {
+    display: block;
+    font-size: var(--text-body);
+    margin-bottom: 10px;
+    color: var(--color-mist);
+}
+
+.box {
+    background: var(--color-dark-2);
+    padding: 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.label {
+    font-size: var(--text-small);
+    color: var(--color-mist);
+}
+
+.valueWrapper {
+    padding: 10px;
+    background: var(--color-dark-3);
+    border-radius: 8px;
+}
+
+.value {
+    font-size: var(--text-body);
+    color: var(--color-white);
+}
+
+.link {
+    color: var(--color-blue);
+    text-decoration: none;
+    font-size: var(--text-small);
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.rowList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.platformItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-body);
+    color: var(--color-white);
+}
+
+.platformIcon {
+    width: 18px;
+    height: 18px;
+}
