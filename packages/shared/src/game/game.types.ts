@@ -57,7 +57,6 @@ export type GameDetail = Simplify<Omit<GameEntity, GameRelationKeys> & {
   platforms: GamePlatform;
   media: Media[];
   series?: Series;
-  reviews: Review[];
 
   wishlisted?: boolean;
 }>;

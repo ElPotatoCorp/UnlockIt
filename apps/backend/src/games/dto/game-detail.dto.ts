@@ -85,8 +85,6 @@ export class GameDetailDto implements GameDetail {
   @GameRelationsEntityDoc.Series()
   series?: SeriesDto;
 
-  reviews: ReviewDto[];
-
   wishlisted?: boolean;
 }
 

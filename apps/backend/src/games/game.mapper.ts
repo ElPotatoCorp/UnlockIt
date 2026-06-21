@@ -31,7 +31,6 @@ export class GameMapper {
     dto.publishers = game.publishers;
     dto.media = game.media;
     dto.platforms = game.platforms;
-    dto.reviews = game.reviews.map(review => ReviewMapper.toReview(review, null));
     
     if (game.series)
       dto.series = game.series;
