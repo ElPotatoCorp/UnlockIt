@@ -19,6 +19,8 @@ export type JwtPayload = {
 
 export type CreateJwtPayload = Omit<JwtPayload, 'sid' | 'iat' | 'exp'>;
 
+export type Login = { identifier: string, password: string };
+
 export type CreatePasswordReset = {
   identifier: string;
 }

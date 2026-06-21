@@ -29,6 +29,7 @@ import {
 import { UserDto } from 'src/user/dto/user.dto';
 import { ResetPasswordDto } from 'src/auth/dto/reset-password.dto';
 import { CreatePasswordResetDto } from 'src/auth/dto/create-password-reset.dto';
+import { LoginDto } from 'src/auth/dto/login.dto';
 
 export const AuthControllerDoc = {
   Controller: () => applyDecorators(ApiTags('Auth')),
@@ -96,6 +97,7 @@ export const AuthControllerDoc = {
           'Authenticates the user and sets an **httpOnly JWT cookie** (`jwt`) valid for 1 day. All subsequent requests to protected routes must include this cookie.',
       }),
       ApiBody({
+        type: LoginDto,
         examples: {
           usernameExample: {
             summary: 'Login with username',
