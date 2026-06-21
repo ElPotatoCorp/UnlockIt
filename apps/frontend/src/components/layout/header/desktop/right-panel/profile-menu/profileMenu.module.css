@@ -29,6 +29,13 @@
   animation: fadeInUp 0.5s ease;
 }
 
+.avatarImg {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .menuList {
   list-style: none;
   display: flex;

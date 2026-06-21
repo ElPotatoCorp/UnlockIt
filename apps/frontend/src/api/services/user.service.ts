@@ -1,6 +1,18 @@
 import { api } from "../axios.instance";
 import type { UserEntity, UserProfileEntity, UserBillingEntity } from "@unlockit/shared";
 
+function normalizeAvatar(user: any) {
+  if (!user) return user;
+
+  const base = import.meta.env.VITE_API_BASE_URL;
+
+  if (user.avatar && !user.avatar.startsWith("http")) {
+    user.avatar = `${base}/uploads/avatars/${user.avatar}`;
+  }
+
+  return user;
+}
+
 export const userService = {
   // -------------------------
   // USER
@@ -8,7 +20,7 @@ export const userService = {
   getUser: async (): Promise<UserEntity> => {
     try {
       const res = await api.get("/user");
-      return res.data;
+      return normalizeAvatar(res.data);
     } catch (err: any) {
       const s = err.response?.status;
       if (s === 401) throw { message: "Non authentifié." };
@@ -20,7 +32,7 @@ export const userService = {
   updateUser: async (payload: Partial<UserEntity>) => {
     try {
       const res = await api.patch("/user", payload);
-      return res.data;
+      return normalizeAvatar(res.data);
     } catch (err: any) {
       const s = err.response?.status;
       if (s === 400) throw { message: "Données invalides." };
@@ -54,14 +66,21 @@ export const userService = {
     }
   },
 
-  updateProfile: async (payload: UserProfileEntity) => {
+  updateAvatar: async (file: File) => {
+    const form = new FormData();
+    form.append("avatar", file);
+
     try {
-      const res = await api.patch("/user/profile", payload);
-      return res.data;
+      const res = await api.patch("/user/avatar", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      return `${import.meta.env.VITE_API_BASE_URL}/uploads/avatars/${res.data.avatar}`;
     } catch (err: any) {
       const s = err.response?.status;
-      if (s === 400) throw { message: "Données invalides." };
+      if (s === 400) throw { message: "Fichier invalide ou trop volumineux." };
       if (s === 401) throw { message: "Non authentifié." };
+      if (s === 404) throw { message: "Utilisateur introuvable." };
       throw { message: "Erreur serveur." };
     }
   },

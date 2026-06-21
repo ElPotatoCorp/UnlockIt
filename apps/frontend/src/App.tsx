@@ -27,6 +27,7 @@ const Wishlist = lazy(() => import("./pages/wishlist/Wishlist"));
 const Game = lazy(() => import("./pages/game/Game"));
 const Purchase = lazy(() => import("./pages/purchase/Purchase"));
 const Purchases = lazy(() => import("./pages/purchases/Purchases"));
+const Settings = lazy(() => import("./pages/settings/Settings"));
 
 function lazyRoute(element: React.ReactNode) {
   return (
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/games/:id" element={lazyRoute(<Game />)} />
               <Route path="/purchases/:orderId/:gameId" element={lazyRoute(<Purchase/>)} />
               <Route path="/purchases" element={lazyRoute(<Purchases/>)} />
+              <Route path="/settings" element={lazyRoute(<Settings />)} />
 
               <Route path="*" element={<NotFound />} />
             </Route>

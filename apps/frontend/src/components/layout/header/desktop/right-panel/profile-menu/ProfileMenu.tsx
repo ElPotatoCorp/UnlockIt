@@ -28,7 +28,7 @@ export const ProfileMenu: FC<ProfileMenuProps> = ({ profilePic, isLogged }) => {
     <>
       <div id="profile-menu-button" onClick={() => setOpen(!open)} className={styles.profileIcon}>
         {profilePic ? (
-          <img src={profilePic} alt="Profil" />
+          <img src={profilePic} className={styles.avatarImg} alt="Profil" />
         ) : (
           <DefaultPfpIcon size={40} />
         )}

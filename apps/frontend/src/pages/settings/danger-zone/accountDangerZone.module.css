@@ -1,0 +1,253 @@
+/* === SECTION PRINCIPALE === */
+.section {
+  text-align: left;
+  cursor: var(--cursor-default);
+}
+
+/* === TITRES & TEXTES === */
+.title {
+  text-align: center;
+  color: #ff4d4d;
+  font-family: 'Audiowide', sans-serif;
+  font-size: 26px;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: var(--cursor-default);
+}
+
+.warning {
+  color: #f5f5f5;
+  font-size: 15px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* === OPTIONS LIST === */
+.optionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 15px;
+  color: #f5f5f5;
+  font-family: 'Orbitron', sans-serif;
+  cursor: var(--cursor-default);
+}
+
+.optionRow span {
+  color: #888;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.toggleBtn {
+  background: linear-gradient(90deg, #444, #666);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  cursor: var(--cursor-pointer);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.toggleBtn:hover:enabled {
+  background: linear-gradient(90deg, #666, #888);
+  transform: translateY(-2px);
+}
+
+/* === LISTE DES CONSÉQUENCES === */
+.consequences {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  text-align: left;
+  font-size: 15px;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  cursor: var(--cursor-default);
+}
+
+.consequences li {
+  margin-bottom: 10px;
+}
+
+.consequences li span {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #ff4d4d;
+}
+
+/* === LIGNE TEXTE + INPUT === */
+.confirmRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.confirmRow p {
+  flex: 1;
+  margin: 0;
+}
+
+.confirmInput {
+  flex: 0 0 220px;
+  padding: 10px;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  background: #111;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  transition: border-color 0.3s ease;
+  cursor: var(--cursor-text);
+}
+
+.confirmInput:focus {
+  outline: none;
+}
+
+/* === LIGNE CASE À COCHER + BOUTON === */
+.actionRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #f5f5f5;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.checkboxWrapper input,
+.checkboxWrapper label {
+  cursor: var(--cursor-pointer);
+}
+
+.checkboxWrapper input {
+  margin-right: 8px;
+}
+
+/* === BOUTON SUPPRESSION === */
+.deleteBtn {
+  background: linear-gradient(90deg, #dc3545, #ff4d4d);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  cursor: var(--cursor-pointer);
+  transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+.deleteBtn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 77, 77, 0.6);
+}
+
+.deleteBtn:disabled {
+  opacity: 0.5;
+  cursor: var(--cursor-not-allowed);
+  box-shadow: none;
+  transform: none;
+}
+
+.deleteBtn.active {
+  animation: fadeInRed 0.4s ease forwards;
+}
+
+@keyframes fadeInRed {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+/* === CARTE DANGER === */
+.dangerCard {
+  border: 2px solid #dc3545;
+  background: linear-gradient(135deg, #2a0000 0%, #640d0d 100%);
+  box-shadow: 0 0 12px rgba(220,53,69,0.4);
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+  transition: box-shadow 0.4s ease, transform 0.3s ease;
+  cursor: var(--cursor-default);
+}
+
+.dangerCard:hover {
+  box-shadow: 0 0 100px rgba(220,53,69,0.6);
+  transform: translateY(-2px);
+}
+
+.dangerCard::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 2px dashed #dc3545;
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.dangerCard:hover::before {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .section {
+    margin-inline: auto;
+  }
+
+  .dangerCard {
+    width: 80%;
+  }
+}
+
+@media (max-width: 700px) {
+  .title {
+    font-size: 24px;
+  }
+
+  .warning, 
+  .consequences,
+  .confirmRow {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .confirmRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .confirmInput {
+    width: 100%;
+    max-width: none;
+  }
+
+  .deleteBtn {
+    font-size: 14px;
+    padding: 9px 16px;
+    line-height: 1.2;
+    width: 100%;
+    max-width: none;
+  }
+}
