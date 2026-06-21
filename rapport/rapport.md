@@ -2212,27 +2212,7 @@ maRoute(/* Paramètres */) {/* Implémentation */}
 
 Une troisième variante répond à un besoin que nous avons déjà croisé en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, sans le détailler à l'époque : certaines routes (la recherche de jeux, la fiche d'un jeu) doivent rester accessibles sans connexion, tout en se comportant différemment si l'utilisateur est identifié.
 
-```ts
-@Injectable()
-export class JwtAuthOptionalGuard extends AuthGuard('jwt') {
-  handleRequest(err: any, user: any) {
-    if (err || !user) {
-      return null; // plutôt que de lever une erreur
-    }
-    return user;
-  }
-}
-```
-
-C'est ce guard, combiné au décorateur <code class="c">@User('sub')</code> rendu optionnel, qui permettait à <code class="c">GamesController.findOne</code> de renvoyer un indicateur <code class="c">wishlisted</code> pour un utilisateur connecté, sans pour autant bloquer l'accès à un visiteur anonyme.
-
-```ts
-export const User = createParamDecorator((data: string, ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest();
-  const user: JwtPayloadDto = request.user;
-  return data ? user?.[data] : user;
-});
-```
+C'est <code class="c">JwtAuthOptionalGuard</code>, combiné au décorateur <code class="c">@User('sub')</code> rendu optionnel, qui permettait à <code class="c">GamesController.findOne</code> de renvoyer un indicateur <code class="c">wishlisted</code> pour un utilisateur connecté, sans pour autant bloquer l'accès à un visiteur anonyme.
 
 Reste la question de la déconnexion et du renouvellement, qui est précisément l'endroit où la notion de session n'a pas disparu, elle a simplement changé de rôle. Le jeton d'accès est volontairement éphémère, et son renouvellement passe par un second jeton, vérifié cette fois contre une session bien réelle :
 
@@ -2240,17 +2220,15 @@ Reste la question de la déconnexion et du renouvellement, qui est précisément
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(private readonly authService: AuthService, jwt: ConfigType<typeof jwtConfig>) {
-    super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => request.cookies?.[this.jwt.refreshTokenCookieName],
-      ]),
-      secretOrKey: jwt.secret,
-      passReqToCallback: true,
-    });
+    /* On récupère le jeton expiré avec un peu de code délibérement non inclus ici */
   }
 
   async validate(request: Request, payload: JwtPayloadDto) {
     const refreshToken = request.cookies?.[this.jwt.refreshTokenCookieName];
+
+    // On vérifie que tout va bien avec la session actuellement utilisée
+    // Si non, des errors 403 (Non autorisé) sont renvoyé
+    // Forcant donc l'utilisateur à se reconnecter
     const session = await this.authService.refreshAccessToken(refreshToken, payload.sub);
 
     return { sub: session.userId, sid: session.id };
