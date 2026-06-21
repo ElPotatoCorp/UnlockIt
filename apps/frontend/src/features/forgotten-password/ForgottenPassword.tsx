@@ -5,6 +5,7 @@ import styles from "./forgotPassword.module.css";
 import { Card } from "../../components/common/card/Card";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/common/button/Button";
+import { UnlockItHelmet } from "../helmet/UnlockItHelmet";
 
 const ForgottenPassword = () => {
     const { error, success } = useToast();
@@ -26,6 +27,12 @@ const ForgottenPassword = () => {
 
     return (
         <div className={styles.page}>
+            <UnlockItHelmet
+                title="Mot de passe oublié"
+                description="Réinitialisez votre mot de passe UnlockIt en quelques secondes."
+                path="/forgotten-password"
+            />
+
             <h1 className={styles.pageTitle}>Mot de passe oublié</h1>
 
             <Card hover={false}>

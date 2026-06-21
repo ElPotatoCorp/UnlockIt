@@ -6,6 +6,7 @@ import { useUser } from "../../api/hooks/useUser.hook";
 import { Link } from "react-router-dom";
 import { useToast } from "../../utils/hooks/useToast.ts";
 import { Card } from "../../components/common/card/Card.tsx";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet.tsx";
 
 const Wishlist: FC = () => {
     const { user, loadUser } = useUser();
@@ -64,6 +65,12 @@ const Wishlist: FC = () => {
 
     return (
         <div className={styles.historyWrapper}>
+            <UnlockItHelmet
+                title="Liste de souhaits"
+                description="Retrouvez tous les jeux que vous souhaitez acheter sur UnlockIt."
+                path="/wishlist"
+            />
+
             <h2 className={styles.title}>Ma liste de souhaits</h2>
 
             <div className={styles.list}>

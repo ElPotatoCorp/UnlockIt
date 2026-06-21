@@ -4,6 +4,7 @@ import { useCart } from "../../api/hooks/useCart.hook";
 import { Card } from "../../components/common/card/Card";
 import { Link } from "react-router-dom";
 import { useToast } from "../../utils/hooks/useToast";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 
 const Cart: FC = () => {
     const toast = useToast();
@@ -61,6 +62,12 @@ const Cart: FC = () => {
 
     return (
         <Card>
+            <UnlockItHelmet
+                title="Panier"
+                description="Votre panier UnlockIt."
+                path="/cart"
+            />
+
             <h2 className={styles.title}>Votre panier</h2>
             <p className={styles.subtitle}>Modifiez vos articles avant de passer au paiement.</p>
 

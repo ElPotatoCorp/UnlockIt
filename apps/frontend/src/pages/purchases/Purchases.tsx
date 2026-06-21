@@ -8,6 +8,7 @@ import { usePurchases } from "../../api/hooks/usePurchases.hook";
 import { Card } from "../../components/common/card/Card";
 import { useToast } from "../../utils/hooks/useToast";
 import { PurchasedGameCard } from "./purchased-game-card/PurchasedGameCard";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 
 const Purchases = () => {
     const { user, loadUser } = useUser();
@@ -57,6 +58,12 @@ const Purchases = () => {
 
     return (
         <div className={styles.wrapper}>
+            <UnlockItHelmet
+                title="Vos achats"
+                description="Historique de vos achats de jeux sur UnlockIt."
+                path="/purchases"
+            />
+
             <h2 className={styles.title}>Mes achats</h2>
 
             <div className={styles.list}>

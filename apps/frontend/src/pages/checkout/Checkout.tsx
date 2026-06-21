@@ -7,6 +7,7 @@ import { Card } from "../../components/common/card/Card";
 import { useToast } from "../../utils/hooks/useToast";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../api/hooks/useAuth.hook";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 
 const Checkout: FC = () => {
     const toast = useToast();
@@ -90,6 +91,12 @@ const Checkout: FC = () => {
 
     return (
         <Card>
+            <UnlockItHelmet
+                title="Paiement"
+                description="Finalisez votre achat de jeux vidéo sur UnlockIt."
+                path="/checkout"
+            />
+
             <h2 className={styles.title}>Paiement</h2>
             <p className={styles.subtitle}>Vérifiez votre commande avant de payer.</p>
 

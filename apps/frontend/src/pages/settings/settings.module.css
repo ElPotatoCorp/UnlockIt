@@ -10,12 +10,7 @@
 
 /* Titre principal */
 .settingsPage h1 {
-  font-family: var(--font-title);
-  font-size: var(--text-h1);
   text-align: center;
-  color: var(--color-green);
-  margin-bottom: 10px;
-  letter-spacing: 1px;
 }
 
 /* Grille de cartes */

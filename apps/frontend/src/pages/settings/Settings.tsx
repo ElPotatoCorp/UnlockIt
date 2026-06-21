@@ -11,6 +11,7 @@ import { AccountDetails } from "./account-details/AccountDetails";
 import { Wallet } from "./wallet/Wallet";
 import { EmailSettings } from "./email/EmailSettings";
 import { PasswordSettings } from "./password/PasswordSettings";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 
 const Settings: FC = () => {
   const { isLogged, fetchSession } = useAuth();
@@ -56,6 +57,12 @@ const Settings: FC = () => {
 
   return (
     <div className={styles.settingsPage}>
+      <UnlockItHelmet
+        title="Paramètres du compte"
+        description="Gérez votre compte, votre profil et vos informations personnelles."
+        path="/settings"
+      />
+
       <h1>Paramètres du compte</h1>
 
 
@@ -68,7 +75,7 @@ const Settings: FC = () => {
         <EmailSettings />
         <PasswordSettings />
       </div>
-      
+
       <div className={styles.cardGrid}>
         <Wallet />
       </div>

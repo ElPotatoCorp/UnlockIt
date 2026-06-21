@@ -1,12 +1,23 @@
 User-agent: *
 Allow: /
 
+# Pages privées / non indexables
 Disallow: /settings
+Disallow: /settings/*
 Disallow: /login
 Disallow: /register
-Disallow: /purchases
-Disallow: /purchases/
-Disallow: /purchases/*
 Disallow: /wishlist
+Disallow: /purchases
+Disallow: /purchases/*
+Disallow: /cart
+Disallow: /checkout
+
+# Pages techniques
+Disallow: /reset-password
+Disallow: /reset-password/*
+Disallow: /forgotten-password
+
+# Redirections internes
+Disallow: /profile
 
 Sitemap: https://unlock-it.com/sitemap.xml

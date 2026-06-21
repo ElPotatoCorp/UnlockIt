@@ -10,6 +10,7 @@ import { NotFound } from "../../features/not-found/NotFound";
 import { GameInformations } from "./game-informations/GameInformations";
 
 import type { Purchase } from "@unlockit/shared";
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 
 const Purchase = () => {
     const { orderId, gameId } = useParams<{ orderId: string; gameId: string }>();
@@ -46,6 +47,12 @@ const Purchase = () => {
 
     return (
         <div className={styles.pageContent}>
+            <UnlockItHelmet
+                title="Détail de l'achat"
+                description="Consultez les informations de votre commande UnlockIt."
+                path={`/purchases/${orderId}/${gameId}`}
+            />
+
             <GameInformations
                 purchase={purchase}
                 keys={keys}
