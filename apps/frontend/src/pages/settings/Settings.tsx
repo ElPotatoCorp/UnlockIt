@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../../api/hooks/useAuth.hook";
 import { useUser } from "../../api/hooks/useUser.hook";
 import styles from "./settings.module.css";

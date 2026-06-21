@@ -1,7 +1,6 @@
 import cardStyles from "../../../styles/card.module.css";
 import styles from "./gameSummary.module.css";
 import { useAuth } from "../../../api/hooks/useAuth.hook";
-import { useWishlist } from "../../../api/hooks/useWishlist.hook";
 import { useNavigate } from "react-router-dom";
 import type { GameDetail } from "@unlockit/shared";
 
@@ -17,7 +16,6 @@ interface GameSummaryProps {
 export const GameSummary = ({ game }: GameSummaryProps) => {
     const navigate = useNavigate();
     const { isLogged } = useAuth();
-    const { addToWishlist, removeFromWishlist } = useWishlist();
 
     const handleWishlistToggle = () => {
         if (!isLogged) {

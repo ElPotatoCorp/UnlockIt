@@ -6,7 +6,7 @@ import { useWallet } from "../../../api/hooks/useWallet.hook";
 
 export const Wallet: FC = () => {
   const toast = useToast();
-  const { balance, transactions, loadBalance, loadTransactions, topUp, loading } = useWallet();
+  const { balance, transactions, loadBalance, loadTransactions, topUp } = useWallet();
 
   const [debugAmount, setDebugAmount] = useState(10);
 
@@ -34,7 +34,7 @@ export const Wallet: FC = () => {
       <div className={styles.balanceBox}>
         <span className={styles.balanceLabel}>Solde actuel :</span>
         <span className={styles.balanceValue}>
-          {loading || !balance ? "Chargement..." : `${balance.balance.toFixed(2)} €`}
+          {!balance ? "Chargement..." : `${balance.balance.toFixed(2)} €`}
         </span>
       </div>
 

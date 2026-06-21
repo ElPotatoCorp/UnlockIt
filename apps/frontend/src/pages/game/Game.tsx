@@ -22,10 +22,7 @@ const Game = () => {
   const {
     name,
     headerImage,
-    backgroundImage,
-    detailedDescription,
     shortDescription,
-    price,
     media,
   } = selectedGame;
 
