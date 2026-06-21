@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { ExactData, Review } from "@unlockit/shared";
 import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
 
@@ -23,8 +24,13 @@ export class ReviewDto implements Review {
   @ReviewEntityDoc.LastEdited()
   lastEdited: Date | null;
 
-  @ReviewEntityDoc.Voted()
-  voted?: boolean | null;
+  @ApiProperty({
+    title: 'Voted',
+    description: 'If the optionally authenticated user has voted for this review',
+    type: Boolean,
+    nullable: true,
+  })
+  voted: boolean | null;
 }
 
 const _assertExact: ExactData<Review, ReviewDto> = true;

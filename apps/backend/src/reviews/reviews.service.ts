@@ -39,11 +39,23 @@ export class ReviewsService {
     if (userId) {
       const reviewIds = res.data.map(review => review.id);
       const voted = await this.getUserVotes(userId, reviewIds);
-      const votedSet = new Set(voted.map(v => v.reviewId));
+      
+      const voteMap = new Map<string, boolean | null>(
+        voted.map(v => [v.reviewId, v.helpful])
+      );
 
-      res.data.map(review => ({
+      res.data = res.data.map(review => {
+        const hasVoted = voteMap.has(review.id);
+
+        return {
+          ...review,
+          voted: hasVoted ? voteMap.get(review.id) ?? null : null
+        };
+      });
+    } else {
+      res.data = res.data.map(review => ({
         ...review,
-        ...(votedSet.has(review.id) ? { voted: voted.find(vote => vote.reviewId === review.id)!.helpful } : { })
+        voted: null
       }))
     }
 
@@ -79,7 +91,8 @@ export class ReviewsService {
       helpfulCount: review.helpfulCount,
       unHelpfulCount: review.unHelpfulCount,
     }
-    if (vote.helpful === null) {
+
+    if (vote.helpful === null || vote.helpful === undefined) {
       if (helpful === true)
         newCounts.helpfulCount += 1;
       else

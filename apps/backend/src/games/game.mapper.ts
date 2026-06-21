@@ -1,3 +1,4 @@
+import { ReviewMapper } from "src/reviews/review.mapper";
 import { GameDetailDto } from "./dto/game-detail.dto";
 import { SummaryGameDto } from "./dto/summary-game.dto";
 import { GameEntity } from "./entities/game.entity";
@@ -30,7 +31,7 @@ export class GameMapper {
     dto.publishers = game.publishers;
     dto.media = game.media;
     dto.platforms = game.platforms;
-    dto.reviews = game.reviews;
+    dto.reviews = game.reviews.map(review => ReviewMapper.toReview(review, null));
     
     if (game.series)
       dto.series = game.series;

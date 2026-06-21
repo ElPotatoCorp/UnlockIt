@@ -31,29 +31,29 @@ export class WishlistController {
   }
 
   @WishlistControllerDoc.IsInWishlist()
-  @Get(':id')
+  @Get(':gameId')
   async isInWishlist(
     @User('sub') userId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return { wishlisted: await this.wishlistService.isInWishlist(userId, gameId) };
   }
 
   @WishlistControllerDoc.Add()
-  @Post(':id')
+  @Post(':gameId')
   add(
     @User('sub') userId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return this.wishlistService.add(userId, gameId);
   }
 
   @WishlistControllerDoc.Remove()
-  @Delete(':id')
+  @Delete(':gameId')
   @HttpCode(204)
   remove(
     @User('sub') userId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
     return this.wishlistService.remove(userId, gameId);
   }

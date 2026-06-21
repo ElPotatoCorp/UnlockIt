@@ -35,33 +35,33 @@ export class CartController {
   }
 
   @CartControllerDoc.Toggle()
-  @Post(':id/toggle')
+  @Post(':gameId/toggle')
   @HttpCode(HttpStatus.NO_CONTENT)
   toggle(
     @User('cartId') cartId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('state', new ParseBoolPipe({ optional: true })) state?: boolean,
   ) {
     return this.cartService.toggle(cartId, gameId, state);
   }
 
   @CartControllerDoc.Add()
-  @Post(':id')
+  @Post(':gameId')
   @HttpCode(HttpStatus.NO_CONTENT)
   add(
     @User('cartId') cartId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('quantity', new ParseIntPipe({ optional: true })) quantity?: number,
   ) {
     return this.cartService.add(cartId, gameId, quantity);
   }
 
   @CartControllerDoc.Remove()
-  @Delete(':id')
+  @Delete(':gameId')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(
     @User('cartId') cartId: string,
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
+    @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
     @Query('quantity', new ParseIntPipe({ optional: true })) quantity?: number,
   ) {
     return this.cartService.remove(cartId, gameId, quantity);

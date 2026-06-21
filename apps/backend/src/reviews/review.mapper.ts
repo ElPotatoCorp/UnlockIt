@@ -14,7 +14,7 @@ export class ReviewMapper {
     dto.rate = review.rate;
     dto.helpfulCount = review.helpfulCount;
     dto.unHelpfulCount = review.unHelpfulCount;
-    dto.voted = voted;
+    dto.voted = voted !== undefined ? voted : null;
 
     return dto;
   }
