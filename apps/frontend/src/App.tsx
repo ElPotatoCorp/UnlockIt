@@ -4,6 +4,7 @@ import { Layout } from "./components/layout/Layout";
 import { Loader } from "./features/loader/Loader";
 import { HelmetProvider } from "react-helmet-async";
 import { NotFound } from "./features/not-found/NotFound";
+import { ModalProvider } from "./components/common/modal-provider/ModalProvider";
 
 /** @ts-ignore */
 function hardToLoad<T>(importFn: () => Promise<T>, delay = 3000) {
@@ -34,27 +35,29 @@ function lazyRoute(element: React.ReactNode) {
 export default function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<Home />}/>
-            {["/home", "/store", "/shop"].map((path) => (
-              <Route key={path} path={path} element={<Navigate to="/" replace />} />
-            ))}
+      <ModalProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              {["/home", "/store", "/shop"].map((path) => (
+                <Route key={path} path={path} element={<Navigate to="/" replace />} />
+              ))}
 
-            <Route path="/privacy" element={lazyRoute(<Privacy />)} />
-            <Route path="/legal" element={lazyRoute(<Legal />)} />
-            <Route path="/cookies" element={lazyRoute(<Cookies />)} />
-            <Route path="/refunds" element={lazyRoute(<Refunds />)} />
-            <Route path="/login" element={lazyRoute(<Login />)} />
-            <Route path="/register" element={lazyRoute(<Register />)} />
-            <Route path="/search" element={lazyRoute(<Search />)} />
-            <Route path="/search/:term" element={lazyRoute(<Search />)} />
+              <Route path="/privacy" element={lazyRoute(<Privacy />)} />
+              <Route path="/legal" element={lazyRoute(<Legal />)} />
+              <Route path="/cookies" element={lazyRoute(<Cookies />)} />
+              <Route path="/refunds" element={lazyRoute(<Refunds />)} />
+              <Route path="/login" element={lazyRoute(<Login />)} />
+              <Route path="/register" element={lazyRoute(<Register />)} />
+              <Route path="/search" element={lazyRoute(<Search />)} />
+              <Route path="/search/:term" element={lazyRoute(<Search />)} />
 
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ModalProvider>
     </HelmetProvider>
   );
 }

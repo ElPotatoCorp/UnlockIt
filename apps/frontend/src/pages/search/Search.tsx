@@ -10,6 +10,7 @@ import { useAuth } from "../../api/hooks/useAuth.hook";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import { useCart } from "../../api/hooks/useCart.hook";
 import styles from "./search.module.css";
+import { useToast } from "../../utils/hooks/useToast";
 
 const Search: FC = () => {
   const { games, searchGames } = useGames();
@@ -17,6 +18,7 @@ const Search: FC = () => {
   const { addToWishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const { success, error, info } = useToast();
 
   const [loading, setLoading] = useState(true);
 
@@ -88,8 +90,9 @@ const Search: FC = () => {
 
     try {
       await addToCart(id);
-    } catch (err) {
-      console.error(`Erreur lors de l'ajout au panier : ${id}`, err);
+      success("Le jeu a été ajouté à votre panier.");
+    } catch {
+      error("Impossible d'ajouter au panier.");
     }
   };
 
@@ -115,8 +118,10 @@ const Search: FC = () => {
     try {
       if (wasWishlisted) {
         await removeFromWishlist(gameId);
+        info("Retiré de votre wishlist.");
       } else {
         await addToWishlist(gameId);
+        success("Ajouté à votre wishlist.");
       }
     } catch {
       updatedGames[index] = { ...game, wishlisted: wasWishlisted };

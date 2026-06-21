@@ -7,21 +7,31 @@
 }
 
 .alert {
-    background: var(--color-white);
-    border: 2px solid var(--color-pastel);
+    background: var(--color-tar);
+    border: 2px solid var(--color-carbon);
     border-radius: 10px;
     padding: 20px 26px;
     min-width: 320px;
     max-width: 480px;
     width: 100%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     animation: slideDown 0.25s ease;
-    color: var(--color-carbon);
+    color: var(--color-white);
+    font-family: var(--font-text);
 }
 
-.alert.success { border-color: var(--color-success); }
-.alert.error   { border-color: var(--color-error); }
-.alert.info    { border-color: var(--color-pastel); }
+/* Types */
+.alert.success {
+    border-color: var(--color-green);
+}
+
+.alert.error {
+    border-color: var(--color-error);
+}
+
+.alert.info {
+    border-color: var(--color-info);
+}
 
 .alertHeader {
     display: flex;
@@ -32,38 +42,44 @@
 
 .alertTitle {
     font-family: var(--font-title);
-    font-size: 1.6rem;
-    color: var(--color-ocean);
+    font-size: var(--text-h2);
+    color: var(--color-white);
     display: flex;
     align-items: center;
     gap: 8px;
     margin: 0;
 }
 
-.alertIcon { font-size: 1.3rem; }
+.alertIcon {
+    font-size: 1.3rem;
+    color: var(--color-white);
+}
 
 .closeButton {
     background: transparent;
     border: none;
     font-size: 24px;
-    color: var(--color-smoke);
-    cursor: pointer;
+    color: var(--color-mist);
+    cursor: var(--cursor-pointer);
     padding: 4px;
     border-radius: 6px;
     transition: 0.2s ease;
 }
 
-.closeButton:hover { background: var(--color-plastic); }
-
-.alertContent {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 18px;
-    color: var(--color-carbon);
+.closeButton:hover {
+    background: var(--color-hover-light);
 }
 
-.alertChildren { margin-top: 10px; }
+.alertContent {
+    font-size: var(--text-body);
+    line-height: 1.5;
+    margin-bottom: 18px;
+    color: var(--color-mist);
+}
+
+.alertChildren {
+    margin-top: 10px;
+}
 
 .alertActions {
     display: flex;
@@ -72,32 +88,52 @@
 }
 
 .alertButton {
-    background: var(--color-ocean);
+    background: var(--color-blue);
     border: none;
     color: var(--color-white);
     padding: 8px 20px;
     border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    cursor: pointer;
+    font-family: var(--font-text);
+    font-size: var(--text-body);
+    cursor: var(--cursor-pointer);
     transition: 0.2s ease;
 }
 
-.alertButton:hover { background: var(--color-pastel); }
+.alertButton:hover {
+    background: var(--color-blue-shadow);
+}
 
 .alertButton.cancel {
     background: var(--color-error);
 }
 
-.alertButton.cancel:hover { opacity: 0.85; }
+.alertButton.cancel:hover {
+    opacity: 0.85;
+}
 
 @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 699px) {
-    .alert { min-width: unset; width: 100%; }
-    .alertActions { flex-direction: column; }
-    .alertButton { width: 100%; }
+    .alert {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .alertActions {
+        flex-direction: column;
+    }
+
+    .alertButton {
+        width: 100%;
+    }
 }
