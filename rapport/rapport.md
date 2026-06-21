@@ -141,7 +141,7 @@ flowchart TB
 
 </div>
 
-Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. L’absence d’outils d’analyse et de tests automatisés compliquait également la détection des régressions et l’optimisation des performances.
+Cette architecture nous a permis de développer rapidement un ensemble riche de fonctionnalités et de mieux appréhender les enjeux liés à la conception d’une application web complète. Toutefois, au fil de l’avancement du projet, plusieurs limites sont apparues. Le développement de nouvelles fonctionnalités devenait progressivement plus complexe, certains composants frontend mélangeaient logique métier et rendu visuel, et plusieurs parties du code manquaient d’homogénéité. Certains endpoints en backend faisaient 4 à 5 requêtes SQL de manières silencieuse et les implémentations était très rigides et peu modulaires. L’absence d’outils d’analyse compliquait également la détection des régressions et l’optimisation des performances.
 
 Bien que fonctionnelle et suffisamment robuste pour être présentée lors de la première soutenance, cette version s’apparentait davantage à un produit minimum viable (MVP) qu’à une base technique durable. Avec la montée en compétences de l’équipe, les parties les plus anciennes du code nous sont apparues comme insuffisamment structurées, parfois mal écrites, voire difficilement lisibles en comparaison des fonctionnalités plus récentes. Le projet tenait, mais ses fondations étaient fragiles. Pour envisager une évolution pérenne, une refonte devenait nécessaire.
 
@@ -211,7 +211,7 @@ Backend • Base de données • Documentation • Optimisation • Scripts
 
 Avec le recul, certaines décisions techniques prises au début du développement ne correspondaient plus à nos besoins actuels. Plusieurs composants étaient devenus trop volumineux, certaines responsabilités étaient mal réparties et une partie du code était devenue difficile à maintenir. Ajouter une nouvelle fonctionnalité nécessitait parfois de modifier plusieurs zones de l'application, augmentant le risque d'introduire des régressions.
 
-De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, les tests automatisés, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.
+De plus, la première version du projet avait été développée avec un objectif principalement fonctionnel : produire une application complète dans le temps imparti. Des aspects plus avancés tels que l'optimisation des performances, le référencement, l'analyse des rendus React ou encore la mise en place d'une architecture frontend et backend plus moderne avaient volontairement été laissés de côté.
 
 La SAÉ 4.01 nous a offert l'opportunité de revenir sur ce projet avec un regard plus critique et davantage d'expérience. Plutôt que d'ajouter de nouvelles fonctionnalités sur des fondations que nous jugions désormais fragiles, nous avons fait le choix de repartir de zéro.
 
@@ -1897,21 +1897,6 @@ treeView-beta
 Ce qui était auparavant réparti dans quatre fichiers, situés dans trois dossiers différents (sans compter la fonction SQL elle-même), est désormais regroupé dans un seul dossier, qui constitue le module dans son intégralité. Cette déclaration tient dans un seul fichier, qui sert à la fois de point d’entrée et de carte des dépendances du domaine :
  
 ```ts
-import { Module } from '@nestjs/common';
-import { GamesService } from './games.service';
-import { GamesController } from './games.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { GameEntity } from './entities/game.entity';
-import { UploadModule } from 'src/upload/upload.module';
-import { TagsModule } from 'src/tags/tags.module';
-import { DevelopersModule } from 'src/developers/developers.module';
-import { GamePlatformEntity } from 'src/platforms/entities/game-platform.entity';
-import { MediaEntity } from 'src/media/entities/media.entity';
-import { PublishersModule } from 'src/publishers/publishers.module';
-import { StocksModule } from 'src/stocks/stocks.module';
-import { WishlistModule } from 'src/wishlist/wishlist.module';
-import { ReviewsModule } from 'src/reviews/reviews.module';
- 
 @Module({
   imports: [
     TypeOrmModule.forFeature([GameEntity, GamePlatformEntity, MediaEntity]),
@@ -1960,8 +1945,18 @@ Sept dépendances sont injectées ici sans qu’aucune ne soit instanciée manue
  
 ### 3.2.2 De la requête SQL brute à TypeORM
  
-Le second changement majeur concerne la façon dont les données sont décrites et chargées. Côté PHP, chaque relation entre deux tables se traduisait par une fonction PostgreSQL dédiée, comme celle utilisée pour récupérer les catégories d’un jeu :
+Le second changement majeur concerne la façon dont les données sont décrites et chargées. Côté PHP, chaque relation entre deux tables se traduisait par une fonction PostgreSQL dédiée.
+
+Une fonction devait être écrite une première fois en SQL, référencée une seconde fois côté PHP sous forme de constante, puis appelée une troisième fois dans le modèle (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>). La même information, à savoir qu’un jeu possède plusieurs entités associées, était donc répétée à trois endroits différents, sans qu’aucun de ces trois endroits ne puisse être considéré comme la source de vérité.
  
+Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l’entité.
+
+<details class="accordion">
+<summary>Voir différence entre une relation PHP et TypeORM</summary>
+
+<div class="before">
+<h3>Avant</h3>
+
 ```sql
 CREATE OR REPLACE FUNCTION get_game_categories(p_game_id BIGINT)
 RETURNS SETOF category
@@ -1977,11 +1972,12 @@ BEGIN
 END;
 $$;
 ```
- 
-Cette fonction devait être écrite une première fois en SQL, référencée une seconde fois côté PHP sous forme de constante, puis appelée une troisième fois dans le modèle (voir <a href="#311-constat-technique-sur-le-backend-existant">3.1.1</a>). La même information, à savoir qu’un jeu possède plusieurs entités associées, était donc répétée à trois endroits différents, sans qu’aucun de ces trois endroits ne puisse être considéré comme la source de vérité.
- 
-Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l’entité, comme on peut le voir pour la relation entre un jeu et ses étiquettes :
- 
+
+</div>
+
+<div class="after">
+<h3>Après</h3>
+
 ```ts
 @ManyToMany(() => TagEntity, (tag) => tag.games)
 @JoinTable({
@@ -1991,20 +1987,28 @@ Avec TypeORM, ce type de relation se déclare une seule fois, directement sur l�
 })
 tags: TagEntity[];
 ```
+
+</div>
+
+</details>
  
 Cette unique déclaration suffit ensuite à TypeORM pour générer les jointures nécessaires, sans qu’il soit besoin d’écrire une fonction SQL séparée ni une constante intermédiaire. Le bénéfice devient particulièrement visible au moment de charger un jeu avec l’ensemble de ses relations, directement depuis le contrôleur :
  
 ```ts
 @Get(':id')
 findOne(
-  @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: {
-    tags: true,
-    publishers: true,
-    developers: true,
-    platforms: true,
-    media: true,
-    series: true,
-  }})) game: GameEntity,
+  @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', {
+    
+    relations: { // On précise ici quelle(s) relation(s) charger
+      tags: true,
+      publishers: true,
+      developers: true,
+      platforms: true,
+      media: true,
+      series: true,
+    }, // Tout est séléctionné en une seule requête
+
+  })) game: GameEntity,
   @User('sub') userId?: string,
 ) {
   return this.gamesService.findOne(game, userId);
@@ -2032,48 +2036,46 @@ Ces contraintes, un prix qui ne peut pas être négatif, un score Metacritic com
  
 Le découpage par domaine ne doit pas faire oublier qu’un certain nombre de besoins reviennent à l’identique d’un module à l’autre : vérifier qu’une entité existe avant de la modifier, la récupérer avec ses relations, paginer une liste de résultats. Plutôt que de réécrire cette logique dans chaque module, comme c’était implicitement le cas côté PHP (chaque contrôleur gérant ses propres erreurs et sa propre pagination), ces besoins ont été regroupés dans un module commun, mutualisé entre tous les domaines.
  
-<code class="c">EntityExistsPipe</code> en est un bon exemple. Il s’agit d’une fabrique de pipes : une fonction qui, à partir d’une entité TypeORM, génère une classe de pipe prête à être utilisée dans n’importe quel contrôleur :
- 
+<code class="c">EntityExistsPipe</code> en est un bon exemple. Il s’agit d’une fabrique de pipes : une fonction qui, à partir d’une entité TypeORM, génère une classe de pipe prête à être utilisée dans n’importe quel contrôleur
+
+<details class="accordion">
+<summary>Voir comment une fabrique de pipe se décrit</summary>
+
 ```ts
+// Cette function défini comment fabrique d'autre pipe...
 export function EntityExistsPipe<T extends ObjectLiteral>(
   entityClass: Type<T>,
   field: keyof T = 'id' as keyof T,
 ): Type<PipeTransform> {
+
+  // Ceci est le pipe
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
     constructor(private readonly dataSource: DataSource) { }
  
     async transform(value: unknown, _metadata: ArgumentMetadata): Promise<unknown> {
-      const repository = this.dataSource.getRepository(entityClass);
-      const where = buildWhere<T>([field], [value]);
-      const found = await entityExists(repository, where);
- 
-      if (!found) {
-        throw new NotFoundException(
-          buildNotFoundMessage(repository, where),
-        );
-      }
- 
-      return value;
+      /* Implémentation */
     }
   }
  
+  // A l'aide de cette function :
   return mixin(EntityExistsMixin);
+
 }
 ```
- 
-Ce pipe ne connaît rien des jeux, des étiquettes ou des avis : il sait seulement vérifier qu’une ligne existe pour une entité et un identifiant donnés, et renvoyer une erreur 404 proprement formatée si ce n’est pas le cas. Il se retrouve ainsi utilisé de façon identique pour des entités complètement différentes, par exemple lorsqu’il s’agit d’ajouter une étiquette à un jeu :
+
+</details>
+
+Ce pipe ne connaît rien des jeux, des étiquettes ou des avis : il sait seulement vérifier qu’une ligne existe pour une entité et un identifiant donnés, et renvoyer une erreur 404 (Non trouvé) proprement formatée si ce n’est pas le cas. Il se retrouve ainsi utilisé de façon identique pour des entités complètement différentes, par exemple lorsqu’il s’agit d’ajouter une étiquette à un jeu :
  
 ```ts
 export class GamesController {
   /* Code */
  
-  @MinRole(EmployeeRole.MODERATOR)
   @Post(':id/tags/:tagId')
-  @HttpCode(HttpStatus.OK)
   addTag(
-    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
-    @Param('tagId', ParseIntPipe, EntityExistsPipe(TagEntity)) tagId: number,
+    @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,  // Ici
+    @Param('tagId', ParseIntPipe, EntityExistsPipe(TagEntity)) tagId: number, // Et là
   ) {
     return this.gamesService.addTag(gameId, tagId);
   }
@@ -2084,26 +2086,38 @@ export class GamesController {
  
 Les deux identifiants de la route sont validés avant même que le code de la méthode ne s’exécute, sans qu’il soit nécessaire d’écrire le moindre <code class="c">if (!found)</code> dans le contrôleur ou le service. La variante <code class="c">EntityFetchPipe</code>, déjà rencontrée en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, suit exactement la même logique, à la différence qu’elle renvoie l’entité elle-même (avec ses relations éventuelles) plutôt que son simple identifiant. Les rôles requis par certaines routes (<code class="c">@MinRole</code>) et les guards d’authentification rencontrés au passage seront détaillés en 3.3 ; ce qui nous intéresse ici est uniquement la réutilisation du pipe, indépendamment de l’entité ciblée.
  
-La pagination suit le même principe de mutualisation. Le module commun expose un service unique, capable de paginer indifféremment un repository simple ou une requête plus complexe construite avec un query builder :
- 
+La pagination suit le même principe de mutualisation. Le module commun expose un service unique, capable de paginer indifféremment un repository simple ou une requête plus complexe construite avec un query builder.
+
+<details class="accordion">
+<summary>Voir signatures</summary>
+
 ```ts
 export class PaginationService {
   /* Code */
  
   public async getPaginatedResponse<T extends ObjectLiteral, U = T>(
-    repositoryOrQuery: Repository<T> | SelectQueryBuilder<T>,
+    repository: Repository<T>,
     paginationQueryDto: PaginationQueryDto,
-    optionsOrTransform?: PaginatedResponseOptions<T, U> | PaginatedResponseTransform<T, U>,
-  ): Promise<PaginatedDto<U>> {
-    /* Implémentation */
-  }
+    options?: PaginatedResponseOptions<T, U>,
+  ): Promise<PaginatedDto<U>>;
+
+  public async getPaginatedResponse<T extends ObjectLiteral, U = T>(
+    queryBuilder: SelectQueryBuilder<T>,
+    paginationQueryDto: PaginationQueryDto,
+    transform?: PaginatedResponseTransform<T, U>,
+  ): Promise<PaginatedDto<U>>;
  
   /* Code */
 }
 ```
+
+</details>
  
-Cette méthode calcule elle-même le décalage à partir de la page et de la limite demandées, applique éventuellement une fonction de transformation (élément par élément ou sur l’ensemble des résultats), et renvoie une erreur 404 plutôt qu’une liste vide silencieuse si la page demandée dépasse le nombre total de résultats. Elle est ensuite appelée de la même manière depuis n’importe quel domaine, ici pour lister les jeux :
- 
+Cette méthode calcule elle-même le décalage à partir de la page et de la limite demandées, applique éventuellement une fonction de transformation (élément par élément ou sur l’ensemble des résultats), et renvoie une erreur 404 (Non trouvé) plutôt qu’une liste vide silencieuse si la page demandée dépasse le nombre total de résultats. Elle est ensuite appelée de la même manière depuis n’importe quel domaine.
+
+<details class="accordion">
+<summary>Voir exemple</summary>
+
 ```ts
 export class GamesService {
   /* Code */
@@ -2119,17 +2133,257 @@ export class GamesService {
   /* Code */
 }
 ```
- 
+
+</details>
+
 Cette unique méthode remplace ce que l’ancien <code class="c">GameController::index</code> faisait à la main : lire les paramètres <code class="c">limit</code> et <code class="c">offset</code> depuis la requête, lancer une requête pour les données, puis une seconde requête séparée pour le total. Le service mutualisé encapsule cette logique une fois pour toutes, et reste utilisable aussi bien avec un repository qu’avec une requête personnalisée, ce qui lui permet de couvrir aussi bien les listes simples que les recherches filtrées évoquées en 3.2.2.
 
 
 ## 3.3 Validation et sécurité
 
-...
+### 3.3.1 Authentification par jeton plutôt que par session
+
+Côté PHP, l'authentification reposait entièrement sur une session stockée en base de données, identifiée par un cookie <code class="c">session_id</code>. Chaque requête authentifiée déclenchait donc un aller-retour vers la base pour vérifier que cette session existait toujours. Le système n'était pas naïf pour autant : à la connexion, plutôt que de créer systématiquement une nouvelle session, le contrôleur vérifiait d'abord si une session valide existait déjà pour cet utilisateur, et la réutilisait le cas échéant.
+
+La validation elle-même intégrait par ailleurs un indicateur de sécurité qu'il est facile de négliger dans un système de ce type.
+
+<details class="accordion">
+<summary>Voir validation de session</summary>
+
+```php
+public static function validate(string $sessionId): ?array
+{
+    /* Code */
+
+    $session = Database::queryOne(DefaultQuery\Session::GET_SESSION, [$sessionId]);
+
+    if (!$session) {
+        return null;
+    }
+
+    if ($session['is_unsafe']) {
+        return null;
+    }
+
+    self::updateLastSeen($sessionId);
+
+    return $session;
+}
+```
+
+</details>
+
+Une session pouvait ainsi être marquée comme compromise (<code class="c">is_unsafe</code>) sans être supprimée, ce qui permettait de la refuser tout en conservant une trace.
+
+Côté NestJS, cette responsabilité a été redistribuée plutôt que simplement supprimée. L'essentiel de l'authentification repose désormais sur **Passport**, sous la forme de stratégies déclarées une fois et réutilisées par des guards.
+
+Le jeton continue de voyager dans un cookie, comme l'ancien <code class="c">session_id</code>, mais sa validité ne dépend plus d'une requête en base : la signature suffit. <code class="c">validate</code> n'a même rien à faire, puisque Passport n'arrive à cette étape qu'après avoir déjà vérifié cette signature.
+
+<details class="accordion">
+<summary>Voir comment le système d'authentification vérifie qu'une route est publique</summary>
+
+```ts
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  constructor(private reflector: Reflector) {
+    super();
+  }
+
+  canActivate(context: ExecutionContext) {
+    // On vérifie juste si l'endpoint est accessible à tous (Publique)
+    const isPublic = someCode();
+    if (isPublic) {
+      return true;
+    }
+
+    // Sinon, on laisse faire Passport
+    return super.canActivate(context);
+  }
+}
+```
+
+Ce guard est déclaré globalement : par défaut, toute route exige un jeton valide. C'est l'inverse de l'ancien fonctionnement, où chaque méthode de contrôleur décidait elle-même, au cas par cas, si elle devait vérifier le cookie de session (<code class="c">AuthController::me</code> le faisait, <code class="c">GameController::index</code> ne le faisait pas). Pour échapper à cette vérification globale, une route doit s'en exclure explicitement :
+
+```ts
+@Public() // <-- Rend un endpoint accessible au publique
+@Get('ma-route')
+maRoute(/* Paramètres */) {/* Implémentation */}
+```
+
+Une troisième variante répond à un besoin que nous avons déjà croisé en <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>, sans le détailler à l'époque : certaines routes (la recherche de jeux, la fiche d'un jeu) doivent rester accessibles sans connexion, tout en se comportant différemment si l'utilisateur est identifié.
+
+```ts
+@Injectable()
+export class JwtAuthOptionalGuard extends AuthGuard('jwt') {
+  handleRequest(err: any, user: any) {
+    if (err || !user) {
+      return null; // plutôt que de lever une erreur
+    }
+    return user;
+  }
+}
+```
+
+C'est ce guard, combiné au décorateur <code class="c">@User('sub')</code> rendu optionnel, qui permettait à <code class="c">GamesController.findOne</code> de renvoyer un indicateur <code class="c">wishlisted</code> pour un utilisateur connecté, sans pour autant bloquer l'accès à un visiteur anonyme.
+
+```ts
+export const User = createParamDecorator((data: string, ctx: ExecutionContext) => {
+  const request = ctx.switchToHttp().getRequest();
+  const user: JwtPayloadDto = request.user;
+  return data ? user?.[data] : user;
+});
+```
+
+Reste la question de la déconnexion et du renouvellement, qui est précisément l'endroit où la notion de session n'a pas disparu, elle a simplement changé de rôle. Le jeton d'accès est volontairement éphémère, et son renouvellement passe par un second jeton, vérifié cette fois contre une session bien réelle :
+
+```ts
+@Injectable()
+export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+  constructor(private readonly authService: AuthService, jwt: ConfigType<typeof jwtConfig>) {
+    super({
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: Request) => request.cookies?.[this.jwt.refreshTokenCookieName],
+      ]),
+      secretOrKey: jwt.secret,
+      passReqToCallback: true,
+    });
+  }
+
+  async validate(request: Request, payload: JwtPayloadDto) {
+    const refreshToken = request.cookies?.[this.jwt.refreshTokenCookieName];
+    const session = await this.authService.refreshAccessToken(refreshToken, payload.sub);
+
+    return { sub: session.userId, sid: session.id };
+  }
+}
+```
+
+Le jeton d'accès n'est donc pas révocable à l'instant où on le souhaiterait, il suffit d'attendre son expiration. Mais le jeton de rafraîchissement, lui, reste systématiquement confronté à une session côté serveur : c'est cette session que l'on peut détruire pour forcer une déconnexion immédiate, exactement comme le faisait <code class="c">Session::destroy</code> côté PHP. Nous avons gardé l'idée de session traçable de l'ancien système, mais déplacé sa responsabilité : elle ne sert plus à valider chaque requête, seulement à autoriser le renouvellement du jeton d'accès.
+
+Enfin, brancher un nouveau mode de connexion reste, dans ce système, une déclaration très courte :
+
+```ts
+@Injectable()
+export class LocalAuthGuard extends AuthGuard('local') {}
+
+@Injectable()
+export class LocalStrategy extends PassportStrategy(Strategy) {
+  constructor(private authService: AuthService) {
+    super({ usernameField: 'identifier', passwordField: 'password' });
+  }
+
+  async validate(identifier: string, password: string) {
+    const user = await this.authService.validateUser(identifier, password);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    return user.createJwtPayloadDto;
+  }
+}
+```
+
+Le champ <code class="c">identifier</code> couvre aussi bien l'email que le téléphone, ce que l'ancien <code class="c">AuthController::login</code> gérait par deux branches distinctes (<code class="c">loginWithEmail</code> / <code class="c">loginWithPhone</code>). Ici, ce choix est repoussé dans <code class="c">authService.validateUser</code>, et le contrôleur, le guard et la stratégie n'ont pas besoin de le connaître.
 
 ## 3.4 Maintenabilité
 
-...
+### 3.4.1 Un module complet presque par accident
+
+L'ancien backend ne proposait aucune gestion des catégories de jeux : elles n'existaient que comme une relation en lecture, jointe à la volée (<code class="c">get_game_categories</code>, voir <a href="#322-de-la-requête-sql-brute-à-typeorm">3.2.2</a>). Rien ne permettait d'en créer, d'en renommer ou d'en supprimer une depuis l'API ; ces opérations, si elles avaient lieu, se faisaient directement en base.
+
+Avec NestJS, l'équivalent (les étiquettes, ou <code class="c">tags</code>) a été implémenté comme n'importe quel autre domaine, et s'est retrouvé complet sans que cela ait été un objectif en soi. Le module entier tient dans quatre fichiers courts.
+
+<details class="accordion">
+<summary>Voir implémentation complète</summary>
+
+```ts
+@Module({
+  imports: [TypeOrmModule.forFeature([TagEntity])],
+  controllers: [TagsController],
+  providers: [TagsService],
+  exports: [TypeOrmModule],
+})
+export class TagsModule {}
+```
+
+```ts
+@Entity('tags')
+export class TagEntity implements ITagEntity {
+  @PrimaryGeneratedColumn('increment', { type: 'bigint' })
+  id: number;
+
+  @Column('varchar', { length: 150, unique: true })
+  name: string;
+
+  @Column('int', { name: 'games_count', default: 0 })
+  gamesCount: number;
+
+  @ManyToMany(() => GameEntity, (game) => game.tags)
+  games: GameEntity[];
+}
+```
+
+```ts
+@Injectable()
+export class TagsService {
+  constructor(
+    private readonly tagRepository: Repository<TagEntity>,
+    private readonly commonService: CommonService,
+  ) {}
+
+  create(createTagDto: CreateTagDto) {
+    const tag = this.tagRepository.create(createTagDto);
+    return this.tagRepository.save(tag);
+  }
+
+  findAll(paginationQueryDto: PaginationQueryDto) {
+    return this.commonService.pagination.getPaginatedResponse(
+      this.tagRepository,
+      paginationQueryDto,
+      { transform: { fn: TagMapper.toGameTag } },
+    );
+  }
+
+  update(id: number, updateTagDto: UpdateTagDto) {
+    return this.tagRepository.update(id, updateTagDto);
+  }
+
+  remove(id: number) {
+    return this.tagRepository.delete(id);
+  }
+}
+```
+
+```ts
+@Controller('tags')
+export class TagsController {
+  constructor(private readonly tagsService: TagsService) {}
+
+  @Post()
+  create(@Body(DuplicatedEntryPipe(TagEntity, 'name')) createTagDto: CreateTagDto) {
+    return TagMapper.toTag(await this.tagsService.create(createTagDto));
+  }
+
+  @Public()
+  @Get()
+  findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+    return this.tagsService.findAll(paginationQueryDto);
+  }
+
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe, EntityExistsPipe(TagEntity)) id: number, @Body() updateTagDto: UpdateTagDto) {
+    return this.tagsService.update(id, updateTagDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe, EntityExistsPipe(TagEntity)) id: number) {
+    return this.tagsService.remove(id);
+  }
+}
+```
+
+</details>
+
+Aucune de ces quatre briques n'a demandé de réflexion particulière : ce sont celles que NestJS attend par défaut pour n'importe quel domaine. Le résultat est pourtant une fonctionnalité complète, création, consultation paginée, mise à jour et suppression, avec vérification des doublons et des identifiants invalides, alors que rien de comparable n'existait avant et que rien dans nos priorités n'avait identifié ce besoin comme important. C'est tout le sens d'une complétude presque par accident : la structure imposée par le framework rend une fonctionnalité complète aussi simple à écrire qu'une fonctionnalité partielle, ce qui change la décision que l'on prend spontanément. Côté PHP, écrire l'équivalent aurait demandé une fonction SQL, une constante et une méthode de modèle par opération, ce qui rend beaucoup plus tentant de ne faire que le strict nécessaire.
 
 ## 3.5 Difficultés rencontrées et solutions
 
