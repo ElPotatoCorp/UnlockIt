@@ -17,7 +17,7 @@ export const cartService = {
     getTotal: async (): Promise<number> => {
         try {
             const res = await api.get("/cart/total");
-            return res.data;
+            return res.data.total;
         } catch (err: any) {
             if (err.response?.status === 401) throw { message: "Non autorisé." };
             throw { message: "Erreur serveur." };

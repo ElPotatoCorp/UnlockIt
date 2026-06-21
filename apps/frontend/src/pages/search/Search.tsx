@@ -11,6 +11,8 @@ import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import { useCart } from "../../api/hooks/useCart.hook";
 import styles from "./search.module.css";
 import { useToast } from "../../utils/hooks/useToast";
+import { useModal } from "../../components/common/modal-provider/ModalProvider";
+import { CartModal } from "../../components/ui/modal/CartModal";
 
 const Search: FC = () => {
   const { games, searchGames } = useGames();
@@ -19,6 +21,7 @@ const Search: FC = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const { success, error, info } = useToast();
+  const { openModal, closeModal } = useModal();
 
   const [loading, setLoading] = useState(true);
 
@@ -90,7 +93,21 @@ const Search: FC = () => {
 
     try {
       await addToCart(id);
-      success("Le jeu a été ajouté à votre panier.");
+
+      openModal(
+        <CartModal
+          onCheckout={() => {
+            closeModal(() => navigate("/checkout"));
+          }}
+        />,
+        {
+          overlay: "blur-dim",
+          position: "center",
+          closeOnOverlay: true,
+          stackMode: "show",
+        }
+      );
+
     } catch {
       error("Impossible d'ajouter au panier.");
     }
