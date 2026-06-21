@@ -2339,8 +2339,31 @@ Aucune de ces quatre briques n'a demandé de réflexion particulière : ce sont 
 
 ## 5.1 Bilan
 
+### 5.1.1 Frontend
+
+La refonte du frontend a permis de transformer une base fonctionnelle mais hétérogène en une architecture cohérente et professionnelle. La réorganisation des composants (<a href="#21-refonte-de-larchitecture-react">2.1</a>) et la mise en place d’une véritable couche d’abstraction entre l’interface et le réseau (<a href="#24-nouvelle-couche-api-frontend">2.4</a>) ont clarifié les responsabilités de chaque partie du code. En parallèle, plusieurs chantiers jusque-là absents de la première version ont été menés à bien : le référencement naturel (<a href="#22-référencement-et-indexation">2.2</a>), l’optimisation des performances appuyée sur des outils de mesure (<a href="#23-optimisation-des-performances">2.3</a>), les tests automatisés avec Playwright (<a href="#25-tests-automatisés">2.5</a>) ainsi que l’optimisation du build (<a href="#26-build-et-compression">2.6</a>). Les quelques difficultés rencontrées en cours de route (<a href="#27-difficultés-rencontrées-et-solutions">2.7</a>), notamment liées à React Router, ont par ailleurs été identifiées et résolues sans compromettre la stabilité de l’application.
+
+Cette refonte apporte plusieurs avantages concrets : un code plus maintenable et plus simple à faire évoluer, des performances mesurées et validées plutôt que supposées, une meilleure visibilité de l’application sur les moteurs de recherche, et une couverture de tests qui sécurise les évolutions futures. Plus largement, la démarche adoptée, mesurer avant d’optimiser, structurer avant d’ajouter des fonctionnalités, rapproche le projet des pratiques utilisées en environnement professionnel et constitue une base solide pour la suite.
+
+### 5.2.2 Backend
+
 ...
 
+### 5.2.3 Structure
+
+...
+
+
 ## 5.2 Perspectives
+
+### 5.2.1 Frozen1753
+
+Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances « à l’œil », sans jamais avoir mesuré quoi que ce soit. Découvrir des outils comme **React Scan** ou le Profiler de **React Developer Tools** a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. C’est probablement la compétence la plus réutilisable que je tire de cette SAÉ, bien davantage que la maîtrise d’un outil en particulier.
+
+Plusieurs chantiers commencés durant cette SAÉ mériteraient d’être poussés plus loin. Le sitemap reste aujourd’hui statique, faute de script de génération automatique à partir de la base de données (<a href="#22-référencement-et-indexation">2.2</a>) ; c’est un développement que j’aimerais intégrer si le projet venait à continuer au-delà du cadre académique. La couverture Playwright pourrait également s’étendre au-delà des parcours critiques actuels (<a href="#25-tests-automatisés">2.5</a>), et **React Doctor** (<a href="#23-optimisation-des-performances">2.3</a>), découvert trop tard pour être réellement exploité, est un outil que je compte essayer dès le prochain projet React.
+
+Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je crois, la meilleure preuve que cette refonte avait du sens.
+
+### 5.2.2 ElPotato
 
 ...
