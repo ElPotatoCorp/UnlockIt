@@ -22,6 +22,9 @@ export class ReviewDto implements Review {
 
   @ReviewEntityDoc.LastEdited()
   lastEdited: Date | null;
+
+  @ReviewEntityDoc.Vote()
+  vote?: boolean | null;
 }
 
 const _assertExact: ExactData<Review, ReviewDto> = true;

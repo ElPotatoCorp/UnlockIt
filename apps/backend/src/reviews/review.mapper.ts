@@ -4,7 +4,7 @@ import { ReviewVoteEntity } from "./entities/review-vote.entity";
 import { ReviewEntity } from "./entities/review.entity";
 
 export class ReviewMapper {
-  static toReview(review: ReviewEntity): ReviewDto {
+  static toReview(review: ReviewEntity, vote?: boolean | null): ReviewDto {
     const dto = new ReviewDto();
 
     dto.id = review.id;
@@ -14,6 +14,7 @@ export class ReviewMapper {
     dto.rate = review.rate;
     dto.helpfulCount = review.helpfulCount;
     dto.unHelpfulCount = review.unHelpfulCount;
+    dto.vote = vote;
 
     return dto;
   }

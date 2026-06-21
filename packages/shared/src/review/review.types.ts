@@ -1,5 +1,6 @@
 import { GameEntity } from "../game/game.types";
 import { UserEntity } from "../user/user.types";
+import { Simplify } from "../utils/types";
 
 export type ReviewEntity = {
   id: string;
@@ -29,7 +30,7 @@ export type ReviewVoteEntity = {
   helpful: boolean | null;
 }
 
-export type Review = Omit<ReviewEntity, 'user' | 'game'>;
+export type Review = Simplify<Omit<ReviewEntity, 'user' | 'game'> & { vote?: boolean | null }>;
 
 export type CreateReview = Pick<ReviewEntity, 'content' | 'rate'>;
 

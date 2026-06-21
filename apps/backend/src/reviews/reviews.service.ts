@@ -43,7 +43,7 @@ export class ReviewsService {
 
       res.data.map(review => ({
         ...review,
-        ...(votedSet.has(review.id) ? { voted: voted.find(vote => vote.reviewId === review.id) } : { })
+        ...(votedSet.has(review.id) ? { voted: voted.find(vote => vote.reviewId === review.id)!.helpful } : { })
       }))
     }
 
