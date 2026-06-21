@@ -1,8 +1,6 @@
 import { useGamesStore } from "../stores/games.store";
 import { gamesService } from "../services/games.service";
-import type {
-    SearchBody,
-} from "@unlockit/shared";
+import type { SearchBody, Paginated, SummaryGame } from "@unlockit/shared";
 
 export function useGames() {
     const {
@@ -16,11 +14,13 @@ export function useGames() {
     const fetchGames = async (page = 1, limit = 20) => {
         const data = await gamesService.list(page, limit);
         setGames(data);
+        return data;
     };
 
     const fetchGameById = async (id: number) => {
         const data = await gamesService.getById(id);
         setSelectedGame(data);
+        return data;
     };
 
     const searchGames = async (
@@ -28,9 +28,10 @@ export function useGames() {
         options: SearchBody,
         page = 1,
         limit = 20
-    ) => {
+    ): Promise<Paginated<SummaryGame>> => {
         const data = await gamesService.search(slug, options, page, limit);
         setGames(data);
+        return data;
     };
 
     return {

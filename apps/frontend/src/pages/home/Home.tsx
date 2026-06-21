@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GameScroller } from "./game-scroller/GameScroller";
-import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
-import { useGames } from "../../api/hooks/useGames.hook";
+
 import styles from "./home.module.css";
 
+import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import { GameScroller } from "./game-scroller/GameScroller";
+
+import { useGames } from "../../api/hooks/useGames.hook";
+import { useTags } from "../../api/hooks/useTags.hook";
+import { gamesService } from "../../api/services/games.service";
+
+import type { SummaryGame, GameTag, Paginated } from "@unlockit/shared";
+
 const Home = () => {
-    const { games, fetchGames } = useGames();
-    const [randomGame, setRandomGame] = useState<any | null>(null);
     const navigate = useNavigate();
 
+    const { games, fetchGames } = useGames();
+    const { tags, fetchTags } = useTags();
+
+    const [randomGame, setRandomGame] = useState<SummaryGame | null>(null);
+    const [tagSections, setTagSections] = useState<Record<string, SummaryGame[]>>({});
+
+    // Charger jeux + tags
     useEffect(() => {
-        const load = async () => {
-            await fetchGames(1, 50);
-        };
-        load();
+        fetchGames(1, 50);
+        fetchTags(1, 20);
     }, []);
 
+    // Jeu aléatoire
     useEffect(() => {
         if (games?.data?.length) {
             const random = games.data[Math.floor(Math.random() * games.data.length)];
@@ -24,20 +35,52 @@ const Home = () => {
         }
     }, [games]);
 
+    // Sections par tags (4 tags aléatoires)
+    useEffect(() => {
+        const paginatedTags = tags as Paginated<GameTag> | null;
+
+        if (!paginatedTags?.data?.length) return;
+
+        const load = async () => {
+            // Sélectionner 4 tags aléatoires
+            const shuffled = [...paginatedTags.data].sort(() => Math.random() - 0.5);
+            const selectedTags = shuffled.slice(0, 4);
+
+            const sections: Record<string, SummaryGame[]> = {};
+
+            for (const tag of selectedTags) {
+                const slug = "all"; // slug neutre côté backend
+
+                try {
+                    const result = await gamesService.search(
+                        slug,
+                        {
+                            tags: [tag.id],
+                            order: { by: "popular", asc: false }
+                        },
+                        1,
+                        20
+                    );
+
+                    sections[tag.name] = result.data;
+                } catch {
+                    sections[tag.name] = [];
+                }
+            }
+
+            setTagSections(sections);
+        };
+
+        load();
+    }, [tags]);
+
     if (!games?.data) return null;
 
     const popular = games.data.slice(0, 10);
-    const tag1 = games.data.slice(10, 20);
-    const tag2 = games.data.slice(20, 30);
-    const tag3 = games.data.slice(30, 40);
-    const tag4 = games.data.slice(40, 50);
 
     return (
         <div className={styles.home}>
-            <UnlockItHelmet
-                title="Accueil"
-                path="/"
-            />
+            <UnlockItHelmet title="Accueil" path="/" />
 
             {/* BANNIÈRE */}
             {randomGame && (
@@ -73,78 +116,26 @@ const Home = () => {
                 />
             </section>
 
-            {/* TAGS */}
-            <section className={styles.section}>
-                <h2>Action</h2>
-                <GameScroller
-                    items={tag1}
-                    speed={30}
-                    renderItem={(g) => (
-                        <div
-                            key={g.id}
-                            className={styles.card}
-                            onClick={() => navigate(`/games/${g.id}`)}
-                        >
-                            <img src={g.headerImage} alt={g.name} />
-                            <h3>{g.name}</h3>
-                        </div>
-                    )}
-                />
-            </section>
-
-            <section className={styles.section}>
-                <h2>Aventure</h2>
-                <GameScroller
-                    items={tag2}
-                    speed={32}
-                    renderItem={(g) => (
-                        <div
-                            key={g.id}
-                            className={styles.card}
-                            onClick={() => navigate(`/games/${g.id}`)}
-                        >
-                            <img src={g.headerImage} alt={g.name} />
-                            <h3>{g.name}</h3>
-                        </div>
-                    )}
-                />
-            </section>
-
-            <section className={styles.section}>
-                <h2>Stratégie</h2>
-                <GameScroller
-                    items={tag3}
-                    speed={28}
-                    renderItem={(g) => (
-                        <div
-                            key={g.id}
-                            className={styles.card}
-                            onClick={() => navigate(`/games/${g.id}`)}
-                        >
-                            <img src={g.headerImage} alt={g.name} />
-                            <h3>{g.name}</h3>
-                        </div>
-                    )}
-                />
-            </section>
-
-            <section className={styles.section}>
-                <h2>RPG</h2>
-                <GameScroller
-                    items={tag4}
-                    speed={34}
-                    renderItem={(g) => (
-                        <div
-                            key={g.id}
-                            className={styles.card}
-                            onClick={() => navigate(`/games/${g.id}`)}
-                        >
-                            <img src={g.headerImage} alt={g.name} />
-                            <h3>{g.name}</h3>
-                        </div>
-                    )}
-                />
-            </section>
+            {/* SECTIONS PAR TAGS ALÉATOIRES */}
+            {Object.entries(tagSections).map(([tagName, items]) => (
+                <section className={styles.section} key={tagName}>
+                    <h2>{tagName}</h2>
+                    <GameScroller
+                        items={items}
+                        speed={30}
+                        renderItem={(g) => (
+                            <div
+                                key={g.id}
+                                className={styles.card}
+                                onClick={() => navigate(`/games/${g.id}`)}
+                            >
+                                <img src={g.headerImage} alt={g.name} />
+                                <h3>{g.name}</h3>
+                            </div>
+                        )}
+                    />
+                </section>
+            ))}
         </div>
     );
 };
