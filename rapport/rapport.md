@@ -1836,9 +1836,9 @@ M -.->|"Réponse JSON"| A
 
 *Cycle complet d'une requête dans le nouveau backend.*
 
-Avant d'atteindre le contrôleur, une requête traverse deux étapes qui n'apparaissaient pas dans la version simplifiée de ce schéma : le routeur de NestJS, qui détermine quel contrôleur doit la traiter, puis une chaîne de guards et de pipes, qui filtrent et préparent la requête avant qu'elle n'atteigne le code métier. Les guards décident si la requête a le droit de continuer (détaillés en <a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a> avec l'authentification), et les pipes valident ou transforment les données reçues (détaillés en <a href="#323-mutualisation-du-code-transverse">3.2.3</a> et <a href="#323-mutualisation-du-code-transverse">3.3.2</a>). Le contrôleur ne reçoit donc jamais une requête brute : elle a déjà été vérifiée et nettoyée au moment où il la reçoit.
+Avant d'atteindre le contrôleur, une requête traverse deux étapes qui n'apparaissaient pas dans la version simplifiée de ce schéma : le routeur de NestJS, qui détermine quel contrôleur doit la traiter, puis une chaîne de guards et de pipes, qui filtrent et préparent la requête avant qu'elle n'atteigne le code métier. Les guards décident si la requête a le droit de continuer (détaillés en <a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a> avec l'authentification), et les pipes valident ou transforment les données reçues (détaillés en <a href="#323-mutualisation-du-code-transverse">3.2.3</a> et <a href="#332-validation-des-données">3.3.2</a>). Le contrôleur ne reçoit donc jamais une requête brute : elle a déjà été vérifiée et nettoyée au moment où il la reçoit.
 
-Une fois le contrôleur atteint, le chemin redevient celui décrit plus haut : contrôleur, service, repository, puis la base de données. La réponse, en revanche, ne repasse pas par le routeur, les guards ou les pipes, ces étapes ne concernent que la requête entrante. Le service et le repository renvoient leur résultat au contrôleur, qui construit lui-même la réponse renvoyée au frontend.
+Une fois le contrôleur atteint, le chemin redevient celui décrit plus haut : contrôleur, service, repository, puis la base de données. La réponse, en revanche, ne repasse pas par le routeur, les guards ou les pipes, ces étapes ne concernent que la requête entrante. Le service et le repository renvoient leur résultat au contrôleur, qui s'appuie généralement sur une classe mapper, comme <code class="c">GameMapper</code> (déjà rencontrée en <a href="#323-mutualisation-du-code-transverse">3.2.3</a>), pour convertir l'entité TypeORM en DTO avant que la réponse ne soit finalement renvoyée au frontend.
  
 ### 3.2.1 Découpage par domaine
  
@@ -2594,7 +2594,239 @@ userFactory.create({
 
 C'est ce compte qui rend le filet de sécurité décrit en <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a> réellement pratique : tester une route réservée aux administrateurs depuis Swagger ne demande pas de fouiller des données aléatoires, l'identifiant et le mot de passe sont toujours les mêmes. En une seule commande, ce système installe une base entière (quelques utilisateurs, soixante-quatre jeux, dix mille clés de produit) directement utilisable, ce que TypeORM ne propose pas nativement.
 
-...
+## 4.1 Une organisation en monorepo
+
+### 4.1.1 Le même problème qu'avant, mais sans excuse cette fois
+
+Lors de la SAÉ 3.01, le frontend et le backend vivaient déjà dans le même dépôt Git. Cette proximité physique n'empêchait cependant pas une forme de cloisonnement : le PHP, n'étant pas typé, ne pouvait rien garantir sur la forme des données qu'il renvoyait, et le frontend React reconstituait ces formes à la main, sous TypeScript, en se basant sur ce que l'API retournait réellement. Lorsqu'un champ changeait de nom ou de type côté backend, rien ne le signalait côté frontend : seule la communication entre nous permettait de garder les deux bouts synchronisés, ce qui fonctionnait à l'échelle de deux personnes en contact permanent, mais ne reposait sur aucun garde-fou technique.
+
+Avec NestJS et TypeScript des deux côtés (cf. <a href="#31-migration-vers-nestjs">3.1</a>), cette limite n'avait plus de raison d'exister. Si les deux applications parlent le même langage, rien n'empêche de leur faire partager directement les types qui décrivent les données échangées, plutôt que de les dupliquer et de les maintenir à la main.
+
+### 4.1.2 Les workspaces npm
+
+Concrètement, cela passe par les *workspaces* npm, une fonctionnalité qui permet de gérer plusieurs paquets Node.js dans un seul dépôt tout en gardant des <code class="c">node_modules</code> et des <code class="c">package.json</code> séparés pour chacun. Le <code class="c">package.json</code> situé à la racine du projet déclare où npm doit chercher ces paquets :
+
+```json
+{
+  "name": "unlockit",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
+```
+
+Cette unique déclaration suffit à transformer trois projets indépendants (<code class="c">apps/frontend</code>, <code class="c">apps/backend</code> et <code class="c">packages/shared</code>) en un ensemble cohérent : un <code class="c">npm install</code> à la racine installe les dépendances des trois à la fois, et surtout, npm crée automatiquement un lien symbolique entre <code class="c">packages/shared</code> et le <code class="c">node_modules</code> des deux autres. Concrètement, écrire <code class="c">import { GameDetail } from "@unlockit/shared"</code> dans le backend ou le frontend revient, sans configuration supplémentaire, à lire directement le code source du dossier <code class="c">packages/shared</code>, sans jamais le publier sur un registre npm public ou privé.
+
+```mermaid
+flowchart LR
+
+    classDef app fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef pkg fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+    F["apps/frontend"]:::app
+    B["apps/backend"]:::app
+    S["packages/shared (@unlockit/shared)"]:::pkg
+
+    F -->|"import type {...} from '@unlockit/shared'"| S
+    B -->|"import {...} from '@unlockit/shared'"| S
+```
+
+*Dépendance des deux applications envers le package partagé, rendue possible par les workspaces npm.*
+
+Cette mise en relation pose toutefois une contrainte : <code class="c">@unlockit/shared</code> est lui-même écrit en TypeScript, mais ni Node.js ni les navigateurs ne savent exécuter du TypeScript directement. Il faut donc le compiler en JavaScript avant que le frontend ou le backend ne puisse réellement l'utiliser, ce que son propre <code class="c">package.json</code> décrit :
+
+```json
+{
+  "name": "@unlockit/shared",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  }
+}
+```
+
+C'est ce qui explique le script <code class="c">dev</code> à la racine du projet :
+
+```json
+"dev": "npm run build:shared && concurrently -k -p \"[{name}]\" -n \"SHARED,FRONT,BACK\" -c \"magenta,cyan,green\" \"npm run dev:shared\" \"npm run dev:frontend\" \"npm run dev:backend\"",
+```
+
+L'ordre n'est pas anodin : <code class="c">build:shared</code> s'exécute d'abord, et seulement une fois terminé, lance les trois autres commandes en parallèle (via <code class="c">concurrently</code>). Sans ce premier passage, le frontend et le backend chercheraient à importer un dossier <code class="c">dist/</code> qui n'existe pas encore. Une fois cette première compilation faite, <code class="c">dev:shared</code> prend le relais en mode <code class="c">tsc --watch</code> : toute modification dans <code class="c">packages/shared</code> est recompilée immédiatement, et les deux applications, qui tournent elles aussi en mode développement, rechargent automatiquement avec la nouvelle version des types.
+
+Le résultat tient en une seule commande à la racine, comme le rappelle notre fichier d'installation à destination de quiconque clone le projet pour la première fois :
+
+```md
+- `npm install`
+- `npm run docker`
+- `npm run database:seed --workspace=backend` (uniquement si l'on veut des données)
+- `npm run dev`
+```
+
+À titre de comparaison, démarrer la version SAÉ 3.01 demandait de lancer séparément un serveur PHP et le serveur de développement Vite, sans qu'aucune commande commune ne les coordonne. Le compte créé automatiquement par la commande de seed, avec des identifiants fixes et le rôle le plus permissif, est le même que celui qui rend possible le filet de sécurité décrit en <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a> ; il est donc logique qu'il soit rappelé directement dans la documentation de démarrage du projet, plutôt qu'enfoui dans le code du script de seed.
+
+Cette organisation a ses limites, que nous assumons pleinement à l'échelle du projet : les workspaces npm ne savent pas mettre en cache les builds ni ne raisonnent en graphe de dépendances comme le feraient des outils dédiés tels que Turborepo ou Nx. Chaque <code class="c">npm run build</code> recompile tout, sans se souvenir de ce qui a déjà été fait. Pour un projet à deux personnes, ce coût reste négligeable ; il deviendrait probablement un sujet à part entière sur un projet plus grand ou avec une intégration continue plus exigeante.
+
+---
+
+## 4.2 Le package partagé entre frontend et backend
+
+### 4.2.1 Que contient réellement ce package ?
+
+L'intention de départ pour <code class="c">@unlockit/shared</code> était simple : n'y placer que des interfaces TypeScript, c'est-à-dire de la donnée purement structurelle, sans aucun code qui s'exécute réellement. Sa description dans son propre <code class="c">package.json</code> en témoigne directement : *« This package contains everything that need to be shared between the frontend and backend such as interfaces and DTOs »*.
+
+Le package est organisé par domaine métier, en miroir des modules du backend déjà détaillés en <a href="#321-découpage-par-domaine">3.2.1</a> (un dossier <code class="c">game</code>, un dossier <code class="c">wishlist</code>, un dossier <code class="c">employee</code>, et ainsi de suite), chacun exportant ses types depuis un point d'entrée unique :
+
+```ts
+export * from "./game/game.types"
+export * from "./game/game.enums"
+/* Mêmes lignes pour chaque domaine */
+export * from "./utils/slug.formatter"
+export * from "./utils/types"
+```
+
+Ce fichier <code class="c">index.ts</code> joue un rôle de point d'entrée unique : peu importe que <code class="c">GameDetail</code> vienne d'un fichier profondément imbriqué dans <code class="c">src/game/</code>, frontend comme backend se contentent d'écrire <code class="c">import { GameDetail } from "@unlockit/shared"</code>, sans jamais avoir à connaître l'arborescence interne du package.
+
+Cette intention de rester « uniquement des types » n'a cependant pas tout à fait tenu sur la durée. Le domaine <code class="c">employee</code> exporte également <code class="c">ROLE_HIERARCHY</code>, une constante bien réelle, exécutée et non un simple type :
+
+```ts
+export const ROLE_HIERARCHY: Record<EmployeeRole, number> = {
+  [EmployeeRole.SUPPORT]: 1,
+  [EmployeeRole.MODERATOR]: 2,
+  [EmployeeRole.ADMIN]: 3,
+  [EmployeeRole.SUPER_ADMIN]: 4,
+  [EmployeeRole.OWNER]: 5,
+};
+```
+
+Cette exception a du sens dès qu'on l'examine : un type TypeScript disparaît entièrement à la compilation, il n'existe plus une fois le code exécuté. Or, savoir si un rôle est « au moins aussi élevé » qu'un autre est une comparaison qui doit s'effectuer au moment de l'exécution, pas seulement à la compilation. Un type seul ne pouvait donc pas suffire ici : il fallait une vraie valeur, calculée une fois et partagée, plutôt que de risquer que le frontend et le backend déclarent chacun leur propre hiérarchie de rôles, avec le risque de les voir un jour diverger silencieusement.
+
+### 4.2.2 D'un type unique à plusieurs DTOs : le cas des jeux
+
+L'exemple le plus parlant de ce que ce package apporte concrètement se trouve dans le domaine <code class="c">game</code>. Tout part d'un unique type décrivant un jeu tel qu'il existe réellement en base de données :
+
+```ts
+export type GameEntity = {
+  id: number;
+  name: string;
+  slug: string;
+  type: GameType;
+  price: number;
+  ageRating: EUAgeRating;
+  releaseDate: string | null;
+  comingSoon: boolean;
+  headerImage: string;
+  shortDescription: string;
+  /* ... autres champs primitifs */
+
+  series: SeriesEntity | null;
+  tags: TagEntity[];
+  developers: DeveloperEntity[];
+  /* ... autres relations */
+};
+```
+
+Plutôt que de redéfinir un type séparé pour chaque usage, le reste du domaine se construit en dérivant ce type unique. Créer un jeu, l'afficher en liste ou afficher sa fiche complète sont trois besoins différents, mais qui partagent tous la même origine :
+
+```ts
+export type CreateGame = Simplify<NullToOptional<Omit<GameEntity, 'id' | 'supportedLanguages' | GameRelationKeys>> & {
+  supportedLanguages?: LangCode[];
+  platforms?: PartialGamePlatform;
+}>;
+
+export type SummaryGame = Simplify<Pick<GameEntity, 'id' | 'name' | 'slug' | 'type' | 'price' | 'ageRating' | 'comingSoon' | 'headerImage' | 'shortDescription'> & { wishlisted?: boolean }>;
+
+export type GameDetail = Simplify<Omit<GameEntity, GameRelationKeys> & {
+  tags: GameTag[];
+  developers: GameDeveloper[];
+  /* ... */
+}>;
+```
+
+<code class="c">Pick</code> et <code class="c">Omit</code> sont des outils natifs de TypeScript : le premier garde uniquement les champs listés d'un type existant, le second fait l'inverse en retirant ceux qu'on lui indique. <code class="c">SummaryGame</code> est ainsi littéralement « <code class="c">GameEntity</code>, mais seulement les huit champs nécessaires pour afficher une vignette dans un catalogue » ; <code class="c">GameDetail</code> est « <code class="c">GameEntity</code>, mais avec ses relations remplacées par des versions plus riches, adaptées à l'affichage d'une fiche produit complète ».
+
+Deux outils maison, situés dans <code class="c">utils/types.ts</code>, viennent compléter ces deux outils natifs :
+
+<details class="accordion">
+<summary>Voir <code class="c">Simplify</code> et <code class="c">NullToOptional</code></summary>
+
+```ts
+// Aplatit un type composé de plusieurs morceaux (intersections, Omit, Pick...)
+// pour qu'il s'affiche d'un bloc dans l'éditeur, plutôt que sous la forme
+// de la formule mathématique qui l'a construit.
+export type Simplify<T> = { [K in keyof T]: T[K] } & {};
+
+// Transforme les champs "null" en champs optionnels.
+type NullableKeys<T> = {
+  [K in keyof T]: null extends T[K] ? K : never;
+}[keyof T];
+
+export type NullToOptional<T> =
+  { [K in Exclude<keyof T, NullableKeys<T>>]: T[K] } &
+  { [K in NullableKeys<T>]?: Exclude<T[K], null> };
+```
+
+</details>
+
+<code class="c">NullToOptional</code> répond à une réalité du modèle de données : en base, un champ peut valoir <code class="c">null</code> (une date de sortie pas encore connue, par exemple). Mais lorsqu'on crée un jeu, il n'y a aucune raison d'envoyer explicitement <code class="c">releaseDate: null</code> dans la requête : il est plus naturel de simplement omettre le champ. <code class="c">NullToOptional</code> traduit automatiquement cette nuance, sans avoir à la réécrire à la main pour chaque champ nullable du type.
+
+### 4.2.3 Un contrat vérifié à la compilation
+
+Ces types ne servent à rien tout seuls s'ils ne sont pas réellement appliqués côté backend. C'est le rôle du DTO (Data Transfer Object), la classe que NestJS utilise pour valider les données entrantes d'une requête HTTP :
+
+```ts
+import { CreateGame, EUAgeRating, ExactData, GameType, LangCode } from '@unlockit/shared';
+
+export class CreateGameDto implements CreateGame {
+  @IsString()
+  @Length(2, 255)
+  name: string;
+
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  price: number;
+
+  /* ... autres champs, suivant le même principe */
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PartialGamePlatformDto)
+  platforms?: PartialGamePlatformDto;
+}
+
+const _assertExact: ExactData<CreateGame, CreateGameDto> = true;
+```
+
+Les décorateurs comme <code class="c">@IsString()</code> ou <code class="c">@Min(0)</code> viennent de <code class="c">class-validator</code> : NestJS les lit automatiquement avant même que le code du contrôleur ne s'exécute, et rejette la requête si une règle n'est pas respectée. Le <code class="c">implements CreateGame</code> garantit, lui, que la classe possède bien tous les champs attendus par le type partagé : il serait impossible d'oublier <code class="c">price</code> dans le DTO sans que TypeScript ne refuse de compiler.
+
+Ce que <code class="c">implements</code> ne vérifie en revanche pas, c'est l'excès inverse : rien n'empêche d'ajouter un champ supplémentaire au DTO qui n'existerait pas dans <code class="c">CreateGame</code>, par exemple en oubliant de synchroniser les deux côtés après une modification. C'est exactement ce que le type <code class="c">ExactData</code> vient combler.
+
+L'idée est de comparer la liste des champs de données du DTO à celle du type partagé : si le DTO n'a rien de plus, le type vaut <code class="c">true</code> et la ligne <code class="c">const _assertExact: ExactData<CreateGame, CreateGameDto> = true;</code> compile normalement. S'il a un champ de trop, <code class="c">ExactData</code> devient une chaîne de caractères (<code class="c">"Error: ..."</code>), et TypeScript refuse de l'assigner à une constante typée <code class="c">true</code>, ce qui fait échouer la compilation directement sur cette ligne. Cette constante n'est jamais lue ni utilisée ailleurs dans le code : elle n'existe que pour faire échouer la compilation au bon endroit si jamais les deux côtés du contrat venaient à diverger.
+
+### 4.2.4 Et côté frontend
+
+Le frontend consomme ces mêmes types, sans jamais avoir à les redéfinir, à l'endroit où il construit ses appels à l'API (couche déjà détaillée en <a href="#24-nouvelle-couche-api-frontend">2.4</a>) :
+
+```ts
+import type { SearchBody, Paginated, SummaryGame } from "@unlockit/shared";
+
+const searchGames = async (
+    slug: string,
+    options: SearchBody,
+    page = 1,
+    limit = 20
+): Promise<Paginated<SummaryGame>> => {
+    const data = await gamesService.search(slug, options, page, limit);
+    setGames(data);
+    return data;
+};
+```
+
+Le mot-clé <code class="c">type</code> dans <code class="c">import type</code> n'est pas un détail : il indique au compilateur que ces trois noms ne servent qu'à la vérification des types, et qu'ils doivent disparaître entièrement du code une fois compilé en JavaScript, sans laisser le moindre import inutile dans le bundle final livré au navigateur. <code class="c">@unlockit/shared</code> n'ajoute donc strictement aucun poids au frontend en production ; il ne sert qu'à garantir, pendant le développement, que la fonction <code class="c">searchGames</code> envoie des options de recherche dans le format attendu par le backend, et reçoit en retour des résultats dans le format qu'elle pense réellement recevoir.
 
 # 5. Conclusion
 
@@ -2608,7 +2840,9 @@ Cette refonte apporte plusieurs avantages concrets : un code plus maintenable et
 
 ### 5.2.2 Backend
 
-...
+La refonte du backend a permis de transformer un ensemble de scripts PHP, fonctionnel mais arrivé aux limites de son architecture artisanale, en une base de code structurée et conforme aux pratiques attendues d'une API moderne. Le découpage par domaine et l'abandon du SQL brut au profit de TypeORM (<a href="#32-architecture-modulaire">3.2</a>) ont clarifié les responsabilités de chaque couche, depuis la décision même de tout réécrire (<a href="#31-migration-vers-nestjs">3.1</a>) jusqu'à la base de données. Plusieurs chantiers jusque-là absents de la première version ont par ailleurs été menés à bien : une authentification reposant sur des jetons plutôt que sur une session systématiquement revalidée (<a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a>), une validation des données déclarée au plus près du code plutôt qu'éparpillée (<a href="#332-validation-des-données">3.3.2</a>), une protection contre les abus sur les routes sensibles (<a href="#333-limitation-du-débit">3.3.3</a>), ainsi qu'une documentation d'API générée automatiquement plutôt que rédigée à part (<a href="#342-la-documentation-swagger-comme-garde-fou">3.4.2</a>). La structure imposée par NestJS a même produit un effet inattendu : compléter un domaine, plutôt que d'en livrer une version partielle, est devenu le chemin le plus naturel (<a href="#341-un-module-complet-presque-par-accident">3.4.1</a>). Les difficultés rencontrées en cours de route (<a href="#35-difficultés-rencontrées-et-solutions">3.5</a>), qu'il s'agisse de l'absence de suite de tests automatisée, des types numériques de PostgreSQL ou du besoin de données de test réalistes, ont chacune trouvé une réponse sans remettre en cause la stabilité de l'API.
+
+Cette refonte apporte des bénéfices très concrets : un code organisé par domaine métier plutôt que par rôle technique, une sécurité pensée par défaut plutôt qu'ajoutée au cas par cas, une API qui se documente et se teste elle-même, et des données de développement reproductibles à la demande. Plus largement, la démarche suivie, structurer le code avant de chercher à l'optimiser, et déléguer les préoccupations transverses au framework plutôt que de les réécrire à chaque domaine, rapproche elle aussi le backend des pratiques utilisées en environnement professionnel, et lui donne une base suffisamment solide pour accueillir de nouvelles fonctionnalités sans répéter les écueils de la première version.
 
 ### 5.2.3 Structure
 
