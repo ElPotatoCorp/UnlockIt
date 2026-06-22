@@ -8,13 +8,14 @@ import { useToast } from "../../utils/hooks/useToast";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../api/hooks/useAuth.hook";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import { useDebounce } from "use-debounce";
+import { Button } from "../../components/common/button/Button";
 
 const Checkout: FC = () => {
     const toast = useToast();
     const { isLogged } = useAuth();
 
     const { cart, totalPrice, fetchCart, clearCart } = useCart();
-
     const items = cart?.data ?? [];
     const total = totalPrice ?? 0;
 
@@ -24,38 +25,62 @@ const Checkout: FC = () => {
     const [paying, setPaying] = useState(false);
     const [orderId, setOrderId] = useState<string | null>(null);
 
+    // méthode de paiement sélectionnée
+    const [method, setMethod] = useState<"wallet" | "stripe">("wallet");
+
+    /** Debounce du paiement */
+    const [debouncedPaying] = useDebounce(paying, 300);
+
+    /** Chargement initial (debounce pour éviter double fetch) */
     useEffect(() => {
         const init = async () => {
             await fetchCart();
             await loadBalance();
             setLoading(false);
         };
-        init();
+
+        const timeout = setTimeout(init, 150); // léger debounce
+        return () => clearTimeout(timeout);
     }, []);
 
     if (!isLogged) return <Navigate to="/login" replace />;
 
     if (loading) {
         return (
-            <Card>
-                <h2 className={styles.title}>Paiement</h2>
-                <p className={styles.subtitle}>Chargement de votre panier...</p>
-            </Card>
+            <div className={styles.checkoutPage}>
+                <h1>Paiement</h1>
+                <Card>
+                    <p className={styles.subtitle}>Chargement de votre panier...</p>
+                </Card>
+            </div>
         );
     }
 
     if (items.length === 0) {
         return (
-            <Card>
-                <h2 className={styles.title}>Panier vide</h2>
-                <p className={styles.subtitle}>Ajoutez des jeux avant de passer au paiement.</p>
-                <Link to="/store" className={styles.backBtn}>Retour à la boutique</Link>
-            </Card>
+            <div className={styles.checkoutPage}>
+                <h1>Paiement</h1>
+                <Card>
+                    <h2 className={styles.title}>Panier vide</h2>
+                    <p className={styles.subtitle}>Ajoutez des jeux avant de passer au paiement.</p>
+                    <Link to="/store" className={styles.backBtn}>Retour à la boutique</Link>
+                </Card>
+            </div>
         );
     }
 
+    /** Paiement */
     const handlePay = async () => {
+        if (debouncedPaying) return; // empêche double clic
+
+        // Si l'utilisateur a choisi Stripe (indisponible), on ne lance pas le paiement
+        if (method === "stripe") {
+            toast.error("Stripe n'est pas disponible pour le moment.");
+            return;
+        }
+
         setPaying(true);
+
         try {
             const res = await checkoutService.checkout(true);
 
@@ -75,81 +100,146 @@ const Checkout: FC = () => {
         }
     };
 
-    // Paiement réussi
+    /** Paiement réussi */
     if (orderId) {
         return (
-            <Card>
-                <h2 className={styles.title}>Paiement réussi</h2>
-                <p className={styles.subtitle}>Votre commande a été créée avec succès.</p>
+            <div className={styles.checkoutPage}>
+                <h1>Paiement</h1>
+                <Card>
+                    <h2 className={styles.title}>Paiement réussi</h2>
+                    <p className={styles.subtitle}>Votre commande a été créée avec succès.</p>
 
-                <Link to={`/orders/${orderId}`} className={styles.successBtn}>
-                    Voir la commande
-                </Link>
-            </Card>
+                    <Link to={`/orders/${orderId}`} className={styles.successBtn}>
+                        Voir la commande
+                    </Link>
+                </Card>
+            </div>
         );
     }
 
+    const walletInsufficient = !balance || balance.balance < total;
+
     return (
-        <Card>
-            <UnlockItHelmet
-                title="Paiement"
-                description="Finalisez votre achat de jeux vidéo sur UnlockIt."
-                path="/checkout"
-            />
+        <div className={styles.checkoutPage}>
+            <h1>Paiement</h1>
+            <Card>
+                <UnlockItHelmet
+                    title="Paiement"
+                    description="Finalisez votre achat de jeux vidéo sur UnlockIt."
+                    path="/checkout"
+                />
 
-            <h2 className={styles.title}>Paiement</h2>
-            <p className={styles.subtitle}>Vérifiez votre commande avant de payer.</p>
+                <p className={styles.subtitle}>Vérifiez votre commande avant de payer.</p>
 
-            {/* Résumé du panier */}
-            <div className={styles.section}>
-                <h3 className={styles.sectionTitle}>Résumé du panier</h3>
+                {/* Layout en deux colonnes : résumé à gauche, méthode de paiement à droite */}
+                <div className={styles.columns}>
+                    {/* Colonne gauche : résumé du panier */}
+                    <div className={styles.leftColumn}>
+                        <div className={styles.section}>
+                            <h3 className={styles.sectionTitle}>Résumé du panier</h3>
 
-                <ul className={styles.cartList}>
-                    {items.map((item) => (
-                        <li key={item.game.id} className={styles.cartItem}>
-                            <span>{item.game.name}</span>
-                            <span>{item.quantity} × {item.game.price.toFixed(2)} €</span>
-                        </li>
-                    ))}
-                </ul>
+                            <ul className={styles.list}>
+                                {items.map((item) => (
+                                    <li key={item.game.id} className={styles.item}>
+                                        <div className={styles.left}>
+                                            <img
+                                                src={item.game.headerImage}
+                                                alt={item.game.name}
+                                                className={styles.image}
+                                            />
 
-                <div className={styles.totalRow}>
-                    <span>Total :</span>
-                    <span className={styles.totalValue}>{total.toFixed(2)} €</span>
+                                            <div className={styles.info}>
+                                                <h4 className={styles.gameName}>{item.game.name}</h4>
+                                                <p className={styles.price}>
+                                                    {item.quantity} × {item.game.price.toFixed(2)} €
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <span className={styles.lineTotal}>
+                                            {(item.quantity * item.game.price).toFixed(2)} €
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className={styles.totalRow}>
+                                <span>Total :</span>
+                                <span className={styles.totalValue}>{total.toFixed(2)} €</span>
+                            </div>
+                        </div>
+
+                        <Link to="/cart" className={styles.backBtn}>
+                            Retour au panier
+                        </Link>
+                    </div>
+
+                    {/* Colonne droite : panneau de paiement */}
+                    <aside className={styles.rightColumn}>
+                        <div className={styles.paymentPanel}>
+                            <h3 className={styles.sectionTitle}>Méthode de paiement</h3>
+
+                            <div className={styles.methods}>
+                                <label
+                                    className={`${styles.method} ${method === "wallet" ? styles.methodActive : ""}`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        checked={method === "wallet"}
+                                        onChange={() => setMethod("wallet")}
+                                    />
+                                    <div className={styles.methodInfo}>
+                                        <strong>Wallet</strong>
+                                        <span className={styles.methodSub}>
+                                            Solde : {balance ? balance.balance.toFixed(2) : "0.00"} €
+                                        </span>
+                                    </div>
+                                </label>
+
+                                <label
+                                    className={`${styles.method} ${styles.methodDisabled}`}
+                                    title="Indisponible pour le moment"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        checked={method === "stripe"}
+                                        onChange={() => setMethod("stripe")}
+                                        disabled
+                                    />
+                                    <div className={styles.methodInfo}>
+                                        <strong>Stripe</strong>
+                                        <span className={styles.methodSub}>Indisponible</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            {walletInsufficient && (
+                                <p className={styles.warning}>
+                                    Votre solde est insuffisant pour payer cette commande.
+                                </p>
+                            )}
+
+                            <Button
+                                disabled={
+                                    debouncedPaying ||
+                                    method === "stripe" ||
+                                    walletInsufficient
+                                }
+                                onClick={handlePay}
+                            >
+                                {debouncedPaying ? "Paiement..." : "Payer maintenant"}
+                            </Button>
+
+                            <div className={styles.smallNote}>
+                                <span>Vous pouvez utiliser votre wallet pour payer immédiatement.</span>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
-            </div>
-
-            {/* Wallet */}
-            <div className={styles.section}>
-                <h3 className={styles.sectionTitle}>Wallet</h3>
-
-                <div className={styles.walletBox}>
-                    <span>Solde disponible :</span>
-                    <span className={styles.walletValue}>
-                        {balance ? balance.balance.toFixed(2) : "0.00"} €
-                    </span>
-                </div>
-
-                {balance && balance.balance < total && (
-                    <p className={styles.warning}>
-                        Votre solde est insuffisant pour payer cette commande.
-                    </p>
-                )}
-            </div>
-
-            {/* Bouton payer */}
-            <button
-                className={styles.payBtn}
-                disabled={paying || !balance || balance.balance < total}
-                onClick={handlePay}
-            >
-                {paying ? "Paiement..." : "Payer avec le wallet"}
-            </button>
-
-            <Link to="/cart" className={styles.backBtn}>
-                Retour au panier
-            </Link>
-        </Card>
+            </Card>
+        </div>
     );
 };
 

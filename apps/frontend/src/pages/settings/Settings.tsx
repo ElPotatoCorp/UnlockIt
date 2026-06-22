@@ -65,7 +65,6 @@ const Settings: FC = () => {
 
       <h1>Paramètres du compte</h1>
 
-
       <div className={styles.cardGrid}>
         <Profile />
         <AccountDetails />

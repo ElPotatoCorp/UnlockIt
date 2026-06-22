@@ -95,7 +95,7 @@ const Cart: FC = () => {
     if (loading) {
         return (
             <div className={styles.cartPage}>
-                <h2>Panier</h2>
+                <h1>Panier</h1>
                 <Card>
                     <p className={styles.subtitle}>Chargement du panier...</p>
                 </Card>
@@ -106,7 +106,7 @@ const Cart: FC = () => {
     if (items.length === 0) {
         return (
             <div className={styles.cartPage}>
-                <h2>Panier</h2>
+                <h1>Panier</h1>
                 <Card>
                     <p className={styles.subtitle}>Ajoutez des jeux pour continuer.</p>
                     <Link to="/store" className={styles.backBtn}>Retour à la boutique</Link>
@@ -117,7 +117,7 @@ const Cart: FC = () => {
 
     return (
         <div className={styles.cartPage}>
-            <h2>Panier</h2>
+            <h1>Panier</h1>
             <Card>
                 <UnlockItHelmet
                     title="Panier"

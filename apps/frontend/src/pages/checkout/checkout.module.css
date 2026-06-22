@@ -1,107 +1,249 @@
+/* === Page container (comme Cart) === */
+.checkoutPage {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  text-align: center;
+}
+
+/* === Titres === */
 .title {
-    font-family: var(--font-title);
-    font-size: var(--text-h2);
-    color: var(--color-green);
-    margin-bottom: 6px;
+  font-family: var(--font-title);
+  font-size: var(--text-h2);
+  color: var(--color-green);
+  margin-bottom: 6px;
 }
 
 .subtitle {
-    color: var(--color-mist);
-    margin-bottom: 20px;
+  color: var(--color-mist);
+  margin-bottom: 20px;
 }
 
+/* === Layout en colonnes (gauche résumé / droite paiement) === */
+.columns {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Colonne gauche : prend plus de place */
+.leftColumn {
+  flex: 1.6;
+}
+
+/* Colonne droite : panneau de paiement */
+.rightColumn {
+  flex: 0.9;
+  min-width: 260px;
+}
+
+/* === Section (comme Cart) === */
 .section {
-    margin-top: 20px;
-    padding: 16px;
-    background: var(--color-smoke);
-    border-radius: 10px;
-    border: 1px solid var(--color-carbon);
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--color-smoke);
+  border-radius: 10px;
+  border: 1px solid var(--color-carbon);
 }
 
+/* === Payment panel (panneau droit) === */
+.paymentPanel {
+  padding: 16px;
+  background: var(--color-smoke);
+  border-radius: 10px;
+  border: 1px solid var(--color-carbon);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* === Section title === */
 .sectionTitle {
-    font-family: var(--font-title);
-    color: var(--color-blue);
-    margin-bottom: 12px;
+  font-family: var(--font-title);
+  color: var(--color-blue);
+  margin-bottom: 8px;
 }
 
-.cartList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* === Liste des items (identique à Cart) === */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.cartItem {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--color-carbon);
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-smoke);
+  border: 1px solid var(--color-carbon);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.image {
+  width: 80px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameName {
+  font-family: var(--font-title);
+  color: var(--color-white);
+}
+
+.price {
+  color: var(--color-mist);
+  font-size: var(--text-small);
+}
+
+.lineTotal {
+  font-family: var(--font-title);
+  color: var(--color-green);
+}
+
+/* === Total === */
 .totalRow {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-    font-family: var(--font-title);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-family: var(--font-title);
 }
 
 .totalValue {
-    color: var(--color-green);
-    font-size: 1.3rem;
+  color: var(--color-green);
+  font-size: 1.4rem;
 }
 
-.walletBox {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--font-title);
+/* === Méthodes de paiement === */
+.methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.walletValue {
-    color: var(--color-green);
+.method {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid transparent;
+  cursor: var(--cursor-pointer);
+  transition: background 0.2s ease, border 0.2s ease;
 }
 
+.method input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: var(--cursor-pointer);
+}
+
+.methodInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.methodSub {
+  color: var(--color-mist);
+  font-size: 0.85rem;
+}
+
+/* état actif */
+.methodActive {
+  border: 1px solid var(--color-blue);
+}
+
+/* état désactivé / grisé pour Stripe */
+.methodDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(30%);
+}
+
+/* === Avertissement solde insuffisant === */
 .warning {
-    color: var(--color-error);
-    margin-top: 8px;
+  color: var(--color-error);
+  margin-top: 8px;
 }
 
+/* === Bouton payer (comme Cart) mais dans le panneau) === */
 .payBtn {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: var(--color-blue);
-    color: var(--color-white);
-    font-family: var(--font-title);
-    cursor: var(--cursor-pointer);
-    transition: background 0.3s ease;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-blue);
+  color: var(--color-white);
+  font-family: var(--font-title);
+  cursor: var(--cursor-pointer);
+  transition: background 0.3s ease;
 }
 
 .payBtn:hover:not(:disabled) {
-    background: var(--color-green);
+  background: var(--color-green);
+  color: var(--color-void);
 }
 
 .payBtn:disabled {
-    opacity: 0.5;
-    cursor: var(--cursor-not-allowed);
+  opacity: 0.5;
+  cursor: var(--cursor-not-allowed);
 }
 
+/* === Boutons secondaires (comme Cart) === */
 .backBtn,
 .successBtn {
-    display: block;
-    text-align: center;
-    margin-top: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    background: var(--color-tar);
-    border: 1px solid var(--color-carbon);
-    color: var(--color-white);
-    font-family: var(--font-text);
-    cursor: var(--cursor-pointer);
-    transition: background 0.3s ease;
+  display: block;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--color-tar);
+  border: 1px solid var(--color-carbon);
+  color: var(--color-white);
+  text-align: center;
+  cursor: var(--cursor-pointer);
+  transition: background 0.3s ease;
 }
 
 .backBtn:hover,
 .successBtn:hover {
-    background: var(--color-smoke);
+  background: var(--color-smoke);
+}
+
+/* petite note sous le bouton */
+.smallNote {
+  color: var(--color-mist);
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+/* Responsive : empilement sur mobile */
+@media (max-width: 700px) {
+  .columns {
+    flex-direction: column;
+  }
+
+  .rightColumn {
+    min-width: auto;
+  }
 }
