@@ -1794,27 +1794,51 @@ Porter le projet domaine par domaine aurait donc demandé, pour chaque module, d
  
 ## 3.2 Architecture modulaire
  
-Le second axe de la refonte concernait la manière dont le code lui-même est organisé. Là où l’ancien backend regroupait les fichiers par rôle technique (tous les contrôleurs dans un dossier, tous les modèles dans un autre), la nouvelle architecture regroupe le code par domaine métier : chaque fonctionnalité (les jeux, les avis, la wishlist, etc.) possède son propre module, contenant à la fois son contrôleur, sa logique métier et sa persistance. Le schéma suivant résume la circulation d’une requête à travers ces différentes couches, du frontend jusqu’à la base de données :
- 
+Le second axe de la refonte concernait la manière dont le code lui-même est organisé. Là où l’ancien backend regroupait les fichiers par rôle technique (tous les contrôleurs dans un dossier, tous les modèles dans un autre), la nouvelle architecture regroupe le code par domaine métier : chaque fonctionnalité (les jeux, les avis, la wishlist, etc.) possède son propre module, contenant à la fois son contrôleur, sa logique métier et sa persistance. Le schéma suivant détaille la circulation d'une requête à travers ces différentes couches, du frontend jusqu'à la base de données, puis le chemin inverse pour la réponse :
+
+<div class="mermaid-center" style="text-align:center;">
+
 ```mermaid
 flowchart LR
- 
-Frontend
---> Controller
- 
-Controller
---> Service
- 
-Service
---> Repository
- 
-Repository
---> PostgreSQL
+
+classDef front fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+classDef back fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+classDef guard fill:#b7f0c0,stroke:#3f9156,stroke-width:2px,color:#000;
+classDef mapper fill:#a0e7e5,stroke:#2a9d8f,stroke-width:2px,color:#000;
+classDef db fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+A["Frontend (React)"]:::front
+B["Routeur NestJS"]:::back
+C["Guards (autorisation)"]:::guard
+D["Pipes (validation)"]:::guard
+E["Controller"]:::back
+F["Service"]:::back
+G["Repository (TypeORM)"]:::back
+H["PostgreSQL"]:::db
+M["Mapper (entité → DTO)"]:::mapper
+
+A -->|"Requête HTTP"| B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G -->|"Requête SQL"| H
+
+H -.->|"Résultat"| G
+G -.-> F
+F -.-> E
+E -.-> M
+M -.->|"Réponse JSON"| A
 ```
- 
-*Flux de traitement d’une requête dans le nouveau backend.*
- 
-Chacune de ces couches a une responsabilité unique : le contrôleur reçoit la requête HTTP et délègue immédiatement le travail, le service contient la logique métier, et le repository (fourni par TypeORM) s’occupe de traduire les opérations en requêtes SQL. Les trois sous-parties suivantes détaillent comment ce découpage se traduit concrètement dans le code, à travers l’exemple du domaine <code class="c">games</code>.
+
+</div>
+
+*Cycle complet d'une requête dans le nouveau backend.*
+
+Avant d'atteindre le contrôleur, une requête traverse deux étapes qui n'apparaissaient pas dans la version simplifiée de ce schéma : le routeur de NestJS, qui détermine quel contrôleur doit la traiter, puis une chaîne de guards et de pipes, qui filtrent et préparent la requête avant qu'elle n'atteigne le code métier. Les guards décident si la requête a le droit de continuer (détaillés en <a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a> avec l'authentification), et les pipes valident ou transforment les données reçues (détaillés en <a href="#323-mutualisation-du-code-transverse">3.2.3</a> et <a href="#323-mutualisation-du-code-transverse">3.3.2</a>). Le contrôleur ne reçoit donc jamais une requête brute : elle a déjà été vérifiée et nettoyée au moment où il la reçoit.
+
+Une fois le contrôleur atteint, le chemin redevient celui décrit plus haut : contrôleur, service, repository, puis la base de données. La réponse, en revanche, ne repasse pas par le routeur, les guards ou les pipes, ces étapes ne concernent que la requête entrante. Le service et le repository renvoient leur résultat au contrôleur, qui construit lui-même la réponse renvoyée au frontend.
  
 ### 3.2.1 Découpage par domaine
  
@@ -2604,5 +2628,13 @@ J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100%
 Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.
 
 ### 5.2.2 ElPotato
+
+En prenant en compte toutes les différences entre l'ancien projet et le nouveau, je me rends compte de à quel point un framework ça fait beaucoup do chose pour les devs, limitant énormement la friction lors du développement. Comme je l'ai décrit dans la section <a href="#341-un-module-complet-presque-par-accident">3.4.1</a>, c'est à peine j'écrivais deux trois lignes de code qu'une nouvelle fonctionnalité était implémenté grâce à des outils hyper modulaires mais sans pour autant enlever une charge lourde de travail qui est l'organisation, que ce soit des fichiers, endpoints ou des tâches spécifiques, j'ai passé une grande majorité de mon temps à faire en sorte qu'un typage soit toujours respecté, que les DTOs aient le plus de validator pour laisser le moins de place possible à l'erreur ainsi que de bien gérer ce qui est retourné ou accessible afin de garder les données sécurisés et confidentielles si nécessaires.
+
+Bien que je regrette ne pas avoir eu le temps de faire de tests unitaires via Jest ou d'avoir implémenté plus d'outils maison modulaires (un peu comme le contenu du <code class="c">commons</code>) vu à la section <a href="#323-mutualisation-du-code-transverse">3.2.3</a>, je suis très satisfait de ma documentation Swagger qui est facile à lire, simple d'utilisation et surtout clean.
+
+Cependant, maintenir une documentation à jour et créer des modules plus relationnelles (genre <code class="c">tags</code>, <code class="c">publishers</code>, <code class="c">developers</code>, etc.) est un aspect très chronophage et redondant. Si le résultat est agréable, le parcours est beaucoup moins intéressant voire ennuyant par moments.
+
+Tout comme mon camarade le dit, je considère UnlockIt comme une base réelle sur laquelle j'ai envie de perfectionner ma codebase, afin de l'utiliser comme bac à sable pour découvrir toute l'ampleur de NestJS que j'apprécie tout particulièrement. C'est un prototype qui mériterai perfectionnement en permanance car au final, une application n'est jamais vraiment terminée.
 
 ...
