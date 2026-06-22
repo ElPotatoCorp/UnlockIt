@@ -34,6 +34,13 @@ export class CartController {
     return { total: await this.cartService.total(cartId) };
   }
 
+  @CartControllerDoc.Clear()
+  @Delete('clear')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  clear(@User('cartId') cartId: string) {
+    return this.cartService.clear(cartId);
+  }
+
   @CartControllerDoc.Toggle()
   @Post(':gameId/toggle')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -43,13 +50,6 @@ export class CartController {
     @Query('state', new ParseBoolPipe({ optional: true })) state?: boolean,
   ) {
     return this.cartService.toggle(cartId, gameId, state);
-  }
-
-  @CartControllerDoc.Clear()
-  @Delete('clear')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  clear(@User('cartId') cartId: string) {
-    return this.cartService.clear(cartId);
   }
 
   @CartControllerDoc.Add()
