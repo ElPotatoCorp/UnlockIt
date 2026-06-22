@@ -25,7 +25,7 @@ export class OrderEntity implements IOrderEntity {
   id: string;
 
   @OrderEntityDoc.UserId(false)
-  @Column('uuid', { name: 'user_id' })
+  @Column('uuid', { name: 'user_id', nullable: true })
   userId: string | null;
 
   @OrderEntityDoc.Status()
