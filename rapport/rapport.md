@@ -2364,63 +2364,211 @@ Login: () =>
   ),
 ```
 
-Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner un identifiant et exécuter réellement la requête.
+Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner des informations et exécuter réellement la requête.
 
 <div class="before">
 <h3>Avant</h3>
 
-```php
-/**
- * GET /api/games
- * List all games with pagination
- */
-public function index(Request $request): void { /* Implémentation */ }
+Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit via <a href="https://www.usebruno.com/">Bruno</a>, indépendant du code de la route :
 
-/**
- * GET /api/games/{id}
- * Get a single game by ID
- */
-public function show(Request $request, string $id): void { /* Implémentation */ }
-```
+![Interface Bruno](src/assets/bruno.png)
+*Figure – Interface Bruno avec requête login exécuté .*
+
+Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même.
 
 </div>
 
 <div class="after">
 <h3>Après</h3>
 
-![Capture de l'interface Swagger pour GET /games/{id}](placeholder-swagger-ui.gif)
+Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.
 
-*Figure – Détail du endpoint généré par la déclaration ci-dessus.*
+![Capture de l'interface Swagger pour POST /auth/login](src/assets/swagger-showcase.gif)
 
-Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit à la main, indépendant du code de la route :
-
-```bru
-get {
-  url: {{base_url}}/api/games/:id
-}
-
-tests {
-  test("Response structure is correct", function() {
-    if (res.status === 200) {
-      expect(res.body).to.have.property('id');
-      expect(res.body).to.have.property('name');
-      expect(res.body).to.have.property('price');
-    }
-  });
-}
-```
+*Figure – Détail du endpoint généré par la déclaration ci-dessus avec exécution de la requête et résultat affiché directement dans l'interface.*
 
 </div>
 
-Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même. Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.
 
-![Exécution d'une requête depuis Swagger UI via Try it out](placeholder-swagger-tryitout.gif)
-
-*Figure – Exécution de la requête et résultat affiché directement dans l'interface.*
-
-Cette bascule a une contrepartie que nous détaillons en 3.5 : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.
+Cette bascule a une contrepartie que nous détaillons en <a href="#35-difficultés-rencontrées-et-solutions">3.5</a> : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.
 
 ## 3.5 Difficultés rencontrées et solutions
+
+### 3.5.1 Tester sans suite automatisée : Swagger comme filet de sécurité
+
+Contrairement au frontend, qui dispose d'une suite de tests automatisés avec Playwright (voir <a href="#25-tests-automatisés">2.5</a>), le backend n'en a pas eu : le temps disponible a été investi en priorité dans l'architecture elle-même. Cela ne supprime pas le besoin de vérifier qu'un comportement précis fonctionne, en particulier avec des valeurs limites ou inhabituelles (un prix négatif, un identifiant inexistant, un champ manquant).
+
+C'est là que la documentation Swagger, déjà décrite en <a href="#342-la-documentation-swagger-comme-garde-fou">3.4.2</a>, a fini par jouer un second rôle, non prévu au départ : chaque route déjà documentée propose une interface où l'on peut directement saisir une valeur précise et observer la réponse réelle de l'API, sans écrire la moindre ligne de test. Ce n'est pas un remplacement satisfaisant à une suite automatisée, rien n'est rejoué automatiquement, rien n'empêche une régression silencieuse, mais cela a couvert l'essentiel de nos besoins de vérification ponctuelle pendant le développement.
+
+### 3.5.2 Les nombres décimaux et les grands entiers sous TypeORM
+
+Deux types posent un problème similaire avec PostgreSQL : les colonnes décimales et les grands entiers (bigint) sont tous deux renvoyés sous forme de texte par défaut, pour éviter une perte de précision silencieuse. Sans intervention, le champ <code class="c">price</code> d'un jeu serait par exemple reçu comme la chaîne <code class="c">"59.99"</code> plutôt que le nombre <code class="c">59.99</code>.
+
+Pour les colonnes décimales, la solution est un transformer attaché à la colonne :
+
+```ts
+export class DecimalColumnTransformer {
+  to(data: number): number {
+    return data;
+  }
+  from(data: string): number {
+    return parseFloat(data);
+  }
+}
+```
+
+Pour les identifiants en bigint, le même problème se règle au niveau du pilote, une seule fois pour toute l'application :
+
+```ts
+parseInt8: true,
+```
+
+Les deux solutions ne se ressemblent pas, mais répondent à la même cause : PostgreSQL et le pilote sous-jacent privilégient la sécurité (ne jamais perdre en précision) à la commodité, et c'est au développeur de redemander explicitement un nombre quand un nombre est réellement attendu.
+
+### 3.5.3 Un système de seeding fait maison pour les données de test
+
+TypeORM fournit des migrations pour versionner le schéma, mais ne propose aucun système de seeding : remplir la base avec des données réalistes reste entièrement à la charge du développeur. Or nous en avions besoin en permanence, pour développer dans des conditions proches du réel, et pour tester manuellement via Swagger (voir <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a>) avec des comptes et des jeux qui existent vraiment.
+
+Toute factory repose sur un même contrat minimal :
+
+```ts
+export abstract class Factory<T> {
+  abstract get entity(): EntityTarget<T>;
+  abstract definition(): Partial<T> | Promise<Partial<T>>;
+
+  /* Code */
+}
+```
+
+Une factory n'a que deux choses à dire : à quelle entité elle correspond, et comment remplir une instance. Tout le reste (créer une instance, en créer plusieurs, les enregistrer, vérifier qu'une connexion à la base est bien disponible) est écrit une seule fois, dans la classe de base.
+
+<details class="accordion">
+<summary>Voir l'implémentation complète de Factory</summary>
+
+```ts
+export abstract class Factory<T> {
+  async make(overrides = {}) {
+    return { ...(await this.definition()), ...overrides };
+  }
+
+  async makeMany(count: number, overrides = {}) {
+    return Promise.all(Array.from({ length: count }, () => this.make(overrides)));
+  }
+
+  async create(overrides = {}) {
+    const [result] = await this.createMany(1, overrides);
+    return result;
+  }
+
+  async createMany(count: number, overrides = {}) {
+    this.assertDatasource();
+    const items = this.datasource.manager.create(this.entity, await this.makeMany(count, overrides));
+    return this.datasource.manager.save(this.entity, items);
+  }
+
+  protected assertDatasource() {
+    /* vérifie que le datasource existe et est initialisé */
+  }
+}
+```
+
+</details>
+
+Le cas le plus simple, <code class="c">UserFactory</code>, se limite à peu près à ce contrat :
+
+```ts
+export class UserFactory extends Factory<UserEntity> {
+  get entity() {
+    return UserEntity;
+  }
+
+  definition() {
+    const randomStr = Math.random().toString(36).substring(2, 15);
+    const password = `Test${randomStr}!Aa`; // voir ci-dessous
+
+    return {
+      username: this.fk.internet.username(),
+      email: this.fk.internet.email(),
+      password,
+      phoneNumber: this.fk.datatype.boolean() ? this.fk.phone.number() : null,
+      cart: {},
+    };
+  }
+}
+```
+
+<code class="c">GameFactory</code> est nettement plus ambitieuse : plutôt que d'inventer des jeux au hasard, elle pioche parmi des fiches réelles, une par fichier JSON :
+
+```ts
+interface GameJson {
+  name: string;
+  type: string;
+  tags: string[];
+  developers: string[];
+  publishers: string[];
+  price: number;
+  series: { name: string; slug: string } | null;
+  /* ... */
+}
+```
+
+Chacun des jeux fournis avec le projet est décrit par un fichier de ce type. La factory choisit un jeu pas encore présent en base, puis reconstruit le jeu complet à partir du JSON : étiquettes, développeurs, éditeurs, médias et série inclus. La difficulté n'est pas de créer un jeu, mais de ne pas dupliquer ce qu'il partage avec les autres : si soixante jeux ont l'étiquette « Action », elle ne doit exister qu'une seule fois en base.
+
+<details class="accordion">
+<summary>Voir l'implémentation (transaction et déduplication)</summary>
+
+```ts
+private async persist(game: GameEntity) {
+  return this.datasource.transaction(async (manager) => {
+    const savedTags = await Promise.all(
+      game.tags.map((t) => this.upsertByName(manager, TagEntity, { name: t.name })),
+    );
+    /* même logique pour developers, publishers, series */
+
+    const savedGame = await manager.save(GameEntity, game);
+    await manager.createQueryBuilder().relation(GameEntity, 'tags').of(savedGame.id).add(savedTags.map((t) => t.id));
+    /* même logique pour developers, publishers */
+
+    return game;
+  });
+}
+
+private async upsertByName(manager, target, values) {
+  // INSERT ... ON CONFLICT DO NOTHING, puis recherche si rien n'a été inséré
+}
+```
+
+</details>
+
+<code class="c">StockFactory</code> est plus modeste : elle génère une clé de produit aléatoire et la rattache à un jeu existant, choisi au hasard si aucun n'est précisé. Le script <code class="c">seed.ts</code> orchestre les trois, et contient quelques détails révélateurs de son écriture rapide :
+
+```ts
+const FACTORIES: [name: string, factory: any][] = [
+  ['users', UserFactory],
+  ['games', GameFactory],
+  ['stocks', StockFactory],
+];
+```
+
+```ts
+if (process.env.NODE_ENV === 'production') {
+  console.error('ERROR: Database commands cannot be executed in a PRODUCTION environment!');
+  process.exit(1);
+}
+```
+
+Le second extrait n'est pas anecdotique : un script capable de remplir la base ne doit jamais pouvoir s'exécuter par erreur sur une base de production. Le script crée enfin systématiquement un compte fixe, avec des identifiants connus à l'avance et le rôle le plus permissif :
+
+```ts
+userFactory.create({
+  username: 'TestUser',
+  email: 'test@test.test',
+  password: 'Test123&',
+  employee: { role: EmployeeRole.OWNER },
+});
+```
+
+C'est ce compte qui rend le filet de sécurité décrit en <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a> réellement pratique : tester une route réservée aux administrateurs depuis Swagger ne demande pas de fouiller des données aléatoires, l'identifiant et le mot de passe sont toujours les mêmes. En une seule commande, ce système installe une base entière (quelques utilisateurs, soixante-quatre jeux, dix mille clés de produit) directement utilisable, ce que TypeORM ne propose pas nativement.
 
 ...
 
