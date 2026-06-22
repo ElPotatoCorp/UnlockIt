@@ -30,7 +30,7 @@ body {
   font-size: 18px;
   max-width: 1200px;
   margin: auto;
-  padding: 0 60px;
+  padding: 0 60px 60px 60px;
   line-height: 1.8;
   color: var(--text-black);
   background: var(--bg-white);
