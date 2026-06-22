@@ -1,65 +1,135 @@
 .field {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.field:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .label {
-    font-family: var(--font-title);
-    color: var(--color-green);
-    font-size: var(--text-h3);
+    font-family: var(--font-text);
+    color: var(--color-mist);
+    font-size: var(--text-body);
+    flex-shrink: 0;
+    min-width: 120px;
 }
 
 .valueRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: 1;
+    gap: 12px;
 }
 
 .value {
     color: var(--color-white);
-    opacity: 0.8;
-}
-
-.editBtn,
-.saveBtn,
-.cancelBtn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    cursor: var(--cursor-pointer);
     font-family: var(--font-text);
-    transition: background 0.3s ease;
+    font-size: var(--text-body);
 }
 
 .editBtn {
-    background: var(--color-carbon);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--color-carbon);
+    background: transparent;
+    color: var(--color-mist);
+    font-family: var(--font-text);
+    font-size: var(--text-tiny);
+    cursor: var(--cursor-pointer);
+    transition: border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
 }
 
 .editBtn:hover {
-    background: var(--color-smoke);
+    border-color: var(--color-white);
+    color: var(--color-white);
 }
 
 .editRow {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
+    flex: 1;
 }
 
 .input {
-    padding: 8px 12px;
+    flex: 1;
+    padding: 6px 10px;
     border-radius: 6px;
     border: 1px solid var(--color-carbon);
     background: var(--color-tar);
     color: var(--color-white);
     font-family: var(--font-text);
+    font-size: var(--text-body);
+    transition: border-color 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-blue);
 }
 
 .saveBtn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: none;
     background: var(--color-blue);
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: var(--text-tiny);
+    cursor: var(--cursor-pointer);
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.saveBtn:hover:not(:disabled) {
+    opacity: 0.85;
+}
+
+.saveBtn:disabled {
+    opacity: 0.5;
+    cursor: var(--cursor-not-allowed);
 }
 
 .cancelBtn {
-    background: var(--color-error);
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--color-carbon);
+    background: transparent;
+    color: var(--color-mist);
+    font-family: var(--font-text);
+    font-size: var(--text-tiny);
+    cursor: var(--cursor-pointer);
+    transition: border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cancelBtn:hover {
+    border-color: var(--color-error);
+    color: var(--color-error);
+}
+
+/* Layout mobile */
+@media (max-width: 600px) {
+    .field {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .label {
+        min-width: auto;
+    }
+
+    .valueRow,
+    .editRow {
+        width: 100%;
+    }
 }

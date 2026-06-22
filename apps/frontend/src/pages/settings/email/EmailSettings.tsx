@@ -1,64 +1,73 @@
-import { type FC, type FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useIdentifierValidation } from "../../../components/common/form/identifier-input/identifier.validator";
+import { IdentifierInput } from "../../../components/common/form/identifier-input/IdentifierInput";
+import { useUser } from "../../../api/hooks/useUser.hook";
 import cardStyles from "../../../styles/card.module.css";
 import styles from "./emailSettings.module.css";
-import { useUser } from "../../../api/hooks/useUser.hook";
+import { Button } from "../../../components/common/button/Button";
+import { Card } from "../../../components/common/card/Card";
 
-export const EmailSettings: FC = () => {
+type FormData = {
+  email: string;
+  confirm: string;
+};
+
+export const useEmailConditions = () => {
+  return {
+    hasAt: (v: string) => v.includes("@"),
+    hasDomain: (v: string) => /\.[a-z]{2,}$/i.test(v),
+    hasNoSpaces: (v: string) => !/\s/.test(v),
+    hasMinLength: (v: string) => v.length >= 6,
+  };
+};
+
+export const EmailSettings = () => {
   const { user, saveUser } = useUser();
-  const [email, setEmail] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const emailRules = useIdentifierValidation({ mode: "email" });
+  const conditions = useEmailConditions();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+    setError,
+    reset,
+  } = useForm<FormData>();
+
+  const emailValue = watch("email", "");
+  const confirmValue = watch("confirm", "");
 
   if (!user) return null;
 
-  const currentEmail = user.email || "Non renseigné";
   const maskedEmail = user.email
-    ? currentEmail.replace(/(.{3}).+(@.+)/, "$1***$2")
+    ? user.email.replace(/(.{3}).+(@.+)/, "$1***$2")
     : "Non renseigné";
 
-  const hasAt = email.includes("@");
-  const hasDomain = /\.[a-z]{2,}$/.test(email);
-  const hasNoSpaces = !/\s/.test(email);
-  const hasMinLength = email.length >= 6;
+  const onSubmit = async ({ email, confirm }: FormData) => {
+    if (email !== confirm) {
+      setError("confirm", { message: "Les adresses ne correspondent pas." });
+      return;
+    }
 
-  const isValidFormat = hasAt && hasDomain && hasNoSpaces && hasMinLength;
-  const isMatch = email.length > 0 && email === confirm;
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setErrorMessage(null);
-
-    if (!isValidFormat || !isMatch) return;
-
-    setStatus("loading");
     try {
       await saveUser({ email });
-      setStatus("success");
-      setEmail("");
-      setConfirm("");
+      reset();
     } catch (err: any) {
-      setStatus("error");
-      setErrorMessage(err.message || "Une erreur est survenue côté serveur");
+      setError("root", { message: err.message });
     }
   };
 
   return (
-    <section className={`${cardStyles.card} ${styles.emailCard}`}>
+    <Card className={styles.emailCard}>
       <h2 className={cardStyles.cardTitle}>Adresse mail</h2>
 
-      <p className={cardStyles.cardText}>
-        Gérez l’adresse mail liée à votre compte. Vous pouvez la mettre à jour et la confirmer pour rester
-        joignable.
-      </p>
+      <form className={cardStyles.cardForm} onSubmit={handleSubmit(onSubmit)}>
 
-      <form className={cardStyles.cardForm} onSubmit={handleSubmit}>
+        {/* Email actuel */}
         <div className={styles.inputWrapper}>
-          <label htmlFor="currentEmail" className={cardStyles.cardLabel}>
-            Adresse actuelle
-          </label>
+          <label className={cardStyles.cardLabel}>Adresse actuelle</label>
           <input
-            id="currentEmail"
             type="text"
             value={maskedEmail}
             readOnly
@@ -66,75 +75,59 @@ export const EmailSettings: FC = () => {
           />
         </div>
 
-        <div className={styles.inputWrapper}>
-          <label htmlFor="newEmail" className={cardStyles.cardLabel}>
-            Nouvelle adresse mail
-          </label>
-          <input
-            id="newEmail"
-            type="email"
-            placeholder="exemple@domaine.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={cardStyles.cardInput}
-          />
+        {/* Nouveau mail */}
+        <IdentifierInput
+          id="newEmail"
+          label="Nouvelle adresse mail"
+          placeholder="exemple@domaine.com"
+          mode="email"
+          register={register("email", emailRules)}
+          error={errors.email?.message}
+        />
 
-          {email && (
-            <ul className={styles.emailConditionsList}>
-              <li className={hasAt ? styles.emailConditionsSuccess : styles.emailConditionsError}>
-                Contient un @
-              </li>
-              <li className={hasDomain ? styles.emailConditionsSuccess : styles.emailConditionsError}>
-                Domaine valide (.com, .fr, etc.)
-              </li>
-              <li className={hasNoSpaces ? styles.emailConditionsSuccess : styles.emailConditionsError}>
-                Ne contient pas d’espace
-              </li>
-              <li className={hasMinLength ? styles.emailConditionsSuccess : styles.emailConditionsError}>
-                Au moins 6 caractères
-              </li>
-            </ul>
-          )}
-        </div>
-
-        <div className={styles.inputWrapper}>
-          <label htmlFor="confirmEmail" className={cardStyles.cardLabel}>
-            Confirmer adresse mail
-          </label>
-          <input
-            id="confirmEmail"
-            type="email"
-            placeholder="Confirmer votre adresse"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className={cardStyles.cardInput}
-          />
-
-          {!isMatch && confirm && (
-            <p className={`${cardStyles.cardMessage} ${cardStyles.cardError}`}>
-              Les adresses ne correspondent pas
-            </p>
-          )}
-        </div>
-
-        {status === "error" && errorMessage && (
-          <p className={`${cardStyles.cardMessage} ${cardStyles.cardError}`}>{errorMessage}</p>
+        {/* Conditions live */}
+        {emailValue && (
+          <ul className={styles.emailConditionsList}>
+            <li className={conditions.hasAt(emailValue) ? styles.ok : styles.ko}>
+              Contient un @
+            </li>
+            <li className={conditions.hasDomain(emailValue) ? styles.ok : styles.ko}>
+              Domaine valide (.com, .fr…)
+            </li>
+            <li className={conditions.hasNoSpaces(emailValue) ? styles.ok : styles.ko}>
+              Pas d’espace
+            </li>
+            <li className={conditions.hasMinLength(emailValue) ? styles.ok : styles.ko}>
+              Minimum 6 caractères
+            </li>
+          </ul>
         )}
 
-        {status === "success" && (
-          <p className={`${cardStyles.cardMessage} ${cardStyles.cardSuccess}`}>
-            Votre adresse mail a été mise à jour avec succès
-          </p>
+        {/* Confirmation */}
+        <IdentifierInput
+          id="confirmEmail"
+          label="Confirmer adresse mail"
+          placeholder="Confirmer votre adresse"
+          mode="email"
+          register={register("confirm", {
+            required: "Champ requis",
+            validate: (v) =>
+              v === emailValue || "Les adresses ne correspondent pas.",
+          })}
+          error={errors.confirm?.message}
+        />
+
+        {errors.root && (
+          <p className={cardStyles.cardError}>{errors.root.message}</p>
         )}
 
-        <button
+        <Button
           type="submit"
-          className={cardStyles.cardButton}
-          disabled={!isValidFormat || !isMatch || status === "loading"}
+          disabled={isSubmitting}
         >
-          {status === "loading" ? "Mise à jour..." : "Mettre à jour"}
-        </button>
+          {isSubmitting ? "Mise à jour…" : "Mettre à jour"}
+        </Button>
       </form>
-    </section>
+    </Card>
   );
 };

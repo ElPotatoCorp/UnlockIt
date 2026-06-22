@@ -57,11 +57,17 @@ export const PasswordSettings = () => {
           register={register("password", passwordValidation.rules)}
           error={errors.password?.message}
           value={passwordValue}
+          conditions={passwordValidation.conditions}
+          showConditions
         />
 
         <PasswordInput
           label="Confirmer le mot de passe"
-          register={register("confirm", { required: "Champ requis" })}
+          register={register("confirm", {
+            required: "Champ requis",
+            validate: (value) =>
+              value === passwordValue || "Les mots de passe ne correspondent pas."
+          })}
           error={errors.confirm?.message}
           value={confirmValue}
         />
