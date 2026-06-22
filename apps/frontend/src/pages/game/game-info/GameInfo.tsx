@@ -1,94 +1,122 @@
 import { Link } from "react-router-dom";
-import cardStyles from "../../../styles/card.module.css";
 import styles from "./gameInfo.module.css";
+import type { GameDetail, GamePlatform } from "@unlockit/shared";
 
-/*
-import iconMacOs from "/images/mac-os.png";
-import iconLinux from "/images/linux.png";
-import iconWindows from "/images/windows.png";
-*/
-const iconMacOs = "";
-const iconLinux = "";
-const iconWindows = "";
+// Import des icônes
+import IconWindows from "../../../assets/windows.svg?react";
+import IconMac from "../../../assets/mac-os.svg?react";
+import IconLinux from "../../../assets/linux.svg?react";
+import IconIos from "../../../assets/ios.svg?react";
+import IconAndroid from "../../../assets/android.svg?react";
+import IconSwitch from "../../../assets/switch.svg?react";
+import IconPlayStation from "../../../assets/playstation.svg?react";
+import IconXboxOne from "../../../assets/xbox-one.svg?react";
+import IconXboxSeries from "../../../assets/xbox-series.svg?react";
+import { Card } from "../../../components/common/card/Card";
 
-import type { GameDetail } from "@unlockit/shared";
+// Mapping plateforme → icône
+const PLATFORM_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+    windows: IconWindows,
+    mac: IconMac,
+    linux: IconLinux,
+    ios: IconIos,
+    android: IconAndroid,
+    switch: IconSwitch,
+    ps4: IconPlayStation,
+    ps5: IconPlayStation,
+    xboxOne: IconXboxOne,
+    xboxSeries: IconXboxSeries,
+};
 
-export const GameInfo = ({ game }: { game: GameDetail }) => (
-    <div className={cardStyles.card}>
-        <div className={cardStyles.cardBox}>
+type PlatformKey = keyof GamePlatform;
 
+const VALID_PLATFORMS: PlatformKey[] = [
+    "windows", "mac", "linux", "ios", "android",
+    "switch", "ps4", "ps5", "xboxOne", "xboxSeries"
+];
+
+
+export const GameInfo = ({ game }: { game: GameDetail }) => {
+    const enabledPlatforms = VALID_PLATFORMS.filter(
+        (key) => game.platforms?.[key]
+    );
+
+    return (
+        <Card className={styles.card}>
             {/* DESCRIPTION */}
-            <span className={cardStyles.cardLabel}>Description :</span>
-            <div
-                className={`${styles.valueWrapper} ${styles.richText}`}
-                dangerouslySetInnerHTML={{ __html: game.detailedDescription }}
-            />
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Description :</span>
+                <div
+                    className={`${styles.value} ${styles.richText}`}
+                    dangerouslySetInnerHTML={{ __html: game.detailedDescription }}
+                />
+            </div>
 
             {/* CLASSIFICATION */}
-            <span className={cardStyles.cardLabel}>Classification :</span>
-            <div className={styles.valueWrapper}>
-                <span className={cardStyles.boxValue}>{game.ageRating}</span>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Classification :</span>
+                <span className={styles.value}>{game.ageRating}</span>
             </div>
 
             {/* TAGS */}
-            <span className={cardStyles.cardLabel}>Tags :</span>
-            <ul className={styles.rowList}>
-                {game.tags.map((tag) => (
-                    <li key={tag.id}>{tag.name}</li>
-                ))}
-            </ul>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Tags :</span>
+                <ul className={styles.rowList}>
+                    {game.tags.map((tag) => (
+                        <li key={tag.id}>{tag.name}</li>
+                    ))}
+                </ul>
+            </div>
 
             {/* PLATEFORMES */}
-            <span className={cardStyles.cardLabel}>Plateformes :</span>
-            <ul className={styles.rowList}>
-                {game.platforms?.windows && (
-                    <li>
-                        Windows <img src={iconWindows} className={styles.platformIcon} />
-                    </li>
-                )}
-                {game.platforms?.mac && (
-                    <li>
-                        MacOS <img src={iconMacOs} className={styles.platformIcon} />
-                    </li>
-                )}
-                {game.platforms?.linux && (
-                    <li>
-                        Linux <img src={iconLinux} className={styles.platformIcon} />
-                    </li>
-                )}
-            </ul>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Plateformes :</span>
+                <ul className={styles.rowList}>
+                    {enabledPlatforms.map((platform) => {
+                        const Icon = PLATFORM_ICONS[platform];
+                        return (
+                            <li key={platform} className={styles.platformItem}>
+                                {platform}
+                                {Icon && <Icon className={styles.platformIcon} />}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
 
             {/* LANGUES */}
-            <span className={cardStyles.cardLabel}>Langues supportées :</span>
-            <ul className={styles.rowList}>
-                {game.supportedLanguages?.map((lang) => (
-                    <li key={lang}>{lang.toUpperCase()}</li>
-                ))}
-            </ul>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Langues supportées :</span>
+                <ul className={styles.rowList}>
+                    {game.supportedLanguages?.map((lang) => (
+                        <li key={lang}>{lang.toUpperCase()}</li>
+                    ))}
+                </ul>
+            </div>
 
             {/* CONFIGURATION PC */}
             {game.pcRequirements && (
-                <>
-                    <span className={cardStyles.cardLabel}>Configuration PC :</span>
+                <div className={styles.infoBlock}>
+                    <span className={styles.label}>Configuration PC :</span>
                     <div
-                        className={`${styles.valueWrapper} ${styles.richText}`}
+                        className={`${styles.value} ${styles.richText}`}
                         dangerouslySetInnerHTML={{ __html: game.pcRequirements }}
                     />
-                </>
+                </div>
             )}
 
             {/* DÉVELOPPEURS */}
-            <span className={cardStyles.cardLabel}>Développeur :</span>
-            <div className={styles.valueWrapper}>
-                <span className={cardStyles.boxValue}>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Développeur :</span>
+                <span className={styles.value}>
                     {game.developers.map((d) => d.name).join(", ")}
                 </span>
             </div>
 
             {/* ÉDITEURS */}
-            <span className={cardStyles.cardLabel}>Éditeur :</span>
-            <div className={styles.valueWrapper}>
-                <span className={cardStyles.boxValue}>
+            <div className={styles.infoBlock}>
+                <span className={styles.label}>Éditeur :</span>
+                <span className={styles.value}>
                     {game.publishers.map((p) => p.name).join(", ")}
                 </span>
             </div>
@@ -99,11 +127,11 @@ export const GameInfo = ({ game }: { game: GameDetail }) => (
                     to={game.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={cardStyles.cardLink}
+                    className={styles.link}
                 >
                     Site officiel →
                 </Link>
             )}
-        </div>
-    </div>
-);
+        </Card>
+    );
+};

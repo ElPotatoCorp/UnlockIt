@@ -8,6 +8,9 @@ import IconLike from "../../../../assets/like.svg?react";
 import IconDislike from "../../../../assets/dislike.svg?react";
 
 import { useDebounce } from "use-debounce";
+import { Card } from "../../../../components/common/card/Card";
+import { useAuth } from "../../../../api/hooks/useAuth.hook";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     review: Review;
@@ -15,6 +18,9 @@ interface Props {
 
 export const ReviewItem = ({ review }: Props) => {
     const { voteReview } = useReviews();
+    const { isLogged } = useAuth();
+    const navigate = useNavigate();
+
 
     // Vote actif
     const [userVote, setUserVote] = useState<"like" | "dislike" | null>(null);
@@ -41,15 +47,34 @@ export const ReviewItem = ({ review }: Props) => {
     }, [debouncedVote]);
 
     const handleVote = (helpfulVote: boolean) => {
+        if (!isLogged) {
+            navigate("/login");
+            return;
+        }
+
         const voteType = helpfulVote ? "like" : "dislike";
 
-        // Mise à jour instantanée
-        if (helpfulVote) {
-            setHelpful((v) => v + 1);
-            if (userVote === "dislike") setUnHelpful((v) => v - 1);
-        } else {
+        if (userVote === voteType) {
+            if (voteType === "like") setHelpful((v) => v - 1);
+            else setUnHelpful((v) => v - 1);
+
+            setUserVote(null);
+            setPendingVote(null);
+            return;
+        }
+
+        if (userVote === "like" && voteType === "dislike") {
+            setHelpful((v) => v - 1);
             setUnHelpful((v) => v + 1);
-            if (userVote === "like") setHelpful((v) => v - 1);
+        } else if (userVote === "dislike" && voteType === "like") {
+            setUnHelpful((v) => v - 1);
+            setHelpful((v) => v + 1);
+        }
+
+        // Cas 3 : premier vote
+        if (userVote === null) {
+            if (voteType === "like") setHelpful((v) => v + 1);
+            else setUnHelpful((v) => v + 1);
         }
 
         setUserVote(voteType);
@@ -57,7 +82,7 @@ export const ReviewItem = ({ review }: Props) => {
     };
 
     return (
-        <div className={styles.card}>
+        <Card>
             <ReviewAuthor userId={review.userId} />
 
             <p className={styles.content}>{review.content}</p>
@@ -85,6 +110,6 @@ export const ReviewItem = ({ review }: Props) => {
                     <span>{unHelpful}</span>
                 </button>
             </div>
-        </div>
+        </Card>
     );
 };

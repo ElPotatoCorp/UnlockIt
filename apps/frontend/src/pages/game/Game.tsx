@@ -36,19 +36,20 @@ const Game = () => {
         type="article"
       />
 
-      {/* TITRE */}
       <h1 className={styles.title}>{name}</h1>
 
-      {/* SECTION PRINCIPALE */}
       <div className={styles.main}>
-        <MediaCarousel media={media} />
+        <div className={styles.carouselWrapper}>
+          <MediaCarousel media={media} />
+        </div>
 
-        <GameSummary game={selectedGame} />
+        <div className={styles.summaryWrapper}>
+          <GameSummary game={selectedGame} />
+        </div>
       </div>
 
       <GameInfo game={selectedGame} />
 
-      {/* COMMENTAIRES */}
       <section className={styles.section}>
         <h2>Commentaires</h2>
         <ReviewsSection gameId={selectedGame.id} />
