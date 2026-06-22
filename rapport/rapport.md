@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="./src/style.css">
 <link rel="stylesheet" href="./src/hljs.css">
 
-<script src="./src/mermaid.min.js"></script> + rm 2nd styles + pseudo ref name
-
 <header class="sticky-header">
     <span class="header-title">Rapport SAÉ 4.01 - Qualité</span>
     <img src="src/assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
@@ -20,11 +18,11 @@
     <div class="cover-authors">
         <div class="info-line">Mars – Juin 2026</div>
         <div class="info-line authors">
-            <a href="https://github.com/Frozen1753" target="_blank">Frozen1753</a>
+            <a href="https://github.com/Frozen1753" target="_blank">Eliot NADOUCE BOUROTTE (Frozen1753)</a>
             <span>&</span>
-            <a href="https://github.com/ElPotatoCorp" target="_blank">ElPotato</a>
+            <a href="https://github.com/ElPotatoCorp" target="_blank">Noah GAUCHE PEREIRA (ElPotato)</a>
         </div>
-        <div class="info-line">BUT Informatique</div>
+        <div class="info-line">IUT de Nevers, BUT Informatique</div>
 </div>
 
 </div>
@@ -61,9 +59,6 @@
     <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
     <li><a href="#5-conclusion">5. Conclusion</a></li>
     <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
-    <li class="lvl2"><a href="#511-frontend">5.1.1 Frontend</a></li>
-    <li class="lvl2"><a href="#512-backend">5.1.2 Backend</a></li>
-    <li class="lvl2"><a href="#513-infrastructure">5.1.3 Infrastructure</a></li>
     <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 
@@ -163,7 +158,7 @@ Lors des périodes de télétravail, nous travaillions dans le même salon vocal
 <div class="card">
 
 <a href="https://github.com/Frozen1753" target="_blank">
-    <h3>Frozen1753</h3>
+    <h3>Eliot NADOUCE BOUROTTE (Frozen1753)</h3>
 </a>
 
 **Compétences techniques**
@@ -186,7 +181,7 @@ Frontend • UX/UI Design • Design graphique • Optimisation • Testing
 <div class="card">
 
 <a href="https://github.com/ElPotatoCorp" target="_blank">
-    <h3>ElPotato</h3>
+    <h3>Noah GAUCHE PEREIRA (ElPotato)</h3>
 </a>
 
 **Compétences techniques**
@@ -2935,7 +2930,7 @@ Cette refonte apporte des bénéfices tangibles : des types qui ne peuvent plus 
 
 ## 5.2 Perspectives
 
-### 5.2.1 Frozen1753
+### 5.2.1 Eliot
 
 Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances "à l’oeil", sans jamais avoir réelement mesuré quoi que ce soit. Découvrir des outils comme **React Scan** ou le Profiler de **React Developer Tools** a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. Les chunks et le build du frontend n'avaient jamais été abordé auparavant car nous ne quittions jamais le mode dev dans les projets comme pour les cours.
 
@@ -2945,7 +2940,7 @@ J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100%
 
 Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.
 
-### 5.2.2 ElPotato
+### 5.2.2 Noah
 
 En prenant en compte toutes les différences entre l'ancien projet et le nouveau, je me rends compte de à quel point un framework ça fait beaucoup do chose pour les devs, limitant énormement la friction lors du développement. Comme je l'ai décrit dans la section <a href="#341-un-module-complet-presque-par-accident">3.4.1</a>, c'est à peine j'écrivais deux trois lignes de code qu'une nouvelle fonctionnalité était implémenté grâce à des outils hyper modulaires mais sans pour autant enlever une charge lourde de travail qui est l'organisation, que ce soit des fichiers, endpoints ou des tâches spécifiques, j'ai passé une grande majorité de mon temps à faire en sorte qu'un typage soit toujours respecté, que les DTOs aient le plus de validator pour laisser le moins de place possible à l'erreur ainsi que de bien gérer ce qui est retourné ou accessible afin de garder les données sécurisés et confidentielles si nécessaires.
 

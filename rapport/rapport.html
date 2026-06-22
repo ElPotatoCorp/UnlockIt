@@ -227,82 +227,6 @@ pre code {
 </style>
 
 <style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
-
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
-
-.hljs-emphasis {
-	font-style: italic;
-}
-
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-<style>
 /*
  * Markdown PDF CSS
  */
@@ -354,7 +278,7 @@ code {
 
 </style>
 
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script src="./src/mermaid.min.js"></script>
 </head>
 <body>
   <script>
@@ -367,7 +291,6 @@ code {
   </script>
 <link rel="stylesheet" href="./src/style.css">
 <link rel="stylesheet" href="./src/hljs.css">
-&lt;script src="./src/mermaid.min.js">&lt;/script> + rm 2nd styles + pseudo ref name
 <header class="sticky-header">
     <span class="header-title">Rapport SAÉ 4.01 - Qualité</span>
     <img src="src/assets/unlock-it.svg" alt="UnlockIt Logo" class="header-logo">
@@ -383,11 +306,11 @@ code {
     <div class="cover-authors">
         <div class="info-line">Mars – Juin 2026</div>
         <div class="info-line authors">
-            <a href="https://github.com/Frozen1753" target="_blank">Frozen1753</a>
+            <a href="https://github.com/Frozen1753" target="_blank">Eliot NADOUCE BOUROTTE (Frozen1753)</a>
             <span>&</span>
-            <a href="https://github.com/ElPotatoCorp" target="_blank">ElPotato</a>
+            <a href="https://github.com/ElPotatoCorp" target="_blank">Noah GAUCHE PEREIRA (ElPotato)</a>
         </div>
-        <div class="info-line">BUT Informatique</div>
+        <div class="info-line">IUT de Nevers, BUT Informatique</div>
 </div>
 </div>
 <div class="page-break"></div>
@@ -419,9 +342,6 @@ code {
     <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
     <li><a href="#5-conclusion">5. Conclusion</a></li>
     <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
-    <li class="lvl2"><a href="#511-frontend">5.1.1 Frontend</a></li>
-    <li class="lvl2"><a href="#512-backend">5.1.2 Backend</a></li>
-    <li class="lvl2"><a href="#513-infrastructure">5.1.3 Infrastructure</a></li>
     <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 </div>
@@ -487,7 +407,7 @@ code {
 <h3 id="122-les-membres">1.2.2 Les membres</h3>
 <div class="card">
 <a href="https://github.com/Frozen1753" target="_blank">
-    <h3>Frozen1753</h3>
+    <h3>Eliot NADOUCE BOUROTTE (Frozen1753)</h3>
 </a>
 <p><strong>Compétences techniques</strong></p>
 <ul>
@@ -505,7 +425,7 @@ Frontend • UX/UI Design • Design graphique • Optimisation • Testing</p>
 </div>
 <div class="card">
 <a href="https://github.com/ElPotatoCorp" target="_blank">
-    <h3>ElPotato</h3>
+    <h3>Noah GAUCHE PEREIRA (ElPotato)</h3>
 </a>
 <p><strong>Compétences techniques</strong></p>
 <ul>
@@ -2597,12 +2517,12 @@ $$;
 <p>La refonte de l'infrastructure entourant le projet a permis de transformer deux applications qui partageaient un dépôt sans jamais vraiment communiquer en un ensemble réellement coordonné. L'organisation en workspaces npm (<a href="#41-une-organisation-en-monorepo">4.1</a>) et la mise en place d'un package partagé typé entre le frontend et le backend (<a href="#42-le-package-partagé-entre-frontend-et-backend">4.2</a>) ont remplacé une synchronisation reposant uniquement sur la communication entre les deux développeurs par un contrat vérifié dès la compilation, depuis le type de données défini une seule fois jusqu'au DTO qui le valide réellement côté backend. La conteneurisation du projet (<a href="#43-conteneurisation-avec-docker">4.3</a>) a par ailleurs permis de remplacer un unique <code class="c">Dockerfile</code> sans distinction entre développement et production, construit autour du serveur de développement intégré à PHP, par une image pensée spécifiquement pour le développement, consciente de la structure du monorepo qu'elle doit construire, et attentive à des détails concrets comme la propriété des fichiers générés ou la compatibilité avec SELinux.</p>
 <p>Cette refonte apporte des bénéfices tangibles : des types qui ne peuvent plus diverger silencieusement entre les deux applications, une mise en route du projet réduite à une poignée de commandes documentées, et un environnement de développement reproductible à l'identique d'un poste à l'autre. Elle laisse cependant un chantier identifié plutôt que refermé : aucune image Docker de production n'a encore été écrite pour le nouveau backend, faute de temps disponible sur le projet. Plus largement, la démarche suivie, partager une seule source de vérité plutôt que la dupliquer, et traiter l'environnement de développement comme un sujet à part entière plutôt que comme un détail secondaire, rapproche elle aussi cette partie du projet des pratiques utilisées en environnement professionnel.</p>
 <h2 id="52-perspectives">5.2 Perspectives</h2>
-<h3 id="521-frozen1753">5.2.1 Frozen1753</h3>
+<h3 id="521-eliot">5.2.1 Eliot</h3>
 <p>Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances &quot;à l’oeil&quot;, sans jamais avoir réelement mesuré quoi que ce soit. Découvrir des outils comme <strong>React Scan</strong> ou le Profiler de <strong>React Developer Tools</strong> a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. Les chunks et le build du frontend n'avaient jamais été abordé auparavant car nous ne quittions jamais le mode dev dans les projets comme pour les cours.</p>
 <p>Plusieurs chantiers commencés durant cette SAÉ mériteraient d’être poussés plus loin. Le sitemap reste aujourd’hui statique, faute de script de génération automatique à partir de la base de données (<a href="#22-référencement-et-indexation">2.2</a>) ; c’est un développement que j’aimerais intégrer si le projet venait à continuer au-delà du cadre académique. La couverture Playwright pourrait également s’étendre au-delà des premiers tests critiques faute de temps à cause de la refonte intégrale (<a href="#25-tests-automatisés">2.5</a>), et <strong>React Doctor</strong> (<a href="#23-optimisation-des-performances">2.3</a>), découvert trop tard pour être réellement exploité, est un outil que je compte essayer dès le prochain projet React.</p>
 <p>J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100% développement web et expérimenter avec <a href="#236-pixijs">PixiJS</a> pour créer des moteurs, interfaces ou prototypes visuels, pour ne pas m'arrêter à un simple arrière‑plan.</p>
 <p>Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.</p>
-<h3 id="522-elpotato">5.2.2 ElPotato</h3>
+<h3 id="522-noah">5.2.2 Noah</h3>
 <p>En prenant en compte toutes les différences entre l'ancien projet et le nouveau, je me rends compte de à quel point un framework ça fait beaucoup do chose pour les devs, limitant énormement la friction lors du développement. Comme je l'ai décrit dans la section <a href="#341-un-module-complet-presque-par-accident">3.4.1</a>, c'est à peine j'écrivais deux trois lignes de code qu'une nouvelle fonctionnalité était implémenté grâce à des outils hyper modulaires mais sans pour autant enlever une charge lourde de travail qui est l'organisation, que ce soit des fichiers, endpoints ou des tâches spécifiques, j'ai passé une grande majorité de mon temps à faire en sorte qu'un typage soit toujours respecté, que les DTOs aient le plus de validator pour laisser le moins de place possible à l'erreur ainsi que de bien gérer ce qui est retourné ou accessible afin de garder les données sécurisés et confidentielles si nécessaires.</p>
 <p>Bien que je regrette ne pas avoir eu le temps de faire de tests unitaires via Jest ou d'avoir implémenté plus d'outils maison modulaires (un peu comme le contenu du <code class="c">commons</code>) vu à la section <a href="#323-mutualisation-du-code-transverse">3.2.3</a>, je suis très satisfait de ma documentation Swagger qui est facile à lire, simple d'utilisation et surtout clean.</p>
 <p>Cependant, maintenir une documentation à jour et créer des modules plus relationnelles (genre <code class="c">tags</code>, <code class="c">publishers</code>, <code class="c">developers</code>, etc.) est un aspect très chronophage et redondant. Si le résultat est agréable, le parcours est beaucoup moins intéressant voire ennuyant par moments.</p>
