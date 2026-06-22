@@ -2,11 +2,13 @@ import { type FC, useEffect, useState } from "react";
 import styles from "./cart.module.css";
 import { useCart } from "../../api/hooks/useCart.hook";
 import { Card } from "../../components/common/card/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../../utils/hooks/useToast";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
+import { Button } from "../../components/common/button/Button";
 
 const Cart: FC = () => {
+    const navigate = useNavigate();
     const toast = useToast();
     const { cart, totalPrice, fetchCart, fetchTotal, addToCart, removeFromCart, toggleItem, clearCart } = useCart();
 
@@ -26,20 +28,24 @@ const Cart: FC = () => {
 
     if (loading) {
         return (
-            <Card>
-                <h2 className={styles.title}>Panier</h2>
-                <p className={styles.subtitle}>Chargement du panier...</p>
-            </Card>
+            <div className={styles.cartPage}>
+                <h2>Panier</h2>
+                <Card>
+                    <p className={styles.subtitle}>Chargement du panier...</p>
+                </Card>
+            </div>
         );
     }
 
     if (items.length === 0) {
         return (
-            <Card>
-                <h2 className={styles.title}>Panier vide</h2>
-                <p className={styles.subtitle}>Ajoutez des jeux pour continuer.</p>
-                <Link to="/store" className={styles.backBtn}>Retour à la boutique</Link>
-            </Card>
+            <div className={styles.cartPage}>
+                <h2>Panier</h2>
+                <Card>
+                    <p className={styles.subtitle}>Ajoutez des jeux pour continuer.</p>
+                    <Link to="/store" className={styles.backBtn}>Retour à la boutique</Link>
+                </Card>
+            </div>
         );
     }
 
@@ -61,66 +67,65 @@ const Cart: FC = () => {
     };
 
     return (
-        <Card>
-            <UnlockItHelmet
-                title="Panier"
-                description="Votre panier UnlockIt."
-                path="/cart"
-            />
+        <div className={styles.cartPage}>
+            <h2>Panier</h2>
+            <Card>
+                <UnlockItHelmet
+                    title="Panier"
+                    description="Votre panier UnlockIt."
+                    path="/cart"
+                />
 
-            <h2 className={styles.title}>Votre panier</h2>
-            <p className={styles.subtitle}>Modifiez vos articles avant de passer au paiement.</p>
+                <p className={styles.subtitle}>Modifiez vos articles avant de passer au paiement.</p>
 
-            <ul className={styles.list}>
-                {items.map((item) => (
-                    <li key={item.game.id} className={styles.item}>
-                        <div className={styles.left}>
-                            <input
-                                type="checkbox"
-                                checked={item.selected}
-                                onChange={() => handleToggle(item.game.id, item.selected)}
-                            />
+                <ul className={styles.list}>
+                    {items.map((item) => (
+                        <li key={item.game.id} className={styles.item}>
+                            <div className={styles.left}>
+                                <input
+                                    type="checkbox"
+                                    checked={item.selected}
+                                    onChange={() => handleToggle(item.game.id, item.selected)}
+                                />
 
-                            <img
-                                src={item.game.headerImage}
-                                alt={item.game.name}
-                                className={styles.image}
-                            />
+                                <img
+                                    src={item.game.headerImage}
+                                    alt={item.game.name}
+                                    className={styles.image}
+                                />
 
-                            <div className={styles.info}>
-                                <h4 className={styles.gameName}>{item.game.name}</h4>
-                                <p className={styles.price}>{item.game.price.toFixed(2)} €</p>
-                            </div>
-                        </div>
-
-                        <div className={styles.right}>
-                            <div className={styles.quantity}>
-                                <button onClick={() => handleDecrease(item.game.id)}>-</button>
-                                <span>{item.quantity}</span>
-                                <button onClick={() => handleIncrease(item.game.id)}>+</button>
+                                <div className={styles.info}>
+                                    <h4 className={styles.gameName}>{item.game.name}</h4>
+                                    <p className={styles.price}>{item.game.price.toFixed(2)} €</p>
+                                </div>
                             </div>
 
-                            <span className={styles.lineTotal}>
-                                {(item.quantity * item.game.price).toFixed(2)} €
-                            </span>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                            <div className={styles.right}>
+                                <div className={styles.quantity}>
+                                    <button onClick={() => handleDecrease(item.game.id)}>-</button>
+                                    <span>{item.quantity}</span>
+                                    <button onClick={() => handleIncrease(item.game.id)}>+</button>
+                                </div>
 
-            <div className={styles.totalRow}>
-                <span>Total sélectionné :</span>
-                <span className={styles.totalValue}>{total.toFixed(2)} €</span>
-            </div>
+                                <span className={styles.lineTotal}>
+                                    {(item.quantity * item.game.price).toFixed(2)} €
+                                </span>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
 
-            <div className={styles.actions}>
-                <button className={styles.clearBtn} onClick={handleClear}>Vider le panier</button>
+                <div className={styles.totalRow}>
+                    <span>Total sélectionné :</span>
+                    <span className={styles.totalValue}>{total.toFixed(2)} €</span>
+                </div> 
 
-                <Link to="/checkout" className={styles.checkoutBtn}>
-                    Passer au paiement
-                </Link>
-            </div>
-        </Card>
+                <div className={styles.actions}>
+                    <Button onClick={handleClear} variant="danger">Vider le panier</Button>
+                    <Button onClick={() => navigate("/checkout")}>Passer au paiement</Button>
+                </div>
+            </Card>
+        </div>
     );
 };
 

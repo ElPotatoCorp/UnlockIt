@@ -1,131 +1,154 @@
+/* === Conteneur principal === */
+.cartPage {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* === Titres === */
 .title {
-    font-family: var(--font-title);
-    font-size: var(--text-h2);
-    color: var(--color-green);
-    margin-bottom: 6px;
+  font-family: var(--font-title);
+  font-size: var(--text-h2);
+  color: var(--color-green);
+  margin-bottom: 6px;
 }
 
 .subtitle {
-    color: var(--color-mist);
-    margin-bottom: 20px;
+  color: var(--color-mist);
+  margin-bottom: 20px;
 }
 
+/* === Liste === */
 .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
+/* === Item === */
 .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--color-smoke);
-    border: 1px solid var(--color-carbon);
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-smoke);
+  border: 1px solid var(--color-carbon);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
 .left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .image {
-    width: 80px;
-    height: 45px;
-    object-fit: cover;
-    border-radius: 6px;
+  width: 90px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .gameName {
-    font-family: var(--font-title);
-    color: var(--color-white);
+  font-family: var(--font-title);
+  color: var(--color-white);
 }
 
 .price {
-    color: var(--color-mist);
-    font-size: var(--text-small);
+  color: var(--color-mist);
+  font-size: var(--text-small);
 }
 
+/* === Partie droite === */
 .right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
+/* === Quantité === */
 .quantity {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .quantity button {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: none;
-    background: var(--color-blue);
-    color: var(--color-white);
-    cursor: var(--cursor-pointer);
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: none;
+  background: var(--color-blue);
+  color: var(--color-white);
+  cursor: var(--cursor-pointer);
+  font-size: 1rem;
 }
 
+/* === Total par ligne === */
 .lineTotal {
-    font-family: var(--font-title);
-    color: var(--color-green);
+  font-family: var(--font-title);
+  color: var(--color-green);
 }
 
+/* === Total général === */
 .totalRow {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-family: var(--font-title);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-family: var(--font-title);
 }
 
 .totalValue {
-    color: var(--color-green);
-    font-size: 1.4rem;
+  color: var(--color-green);
+  font-size: 1.4rem;
 }
 
+/* === Actions === */
 .actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
 }
 
+.actions > * {
+  flex: 1;
+  text-align: center;
+}
+
+/* === Boutons === */
 .clearBtn {
-    padding: 10px 16px;
-    background: var(--color-error);
-    border: none;
-    border-radius: 8px;
-    color: var(--color-white);
-    cursor: var(--cursor-pointer);
+  padding: 10px 16px;
+  background: var(--color-error);
+  border: none;
+  border-radius: 8px;
+  color: var(--color-white);
+  cursor: var(--cursor-pointer);
 }
 
 .checkoutBtn {
-    padding: 10px 16px;
-    background: var(--color-blue);
-    border-radius: 8px;
-    color: var(--color-white);
-    text-decoration: none;
-    font-family: var(--font-title);
-    cursor: var(--cursor-pointer);
+  padding: 10px 16px;
+  background: var(--color-blue);
+  border-radius: 8px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-family: var(--font-title);
+  cursor: var(--cursor-pointer);
 }
 
+/* === Bouton retour boutique === */
 .backBtn {
-    display: block;
-    margin-top: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    background: var(--color-tar);
-    border: 1px solid var(--color-carbon);
-    color: var(--color-white);
-    text-align: center;
+  display: block;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--color-tar);
+  border: 1px solid var(--color-carbon);
+  color: var(--color-white);
+  text-align: center;
 }
