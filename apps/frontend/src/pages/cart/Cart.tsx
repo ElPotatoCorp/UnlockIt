@@ -6,16 +6,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "../../utils/hooks/useToast";
 import { UnlockItHelmet } from "../../features/helmet/UnlockItHelmet";
 import { Button } from "../../components/common/button/Button";
+import { useDebounce } from "use-debounce";
 
 const Cart: FC = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    const { cart, totalPrice, fetchCart, fetchTotal, addToCart, removeFromCart, toggleItem, clearCart } = useCart();
+    const {
+        cart,
+        totalPrice,
+        fetchCart,
+        fetchTotal,
+        addToCart,
+        removeFromCart,
+        toggleItem,
+        clearCart
+    } = useCart();
 
     const items = cart?.data ?? [];
     const total = totalPrice ?? 0;
 
     const [loading, setLoading] = useState(true);
+
+    const [localQuantities, setLocalQuantities] = useState<Record<number, number>>({});
+
+    const [debouncedQuantities] = useDebounce(localQuantities, 300);
 
     useEffect(() => {
         const init = async () => {
@@ -26,6 +40,58 @@ const Cart: FC = () => {
         init();
     }, []);
 
+    useEffect(() => {
+        if (loading) return;
+
+        const sync = async () => {
+            for (const item of items) {
+                const id = item.game.id;
+                const oldQty = item.quantity;
+                const newQty = debouncedQuantities[id];
+
+                if (newQty === undefined || newQty === oldQty) continue;
+
+                if (newQty > oldQty) {
+                    await addToCart(id, newQty - oldQty);
+                } else {
+                    await removeFromCart(id, oldQty - newQty);
+                }
+            }
+        };
+
+        sync();
+    }, [debouncedQuantities]);
+
+    useEffect(() => {
+        if (items.length === 0) return;
+
+        const q: Record<number, number> = {};
+        items.forEach(i => q[i.game.id] = i.quantity);
+        setLocalQuantities(q);
+    }, [items]);
+
+    const handleIncrease = (id: number) => {
+        setLocalQuantities(q => ({ ...q, [id]: q[id] + 1 }));
+    };
+
+    const handleDecrease = (id: number) => {
+        setLocalQuantities(q => ({ ...q, [id]: Math.max(0, q[id] - 1) }));
+    };
+
+    const handleRemove = (id: number) => {
+        setLocalQuantities(q => ({ ...q, [id]: 0 }));
+    };
+
+    const handleToggle = async (id: number, selected: boolean) => {
+        await toggleItem(id, !selected);
+    };
+
+    const handleClear = async () => {
+        await clearCart();
+        toast.success("Panier vidé");
+    };
+
+    /** UI */
     if (loading) {
         return (
             <div className={styles.cartPage}>
@@ -48,27 +114,6 @@ const Cart: FC = () => {
             </div>
         );
     }
-
-    const handleIncrease = async (id: number) => {
-        await addToCart(id, 1);
-    };
-
-    const handleDecrease = async (id: number) => {
-        await removeFromCart(id, 1);
-    };
-
-    const handleRemove = async (id: number, stack: number) => {
-        await removeFromCart(id, stack);
-    };
-
-    const handleToggle = async (id: number, selected: boolean) => {
-        await toggleItem(id, !selected);
-    };
-
-    const handleClear = async () => {
-        await clearCart();
-        toast.success("Panier vidé");
-    };
 
     return (
         <div className={styles.cartPage}>
@@ -107,17 +152,17 @@ const Cart: FC = () => {
                             <div className={styles.right}>
                                 <div className={styles.quantity}>
                                     <button onClick={() => handleDecrease(item.game.id)}>-</button>
-                                    <span>{item.quantity}</span>
+                                    <span>{localQuantities[item.game.id]}</span>
                                     <button onClick={() => handleIncrease(item.game.id)}>+</button>
                                 </div>
 
                                 <span className={styles.lineTotal}>
-                                    {(item.quantity * item.game.price).toFixed(2)} €
+                                    {(localQuantities[item.game.id] * item.game.price).toFixed(2)} €
                                 </span>
 
                                 <button
                                     className={styles.removeBtn}
-                                    onClick={() => handleRemove(item.game.id, item.quantity)}
+                                    onClick={() => handleRemove(item.game.id)}
                                 >
                                     ✖
                                 </button>
