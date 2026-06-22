@@ -2554,7 +2554,7 @@ $$;
 <p>Nous serons honnêtes sur ce point : à ce jour, le nouveau backend ne dispose que d'une image de développement (<code class="c">Dockerfile.dev</code>) ; aucune image de production n'a encore été écrite. Le script <code class="c">build:backend</code>, vu en <a href="#412-les-workspaces-npm">4.1.2</a>, prépare déjà la compilation du backend en JavaScript pur, ce qui constitue la base nécessaire à une telle image, mais le lien n'a pas été fait dans le temps imparti au projet. C'est un point identifié, pas un point traité, et nous préférons le dire plutôt que de laisser croire à un sujet clos.</p>
 <h3 id="432-construire-une-image-qui-connaît-tout-le-monorepo">4.3.2 Construire une image qui connaît tout le monorepo</h3>
 <p>L'organisation en workspaces npm décrite en <a href="#41-une-organisation-en-monorepo">4.1</a> a une conséquence directe sur la façon de construire une image Docker : on ne peut plus se contenter de copier le dossier du service concerné, puisque la résolution de <code class="c">@unlockit/shared</code> dépend de la structure complète du monorepo.</p>
-<details class="acordion">
+<details class="accordion">
 <summary>Voir Dockerfile.dev</summary>
 <pre class="hljs"><code><div><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">22</span>-alpine
 <span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /srv</span>

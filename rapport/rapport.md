@@ -2869,7 +2869,7 @@ Nous serons honnêtes sur ce point : à ce jour, le nouveau backend ne dispose q
 
 L'organisation en workspaces npm décrite en <a href="#41-une-organisation-en-monorepo">4.1</a> a une conséquence directe sur la façon de construire une image Docker : on ne peut plus se contenter de copier le dossier du service concerné, puisque la résolution de <code class="c">@unlockit/shared</code> dépend de la structure complète du monorepo.
 
-<details class="acordion">
+<details class="accordion">
 <summary>Voir Dockerfile.dev</summary>
 
 ```dockerfile
