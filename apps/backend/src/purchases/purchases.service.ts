@@ -24,9 +24,12 @@ export class PurchasesService {
     private readonly stockRepository: Repository<StockEntity>,
     private readonly reviewsService: ReviewsService,
     private readonly commonService: CommonService,
-  ) { }
+  ) {}
 
-  findAll(userId: string, paginationQuery: PaginationQueryDto): Promise<PaginatedDto<PurchaseSummaryDto>> {
+  findAll(
+    userId: string,
+    paginationQuery: PaginationQueryDto,
+  ): Promise<PaginatedDto<PurchaseSummaryDto>> {
     return this.commonService.pagination.getPaginatedResponse(
       this.orderItemRepository,
       paginationQuery,
@@ -49,17 +52,21 @@ export class PurchasesService {
     orderId: string,
     gameId: number,
   ): Promise<PurchaseDto> {
-    const item = await this.commonService.entities.fetchEntityOrFail(this.orderItemRepository, {
-      where: {
-        orderId,
-        gameId,
-        order: { userId, status: OrderStatus.COMPLETED },
+    const item = await this.commonService.entities.fetchEntityOrFail(
+      this.orderItemRepository,
+      {
+        where: {
+          orderId,
+          gameId,
+          order: { userId, status: OrderStatus.COMPLETED },
+        },
+        relations: { order: true, game: true },
       },
-      relations: { order: true, game: true },
-    });
+    );
 
-    const review = await this.reviewsService.findOne(userId, gameId)
-      .then(value => value)
+    const review = await this.reviewsService
+      .findOne(userId, gameId)
+      .then((value) => value)
       .catch(() => undefined);
 
     return PurchaseMapper.toPurchase(item, review);
@@ -87,21 +94,44 @@ export class PurchasesService {
   }
 
   // --- Reviews ---
-  async addReview(userId: string, orderId: string, gameId: number, createReviewDto: CreateReviewDto) {
-    if (await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }) !== true)
+  async addReview(
+    userId: string,
+    orderId: string,
+    gameId: number,
+    createReviewDto: CreateReviewDto,
+  ) {
+    if (
+      (await this.commonService.entities.entityExists(
+        this.orderItemRepository,
+        { orderId, gameId },
+      )) !== true
+    )
       throw new ConflictException('You already made a review of this game');
 
     this.reviewsService.create(userId, gameId, createReviewDto);
   }
 
-  async updateReview(userId: string, orderId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
-    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+  async updateReview(
+    userId: string,
+    orderId: string,
+    gameId: number,
+    updateReviewDto: UpdateReviewDto,
+  ) {
+    await this.commonService.entities.entityExists(
+      this.orderItemRepository,
+      { orderId, gameId },
+      true,
+    );
 
     this.reviewsService.update(userId, gameId, updateReviewDto);
   }
 
   async removeReview(userId: string, orderId: string, gameId: number) {
-    await this.commonService.entities.entityExists(this.orderItemRepository, { orderId, gameId }, true);
+    await this.commonService.entities.entityExists(
+      this.orderItemRepository,
+      { orderId, gameId },
+      true,
+    );
 
     this.reviewsService.remove(userId, gameId);
   }

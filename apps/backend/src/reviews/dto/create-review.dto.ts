@@ -1,7 +1,7 @@
-import { CreateReview, ExactData } from "@unlockit/shared";
-import { Type } from "class-transformer";
-import { IsInt, IsString, Length, Max, Min } from "class-validator";
-import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
+import { CreateReview, ExactData } from '@unlockit/shared';
+import { Type } from 'class-transformer';
+import { IsInt, IsString, Length, Max, Min } from 'class-validator';
+import { ReviewEntityDoc } from 'src/docs/reviews/entities/review.entity.doc';
 
 export class CreateReviewDto implements CreateReview {
   @ReviewEntityDoc.Content()

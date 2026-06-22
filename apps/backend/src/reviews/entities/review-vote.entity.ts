@@ -1,7 +1,10 @@
-import { ExactData, ReviewVoteEntity as IReviewVoteEntity } from "@unlockit/shared";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { ReviewEntity } from "./review.entity";
-import { UserEntity } from "src/user/entities/user.entity";
+import {
+  ExactData,
+  ReviewVoteEntity as IReviewVoteEntity,
+} from '@unlockit/shared';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ReviewEntity } from './review.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Entity('review_votes')
 export class ReviewVoteEntity implements IReviewVoteEntity {

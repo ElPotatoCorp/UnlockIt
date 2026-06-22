@@ -1,5 +1,5 @@
-import { StockDto } from "./dto/stock.dto";
-import { StockEntity } from "./entities/stock.entity";
+import { StockDto } from './dto/stock.dto';
+import { StockEntity } from './entities/stock.entity';
 
 export class StockMapper {
   static toStock(stocks: StockEntity[]) {

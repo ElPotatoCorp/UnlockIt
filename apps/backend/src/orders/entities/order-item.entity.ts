@@ -54,7 +54,7 @@ export class OrderItemEntity implements IOrderItemEntity {
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;
 
-  @OneToMany(() => StockEntity, (stock) => stock.orderItem,{
+  @OneToMany(() => StockEntity, (stock) => stock.orderItem, {
     onDelete: 'RESTRICT',
   })
   stocks: StockEntity[];

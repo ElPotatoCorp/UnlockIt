@@ -6,7 +6,7 @@ import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 export class WishlistDto implements Wishlist {
   @ApiProperty({
     title: 'Summary of the wishlisted game',
-    type: SummaryGameDto
+    type: SummaryGameDto,
   })
   game: SummaryGameDto;
 

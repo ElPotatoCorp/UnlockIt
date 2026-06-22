@@ -47,7 +47,14 @@ export class SeriesController {
   @SeriesControllerDoc.FindOne()
   @Public()
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe, EntityFetchPipe(SeriesEntity, 'id', { relations: { games: true } })) series: SeriesEntity) {
+  findOne(
+    @Param(
+      'id',
+      ParseIntPipe,
+      EntityFetchPipe(SeriesEntity, 'id', { relations: { games: true } }),
+    )
+    series: SeriesEntity,
+  ) {
     return SeriesMapper.toSeries(series);
   }
 
@@ -75,17 +82,15 @@ export class SeriesController {
     @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
-    return this.seriesService.modifyGames(
-      id,
-      modifyGamesInSerieDto,
-      'add',
-    );
+    return this.seriesService.modifyGames(id, modifyGamesInSerieDto, 'add');
   }
 
   @SeriesControllerDoc.Remove()
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number) {
+  remove(
+    @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
+  ) {
     return this.seriesService.remove(id);
   }
 
@@ -96,10 +101,6 @@ export class SeriesController {
     @Param('id', ParseIntPipe, EntityExistsPipe(SeriesEntity)) id: number,
     @Body() modifyGamesInSerieDto: ModifyGamesInSerieDto,
   ) {
-    return this.seriesService.modifyGames(
-      id,
-      modifyGamesInSerieDto,
-      'remove',
-    );
+    return this.seriesService.modifyGames(id, modifyGamesInSerieDto, 'remove');
   }
 }

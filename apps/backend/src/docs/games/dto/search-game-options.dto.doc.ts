@@ -104,7 +104,7 @@ export const SearchGameOptionsDtoDoc = {
       }),
     ),
 
-    Tags: () =>
+  Tags: () =>
     applyDecorators(
       ApiProperty({
         title: 'Tags filter',
@@ -143,7 +143,7 @@ export const SearchGameOptionsDtoDoc = {
         title: 'Platforms filter',
         description: 'Filter games by supported platforms.',
         type: PartialGamePlatformDto,
-        required: false
+        required: false,
       }),
     ),
 };

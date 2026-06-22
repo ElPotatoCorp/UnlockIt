@@ -22,7 +22,9 @@ export class WishlistService {
         where: { userId },
         relations: { game: true },
         order: { addedAt: 'DESC' },
-        transform: { fn: (wishlist: WishlistEntity) => GameMapper.toSummary(wishlist.game) },
+        transform: {
+          fn: (wishlist: WishlistEntity) => GameMapper.toSummary(wishlist.game),
+        },
       },
     );
   }

@@ -42,7 +42,7 @@ export class OrdersService {
             game: true,
           },
         },
-      }
+      },
     );
 
     return OrderMapper.toOrder(order);
@@ -63,7 +63,7 @@ export class OrdersService {
   deleteCancelledOrders() {
     const thirtyDaysLater = new Date();
     thirtyDaysLater.setDate(thirtyDaysLater.getDate() - 30);
-    
+
     this.orderRepository.delete({
       status: OrderStatus.CANCELLED,
       createdAt: LessThan(thirtyDaysLater),

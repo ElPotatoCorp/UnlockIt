@@ -1,7 +1,7 @@
-import { ReviewMapper } from "src/reviews/review.mapper";
-import { GameDetailDto } from "./dto/game-detail.dto";
-import { SummaryGameDto } from "./dto/summary-game.dto";
-import { GameEntity } from "./entities/game.entity";
+import { ReviewMapper } from 'src/reviews/review.mapper';
+import { GameDetailDto } from './dto/game-detail.dto';
+import { SummaryGameDto } from './dto/summary-game.dto';
+import { GameEntity } from './entities/game.entity';
 
 export class GameMapper {
   static toDetail(game: GameEntity, wishlisted?: boolean) {
@@ -31,9 +31,8 @@ export class GameMapper {
     dto.publishers = game.publishers;
     dto.media = game.media;
     dto.platforms = game.platforms;
-    
-    if (game.series)
-      dto.series = game.series;
+
+    if (game.series) dto.series = game.series;
 
     dto.wishlisted = wishlisted;
 

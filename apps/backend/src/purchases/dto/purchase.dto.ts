@@ -11,7 +11,7 @@ export class PurchaseDto implements Purchase {
   quantity: number;
 
   orderedAt: Date;
-  
+
   review: ReviewDto | null;
 }
 

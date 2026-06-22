@@ -1,8 +1,15 @@
-import { ExactData, ReviewEntity as IReviewEntity } from "@unlockit/shared";
-import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
-import { GameEntity } from "src/games/entities/game.entity";
-import { UserEntity } from "src/user/entities/user.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ExactData, ReviewEntity as IReviewEntity } from '@unlockit/shared';
+import { ReviewEntityDoc } from 'src/docs/reviews/entities/review.entity.doc';
+import { GameEntity } from 'src/games/entities/game.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('reviews')
 @Index(['userId', 'gameId'], { unique: true })
@@ -46,7 +53,7 @@ export class ReviewEntity implements IReviewEntity {
   @ManyToOne(() => UserEntity, (user) => user.reviews, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
-  
+
   @ManyToOne(() => GameEntity, (game) => game.reviews, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'game_id' })
   game: GameEntity;

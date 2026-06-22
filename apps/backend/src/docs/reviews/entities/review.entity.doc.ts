@@ -1,8 +1,8 @@
-import { applyDecorators } from "@nestjs/common";
-import { ApiProperty } from "@nestjs/swagger";
-import { MakeDoc } from "src/docs/common/make-doc";
-import { GamePrimitiveEntityDoc } from "src/docs/games/entities/game-primitive.entity.doc";
-import { UserEntityDoc } from "src/docs/user/entities/user.entity.doc";
+import { applyDecorators } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+import { MakeDoc } from 'src/docs/common/make-doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
+import { UserEntityDoc } from 'src/docs/user/entities/user.entity.doc';
 
 export const ReviewEntityDoc = {
   Id: MakeDoc.MakeUUID('Review ID'),
@@ -18,8 +18,9 @@ export const ReviewEntityDoc = {
         type: String,
         minLength: 20,
         maxLength: 100000,
-        example: 'This documentation is very good! I do not know who made it but I would recommand the teams behind this website to make a new banger! :D'
-      })
+        example:
+          'This documentation is very good! I do not know who made it but I would recommand the teams behind this website to make a new banger! :D',
+      }),
     ),
 
   Rate: () =>
@@ -29,10 +30,10 @@ export const ReviewEntityDoc = {
         type: Number,
         minimum: 0,
         maximum: 10,
-        example: 10
-      })
+        example: 10,
+      }),
     ),
-  
+
   HelpfulCount: () =>
     applyDecorators(
       ApiProperty({
@@ -41,7 +42,7 @@ export const ReviewEntityDoc = {
         type: Number,
         minimum: 0,
         example: 15,
-      })
+      }),
     ),
 
   UnhelpfulCount: () =>
@@ -52,7 +53,7 @@ export const ReviewEntityDoc = {
         type: Number,
         minimum: 0,
         example: 15,
-      })
+      }),
     ),
 
   LastEdited: () =>
@@ -61,6 +62,6 @@ export const ReviewEntityDoc = {
         title: 'Last Edition Date',
         type: Date,
         nullable: true,
-      })
-    )
-}
+      }),
+    ),
+};

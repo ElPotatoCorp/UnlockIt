@@ -56,7 +56,7 @@ export class CartService {
       item.selected = !item.selected;
     }
 
-    await this.cartItemRepository.save(item)
+    await this.cartItemRepository.save(item);
   }
 
   async add(cartId: string, gameId: number, quantity?: number): Promise<void> {

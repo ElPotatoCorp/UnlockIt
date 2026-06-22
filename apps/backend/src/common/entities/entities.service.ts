@@ -1,4 +1,9 @@
-import { ObjectLiteral, Repository, FindOneOptions, FindOptionsWhere } from 'typeorm';
+import {
+  ObjectLiteral,
+  Repository,
+  FindOneOptions,
+  FindOptionsWhere,
+} from 'typeorm';
 import { fetchEntityOrFail } from './pipes/fetch-entity.pipe';
 import { failIfDuplicated } from './pipes/duplicated-entry.pipe';
 import { entityExists } from './pipes/entity-exists.pipe';

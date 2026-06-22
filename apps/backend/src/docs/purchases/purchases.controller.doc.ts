@@ -66,7 +66,8 @@ export const PurchasesControllerDoc = {
           'No purchase found for this order and game, or it does not belong to the authenticated user.',
       }),
       ApiBadRequestResponse({
-        description: 'orderId is not a valid UUID, or gameId is not a valid number.',
+        description:
+          'orderId is not a valid UUID, or gameId is not a valid number.',
       }),
     ),
 
@@ -85,11 +86,12 @@ export const PurchasesControllerDoc = {
           'No purchase found for this order and game, or it does not belong to the authenticated user.',
       }),
       ApiBadRequestResponse({
-        description: 'orderId is not a valid UUID, or gameId is not a valid number.',
+        description:
+          'orderId is not a valid UUID, or gameId is not a valid number.',
       }),
     ),
 
-    // POST /purchases/:orderId/:gameId/review
+  // POST /purchases/:orderId/:gameId/review
   AddReview: () =>
     applyDecorators(
       ApiOperation({

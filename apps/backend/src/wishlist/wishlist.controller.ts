@@ -36,7 +36,9 @@ export class WishlistController {
     @User('sub') userId: string,
     @Param('gameId', ParseIntPipe, EntityExistsPipe(GameEntity)) gameId: number,
   ) {
-    return { wishlisted: await this.wishlistService.isInWishlist(userId, gameId) };
+    return {
+      wishlisted: await this.wishlistService.isInWishlist(userId, gameId),
+    };
   }
 
   @WishlistControllerDoc.Add()

@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { User } from 'src/user/decorators/user.decorator';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
@@ -48,7 +59,12 @@ export class PurchasesController {
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() createReviewDto: CreateReviewDto,
   ) {
-    return this.purchasesService.addReview(userId, orderId, gameId, createReviewDto);
+    return this.purchasesService.addReview(
+      userId,
+      orderId,
+      gameId,
+      createReviewDto,
+    );
   }
 
   @PurchasesControllerDoc.UpdateReview()
@@ -59,7 +75,12 @@ export class PurchasesController {
     @Param('gameId', ParseIntPipe) gameId: number,
     @Body() updateReviewDto: UpdateReviewDto,
   ) {
-    return this.purchasesService.updateReview(userId, orderId, gameId, updateReviewDto);
+    return this.purchasesService.updateReview(
+      userId,
+      orderId,
+      gameId,
+      updateReviewDto,
+    );
   }
 
   @PurchasesControllerDoc.RemoveReview()

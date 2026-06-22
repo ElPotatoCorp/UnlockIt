@@ -111,39 +111,39 @@ export const GamesControllerDoc = {
             value: {
               price: {
                 min: 0,
-                max: 60
+                max: 60,
               },
               order: {
-                by: "popular",
-                asc: true
+                by: 'popular',
+                asc: true,
               },
             },
           },
           complexExample: {
             summary: 'Complex Filters',
             value: {
-              type: "game",
+              type: 'game',
               price: {
                 min: 0,
-                max: 60
+                max: 60,
               },
               release: {
-                when: "after",
-                date: "2024-01-01"
+                when: 'after',
+                date: '2024-01-01',
               },
               order: {
-                by: "popular",
-                asc: true
+                by: 'popular',
+                asc: true,
               },
-              tags: [1,2,5],
-              developers: [10,15],
-              publishers: [3,7],
+              tags: [1, 2, 5],
+              developers: [10, 15],
+              publishers: [3, 7],
               platforms: {
                 windows: true,
                 ps5: true,
               },
-            }
-          }
+            },
+          },
         },
       }),
       ApiExtraModels(PaginatedDto, SummaryGameDto),

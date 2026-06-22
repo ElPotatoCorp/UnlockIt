@@ -1,5 +1,5 @@
-import { MediaDto } from "./dto/media.dto";
-import { MediaEntity } from "./entities/media.entity";
+import { MediaDto } from './dto/media.dto';
+import { MediaEntity } from './entities/media.entity';
 
 export class MediaMapper {
   static toMedia(media: MediaEntity) {

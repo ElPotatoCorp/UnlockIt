@@ -30,8 +30,8 @@ export async function fetchEntityOrFail<T extends ObjectLiteral>(
   if (!entity) {
     throw new NotFoundException(
       buildNotFoundMessage(
-        repository, 
-        options.where as FindOptionsWhere<T> ?? {},
+        repository,
+        (options.where as FindOptionsWhere<T>) ?? {},
       ),
     );
   }
@@ -63,18 +63,18 @@ export async function fetchEntityOrFail<T extends ObjectLiteral>(
  */
 export function EntityFetchPipe<T extends ObjectLiteral>(
   entityClass: Type<T>,
-  field: keyof T = 'id' as keyof T,
+  field: keyof T = 'id',
   options?: Omit<FindOneOptions<T>, 'where'>,
 ): Type<PipeTransform> {
   @Injectable()
   class EntityFetchMixin implements PipeTransform {
-    constructor(private readonly dataSource: DataSource) { }
+    constructor(private readonly dataSource: DataSource) {}
 
     async transform(value: unknown, _metadata: ArgumentMetadata): Promise<T> {
       const where = buildWhere<T>([field], [value]);
       return fetchEntityOrFail(this.dataSource.getRepository(entityClass), {
         where,
-        ...options
+        ...options,
       });
     }
   }

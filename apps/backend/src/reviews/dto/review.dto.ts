@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { ExactData, Review } from "@unlockit/shared";
-import { ReviewEntityDoc } from "src/docs/reviews/entities/review.entity.doc";
+import { ApiProperty } from '@nestjs/swagger';
+import { ExactData, Review } from '@unlockit/shared';
+import { ReviewEntityDoc } from 'src/docs/reviews/entities/review.entity.doc';
 
 export class ReviewDto implements Review {
   @ReviewEntityDoc.Id(false)
@@ -26,7 +26,8 @@ export class ReviewDto implements Review {
 
   @ApiProperty({
     title: 'Voted',
-    description: 'If the optionally authenticated user has voted for this review',
+    description:
+      'If the optionally authenticated user has voted for this review',
     type: Boolean,
     nullable: true,
   })

@@ -30,7 +30,6 @@ export class CartEntity implements ICartEntity {
     cascade: true,
   })
   items: CartItemEntity[];
-
 }
 
 const _assertExact: ExactData<ICartEntity, CartEntity> = true;

@@ -5,7 +5,10 @@ import { DataSource, DeepPartial, EntityTarget, ObjectLiteral } from 'typeorm';
  * Base Factory class for generating test data with faker
  * Use: const user = userFactory.make(); or userFactory.create() for persistence
  */
-export abstract class Factory<T extends ObjectLiteral, U extends DeepPartial<T> = DeepPartial<T>> {
+export abstract class Factory<
+  T extends ObjectLiteral,
+  U extends DeepPartial<T> = DeepPartial<T>,
+> {
   protected datasource: DataSource | null;
 
   constructor(datasource?: DataSource) {
@@ -38,7 +41,10 @@ export abstract class Factory<T extends ObjectLiteral, U extends DeepPartial<T> 
   /**
    * Create multiple instances
    */
-  async makeMany(count: number, overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U[]> {
+  async makeMany(
+    count: number,
+    overrides: DeepPartial<T> = {} as DeepPartial<T>,
+  ): Promise<U[]> {
     return Promise.all(
       Array.from({ length: count }, () => this.make(overrides)),
     );
@@ -55,7 +61,10 @@ export abstract class Factory<T extends ObjectLiteral, U extends DeepPartial<T> 
   /**
    * Create and insert multiple instances
    */
-  async createMany(count: number, overrides: DeepPartial<T> = {} as DeepPartial<T>): Promise<U[]> {
+  async createMany(
+    count: number,
+    overrides: DeepPartial<T> = {} as DeepPartial<T>,
+  ): Promise<U[]> {
     this.assertDatasource();
 
     const rawItems = await this.makeMany(count, overrides);

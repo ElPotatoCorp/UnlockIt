@@ -22,11 +22,19 @@ export class ReviewsService {
   ) {}
 
   create(userId: string, gameId: number, createReviewDto: CreateReviewDto) {
-    const review = this.reviewRepository.create({ userId, gameId, ...createReviewDto });
+    const review = this.reviewRepository.create({
+      userId,
+      gameId,
+      ...createReviewDto,
+    });
     return this.reviewRepository.save(review);
   }
 
-  async findAll(gameId: number, paginationQueryDto: PaginationQueryDto, userId?: string) {
+  async findAll(
+    gameId: number,
+    paginationQueryDto: PaginationQueryDto,
+    userId?: string,
+  ) {
     const res = await this.commonService.pagination.getPaginatedResponse(
       this.reviewRepository,
       paginationQueryDto,
@@ -37,26 +45,26 @@ export class ReviewsService {
     );
 
     if (userId) {
-      const reviewIds = res.data.map(review => review.id);
+      const reviewIds = res.data.map((review) => review.id);
       const voted = await this.getUserVotes(userId, reviewIds);
-      
+
       const voteMap = new Map<string, boolean | null>(
-        voted.map(v => [v.reviewId, v.helpful])
+        voted.map((v) => [v.reviewId, v.helpful]),
       );
 
-      res.data = res.data.map(review => {
+      res.data = res.data.map((review) => {
         const hasVoted = voteMap.has(review.id);
 
         return {
           ...review,
-          voted: hasVoted ? voteMap.get(review.id) ?? null : null
+          voted: hasVoted ? (voteMap.get(review.id) ?? null) : null,
         };
       });
     } else {
-      res.data = res.data.map(review => ({
+      res.data = res.data.map((review) => ({
         ...review,
-        voted: null
-      }))
+        voted: null,
+      }));
     }
 
     return res;
@@ -69,63 +77,72 @@ export class ReviewsService {
     );
   }
 
-  async vote(userId: string, review: ReviewEntity, reviewVoteDto: ReviewVoteDto) {
+  async vote(
+    userId: string,
+    review: ReviewEntity,
+    reviewVoteDto: ReviewVoteDto,
+  ) {
     if (review.userId === userId)
-      throw new ForbiddenException('You cannot vote for your own review')
+      throw new ForbiddenException('You cannot vote for your own review');
 
     const { helpful } = reviewVoteDto;
-    let vote = await this.reviewVoteRepository.findOneBy({ reviewId: review.id, userId });
-
+    let vote = await this.reviewVoteRepository.findOneBy({
+      reviewId: review.id,
+      userId,
+    });
 
     if (!vote) {
-      vote = this.reviewVoteRepository.create({ 
+      vote = this.reviewVoteRepository.create({
         reviewId: review.id,
         userId,
       });
     }
 
-    if (vote.helpful === helpful)
-      return vote;
+    if (vote.helpful === helpful) return vote;
 
     const newCounts = {
       helpfulCount: review.helpfulCount,
       unHelpfulCount: review.unHelpfulCount,
-    }
+    };
 
     if (vote.helpful === null || vote.helpful === undefined) {
-      if (helpful === true)
-        newCounts.helpfulCount += 1;
-      else
-        newCounts.unHelpfulCount += 1;
+      if (helpful === true) newCounts.helpfulCount += 1;
+      else newCounts.unHelpfulCount += 1;
     } else if (vote.helpful === false) {
       newCounts.unHelpfulCount -= 1;
-      if (helpful === true)
-        newCounts.helpfulCount += 1;
+      if (helpful === true) newCounts.helpfulCount += 1;
     } else {
       newCounts.helpfulCount -= 1;
-      if (helpful === false)
-        newCounts.unHelpfulCount += 1;
+      if (helpful === false) newCounts.unHelpfulCount += 1;
     }
 
     vote.helpful = helpful;
 
-    return this.reviewVoteRepository.save(vote).then(async value => {
+    return this.reviewVoteRepository.save(vote).then(async (value) => {
       await this.reviewRepository.update(review.id, { ...newCounts });
       return value;
     });
   }
 
   async getUserVotes(userId: string, reviewIds: string[]) {
-    const votes = await this.reviewVoteRepository.find({ where: {
-      userId,
-      reviewId: In(reviewIds),
-    }});
+    const votes = await this.reviewVoteRepository.find({
+      where: {
+        userId,
+        reviewId: In(reviewIds),
+      },
+    });
 
-    return votes.map(vote => ({ reviewId: vote.reviewId, helpful: vote.helpful }));
+    return votes.map((vote) => ({
+      reviewId: vote.reviewId,
+      helpful: vote.helpful,
+    }));
   }
 
   update(userId: string, gameId: number, updateReviewDto: UpdateReviewDto) {
-    return this.reviewRepository.update({ userId, gameId }, { ...updateReviewDto, lastEdited: new Date() });
+    return this.reviewRepository.update(
+      { userId, gameId },
+      { ...updateReviewDto, lastEdited: new Date() },
+    );
   }
 
   remove(userId: string, gameId: number) {
@@ -134,6 +151,6 @@ export class ReviewsService {
 
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   private _removeCancelledVotes() {
-    this.reviewVoteRepository.delete({ helpful: IsNull() })
+    this.reviewVoteRepository.delete({ helpful: IsNull() });
   }
 }

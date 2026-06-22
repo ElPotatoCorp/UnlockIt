@@ -41,7 +41,7 @@ import { GameMapper } from './game.mapper';
 @GamesControllerDoc.Controller()
 @Controller('games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(private readonly gamesService: GamesService) {}
 
   @GamesControllerDoc.Create()
   @MinRole(EmployeeRole.ADMIN)
@@ -83,14 +83,21 @@ export class GamesController {
   @UseGuards(JwtAuthOptionalGuard)
   @Get(':id')
   findOne(
-    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: {
-      tags: true,
-      publishers: true,
-      developers: true,
-      platforms: true,
-      media: true,
-      series: true,
-    }})) game: GameEntity,
+    @Param(
+      'id',
+      ParseIntPipe,
+      EntityFetchPipe(GameEntity, 'id', {
+        relations: {
+          tags: true,
+          publishers: true,
+          developers: true,
+          platforms: true,
+          media: true,
+          series: true,
+        },
+      }),
+    )
+    game: GameEntity,
     @User('sub') userId?: string,
   ) {
     return this.gamesService.findOne(game, userId);
@@ -139,7 +146,12 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/tags')
   setTags(
-    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { tags: true } })) game: GameEntity,
+    @Param(
+      'id',
+      ParseIntPipe,
+      EntityFetchPipe(GameEntity, 'id', { relations: { tags: true } }),
+    )
+    game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setTagsById(game, dto.ids);
@@ -173,7 +185,12 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/developers')
   setDevelopers(
-    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { developers: true } })) game: GameEntity,
+    @Param(
+      'id',
+      ParseIntPipe,
+      EntityFetchPipe(GameEntity, 'id', { relations: { developers: true } }),
+    )
+    game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setDevelopersById(game, dto.ids);
@@ -207,7 +224,12 @@ export class GamesController {
   @MinRole(EmployeeRole.MODERATOR)
   @Patch(':id/publishers')
   setPublishers(
-    @Param('id', ParseIntPipe, EntityFetchPipe(GameEntity, 'id', { relations: { publishers: true } })) game: GameEntity,
+    @Param(
+      'id',
+      ParseIntPipe,
+      EntityFetchPipe(GameEntity, 'id', { relations: { publishers: true } }),
+    )
+    game: GameEntity,
     @Body() dto: BulkIdsDto,
   ) {
     return this.gamesService.setPublishersById(game, dto.ids);
@@ -240,7 +262,8 @@ export class GamesController {
   @Delete(':id/media/:mediaId')
   removeMedia(
     @Param('id', ParseIntPipe, EntityExistsPipe(GameEntity)) _: number,
-    @Param('mediaId', ParseIntPipe, EntityExistsPipe(MediaEntity)) mediaId: number,
+    @Param('mediaId', ParseIntPipe, EntityExistsPipe(MediaEntity))
+    mediaId: number,
   ) {
     return this.gamesService.removeMedia(mediaId);
   }

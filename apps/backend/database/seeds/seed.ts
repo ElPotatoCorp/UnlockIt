@@ -25,21 +25,28 @@ type SpecificOptions = {
   overrides?: Record<string, any>;
 };
 
-async function createOwnerElseARandomOne(dataSource: DataSource, userFactory: UserFactory) {
-  if (await dataSource.manager.exists(UserEntity, { where: { username: 'TestUser' } }))
+async function createOwnerElseARandomOne(
+  dataSource: DataSource,
+  userFactory: UserFactory,
+) {
+  if (
+    await dataSource.manager.exists(UserEntity, {
+      where: { username: 'TestUser' },
+    })
+  )
     return userFactory.create();
-  
+
   const uuid = randomUUID();
   return userFactory.create({
     id: uuid,
-    username: "TestUser",
+    username: 'TestUser',
     email: 'test@test.test',
-    password: "Test123&",
+    password: 'Test123&',
     employee: {
       role: EmployeeRole.OWNER,
       createdBy: uuid,
     },
-  })
+  });
 }
 
 function createOverrides(rawArgs: string[]): Record<string, any> {
@@ -82,8 +89,11 @@ async function init(dataSource: DataSource) {
   console.log(`   Created ${users.length} default users.`);
 
   console.log('-> Seeding batch: Games');
-  const games = await gameFactory.createMany(64)
-    .then(games => { console.log(`   Created ${games.length} default games.`); })
+  const games = await gameFactory
+    .createMany(64)
+    .then((games) => {
+      console.log(`   Created ${games.length} default games.`);
+    })
     .catch(() => console.log('All games were already created, skipping...'));
 
   console.log('-> Seeding batch: Stocks');

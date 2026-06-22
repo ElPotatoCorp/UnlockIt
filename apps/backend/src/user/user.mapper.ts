@@ -1,10 +1,10 @@
-import { UserDto } from "./dto/user.dto";
-import { PublicUserDto } from "./dto/public-user.dto";
-import { UserBillingDto } from "./dto/user-billing.dto";
-import { UserProfileDto } from "./dto/user-profile.dto";
-import { UserEntity } from "./entities/user.entity";
-import { UserProfileEntity } from "./entities/user-profile.entity";
-import { UserBillingEntity } from "./entities/user-billing.entity";
+import { UserDto } from './dto/user.dto';
+import { PublicUserDto } from './dto/public-user.dto';
+import { UserBillingDto } from './dto/user-billing.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserProfileEntity } from './entities/user-profile.entity';
+import { UserBillingEntity } from './entities/user-billing.entity';
 
 export class UserMapper {
   static toUser(user: UserEntity) {

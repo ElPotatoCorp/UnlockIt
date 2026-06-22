@@ -110,9 +110,13 @@ export class UserEntity implements IUserEntity {
   })
   cart: CartEntity;
 
-  @OneToMany(() => WalletTransactionEntity, (walletTransaction) => walletTransaction.user, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany(
+    () => WalletTransactionEntity,
+    (walletTransaction) => walletTransaction.user,
+    {
+      onDelete: 'SET NULL',
+    },
+  )
   walletTransactions: WalletTransactionEntity[];
 
   @OneToMany(() => OrderEntity, (order) => order.user)

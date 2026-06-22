@@ -13,17 +13,14 @@ export class UsersService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly commonService: CommonService,
-  ) { }
+  ) {}
 
   async findPassword(identifier: string): Promise<{
     password: string;
     createJwtPayloadDto: CreateJwtPayloadDto;
   } | null> {
     const user = await this.userRepository.findOne({
-      where: [
-        { email: identifier },
-        { username: identifier }
-      ],
+      where: [{ email: identifier }, { username: identifier }],
 
       select: {
         id: true,
@@ -44,13 +41,13 @@ export class UsersService {
 
     return user
       ? {
-        password: user.password,
-        createJwtPayloadDto: {
-          sub: user.id,
-          cartId: user.cart.id,
-          permission: user.employee?.role ?? null,
-        },
-      }
+          password: user.password,
+          createJwtPayloadDto: {
+            sub: user.id,
+            cartId: user.cart.id,
+            permission: user.employee?.role ?? null,
+          },
+        }
       : null;
   }
 

@@ -1,5 +1,5 @@
-import { GameDeveloperDto } from "./dto/game-developer.dto";
-import { DeveloperEntity } from "./entities/developer.entity";
+import { GameDeveloperDto } from './dto/game-developer.dto';
+import { DeveloperEntity } from './entities/developer.entity';
 
 export class DeveloperMapper {
   static toGameDeveloper(developer: DeveloperEntity) {

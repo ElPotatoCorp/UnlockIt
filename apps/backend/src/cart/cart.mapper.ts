@@ -1,6 +1,6 @@
-import { CartItemDto } from "./dto/cart-items.dto";
-import { GameMapper } from "src/games/game.mapper";
-import { CartItemEntity } from "./entities/cart-item.entity";
+import { CartItemDto } from './dto/cart-items.dto';
+import { GameMapper } from 'src/games/game.mapper';
+import { CartItemEntity } from './entities/cart-item.entity';
 
 export class CartMapper {
   static toItem(cartItem: CartItemEntity) {

@@ -158,7 +158,7 @@ export class GameEntity implements IGameEntity {
   })
   media: MediaEntity[];
 
-  @OneToMany(() => ReviewEntity, review => review.gameId)
+  @OneToMany(() => ReviewEntity, (review) => review.gameId)
   reviews: ReviewEntity[];
 }
 

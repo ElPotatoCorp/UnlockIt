@@ -13,10 +13,10 @@ export class CartItemDto implements CartItem {
 
   @CartItemEntityDoc.Quantity()
   quantity: number;
-  
+
   @CartItemEntityDoc.Selected()
   selected: boolean;
-  
+
   @CartItemEntityDoc.AddedAt()
   addedAt: Date;
 }

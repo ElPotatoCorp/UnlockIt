@@ -42,7 +42,7 @@ export const WishlistControllerDoc = {
       ApiOperation({
         summary: 'Check whether a game is wishlisted',
         description:
-          "Returns whether the authenticated user has the given game in their wishlist.",
+          'Returns whether the authenticated user has the given game in their wishlist.',
       }),
       GAME_ID_PARAM,
       ApiOkResponse({
@@ -62,7 +62,8 @@ export const WishlistControllerDoc = {
     applyDecorators(
       ApiOperation({
         summary: 'Add a game to the wishlist',
-        description: 'Idempotent — adding an already-wishlisted game is a no-op.',
+        description:
+          'Idempotent — adding an already-wishlisted game is a no-op.',
       }),
       GAME_ID_PARAM,
       ApiCreatedResponse({ description: 'Game added to wishlist.' }),

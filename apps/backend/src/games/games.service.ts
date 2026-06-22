@@ -38,7 +38,7 @@ export class GamesService {
   create(createGameDto: CreateGameDto) {
     const game = this.gameRepository.create(createGameDto);
     game.platforms = {} as GamePlatformEntity;
-    
+
     return this.gameRepository.save(game);
   }
 
@@ -174,9 +174,7 @@ export class GamesService {
   async findOne(game: GameEntity, userId?: string) {
     return GameMapper.toDetail(
       game,
-      userId
-        ? await this.wishlistService.isInWishlist(userId, game.id)
-        : false,
+      userId ? await this.wishlistService.isInWishlist(userId, game.id) : false,
     );
   }
 
@@ -327,7 +325,11 @@ export class GamesService {
   }
 
   // --- Reviews ---
-  getReviews(gameId: number, paginationQueryDto: PaginationQueryDto, userId?: string) {
+  getReviews(
+    gameId: number,
+    paginationQueryDto: PaginationQueryDto,
+    userId?: string,
+  ) {
     return this.reviewsService.findAll(gameId, paginationQueryDto, userId);
   }
 

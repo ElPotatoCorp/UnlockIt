@@ -52,8 +52,13 @@ export class TicketsController {
   @TicketsControllerDoc.FindOne()
   @Get(':id')
   findOne(
-    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(TicketEntity, 'id', { relations: { user: true } })) ticket: TicketEntity,
-    @User() user: JwtPayloadDto
+    @Param(
+      'id',
+      new ParseUUIDPipe({ version: '4' }),
+      EntityFetchPipe(TicketEntity, 'id', { relations: { user: true } }),
+    )
+    ticket: TicketEntity,
+    @User() user: JwtPayloadDto,
   ) {
     return this.ticketsService.findOne(ticket, user);
   }
@@ -61,7 +66,12 @@ export class TicketsController {
   @TicketsControllerDoc.Update()
   @Patch(':id')
   update(
-    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) ticket: TicketEntity,
+    @Param(
+      'id',
+      new ParseUUIDPipe({ version: '4' }),
+      EntityExistsPipe(TicketEntity),
+    )
+    ticket: TicketEntity,
     @Body() updateTicketDto: UpdateTicketDto,
   ) {
     return this.ticketsService.update(ticket, updateTicketDto);
@@ -71,7 +81,12 @@ export class TicketsController {
   @Delete(':id')
   @HttpCode(204)
   remove(
-    @Param('id', new ParseUUIDPipe({ version: '4' }), EntityExistsPipe(TicketEntity)) id: number,
+    @Param(
+      'id',
+      new ParseUUIDPipe({ version: '4' }),
+      EntityExistsPipe(TicketEntity),
+    )
+    id: number,
   ) {
     return this.ticketsService.remove(id);
   }

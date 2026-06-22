@@ -42,7 +42,7 @@ interface GameJson {
   pcRequirements: string | null;
   supportedLanguages: string[];
   metacriticScore: number | null;
-  series: { name: string; slug: string; } | null;
+  series: { name: string; slug: string } | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -244,7 +244,9 @@ export class GameFactory extends Factory<GameEntity> {
     return ds.transaction(async (manager) => {
       const savedTags: TagEntity[] = [];
       for (const t of game.tags) {
-        savedTags.push(await this.upsertByName(manager, TagEntity, { name: t.name }));
+        savedTags.push(
+          await this.upsertByName(manager, TagEntity, { name: t.name }),
+        );
       }
 
       const savedDevs: DeveloperEntity[] = [];
@@ -262,7 +264,10 @@ export class GameFactory extends Factory<GameEntity> {
       }
 
       game.series = game.series?.name
-        ? await this.upsertByName(manager, SeriesEntity, { name: game.series.name, slug: game.series.slug })
+        ? await this.upsertByName(manager, SeriesEntity, {
+            name: game.series.name,
+            slug: game.series.slug,
+          })
         : null;
 
       const savedGame = await manager.save(GameEntity, game);
@@ -302,7 +307,11 @@ export class GameFactory extends Factory<GameEntity> {
   // upsertByName : find-or-create for Tag / Developer / Publisher
   // -------------------------------------------------------------------------
 
-  private async upsertByName<E extends ObjectLiteral>(manager: EntityManager, target: EntityTarget<E>, values: any): Promise<E> {
+  private async upsertByName<E extends ObjectLiteral>(
+    manager: EntityManager,
+    target: EntityTarget<E>,
+    values: any,
+  ): Promise<E> {
     const result = await manager
       .createQueryBuilder()
       .insert()
@@ -316,6 +325,6 @@ export class GameFactory extends Factory<GameEntity> {
       return result.raw[0] as E;
     }
 
-    return manager.findOneByOrFail(target, values as any);
+    return manager.findOneByOrFail(target, values);
   }
 }

@@ -1,23 +1,23 @@
-import { OrderDto } from "./dto/order.dto";
-import { OrderItemDto } from "./dto/order-item.dto";
-import { GameMapper } from "src/games/game.mapper";
-import { OrderSummaryDto } from "./dto/summary-order.dto";
-import { OrderEntity } from "./entities/order.entity";
-import { OrderItemEntity } from "./entities/order-item.entity";
-import { CheckoutResultDto } from "src/checkout/dto/checkout-result.dto";
+import { OrderDto } from './dto/order.dto';
+import { OrderItemDto } from './dto/order-item.dto';
+import { GameMapper } from 'src/games/game.mapper';
+import { OrderSummaryDto } from './dto/summary-order.dto';
+import { OrderEntity } from './entities/order.entity';
+import { OrderItemEntity } from './entities/order-item.entity';
+import { CheckoutResultDto } from 'src/checkout/dto/checkout-result.dto';
 
 export class OrderMapper {
   static toOrder(order: OrderEntity) {
     const dto = new OrderDto();
-  
+
     dto.id = order.id;
     dto.status = order.status;
     dto.amountPaidWallet = order.amountPaidWallet;
     dto.amountPaidStripe = order.amountPaidStripe;
     dto.createdAt = order.createdAt;
     dto.completedAt = order.completedAt;
-    dto.items = order.items.map(item => this.toItem(item));
-  
+    dto.items = order.items.map((item) => this.toItem(item));
+
     return dto;
   }
 
@@ -44,10 +44,7 @@ export class OrderMapper {
     return dto;
   }
 
-  static toCheckout(
-    order: OrderDto,
-    clientSecret: string | null,
-  ) {
+  static toCheckout(order: OrderDto, clientSecret: string | null) {
     const dto = new CheckoutResultDto();
 
     dto.order = order;

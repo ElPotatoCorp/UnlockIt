@@ -67,10 +67,7 @@ export class UserService {
 
   async updateAvatar(user: UserEntity, avatarFile: Express.Multer.File) {
     user.avatar &&
-      this.uploadService.removeObsoleteFile(
-        UploadSubdir.AVATARS,
-        user.avatar,
-      ); // Remove old avatar if it exists
+      this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
 
     this.userRepository.update(user.id, { avatar: avatarFile.filename });
 
@@ -81,7 +78,6 @@ export class UserService {
   }
 
   async deleteAvatar(user: UserEntity) {
-
     if (user?.avatar) {
       this.uploadService.removeObsoleteFile(UploadSubdir.AVATARS, user.avatar); // Remove old avatar if it exists
       await this.userRepository.update(user.id, { avatar: null });

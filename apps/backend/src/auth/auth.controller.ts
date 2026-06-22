@@ -39,7 +39,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly ticketService: TicketsService,
-    @Inject(coreConfig.KEY) private readonly config: ConfigType<typeof coreConfig>,
+    @Inject(coreConfig.KEY)
+    private readonly config: ConfigType<typeof coreConfig>,
     @Inject(jwtConfig.KEY) private readonly jwt: ConfigType<typeof jwtConfig>,
   ) {}
 
@@ -98,10 +99,16 @@ export class AuthController {
   @Public()
   @Throttle({ authResetPassword: {} })
   @Post('forgotten-password')
-  async forgottenPassword(@Body() createPasswordResetDto: CreatePasswordResetDto) {
+  async forgottenPassword(
+    @Body() createPasswordResetDto: CreatePasswordResetDto,
+  ) {
     // In practice, the ticket id should not be returned
     // However, in this case, because we are in dev with no mailing system, we do that way
-    return { resetToken: await this.ticketService.createPasswordResetTicket(createPasswordResetDto)};
+    return {
+      resetToken: await this.ticketService.createPasswordResetTicket(
+        createPasswordResetDto,
+      ),
+    };
   }
 
   @AuthControllerDoc.ResetPassword()
@@ -129,7 +136,7 @@ export class AuthController {
     const { sid, iat, exp, ...createJwtPayloadDto } = session;
 
     const tokens = await this.authService.login(
-      createJwtPayloadDto as CreateJwtPayloadDto,
+      createJwtPayloadDto,
       ip,
       userAgent,
       sid,
@@ -142,7 +149,10 @@ export class AuthController {
   @UseGuards(JwtAuthOptionalGuard)
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  logout(@Response({ passthrough: true }) res, @User('sid') sessionId?: string) {
+  logout(
+    @Response({ passthrough: true }) res,
+    @User('sid') sessionId?: string,
+  ) {
     if (!sessionId) return;
 
     this.authService.logout(sessionId);

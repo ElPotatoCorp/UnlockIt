@@ -25,7 +25,10 @@ export const WalletControllerDoc = {
         summary: 'Get wallet balance',
         description: "Returns the authenticated user's current wallet balance.",
       }),
-      ApiOkResponse({ description: 'Current balance.', type: WalletBalanceDto }),
+      ApiOkResponse({
+        description: 'Current balance.',
+        type: WalletBalanceDto,
+      }),
     ),
 
   // GET /wallet/transactions

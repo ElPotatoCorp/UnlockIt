@@ -42,7 +42,10 @@ export class SeriesService {
   }
 
   async findBySlug(slug: string) {
-    const series = await this.commonService.entities.fetchEntityOrFail(this.seriesRepository, { where: { slug }, relations: { games: true } })
+    const series = await this.commonService.entities.fetchEntityOrFail(
+      this.seriesRepository,
+      { where: { slug }, relations: { games: true } },
+    );
     return SeriesMapper.toSeries(series);
   }
 

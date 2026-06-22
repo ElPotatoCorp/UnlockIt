@@ -1,7 +1,7 @@
-import { applyDecorators } from "@nestjs/common";
-import { ApiProperty } from "@nestjs/swagger";
-import { MakeDoc } from "src/docs/common/make-doc";
-import { GamePrimitiveEntityDoc } from "src/docs/games/entities/game-primitive.entity.doc";
+import { applyDecorators } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+import { MakeDoc } from 'src/docs/common/make-doc';
+import { GamePrimitiveEntityDoc } from 'src/docs/games/entities/game-primitive.entity.doc';
 
 export const CartItemEntityDoc = {
   CartId: MakeDoc.MakeUUID('Cart ID'),
@@ -17,9 +17,9 @@ export const CartItemEntityDoc = {
         minimum: 1,
         default: 1,
         example: 2,
-      })
+      }),
     ),
-  
+
   Selected: () =>
     applyDecorators(
       ApiProperty({
@@ -28,9 +28,9 @@ export const CartItemEntityDoc = {
         type: Boolean,
         default: true,
         example: true,
-      })
+      }),
     ),
-  
+
   AddedAt: () =>
     applyDecorators(
       ApiProperty({
@@ -39,6 +39,6 @@ export const CartItemEntityDoc = {
         type: Date,
         default: new Date(),
         example: new Date(),
-      })
+      }),
     ),
-}
+};

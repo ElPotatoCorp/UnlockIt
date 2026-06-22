@@ -55,7 +55,7 @@ export const CartControllerDoc = {
         },
       }),
     ),
-  
+
   // POST /cart/:id/toggle
   Toggle: () =>
     applyDecorators(
@@ -116,7 +116,9 @@ export const CartControllerDoc = {
         description: 'Quantity to remove. Defaults to 1.',
         example: 1,
       }),
-      ApiNoContentResponse({ description: 'Quantity decreased or item removed.' }),
+      ApiNoContentResponse({
+        description: 'Quantity decreased or item removed.',
+      }),
       ApiNotFoundResponse({
         description: 'No game found with the specified ID.',
       }),

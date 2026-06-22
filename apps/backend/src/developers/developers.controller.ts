@@ -26,7 +26,9 @@ export class DevelopersController {
 
   @DevelopersControllerDoc.Create()
   @Post()
-  create(@Body(DuplicatedEntryPipe(DeveloperEntity, 'name')) dto: CreateDeveloperDto) {
+  create(
+    @Body(DuplicatedEntryPipe(DeveloperEntity, 'name')) dto: CreateDeveloperDto,
+  ) {
     return this.developersService.create(dto);
   }
 

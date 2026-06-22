@@ -147,7 +147,7 @@ export const AuthControllerDoc = {
       }),
     ),
 
-    // POST /auth/forgotten-password
+  // POST /auth/forgotten-password
   ForgottenPassword: () =>
     applyDecorators(
       ApiOperation({
@@ -178,7 +178,8 @@ export const AuthControllerDoc = {
       ApiNotFoundResponse({ description: 'No user with this identifier.' }),
       ApiBadRequestResponse({ description: 'Validation failed.' }),
       ApiTooManyRequestsResponse({
-        description: 'Too many password reset requests. Please try again later.',
+        description:
+          'Too many password reset requests. Please try again later.',
       }),
     ),
 
@@ -206,7 +207,8 @@ export const AuthControllerDoc = {
         description: 'Validation failed (weak or too short password).',
       }),
       ApiUnprocessableEntityResponse({
-        description: 'The user the request was made for does not exist anymore.'
+        description:
+          'The user the request was made for does not exist anymore.',
       }),
       ApiTooManyRequestsResponse({
         description: 'Too many attempts. Please try again later.',

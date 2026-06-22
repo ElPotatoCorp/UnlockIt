@@ -103,21 +103,20 @@ export class AuthService {
     };
   }
 
-  async resetPassword(
-    ticketId: string,
-    resetPasswordDto: ResetPasswordDto,
-  ) {
-    let fifteenMinutesLater = new Date();
+  async resetPassword(ticketId: string, resetPasswordDto: ResetPasswordDto) {
+    const fifteenMinutesLater = new Date();
     fifteenMinutesLater.setMinutes(fifteenMinutesLater.getMinutes() + 15);
 
     const ticket = await this.commonService.entities.fetchEntityOrFail(
       this.reviewRepository,
-      { where: {
-        id: ticketId,
-        createdAt: LessThan(fifteenMinutesLater),
-      }},
+      {
+        where: {
+          id: ticketId,
+          createdAt: LessThan(fifteenMinutesLater),
+        },
+      },
     );
-    
+
     const user = await this.usersService.findOne({ email: ticket.email });
 
     if (!user) {

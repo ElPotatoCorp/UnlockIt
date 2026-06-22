@@ -9,5 +9,5 @@ export class AppController {
   @Public()
   @All()
   @HttpCode(HttpStatus.I_AM_A_TEAPOT)
-  easterEgg() { }
+  easterEgg() {}
 }

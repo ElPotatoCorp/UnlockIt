@@ -1,5 +1,5 @@
-import { GamePlatformDto } from "./dto/game-platform.dto";
-import { GamePlatformEntity } from "./entities/game-platform.entity";
+import { GamePlatformDto } from './dto/game-platform.dto';
+import { GamePlatformEntity } from './entities/game-platform.entity';
 
 export class PlatformMapper {
   static toGamePlatform(gamePlatform: GamePlatformEntity) {

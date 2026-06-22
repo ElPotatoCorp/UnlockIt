@@ -36,49 +36,49 @@ function applyAppDocumentation(app: INestApplication<any>): void {
     )
     .addTag(
       'Tags',
-      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of tags'
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of tags',
     )
     .addTag(
       'Developers',
-      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of developers'
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of developers',
     )
     .addTag(
       'Publishers',
-      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of publishers'
+      'Endpoints related to tag management, including creation, retrieval, updating, and deletion of publishers',
     )
     .addTag(
       'Series',
       'Endpoints related to series management, including creation, retrieval, updating, and deletion of series',
     )
+    .addTag('Reviews', 'Single endpoints to vote for a review')
     .addTag(
-      'Reviews',
-      'Single endpoints to vote for a review'
+      'Wishlist',
+      "Endpoints related to the authenticated user's wishlist",
     )
-    .addTag('Wishlist', 'Endpoints related to the authenticated user\'s wishlist')
     .addTag(
       'Cart',
-      'Endpoints related to cart content management, including retrieval, addition, updating, and deletion of items'
+      'Endpoints related to cart content management, including retrieval, addition, updating, and deletion of items',
     )
     .addTag(
       'Purchases',
-      'Endpoints related to purchases, such as seeing all purchases, one, the keys, and also to manage reviews (creation, modification, deletion)'
+      'Endpoints related to purchases, such as seeing all purchases, one, the keys, and also to manage reviews (creation, modification, deletion)',
     )
     .addTag(
       'Tickets',
-      'Endpoints related to tickets management, including creation by anyone, retrieval by owner and employees, updating and deletionn by employees of tickets'
+      'Endpoints related to tickets management, including creation by anyone, retrieval by owner and employees, updating and deletionn by employees of tickets',
     )
     .addTag('Employees', 'Warning: Not implemented yet')
     .addTag(
       'Orders',
-      'Endpoints related to orders. Since they are read-only, an authenticated user can only view all of them or one in details'
+      'Endpoints related to orders. Since they are read-only, an authenticated user can only view all of them or one in details',
     )
     .addTag(
       'Wallet',
-      'Endpoints related to wallet management, including addition of funds, retrieving the balance, or seeing all transactions'
+      'Endpoints related to wallet management, including addition of funds, retrieving the balance, or seeing all transactions',
     )
     .addTag(
       'Checkout',
-      'Endpoints related to a checkout, for now including only the payment process using wallet only (we are still in dev)'
+      'Endpoints related to a checkout, for now including only the payment process using wallet only (we are still in dev)',
     )
     .addGlobalResponse({
       status: 500,

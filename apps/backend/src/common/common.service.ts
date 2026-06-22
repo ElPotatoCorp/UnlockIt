@@ -1,7 +1,6 @@
-import { Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PaginationService } from './pagination/pagination.service';
 import { EntitiesService } from './entities/entities.service';
-
 
 @Injectable()
 export class CommonService {

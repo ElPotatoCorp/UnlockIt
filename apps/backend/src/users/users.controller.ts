@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersControllerDoc } from 'src/docs/users/users.controller.doc';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -27,7 +21,14 @@ export class UsersController {
 
   @UsersControllerDoc.GetOne()
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe({ version: '4' }), EntityFetchPipe(UserEntity)) user: UserEntity) {
+  findOne(
+    @Param(
+      'id',
+      new ParseUUIDPipe({ version: '4' }),
+      EntityFetchPipe(UserEntity),
+    )
+    user: UserEntity,
+  ) {
     return UserMapper.toPublic(user);
   }
 }

@@ -18,7 +18,7 @@ export class CartItemEntity implements ICartItemEntity {
   @CartItemEntityDoc.CartId(false)
   @PrimaryColumn('uuid', { name: 'cart_id' })
   cartId: string;
-  
+
   @CartItemEntityDoc.GameId(false)
   @PrimaryColumn('bigint', { name: 'game_id' })
   gameId: number;
@@ -48,7 +48,7 @@ export class CartItemEntity implements ICartItemEntity {
   })
   @JoinColumn({ name: 'cart_id' })
   cart: CartEntity;
-  
+
   @ManyToOne(() => GameEntity, {
     onDelete: 'CASCADE',
   })

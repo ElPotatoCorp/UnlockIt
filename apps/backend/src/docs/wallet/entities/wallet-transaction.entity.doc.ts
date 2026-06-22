@@ -40,7 +40,8 @@ export const WalletTransactionEntityDoc = {
     applyDecorators(
       ApiProperty({
         title: 'Transaction date',
-        description: 'Set automatically by the server when the transaction is recorded.',
+        description:
+          'Set automatically by the server when the transaction is recorded.',
         type: String,
         format: 'date-time',
         example: '2024-01-15T10:23:00Z',

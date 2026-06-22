@@ -1,8 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  ExactData,
-  OrderItem,
-} from '@unlockit/shared';
+import { ExactData, OrderItem } from '@unlockit/shared';
 import { OrderEntityDoc } from 'src/docs/orders/entities/order.entity.doc';
 import { SummaryGameDto } from 'src/games/dto/summary-game.dto';
 

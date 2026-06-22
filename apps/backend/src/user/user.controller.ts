@@ -42,13 +42,19 @@ export class UserController {
 
   @UserControllerDoc.GetProfile()
   @Get('profile')
-  async getProfile(@User('sub', EntityFetchPipe(UserProfileEntity, 'userId')) userProfile: UserProfileEntity) {
+  async getProfile(
+    @User('sub', EntityFetchPipe(UserProfileEntity, 'userId'))
+    userProfile: UserProfileEntity,
+  ) {
     return UserMapper.toProfile(userProfile);
   }
 
   @UserControllerDoc.GetBilling()
   @Get('billing')
-  async getBilling(@User('sub', EntityFetchPipe(UserBillingEntity, 'userId')) userBilling: UserBillingEntity) {
+  async getBilling(
+    @User('sub', EntityFetchPipe(UserBillingEntity, 'userId'))
+    userBilling: UserBillingEntity,
+  ) {
     return UserMapper.toBilling(userBilling);
   }
 
@@ -80,7 +86,11 @@ export class UserController {
   @Patch('avatar')
   @UseInterceptors(FileInterceptor('avatar', uploadUserAvatar.multerOptions))
   updateAvatar(
-    @User('sub', EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } })) user: UserEntity,
+    @User(
+      'sub',
+      EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } }),
+    )
+    user: UserEntity,
     @UploadedFile() avatarFile: Express.Multer.File,
   ) {
     return this.userService.updateAvatar(user, avatarFile);
@@ -88,13 +98,22 @@ export class UserController {
 
   @UserControllerDoc.DeleteAvatar()
   @Delete('avatar')
-  deleteAvatar(@User('sub', EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } })) user: UserEntity) {
+  deleteAvatar(
+    @User(
+      'sub',
+      EntityFetchPipe(UserEntity, 'id', { select: { id: true, avatar: true } }),
+    )
+    user: UserEntity,
+  ) {
     return this.userService.deleteAvatar(user);
   }
 
   @UserControllerDoc.Delete()
   @Delete()
-  delete(@User('sub', EntityExistsPipe(UserEntity)) userId: string, @Response({ passthrough: true }) res) {
+  delete(
+    @User('sub', EntityExistsPipe(UserEntity)) userId: string,
+    @Response({ passthrough: true }) res,
+  ) {
     res.clearCookie(this.jwt.accessTokenCookieName);
     res.clearCookie(this.jwt.refreshTokenCookieName);
 

@@ -1,5 +1,5 @@
-import { WalletTransactionDto } from "./dto/wallet-transaction.dto";
-import { WalletTransactionEntity } from "./entities/wallet-transaction.entity";
+import { WalletTransactionDto } from './dto/wallet-transaction.dto';
+import { WalletTransactionEntity } from './entities/wallet-transaction.entity';
 
 export class WalletMapper {
   static toWalletTransaction(walletTransaction: WalletTransactionEntity) {

@@ -1,5 +1,5 @@
-import { WishlistDto } from "./dto/wishlist.dto";
-import { WishlistEntity } from "./entities/wishlist.entity";
+import { WishlistDto } from './dto/wishlist.dto';
+import { WishlistEntity } from './entities/wishlist.entity';
 
 export class WishlistMapper {
   static toWishlist(wishlist: WishlistEntity) {

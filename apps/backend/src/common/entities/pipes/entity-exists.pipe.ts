@@ -1,5 +1,17 @@
-import { Type, PipeTransform, Injectable, ArgumentMetadata, NotFoundException, mixin } from '@nestjs/common';
-import { ObjectLiteral, DataSource, Repository, FindOptionsWhere } from 'typeorm';
+import {
+  Type,
+  PipeTransform,
+  Injectable,
+  ArgumentMetadata,
+  NotFoundException,
+  mixin,
+} from '@nestjs/common';
+import {
+  ObjectLiteral,
+  DataSource,
+  Repository,
+  FindOptionsWhere,
+} from 'typeorm';
 import { buildNotFoundMessage, buildWhere } from '../utils/helper';
 
 /**
@@ -27,21 +39,22 @@ export async function entityExists<T extends ObjectLiteral>(
  */
 export function EntityExistsPipe<T extends ObjectLiteral>(
   entityClass: Type<T>,
-  field: keyof T = 'id' as keyof T,
+  field: keyof T = 'id',
 ): Type<PipeTransform> {
   @Injectable()
   class EntityExistsMixin implements PipeTransform {
-    constructor(private readonly dataSource: DataSource) { }
+    constructor(private readonly dataSource: DataSource) {}
 
-    async transform(value: unknown, _metadata: ArgumentMetadata): Promise<unknown> {
+    async transform(
+      value: unknown,
+      _metadata: ArgumentMetadata,
+    ): Promise<unknown> {
       const repository = this.dataSource.getRepository(entityClass);
       const where = buildWhere<T>([field], [value]);
       const found = await entityExists(repository, where);
 
       if (!found) {
-        throw new NotFoundException(
-          buildNotFoundMessage(repository, where),
-        );
+        throw new NotFoundException(buildNotFoundMessage(repository, where));
       }
 
       return value;

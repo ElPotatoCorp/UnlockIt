@@ -1,5 +1,5 @@
-import { GamePublisherDto } from "./dto/game-publisher.dto";
-import { PublisherEntity } from "./entities/publisher.entity";
+import { GamePublisherDto } from './dto/game-publisher.dto';
+import { PublisherEntity } from './entities/publisher.entity';
 
 export class PublisherMapper {
   static toGamePublisher(publisher: PublisherEntity) {

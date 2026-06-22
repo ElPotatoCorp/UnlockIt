@@ -1,26 +1,33 @@
-import { FindOneOptions, ObjectLiteral, Repository, SelectQueryBuilder } from "typeorm";
-import { PaginationQueryDto } from "./dto/pagination-query.dto";
-import { PaginatedDto } from "./dto/paginated.dto";
-import { NotFoundException } from "@nestjs/common";
+import {
+  FindOneOptions,
+  ObjectLiteral,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
+import { PaginatedDto } from './dto/paginated.dto';
+import { NotFoundException } from '@nestjs/common';
 
 type TransformEach<T, U> = {
   each?: true; // Transform each by default even when undefined is given
   fn: (entity: T) => U;
-}
+};
 
 type TransformAll<T, U> = {
   each: false;
   fn: (entities: T[]) => U;
-}
+};
 
 export type PaginatedResponseTransform<T, U> =
   | TransformEach<T, U>
   | TransformAll<T, U>;
 
-export type PaginatedResponseOptions<T extends ObjectLiteral, U = T> =
-   FindOneOptions<T> & {
+export type PaginatedResponseOptions<
+  T extends ObjectLiteral,
+  U = T,
+> = FindOneOptions<T> & {
   transform?: PaginatedResponseTransform<T, U>;
-}
+};
 
 export class PaginationService {
   public async getPaginatedResponse<T extends ObjectLiteral, U = T>(
@@ -38,7 +45,9 @@ export class PaginationService {
   public async getPaginatedResponse<T extends ObjectLiteral, U = T>(
     repositoryOrQuery: Repository<T> | SelectQueryBuilder<T>,
     paginationQueryDto: PaginationQueryDto,
-    optionsOrTransform?: PaginatedResponseOptions<T, U> | PaginatedResponseTransform<T, U>,
+    optionsOrTransform?:
+      | PaginatedResponseOptions<T, U>
+      | PaginatedResponseTransform<T, U>,
   ): Promise<PaginatedDto<U>> {
     const { page, limit } = paginationQueryDto;
     const offset = (page - 1) * limit;
@@ -48,7 +57,8 @@ export class PaginationService {
     let total: number;
 
     if (repositoryOrQuery instanceof Repository) {
-      const { transform: _transform, ...findOptions } = (optionsOrTransform ?? {}) as PaginatedResponseOptions<T, U>;
+      const { transform: _transform, ...findOptions } = (optionsOrTransform ??
+        {}) as PaginatedResponseOptions<T, U>;
       transform = _transform;
 
       [data, total] = await repositoryOrQuery.findAndCount({
@@ -57,7 +67,9 @@ export class PaginationService {
         take: limit,
       });
     } else {
-      transform = optionsOrTransform as PaginatedResponseTransform<T, U> | undefined;
+      transform = optionsOrTransform as
+        | PaginatedResponseTransform<T, U>
+        | undefined;
 
       [data, total] = await repositoryOrQuery
         .skip(offset)
@@ -73,7 +85,7 @@ export class PaginationService {
     if (transform) {
       items =
         transform.each === false
-          ? transform.fn(data) as U[]
+          ? (transform.fn(data) as U[])
           : data.map(transform.fn);
     } else {
       items = data as unknown as U[];

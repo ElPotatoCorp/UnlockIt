@@ -35,7 +35,7 @@ export class EmployeeEntity implements IEmployeeEntity {
   // Relations
   // =====================================================
 
-  @OneToOne(() => UserEntity, (user) => user.employee ,{ onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, (user) => user.employee, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id' })
   user: UserEntity;
 }
