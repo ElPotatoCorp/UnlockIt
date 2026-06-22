@@ -57,6 +57,10 @@ const Cart: FC = () => {
         await removeFromCart(id, 1);
     };
 
+    const handleRemove = async (id: number, stack: number) => {
+        await removeFromCart(id, stack);
+    };
+
     const handleToggle = async (id: number, selected: boolean) => {
         await toggleItem(id, !selected);
     };
@@ -110,6 +114,13 @@ const Cart: FC = () => {
                                 <span className={styles.lineTotal}>
                                     {(item.quantity * item.game.price).toFixed(2)} €
                                 </span>
+
+                                <button
+                                    className={styles.removeBtn}
+                                    onClick={() => handleRemove(item.game.id, item.quantity)}
+                                >
+                                    ✖
+                                </button>
                             </div>
                         </li>
                     ))}
@@ -118,7 +129,7 @@ const Cart: FC = () => {
                 <div className={styles.totalRow}>
                     <span>Total sélectionné :</span>
                     <span className={styles.totalValue}>{total.toFixed(2)} €</span>
-                </div> 
+                </div>
 
                 <div className={styles.actions}>
                     <Button onClick={handleClear} variant="danger">Vider le panier</Button>

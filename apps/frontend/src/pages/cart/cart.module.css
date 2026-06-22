@@ -152,3 +152,19 @@
   color: var(--color-white);
   text-align: center;
 }
+
+.removeBtn {
+  padding: 8px 12px;
+  background: var(--color-error);
+  border: none;
+  border-radius: 6px;
+  color: var(--color-white);
+  cursor: var(--cursor-pointer);
+  font-size: 0.85rem;
+  margin-left: 12px;
+  transition: background 0.3s ease;
+}
+
+.removeBtn:hover {
+  background: #ff3333;
+}
