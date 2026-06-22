@@ -1,13 +1,20 @@
-import cardStyles from "../../../styles/card.module.css";
 import styles from "./gameSummary.module.css";
 import { useAuth } from "../../../api/hooks/useAuth.hook";
 import { useNavigate } from "react-router-dom";
 import type { GameDetail } from "@unlockit/shared";
 
-// import iconHeart from "/images/heart.png";
-// import iconCart from "/images/cart.png";
-const iconHeart = "❤️";
-const iconCart = "🛒";
+import HeartIcon from "../../../assets/heart-outlined.svg?react";
+import HeartFilledIcon from "../../../assets/heart-filled.svg?react";
+import CartIcon from "../../../assets/cart-add.svg?react";
+
+import { useCart } from "../../../api/hooks/useCart.hook";
+import { useWishlist } from "../../../api/hooks/useWishlist.hook";
+import { useToast } from "../../../utils/hooks/useToast";
+import { useModal } from "../../../components/common/modal-provider/ModalProvider";
+import { CartModal } from "../../../components/ui/modal/CartModal";
+import { Card } from "../../../components/common/card/Card";
+import { Button } from "../../../components/common/button/Button";
+import { useState } from "react";
 
 interface GameSummaryProps {
     game: GameDetail;
@@ -16,41 +23,69 @@ interface GameSummaryProps {
 export const GameSummary = ({ game }: GameSummaryProps) => {
     const navigate = useNavigate();
     const { isLogged } = useAuth();
+    const { addToWishlist, removeFromWishlist } = useWishlist();
+    const { addToCart } = useCart();
+    const { success, error, info } = useToast();
+    const { openModal, closeModal } = useModal();
 
-    const handleWishlistToggle = () => {
-        if (!isLogged) {
-            navigate("/login");
-            return;
-        }
-
-        console.log("TODO: add to wishlist", game.id);
-    };
+    const [wishlisted, setWishlisted] = useState(game.wishlisted ?? false);
 
     const handleAddToCart = async () => {
-        if (!isLogged) {
-            navigate("/login");
-            return;
-        }
+        if (!isLogged) return navigate("/login");
 
-        console.log("TODO: add to cart", game.id);
+        try {
+            await addToCart(game.id);
+
+            openModal(
+                <CartModal
+                    onCheckout={() => closeModal(() => navigate("/checkout"))}
+                />,
+                {
+                    overlay: "blur-dim",
+                    position: "center",
+                    closeOnOverlay: true,
+                    stackMode: "show",
+                }
+            );
+        } catch {
+            error("Impossible d'ajouter au panier.");
+        }
+    };
+
+    const handleToggleWishlist = async () => {
+        if (!isLogged) return navigate("/login");
+
+        try {
+            if (wishlisted) {
+                setWishlisted(false);
+                await removeFromWishlist(game.id);
+                info("Retiré de votre wishlist.");
+            } else {
+                setWishlisted(true);
+                await addToWishlist(game.id);
+                success("Ajouté à votre wishlist.");
+            }
+        } catch {
+            error("Une erreur est survenue.");
+        }
     };
 
     return (
-        <div className={`${styles.rightColumn} ${cardStyles.card}`}>
+        <Card className={styles.rightColumn}>
             <div className={styles.topRow}>
                 <div className={styles.imageContainer}>
                     <img src={game.headerImage} alt={game.name} />
                 </div>
 
                 <div className={styles.infoContainer}>
-                    <div className={styles.metaRow}>
-                        <div className={styles.priceWrapper}>
-                            {game.price === 0 ? (
-                                <span className={styles.priceFree}>Gratuit</span>
-                            ) : (
-                                <span className={styles.priceDiscount}>{game.price.toFixed(2)} €</span>
-                            )}
-                        </div>
+                    <div className={styles.priceWrapper}>
+                        {game.price === 0 ? (
+                            <span className={styles.priceFree}>Gratuit</span>
+                        ) : (
+                            <span className={styles.priceDiscount}>
+                                {game.price.toFixed(2)} €
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -58,39 +93,35 @@ export const GameSummary = ({ game }: GameSummaryProps) => {
             <div className={styles.buttonsRow}>
                 <button
                     type="button"
-                    className={`${cardStyles.cardButton} ${styles.wishlistButton} ${game.wishlisted ? styles.active : ""}`}
-                    onClick={handleWishlistToggle}
+                    className={`${styles.wishlistButton} ${wishlisted ? styles.active : ""}`}
+                    onClick={handleToggleWishlist}
                 >
-                    <img
-                        src={iconHeart}
-                        className={`${styles.icon} ${game.wishlisted ? styles.iconActive : styles.iconInvert}`}
-                        alt=""
-                    />
+                    {wishlisted ? (
+                        <HeartFilledIcon className={styles.icon} />
+                    ) : (
+                        <HeartIcon className={styles.icon} />
+                    )}
                 </button>
 
-                <button
+                <Button
                     type="button"
-                    className={`${cardStyles.cardButton} ${styles.addButton}`}
+                    className={styles.addButton}
                     onClick={handleAddToCart}
                 >
-                    <img src={iconCart} className={styles.icon} alt="" />
-                    Ajouter au panier
-                </button>
+                    <CartIcon className={styles.icon} />
+                    <p>Ajouter au panier</p>
+                </Button>
             </div>
 
-            <div className={cardStyles.cardBox}>
-                <span className={cardStyles.cardLabel}>Résumé :</span>
-                <div className={styles.valueWrapper}>
-                    <span className={cardStyles.boxValue}>{game.shortDescription}</span>
-                </div>
+            <div className={styles.infoBox}>
+                <span className={styles.label}>Résumé :</span>
+                <p className={styles.value}>{game.shortDescription}</p>
             </div>
 
-            <div className={cardStyles.cardBox}>
-                <span className={cardStyles.cardLabel}>Date de sortie :</span>
-                <div className={styles.valueWrapper}>
-                    <span className={cardStyles.boxValue}>{game.releaseDate}</span>
-                </div>
+            <div className={styles.infoBox}>
+                <span className={styles.label}>Date de sortie :</span>
+                <p className={styles.value}>{game.releaseDate}</p>
             </div>
-        </div>
+        </Card>
     );
 };
