@@ -5,6 +5,9 @@ import defaultProfilePic from "/media/img/default_profile_picture.png";
 import { useUser } from "../../../../api/hooks/useUser.hook";
 import { useToast } from "../../../../utils/hooks/useToast";
 
+import EditIcon from "../../../../assets/edit.svg?react";
+import ImportIcon from "../../../../assets/import.svg?react";
+
 const MAX_SIZE_KB = 1024;
 const MIN_DIM = 120;
 
@@ -91,7 +94,7 @@ export const ProfileAvatar: FC = () => {
             </div>
 
             <button type="button" onClick={triggerFileSelect} className={styles.editBtn}>
-              <img src="/images/import.png" alt="Importer" className={styles.icon} />
+              <ImportIcon className={styles.icon} />
             </button>
 
             <input
@@ -125,7 +128,7 @@ export const ProfileAvatar: FC = () => {
           </div>
 
           <button type="button" onClick={() => setEditing(true)} className={styles.editBtn}>
-            <img src="/images/edit.png" alt="Editer" className={styles.icon} />
+            <EditIcon className={styles.icon} />
           </button>
         </div>
       )}

@@ -4,6 +4,7 @@ import { useUser } from "../../../api/hooks/useUser.hook";
 import { Card } from "../../../components/common/card/Card";
 import { ProfileAvatar } from "./profile-avatar/ProfileAvatar";
 import { useToast } from "../../../utils/hooks/useToast";
+import { Button } from "../../../components/common/button/Button";
 
 export const Profile: FC = () => {
   const { user, saveUser } = useUser();
@@ -69,13 +70,12 @@ export const Profile: FC = () => {
           />
         </div>
 
-        <button
-          className={styles.saveButton}
+        <Button
           onClick={handleSave}
           disabled={loading}
         >
           {loading ? "Sauvegarde..." : "Enregistrer"}
-        </button>
+        </Button>
 
         <ul className={styles.infoList}>
           <li>Compte créé le {formatDate(user.createdAt)}</li>

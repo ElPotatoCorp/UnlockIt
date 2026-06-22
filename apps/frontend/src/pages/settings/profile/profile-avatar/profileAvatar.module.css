@@ -40,8 +40,9 @@
 }
 
 .icon {
-    width: 18px;
-    height: 18px;
+  width: 20px !important;
+  height: 20px !important;
+  fill: var(--color-white);
 }
 
 .actionsRow {
