@@ -7,7 +7,7 @@ import { Simplify } from '../utils/types';
 
 export type OrderEntity = {
   id: string;
-  userId: string;
+  userId: string | null;
   status: OrderStatus;
   amountPaidWallet: number;
   amountPaidStripe: number;
