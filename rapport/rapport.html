@@ -417,10 +417,11 @@ code {
     <li class="lvl2"><a href="#41-une-organisation-en-monorepo">4.1 Une organisation en monorepo</a></li>
     <li class="lvl2"><a href="#42-le-package-partagé-entre-frontend-et-backend">4.2 Le package partagé entre frontend et backend</a></li>
     <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
-    <li class="lvl2"><a href="#44-gestion-des-configurations-denvironnement">4.4 Gestion des configurations d'environnement</a></li>
-    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
     <li><a href="#5-conclusion">5. Conclusion</a></li>
     <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
+    <li class="lvl2"><a href="#511-frontend">5.1.1 Frontend</a></li>
+    <li class="lvl2"><a href="#512-backend">5.1.2 Backend</a></li>
+    <li class="lvl2"><a href="#513-infrastructure">5.1.3 Infrastructure</a></li>
     <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 </div>
@@ -1733,23 +1734,44 @@ dist/assets/pixi-D5OU-vt1.js                469.04 kB
 <p>Dans notre cas, cette option s’est révélée moins réaliste qu’il n’y paraît. L’écart entre les deux architectures n’était pas une question de syntaxe, mais une question de paradigme. L’ancien backend ne formalisait jamais la notion de dépendance explicite entre composants : un contrôleur appelait un modèle, qui appelait une fonction SQL, sans qu’aucune structure ne décrive ce graphe de dépendances. NestJS, à l’inverse, impose de déclarer explicitement, dès la création d’un module, tout ce dont il dépend et tout ce qu’il expose (nous détaillons ce mécanisme en <a href="#321-découpage-par-domaine">3.2.1</a>).</p>
 <p>Porter le projet domaine par domaine aurait donc demandé, pour chaque module, de reconstituer à la main un graphe de dépendances qui n’avait jamais existé formellement côté PHP, tout en maintenant en parallèle les domaines pas encore migrés dans l’ancien paradigme. Nous aurions dû faire cohabiter deux philosophies d’architecture pendant toute la durée de la migration, ce qui revenait presque à maintenir deux backends en même temps. Réécrire entièrement le backend, en repensant directement l’ensemble du modèle de données et des dépendances entre domaines, nous a finalement semblé plus rapide et plus sain que ce portage progressif, malgré l’investissement initial plus important.</p>
 <h2 id="32-architecture-modulaire">3.2 Architecture modulaire</h2>
-<p>Le second axe de la refonte concernait la manière dont le code lui-même est organisé. Là où l’ancien backend regroupait les fichiers par rôle technique (tous les contrôleurs dans un dossier, tous les modèles dans un autre), la nouvelle architecture regroupe le code par domaine métier : chaque fonctionnalité (les jeux, les avis, la wishlist, etc.) possède son propre module, contenant à la fois son contrôleur, sa logique métier et sa persistance. Le schéma suivant résume la circulation d’une requête à travers ces différentes couches, du frontend jusqu’à la base de données :</p>
+<p>Le second axe de la refonte concernait la manière dont le code lui-même est organisé. Là où l’ancien backend regroupait les fichiers par rôle technique (tous les contrôleurs dans un dossier, tous les modèles dans un autre), la nouvelle architecture regroupe le code par domaine métier : chaque fonctionnalité (les jeux, les avis, la wishlist, etc.) possède son propre module, contenant à la fois son contrôleur, sa logique métier et sa persistance. Le schéma suivant détaille la circulation d'une requête à travers ces différentes couches, du frontend jusqu'à la base de données, puis le chemin inverse pour la réponse :</p>
+<div class="mermaid-center" style="text-align:center;">
 <pre><code class="language-mermaid"><div class="mermaid">flowchart LR
- 
-Frontend
---> Controller
- 
-Controller
---> Service
- 
-Service
---> Repository
- 
-Repository
---> PostgreSQL
+
+classDef front fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+classDef back fill:#61dafb,stroke:#1b7aa6,stroke-width:2px,color:#000;
+classDef guard fill:#b7f0c0,stroke:#3f9156,stroke-width:2px,color:#000;
+classDef mapper fill:#a0e7e5,stroke:#2a9d8f,stroke-width:2px,color:#000;
+classDef db fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+A["Frontend (React)"]:::front
+B["Routeur NestJS"]:::back
+C["Guards (autorisation)"]:::guard
+D["Pipes (validation)"]:::guard
+E["Controller"]:::back
+F["Service"]:::back
+G["Repository (TypeORM)"]:::back
+H["PostgreSQL"]:::db
+M["Mapper (entité → DTO)"]:::mapper
+
+A -->|"Requête HTTP"| B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G -->|"Requête SQL"| H
+
+H -.->|"Résultat"| G
+G -.-> F
+F -.-> E
+E -.-> M
+M -.->|"Réponse JSON"| A
 </div></code></pre>
-<p><em>Flux de traitement d’une requête dans le nouveau backend.</em></p>
-<p>Chacune de ces couches a une responsabilité unique : le contrôleur reçoit la requête HTTP et délègue immédiatement le travail, le service contient la logique métier, et le repository (fourni par TypeORM) s’occupe de traduire les opérations en requêtes SQL. Les trois sous-parties suivantes détaillent comment ce découpage se traduit concrètement dans le code, à travers l’exemple du domaine <code class="c">games</code>.</p>
+</div>
+<p><em>Cycle complet d'une requête dans le nouveau backend.</em></p>
+<p>Avant d'atteindre le contrôleur, une requête traverse deux étapes qui n'apparaissaient pas dans la version simplifiée de ce schéma : le routeur de NestJS, qui détermine quel contrôleur doit la traiter, puis une chaîne de guards et de pipes, qui filtrent et préparent la requête avant qu'elle n'atteigne le code métier. Les guards décident si la requête a le droit de continuer (détaillés en <a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a> avec l'authentification), et les pipes valident ou transforment les données reçues (détaillés en <a href="#323-mutualisation-du-code-transverse">3.2.3</a> et <a href="#332-validation-des-données">3.3.2</a>). Le contrôleur ne reçoit donc jamais une requête brute : elle a déjà été vérifiée et nettoyée au moment où il la reçoit.</p>
+<p>Une fois le contrôleur atteint, le chemin redevient celui décrit plus haut : contrôleur, service, repository, puis la base de données. La réponse, en revanche, ne repasse pas par le routeur, les guards ou les pipes, ces étapes ne concernent que la requête entrante. Le service et le repository renvoient leur résultat au contrôleur, qui s'appuie généralement sur une classe mapper, comme <code class="c">GameMapper</code> (déjà rencontrée en <a href="#323-mutualisation-du-code-transverse">3.2.3</a>), pour convertir l'entité TypeORM en DTO avant que la réponse ne soit finalement renvoyée au frontend.</p>
 <h3 id="321-découpage-par-domaine">3.2.1 Découpage par domaine</h3>
 <p>Avant d’entrer dans le détail du code, la comparaison des arborescences de fichiers donne déjà une idée assez parlante de ce que ce découpage par domaine change concrètement :</p>
 <details class="accordion">
@@ -2185,57 +2207,395 @@ $$;
     <span class="hljs-title class_">ApiTooManyRequestsResponse</span>(<span class="hljs-comment">/* A quoi correspond le code 200 (OK) */</span>),
   ),
 </div></code></pre>
-<p>Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner un identifiant et exécuter réellement la requête.</p>
+<p>Cette déclaration ne se contente pas de produire une page de documentation statique : Swagger génère, à partir d'elle, une interface où l'on peut renseigner des informations et exécuter réellement la requête.</p>
 <div class="before">
 <h3>Avant</h3>
-<pre class="hljs"><code><div><span class="hljs-comment">/**
- * GET /api/games
- * List all games with pagination
- */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>): <span class="hljs-title">void</span> </span>{ <span class="hljs-comment">/* Implémentation */</span> }
-
-<span class="hljs-comment">/**
- * GET /api/games/{id}
- * Get a single game by ID
- */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$id</span></span>): <span class="hljs-title">void</span> </span>{ <span class="hljs-comment">/* Implémentation */</span> }
-</div></code></pre>
+<p>Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit via <a href="https://www.usebruno.com/">Bruno</a>, indépendant du code de la route :</p>
+<p><img src="src/assets/bruno.png" alt="Interface Bruno">
+<em>Figure – Interface Bruno avec requête login exécuté .</em></p>
+<p>Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même.</p>
 </div>
 <div class="after">
 <h3>Après</h3>
-<p><img src="placeholder-swagger-ui.gif" alt="Capture de l'interface Swagger pour GET /games/{id}"></p>
-<p><em>Figure – Détail du endpoint généré par la déclaration ci-dessus.</em></p>
-<p>Avant cela, vérifier le comportement de cette même route reposait sur un fichier de test écrit à la main, indépendant du code de la route :</p>
-<pre class="hljs"><code><div>get {
-  url: {{base_url}}/api/games/:id
-}
-
-tests {
-  test(&quot;Response structure is correct&quot;, function() {
-    if (res.status === 200) {
-      expect(res.body).to.have.property('id');
-      expect(res.body).to.have.property('name');
-      expect(res.body).to.have.property('price');
-    }
-  });
+<p>Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.</p>
+<p><img src="src/assets/swagger-showcase.gif" alt="Capture de l'interface Swagger pour POST /auth/login"></p>
+<p><em>Figure – Détail du endpoint généré par la déclaration ci-dessus avec exécution de la requête et résultat affiché directement dans l'interface.</em></p>
+</div>
+<p>Cette bascule a une contrepartie que nous détaillons en <a href="#35-difficultés-rencontrées-et-solutions">3.5</a> : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.</p>
+<h2 id="35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</h2>
+<h3 id="351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1 Tester sans suite automatisée : Swagger comme filet de sécurité</h3>
+<p>Contrairement au frontend, qui dispose d'une suite de tests automatisés avec Playwright (voir <a href="#25-tests-automatisés">2.5</a>), le backend n'en a pas eu : le temps disponible a été investi en priorité dans l'architecture elle-même. Cela ne supprime pas le besoin de vérifier qu'un comportement précis fonctionne, en particulier avec des valeurs limites ou inhabituelles (un prix négatif, un identifiant inexistant, un champ manquant).</p>
+<p>C'est là que la documentation Swagger, déjà décrite en <a href="#342-la-documentation-swagger-comme-garde-fou">3.4.2</a>, a fini par jouer un second rôle, non prévu au départ : chaque route déjà documentée propose une interface où l'on peut directement saisir une valeur précise et observer la réponse réelle de l'API, sans écrire la moindre ligne de test. Ce n'est pas un remplacement satisfaisant à une suite automatisée, rien n'est rejoué automatiquement, rien n'empêche une régression silencieuse, mais cela a couvert l'essentiel de nos besoins de vérification ponctuelle pendant le développement.</p>
+<h3 id="352-les-nombres-décimaux-et-les-grands-entiers-sous-typeorm">3.5.2 Les nombres décimaux et les grands entiers sous TypeORM</h3>
+<p>Deux types posent un problème similaire avec PostgreSQL : les colonnes décimales et les grands entiers (bigint) sont tous deux renvoyés sous forme de texte par défaut, pour éviter une perte de précision silencieuse. Sans intervention, le champ <code class="c">price</code> d'un jeu serait par exemple reçu comme la chaîne <code class="c">&quot;59.99&quot;</code> plutôt que le nombre <code class="c">59.99</code>.</p>
+<p>Pour les colonnes décimales, la solution est un transformer attaché à la colonne :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DecimalColumnTransformer</span> {
+  <span class="hljs-title function_">to</span>(<span class="hljs-attr">data</span>: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">return</span> data;
+  }
+  <span class="hljs-title function_">from</span>(<span class="hljs-attr">data</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">parseFloat</span>(data);
+  }
 }
 </div></code></pre>
-</div>
-<p>Ce fichier remplissait son rôle, mais il fallait l'écrire et le maintenir à part, sans lien avec la route elle-même. Avec Swagger, la même déclaration sert à la fois de documentation et d'outil de vérification manuelle : il suffit d'ouvrir la page, de renseigner un identifiant, et de lire la réponse réelle.</p>
-<p><img src="placeholder-swagger-tryitout.gif" alt="Exécution d'une requête depuis Swagger UI via Try it out"></p>
-<p><em>Figure – Exécution de la requête et résultat affiché directement dans l'interface.</em></p>
-<p>Cette bascule a une contrepartie que nous détaillons en 3.5 : Swagger documente et permet de tester manuellement, mais il ne remplace pas une suite de tests automatisés.</p>
-<h2 id="35-difficultés-rencontrées-et-solutions">3.5 Difficultés rencontrées et solutions</h2>
-<p>...</p>
+<p>Pour les identifiants en bigint, le même problème se règle au niveau du pilote, une seule fois pour toute l'application :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">parseInt8</span>: <span class="hljs-literal">true</span>,
+</div></code></pre>
+<p>Les deux solutions ne se ressemblent pas, mais répondent à la même cause : PostgreSQL et le pilote sous-jacent privilégient la sécurité (ne jamais perdre en précision) à la commodité, et c'est au développeur de redemander explicitement un nombre quand un nombre est réellement attendu.</p>
+<h3 id="353-un-système-de-seeding-fait-maison-pour-les-données-de-test">3.5.3 Un système de seeding fait maison pour les données de test</h3>
+<p>TypeORM fournit des migrations pour versionner le schéma, mais ne propose aucun système de seeding : remplir la base avec des données réalistes reste entièrement à la charge du développeur. Or nous en avions besoin en permanence, pour développer dans des conditions proches du réel, et pour tester manuellement via Swagger (voir <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a>) avec des comptes et des jeux qui existent vraiment.</p>
+<p>Toute factory repose sur un même contrat minimal :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factory</span>&lt;T&gt; {
+  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">entity</span>(): <span class="hljs-title class_">EntityTarget</span>&lt;T&gt;;
+  <span class="hljs-keyword">abstract</span> <span class="hljs-title function_">definition</span>(): <span class="hljs-title class_">Partial</span>&lt;T&gt; | <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Partial</span>&lt;T&gt;&gt;;
+
+  <span class="hljs-comment">/* Code */</span>
+}
+</div></code></pre>
+<p>Une factory n'a que deux choses à dire : à quelle entité elle correspond, et comment remplir une instance. Tout le reste (créer une instance, en créer plusieurs, les enregistrer, vérifier qu'une connexion à la base est bien disponible) est écrit une seule fois, dans la classe de base.</p>
+<details class="accordion">
+<summary>Voir l'implémentation complète de Factory</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factory</span>&lt;T&gt; {
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">make</span>(<span class="hljs-params">overrides = {}</span>) {
+    <span class="hljs-keyword">return</span> { ...(<span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">definition</span>()), ...overrides };
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">makeMany</span>(<span class="hljs-params"><span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>, overrides = {}</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>({ <span class="hljs-attr">length</span>: count }, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">make</span>(overrides)));
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">create</span>(<span class="hljs-params">overrides = {}</span>) {
+    <span class="hljs-keyword">const</span> [result] = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">createMany</span>(<span class="hljs-number">1</span>, overrides);
+    <span class="hljs-keyword">return</span> result;
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">createMany</span>(<span class="hljs-params"><span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>, overrides = {}</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">assertDatasource</span>();
+    <span class="hljs-keyword">const</span> items = <span class="hljs-variable language_">this</span>.<span class="hljs-property">datasource</span>.<span class="hljs-property">manager</span>.<span class="hljs-title function_">create</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">entity</span>, <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">makeMany</span>(count, overrides));
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">datasource</span>.<span class="hljs-property">manager</span>.<span class="hljs-title function_">save</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">entity</span>, items);
+  }
+
+  <span class="hljs-keyword">protected</span> <span class="hljs-title function_">assertDatasource</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">/* vérifie que le datasource existe et est initialisé */</span>
+  }
+}
+</div></code></pre>
+</details>
+<p>Le cas le plus simple, <code class="c">UserFactory</code>, se limite à peu près à ce contrat :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Factory</span>&lt;<span class="hljs-title class_">UserEntity</span>&gt; {
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">entity</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">UserEntity</span>;
+  }
+
+  <span class="hljs-title function_">definition</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> randomStr = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>().<span class="hljs-title function_">toString</span>(<span class="hljs-number">36</span>).<span class="hljs-title function_">substring</span>(<span class="hljs-number">2</span>, <span class="hljs-number">15</span>);
+    <span class="hljs-keyword">const</span> password = <span class="hljs-string">`Test<span class="hljs-subst">${randomStr}</span>!Aa`</span>; <span class="hljs-comment">// voir ci-dessous</span>
+
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">username</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">fk</span>.<span class="hljs-property">internet</span>.<span class="hljs-title function_">username</span>(),
+      <span class="hljs-attr">email</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">fk</span>.<span class="hljs-property">internet</span>.<span class="hljs-title function_">email</span>(),
+      password,
+      <span class="hljs-attr">phoneNumber</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">fk</span>.<span class="hljs-property">datatype</span>.<span class="hljs-title function_">boolean</span>() ? <span class="hljs-variable language_">this</span>.<span class="hljs-property">fk</span>.<span class="hljs-property">phone</span>.<span class="hljs-title function_">number</span>() : <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">cart</span>: {},
+    };
+  }
+}
+</div></code></pre>
+<p><code class="c">GameFactory</code> est nettement plus ambitieuse : plutôt que d'inventer des jeux au hasard, elle pioche parmi des fiches réelles, une par fichier JSON :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">interface</span> <span class="hljs-title class_">GameJson</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">tags</span>: <span class="hljs-built_in">string</span>[];
+  <span class="hljs-attr">developers</span>: <span class="hljs-built_in">string</span>[];
+  <span class="hljs-attr">publishers</span>: <span class="hljs-built_in">string</span>[];
+  <span class="hljs-attr">price</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">series</span>: { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">slug</span>: <span class="hljs-built_in">string</span> } | <span class="hljs-literal">null</span>;
+  <span class="hljs-comment">/* ... */</span>
+}
+</div></code></pre>
+<p>Chacun des jeux fournis avec le projet est décrit par un fichier de ce type. La factory choisit un jeu pas encore présent en base, puis reconstruit le jeu complet à partir du JSON : étiquettes, développeurs, éditeurs, médias et série inclus. La difficulté n'est pas de créer un jeu, mais de ne pas dupliquer ce qu'il partage avec les autres : si soixante jeux ont l'étiquette « Action », elle ne doit exister qu'une seule fois en base.</p>
+<details class="accordion">
+<summary>Voir l'implémentation (transaction et déduplication)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">persist</span>(<span class="hljs-params"><span class="hljs-attr">game</span>: <span class="hljs-title class_">GameEntity</span></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">datasource</span>.<span class="hljs-title function_">transaction</span>(<span class="hljs-title function_">async</span> (manager) =&gt; {
+    <span class="hljs-keyword">const</span> savedTags = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
+      game.<span class="hljs-property">tags</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">upsertByName</span>(manager, <span class="hljs-title class_">TagEntity</span>, { <span class="hljs-attr">name</span>: t.<span class="hljs-property">name</span> })),
+    );
+    <span class="hljs-comment">/* même logique pour developers, publishers, series */</span>
+
+    <span class="hljs-keyword">const</span> savedGame = <span class="hljs-keyword">await</span> manager.<span class="hljs-title function_">save</span>(<span class="hljs-title class_">GameEntity</span>, game);
+    <span class="hljs-keyword">await</span> manager.<span class="hljs-title function_">createQueryBuilder</span>().<span class="hljs-title function_">relation</span>(<span class="hljs-title class_">GameEntity</span>, <span class="hljs-string">&#x27;tags&#x27;</span>).<span class="hljs-title function_">of</span>(savedGame.<span class="hljs-property">id</span>).<span class="hljs-title function_">add</span>(savedTags.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> t.<span class="hljs-property">id</span>));
+    <span class="hljs-comment">/* même logique pour developers, publishers */</span>
+
+    <span class="hljs-keyword">return</span> game;
+  });
+}
+
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">upsertByName</span>(<span class="hljs-params">manager, target, values</span>) {
+  <span class="hljs-comment">// INSERT ... ON CONFLICT DO NOTHING, puis recherche si rien n&#x27;a été inséré</span>
+}
+</div></code></pre>
+</details>
+<p><code class="c">StockFactory</code> est plus modeste : elle génère une clé de produit aléatoire et la rattache à un jeu existant, choisi au hasard si aucun n'est précisé. Le script <code class="c">seed.ts</code> orchestre les trois, et contient quelques détails révélateurs de son écriture rapide :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> <span class="hljs-attr">FACTORIES</span>: [<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">factory</span>: <span class="hljs-built_in">any</span>][] = [
+  [<span class="hljs-string">&#x27;users&#x27;</span>, <span class="hljs-title class_">UserFactory</span>],
+  [<span class="hljs-string">&#x27;games&#x27;</span>, <span class="hljs-title class_">GameFactory</span>],
+  [<span class="hljs-string">&#x27;stocks&#x27;</span>, <span class="hljs-title class_">StockFactory</span>],
+];
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> (process.<span class="hljs-property">env</span>.<span class="hljs-property">NODE_ENV</span> === <span class="hljs-string">&#x27;production&#x27;</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;ERROR: Database commands cannot be executed in a PRODUCTION environment!&#x27;</span>);
+  process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+}
+</div></code></pre>
+<p>Le second extrait n'est pas anecdotique : un script capable de remplir la base ne doit jamais pouvoir s'exécuter par erreur sur une base de production. Le script crée enfin systématiquement un compte fixe, avec des identifiants connus à l'avance et le rôle le plus permissif :</p>
+<pre class="hljs"><code><div>userFactory.<span class="hljs-title function_">create</span>({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">&#x27;TestUser&#x27;</span>,
+  <span class="hljs-attr">email</span>: <span class="hljs-string">&#x27;test@test.test&#x27;</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">&#x27;Test123&amp;&#x27;</span>,
+  <span class="hljs-attr">employee</span>: { <span class="hljs-attr">role</span>: <span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">OWNER</span> },
+});
+</div></code></pre>
+<p>C'est ce compte qui rend le filet de sécurité décrit en <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a> réellement pratique : tester une route réservée aux administrateurs depuis Swagger ne demande pas de fouiller des données aléatoires, l'identifiant et le mot de passe sont toujours les mêmes. En une seule commande, ce système installe une base entière (quelques utilisateurs, soixante-quatre jeux, dix mille clés de produit) directement utilisable, ce que TypeORM ne propose pas nativement.</p>
+<h2 id="41-une-organisation-en-monorepo">4.1 Une organisation en monorepo</h2>
+<h3 id="411-le-même-problème-quavant-mais-sans-excuse-cette-fois">4.1.1 Le même problème qu'avant, mais sans excuse cette fois</h3>
+<p>Lors de la SAÉ 3.01, le frontend et le backend vivaient déjà dans le même dépôt Git. Cette proximité physique n'empêchait cependant pas une forme de cloisonnement : le PHP, n'étant pas typé, ne pouvait rien garantir sur la forme des données qu'il renvoyait, et le frontend React reconstituait ces formes à la main, sous TypeScript, en se basant sur ce que l'API retournait réellement. Lorsqu'un champ changeait de nom ou de type côté backend, rien ne le signalait côté frontend : seule la communication entre nous permettait de garder les deux bouts synchronisés, ce qui fonctionnait à l'échelle de deux personnes en contact permanent, mais ne reposait sur aucun garde-fou technique.</p>
+<p>Avec NestJS et TypeScript des deux côtés (cf. <a href="#31-migration-vers-nestjs">3.1</a>), cette limite n'avait plus de raison d'exister. Si les deux applications parlent le même langage, rien n'empêche de leur faire partager directement les types qui décrivent les données échangées, plutôt que de les dupliquer et de les maintenir à la main.</p>
+<h3 id="412-les-workspaces-npm">4.1.2 Les workspaces npm</h3>
+<p>Concrètement, cela passe par les <em>workspaces</em> npm, une fonctionnalité qui permet de gérer plusieurs paquets Node.js dans un seul dépôt tout en gardant des <code class="c">node_modules</code> et des <code class="c">package.json</code> séparés pour chacun. Le <code class="c">package.json</code> situé à la racine du projet déclare où npm doit chercher ces paquets :</p>
+<pre class="hljs"><code><div><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;unlockit&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;private&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;workspaces&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;apps/*&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;packages/*&quot;</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</div></code></pre>
+<p>Cette unique déclaration suffit à transformer trois projets indépendants (<code class="c">apps/frontend</code>, <code class="c">apps/backend</code> et <code class="c">packages/shared</code>) en un ensemble cohérent : un <code class="c">npm install</code> à la racine installe les dépendances des trois à la fois, et surtout, npm crée automatiquement un lien symbolique entre <code class="c">packages/shared</code> et le <code class="c">node_modules</code> des deux autres. Concrètement, écrire <code class="c">import { GameDetail } from &quot;@unlockit/shared&quot;</code> dans le backend ou le frontend revient, sans configuration supplémentaire, à lire directement le code source du dossier <code class="c">packages/shared</code>, sans jamais le publier sur un registre npm public ou privé.</p>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+
+    classDef app fill:#ffe9b3,stroke:#d1a84f,stroke-width:2px,color:#000;
+    classDef pkg fill:#ea77ff,stroke:#9d54b3,stroke-width:2px,color:#000;
+
+    F["apps/frontend"]:::app
+    B["apps/backend"]:::app
+    S["packages/shared (@unlockit/shared)"]:::pkg
+
+    F -->|"import type {...} from '@unlockit/shared'"| S
+    B -->|"import {...} from '@unlockit/shared'"| S
+</div></code></pre>
+<p><em>Dépendance des deux applications envers le package partagé, rendue possible par les workspaces npm.</em></p>
+<p>Cette mise en relation pose toutefois une contrainte : <code class="c">@unlockit/shared</code> est lui-même écrit en TypeScript, mais ni Node.js ni les navigateurs ne savent exécuter du TypeScript directement. Il faut donc le compiler en JavaScript avant que le frontend ou le backend ne puisse réellement l'utiliser, ce que son propre <code class="c">package.json</code> décrit :</p>
+<pre class="hljs"><code><div><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;@unlockit/shared&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;main&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;./dist/index.js&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;types&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;./dist/index.d.ts&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tsc&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tsc --watch&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</div></code></pre>
+<p>C'est ce qui explique le script <code class="c">dev</code> à la racine du projet :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">&quot;dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;npm run build:shared &amp;&amp; concurrently -k -p \&quot;[{name}]\&quot; -n \&quot;SHARED,FRONT,BACK\&quot; -c \&quot;magenta,cyan,green\&quot; \&quot;npm run dev:shared\&quot; \&quot;npm run dev:frontend\&quot; \&quot;npm run dev:backend\&quot;&quot;</span><span class="hljs-punctuation">,</span>
+</div></code></pre>
+<p>L'ordre n'est pas anodin : <code class="c">build:shared</code> s'exécute d'abord, et seulement une fois terminé, lance les trois autres commandes en parallèle (via <code class="c">concurrently</code>). Sans ce premier passage, le frontend et le backend chercheraient à importer un dossier <code class="c">dist/</code> qui n'existe pas encore. Une fois cette première compilation faite, <code class="c">dev:shared</code> prend le relais en mode <code class="c">tsc --watch</code> : toute modification dans <code class="c">packages/shared</code> est recompilée immédiatement, et les deux applications, qui tournent elles aussi en mode développement, rechargent automatiquement avec la nouvelle version des types.</p>
+<p>Le résultat tient en une seule commande à la racine, comme le rappelle notre fichier d'installation à destination de quiconque clone le projet pour la première fois :</p>
+<pre class="hljs"><code><div><span class="hljs-bullet">-</span> <span class="hljs-code">`npm install`</span>
+<span class="hljs-bullet">-</span> <span class="hljs-code">`npm run docker`</span>
+<span class="hljs-bullet">-</span> <span class="hljs-code">`npm run database:seed --workspace=backend`</span> (uniquement si l&#x27;on veut des données)
+<span class="hljs-bullet">-</span> <span class="hljs-code">`npm run dev`</span>
+</div></code></pre>
+<p>À titre de comparaison, démarrer la version SAÉ 3.01 demandait de lancer séparément un serveur PHP et le serveur de développement Vite, sans qu'aucune commande commune ne les coordonne. Le compte créé automatiquement par la commande de seed, avec des identifiants fixes et le rôle le plus permissif, est le même que celui qui rend possible le filet de sécurité décrit en <a href="#351-tester-sans-suite-automatisée--swagger-comme-filet-de-sécurité">3.5.1</a> ; il est donc logique qu'il soit rappelé directement dans la documentation de démarrage du projet, plutôt qu'enfoui dans le code du script de seed.</p>
+<p>Cette organisation a ses limites, que nous assumons pleinement à l'échelle du projet : les workspaces npm ne savent pas mettre en cache les builds ni ne raisonnent en graphe de dépendances comme le feraient des outils dédiés tels que Turborepo ou Nx. Chaque <code class="c">npm run build</code> recompile tout, sans se souvenir de ce qui a déjà été fait. Pour un projet à deux personnes, ce coût reste négligeable ; il deviendrait probablement un sujet à part entière sur un projet plus grand ou avec une intégration continue plus exigeante.</p>
+<hr>
+<h2 id="42-le-package-partagé-entre-frontend-et-backend">4.2 Le package partagé entre frontend et backend</h2>
+<h3 id="421-que-contient-réellement-ce-package-">4.2.1 Que contient réellement ce package ?</h3>
+<p>L'intention de départ pour <code class="c">@unlockit/shared</code> était simple : n'y placer que des interfaces TypeScript, c'est-à-dire de la donnée purement structurelle, sans aucun code qui s'exécute réellement. Sa description dans son propre <code class="c">package.json</code> en témoigne directement : <em>« This package contains everything that need to be shared between the frontend and backend such as interfaces and DTOs »</em>.</p>
+<p>Le package est organisé par domaine métier, en miroir des modules du backend déjà détaillés en <a href="#321-découpage-par-domaine">3.2.1</a> (un dossier <code class="c">game</code>, un dossier <code class="c">wishlist</code>, un dossier <code class="c">employee</code>, et ainsi de suite), chacun exportant ses types depuis un point d'entrée unique :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./game/game.types&quot;</span>
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./game/game.enums&quot;</span>
+<span class="hljs-comment">/* Mêmes lignes pour chaque domaine */</span>
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./utils/slug.formatter&quot;</span>
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./utils/types&quot;</span>
+</div></code></pre>
+<p>Ce fichier <code class="c">index.ts</code> joue un rôle de point d'entrée unique : peu importe que <code class="c">GameDetail</code> vienne d'un fichier profondément imbriqué dans <code class="c">src/game/</code>, frontend comme backend se contentent d'écrire <code class="c">import { GameDetail } from &quot;@unlockit/shared&quot;</code>, sans jamais avoir à connaître l'arborescence interne du package.</p>
+<p>Cette intention de rester « uniquement des types » n'a cependant pas tout à fait tenu sur la durée. Le domaine <code class="c">employee</code> exporte également <code class="c">ROLE_HIERARCHY</code>, une constante bien réelle, exécutée et non un simple type :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">ROLE_HIERARCHY</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-title class_">EmployeeRole</span>, <span class="hljs-built_in">number</span>&gt; = {
+  [<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">SUPPORT</span>]: <span class="hljs-number">1</span>,
+  [<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">MODERATOR</span>]: <span class="hljs-number">2</span>,
+  [<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">ADMIN</span>]: <span class="hljs-number">3</span>,
+  [<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">SUPER_ADMIN</span>]: <span class="hljs-number">4</span>,
+  [<span class="hljs-title class_">EmployeeRole</span>.<span class="hljs-property">OWNER</span>]: <span class="hljs-number">5</span>,
+};
+</div></code></pre>
+<p>Cette exception a du sens dès qu'on l'examine : un type TypeScript disparaît entièrement à la compilation, il n'existe plus une fois le code exécuté. Or, savoir si un rôle est « au moins aussi élevé » qu'un autre est une comparaison qui doit s'effectuer au moment de l'exécution, pas seulement à la compilation. Un type seul ne pouvait donc pas suffire ici : il fallait une vraie valeur, calculée une fois et partagée, plutôt que de risquer que le frontend et le backend déclarent chacun leur propre hiérarchie de rôles, avec le risque de les voir un jour diverger silencieusement.</p>
+<h3 id="422-dun-type-unique-à-plusieurs-dtos--le-cas-des-jeux">4.2.2 D'un type unique à plusieurs DTOs : le cas des jeux</h3>
+<p>L'exemple le plus parlant de ce que ce package apporte concrètement se trouve dans le domaine <code class="c">game</code>. Tout part d'un unique type décrivant un jeu tel qu'il existe réellement en base de données :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">GameEntity</span> = {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">slug</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">type</span>: <span class="hljs-title class_">GameType</span>;
+  <span class="hljs-attr">price</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">ageRating</span>: <span class="hljs-title class_">EUAgeRating</span>;
+  <span class="hljs-attr">releaseDate</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">comingSoon</span>: <span class="hljs-built_in">boolean</span>;
+  <span class="hljs-attr">headerImage</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">shortDescription</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-comment">/* ... autres champs primitifs */</span>
+
+  <span class="hljs-attr">series</span>: <span class="hljs-title class_">SeriesEntity</span> | <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">tags</span>: <span class="hljs-title class_">TagEntity</span>[];
+  <span class="hljs-attr">developers</span>: <span class="hljs-title class_">DeveloperEntity</span>[];
+  <span class="hljs-comment">/* ... autres relations */</span>
+};
+</div></code></pre>
+<p>Plutôt que de redéfinir un type séparé pour chaque usage, le reste du domaine se construit en dérivant ce type unique. Créer un jeu, l'afficher en liste ou afficher sa fiche complète sont trois besoins différents, mais qui partagent tous la même origine.</p>
+<details class="accordion">
+<summary>Voir dérivation de type</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">CreateGame</span> = <span class="hljs-title class_">Simplify</span>&lt;<span class="hljs-title class_">NullToOptional</span>&lt;<span class="hljs-title class_">Omit</span>&lt;<span class="hljs-title class_">GameEntity</span>, <span class="hljs-string">&#x27;id&#x27;</span> | <span class="hljs-string">&#x27;supportedLanguages&#x27;</span> | <span class="hljs-title class_">GameRelationKeys</span>&gt;&gt; &amp; {
+  <span class="hljs-attr">supportedLanguages</span>?: <span class="hljs-title class_">LangCode</span>[];
+  <span class="hljs-attr">platforms</span>?: <span class="hljs-title class_">PartialGamePlatform</span>;
+}&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">SummaryGame</span> = <span class="hljs-title class_">Simplify</span>&lt;<span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">GameEntity</span>, <span class="hljs-string">&#x27;id&#x27;</span> | <span class="hljs-string">&#x27;name&#x27;</span> | <span class="hljs-string">&#x27;slug&#x27;</span> | <span class="hljs-string">&#x27;type&#x27;</span> | <span class="hljs-string">&#x27;price&#x27;</span> | <span class="hljs-string">&#x27;ageRating&#x27;</span> | <span class="hljs-string">&#x27;comingSoon&#x27;</span> | <span class="hljs-string">&#x27;headerImage&#x27;</span> | <span class="hljs-string">&#x27;shortDescription&#x27;</span>&gt; &amp; { <span class="hljs-attr">wishlisted</span>?: <span class="hljs-built_in">boolean</span> }&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">GameDetail</span> = <span class="hljs-title class_">Simplify</span>&lt;<span class="hljs-title class_">Omit</span>&lt;<span class="hljs-title class_">GameEntity</span>, <span class="hljs-title class_">GameRelationKeys</span>&gt; &amp; {
+  <span class="hljs-attr">tags</span>: <span class="hljs-title class_">GameTag</span>[];
+  <span class="hljs-attr">developers</span>: <span class="hljs-title class_">GameDeveloper</span>[];
+  <span class="hljs-comment">/* ... */</span>
+}&gt;;
+</div></code></pre>
+</details>
+<p><code class="c">Pick</code> et <code class="c">Omit</code> sont des outils natifs de TypeScript : le premier garde uniquement les champs listés d'un type existant, le second fait l'inverse en retirant ceux qu'on lui indique. <code class="c">SummaryGame</code> est ainsi littéralement « <code class="c">GameEntity</code>, mais seulement les huit champs nécessaires pour afficher une vignette dans un catalogue » ; <code class="c">GameDetail</code> est « <code class="c">GameEntity</code>, mais avec ses relations remplacées par des versions plus riches, adaptées à l'affichage d'une fiche produit complète ».</p>
+<p>Deux outils maison, situés dans <code class="c">utils/types.ts</code>, viennent compléter ces deux outils natifs :</p>
+<details class="accordion">
+<summary>Voir <code class="c">Simplify</code> et <code class="c">NullToOptional</code></summary>
+<pre class="hljs"><code><div><span class="hljs-comment">// Aplatit un type composé de plusieurs morceaux (intersections, Omit, Pick...)</span>
+<span class="hljs-comment">// pour qu&#x27;il s&#x27;affiche d&#x27;un bloc dans l&#x27;éditeur, plutôt que sous la forme</span>
+<span class="hljs-comment">// de la formule mathématique qui l&#x27;a construit.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Simplify</span>&lt;T&gt; = { [K <span class="hljs-keyword">in</span> keyof T]: T[K] } &amp; {};
+
+<span class="hljs-comment">// Transforme les champs &quot;null&quot; en champs optionnels.</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">NullableKeys</span>&lt;T&gt; = {
+  [K <span class="hljs-keyword">in</span> keyof T]: <span class="hljs-literal">null</span> <span class="hljs-keyword">extends</span> T[K] ? K : <span class="hljs-built_in">never</span>;
+}[keyof T];
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">NullToOptional</span>&lt;T&gt; =
+  { [K <span class="hljs-keyword">in</span> <span class="hljs-title class_">Exclude</span>&lt;keyof T, <span class="hljs-title class_">NullableKeys</span>&lt;T&gt;&gt;]: T[K] } &amp;
+  { [K <span class="hljs-keyword">in</span> <span class="hljs-title class_">NullableKeys</span>&lt;T&gt;]?: <span class="hljs-title class_">Exclude</span>&lt;T[K], <span class="hljs-literal">null</span>&gt; };
+</div></code></pre>
+</details>
+<p><code class="c">NullToOptional</code> répond à une réalité du modèle de données : en base, un champ peut valoir <code class="c">null</code> (une date de sortie pas encore connue, par exemple). Mais lorsqu'on crée un jeu, il n'y a aucune raison d'envoyer explicitement <code class="c">releaseDate: null</code> dans la requête : il est plus naturel de simplement omettre le champ. <code class="c">NullToOptional</code> traduit automatiquement cette nuance, sans avoir à la réécrire à la main pour chaque champ nullable du type.</p>
+<h3 id="423-un-contrat-vérifié-à-la-compilation">4.2.3 Un contrat vérifié à la compilation</h3>
+<p>Ces types ne servent à rien tout seuls s'ils ne sont pas réellement appliqués côté backend. C'est le rôle du DTO (Data Transfer Object), la classe que NestJS utilise pour valider les données entrantes d'une requête HTTP :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { <span class="hljs-title class_">CreateGame</span>, <span class="hljs-title class_">EUAgeRating</span>, <span class="hljs-title class_">ExactData</span>, <span class="hljs-title class_">GameType</span>, <span class="hljs-title class_">LangCode</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@unlockit/shared&#x27;</span>;
+
+<span class="hljs-comment">// `implements` permet de dire qu&#x27;il faut y retrouver au moins les champs de `CreateGame`</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CreateGameDto</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CreateGame</span> {
+  <span class="hljs-meta">@IsString</span>()
+  <span class="hljs-meta">@Length</span>(<span class="hljs-number">2</span>, <span class="hljs-number">255</span>)
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-meta">@Type</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Number</span>)
+  <span class="hljs-meta">@IsNumber</span>()
+  <span class="hljs-meta">@Min</span>(<span class="hljs-number">0</span>)
+  <span class="hljs-attr">price</span>: <span class="hljs-built_in">number</span>;
+
+  <span class="hljs-comment">/* ... autres champs, suivant le même principe */</span>
+
+  <span class="hljs-meta">@IsOptional</span>()
+  <span class="hljs-meta">@ValidateNested</span>()
+  <span class="hljs-meta">@Type</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">PartialGamePlatformDto</span>)
+  <span class="hljs-attr">platforms</span>?: <span class="hljs-title class_">PartialGamePlatformDto</span>;
+}
+
+<span class="hljs-comment">// Ceci vérifie qu&#x27;il n&#x27;y a pas de champs en plus</span>
+<span class="hljs-keyword">const</span> <span class="hljs-attr">_assertExact</span>: <span class="hljs-title class_">ExactData</span>&lt;<span class="hljs-title class_">CreateGame</span>, <span class="hljs-title class_">CreateGameDto</span>&gt; = <span class="hljs-literal">true</span>;
+</div></code></pre>
+<p>Les décorateurs comme <code class="c">@IsString()</code> ou <code class="c">@Min(0)</code> viennent de <code class="c">class-validator</code> : NestJS les lit automatiquement avant même que le code du contrôleur ne s'exécute, et rejette la requête si une règle n'est pas respectée. Le <code class="c">implements CreateGame</code> garantit, lui, que la classe possède bien tous les champs attendus par le type partagé : il serait impossible d'oublier <code class="c">price</code> dans le DTO sans que TypeScript ne refuse de compiler.</p>
+<p>Ce que <code class="c">implements</code> ne vérifie en revanche pas, c'est l'excès inverse : rien n'empêche d'ajouter un champ supplémentaire au DTO qui n'existerait pas dans <code class="c">CreateGame</code>, par exemple en oubliant de synchroniser les deux côtés après une modification. C'est exactement ce que le type <code class="c">ExactData</code> vient combler.</p>
+<p>L'idée est de comparer la liste des champs de données du DTO à celle du type partagé : si le DTO n'a rien de plus, le type vaut <code class="c">true</code> et la ligne <code class="c">const _assertExact: ExactData&lt;CreateGame, CreateGameDto&gt; = true;</code> compile normalement. S'il a un champ de trop, <code class="c">ExactData</code> devient une chaîne de caractères (<code class="c">&quot;Error: ...&quot;</code>), et TypeScript refuse de l'assigner à une constante typée <code class="c">true</code>, ce qui fait échouer la compilation directement sur cette ligne. Cette constante n'est jamais lue ni utilisée ailleurs dans le code : elle n'existe que pour faire échouer la compilation au bon endroit si jamais les deux côtés du contrat venaient à diverger.</p>
+<h3 id="424-et-côté-frontend">4.2.4 Et côté frontend</h3>
+<p>Le frontend consomme ces mêmes types, sans jamais avoir à les redéfinir, à l'endroit où il construit ses appels à l'API (couche déjà détaillée en <a href="#24-nouvelle-couche-api-frontend">2.4</a>) :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">SearchBody</span>, <span class="hljs-title class_">Paginated</span>, <span class="hljs-title class_">SummaryGame</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@unlockit/shared&quot;</span>;
+
+<span class="hljs-keyword">const</span> searchGames = <span class="hljs-title function_">async</span> (
+    <span class="hljs-attr">slug</span>: <span class="hljs-built_in">string</span>,
+    <span class="hljs-attr">options</span>: <span class="hljs-title class_">SearchBody</span>,
+    page = <span class="hljs-number">1</span>,
+    limit = <span class="hljs-number">20</span>
+): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Paginated</span>&lt;<span class="hljs-title class_">SummaryGame</span>&gt;&gt; =&gt; {
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> gamesService.<span class="hljs-title function_">search</span>(slug, options, page, limit);
+    <span class="hljs-title function_">setGames</span>(data);
+    <span class="hljs-keyword">return</span> data;
+};
+</div></code></pre>
+<p>Le mot-clé <code class="c">type</code> dans <code class="c">import type</code> n'est pas un détail : il indique au compilateur que ces trois noms ne servent qu'à la vérification des types, et qu'ils doivent disparaître entièrement du code une fois compilé en JavaScript, sans laisser le moindre import inutile dans le bundle final livré au navigateur. <code class="c">@unlockit/shared</code> n'ajoute donc strictement aucun poids au frontend en production ; il ne sert qu'à garantir, pendant le développement, que la fonction <code class="c">searchGames</code> envoie des options de recherche dans le format attendu par le backend, et reçoit en retour des résultats dans le format qu'elle pense réellement recevoir.</p>
+<h2 id="43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</h2>
+<h3 id="431-quand-le-serveur-de-développement-devient-limage-de-production">4.3.1 Quand le serveur de développement devient l'image de production</h3>
+<p>Conteneuriser le backend de la SAÉ 3.01 revenait, dans les faits, à empaqueter l'interpréteur PHP, copier l'intégralité du code source, et démarrer le serveur de développement intégré à PHP :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">FROM</span> php:<span class="hljs-number">8.2</span>-cli
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /srv/app</span>
+
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . /srv/app</span>
+
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8000</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;php&quot;</span>, <span class="hljs-string">&quot;-S&quot;</span>, <span class="hljs-string">&quot;0.0.0.0:8000&quot;</span>, <span class="hljs-string">&quot;index.php&quot;</span>]</span>
+</div></code></pre>
+<p>Ce choix n'avait rien d'anodin. <code class="c">php -S</code> est explicitement documenté par PHP comme un serveur destiné au développement local, pas à recevoir un trafic réel : il traite les requêtes une par une, sans gestion de processus, et n'a jamais été pensé pour ça. Or rien dans le projet ne distinguait une image de développement d'une image de production : ce même <code class="c">Dockerfile</code>, sans suffixe, est précisément celui que <code class="c">docker-compose.yml</code> construit. Le serveur de développement de PHP était donc devenu, faute d'alternative, le seul mode de déploiement du projet.</p>
+<p>Ce même fichier va plus loin, en activant explicitement l'affichage des erreurs :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;error_log = /var/log/unlockit/logger.log\ndisplay_errors = On\n&quot;</span> \
+    &gt; /usr/local/etc/php/conf.d/unlockit-logging.ini</span>
+</div></code></pre>
+<p><code class="c">display_errors = On</code> signifie que toute erreur PHP non interceptée (une requête SQL mal formée, un type inattendu) est renvoyée directement dans la réponse HTTP, avec le chemin absolu du fichier concerné et parfois des extraits de la requête elle-même, visibles par n'importe qui consultant la page au mauvais moment. C'est exactement le genre de détail qui semble mineur isolément, mais qui illustre bien le constat de départ du projet (cf. <a href="#13-pourquoi-une-refonte-complète">1.3</a>) : pas une erreur unique et spectaculaire, mais une accumulation de raccourcis pris sans rapport de force pour les remettre en question par la suite.</p>
+<p>Nous serons honnêtes sur ce point : à ce jour, le nouveau backend ne dispose que d'une image de développement (<code class="c">Dockerfile.dev</code>) ; aucune image de production n'a encore été écrite. Le script <code class="c">build:backend</code>, vu en <a href="#412-les-workspaces-npm">4.1.2</a>, prépare déjà la compilation du backend en JavaScript pur, ce qui constitue la base nécessaire à une telle image, mais le lien n'a pas été fait dans le temps imparti au projet. C'est un point identifié, pas un point traité, et nous préférons le dire plutôt que de laisser croire à un sujet clos.</p>
+<h3 id="432-construire-une-image-qui-connaît-tout-le-monorepo">4.3.2 Construire une image qui connaît tout le monorepo</h3>
+<p>L'organisation en workspaces npm décrite en <a href="#41-une-organisation-en-monorepo">4.1</a> a une conséquence directe sur la façon de construire une image Docker : on ne peut plus se contenter de copier le dossier du service concerné, puisque la résolution de <code class="c">@unlockit/shared</code> dépend de la structure complète du monorepo.</p>
+<details class="acordion">
+<summary>Voir Dockerfile.dev</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">22</span>-alpine
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /srv</span>
+
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/backend/package*.json ./apps/backend/</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/frontend/package*.json ./apps/frontend/</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> packages/shared/package*.json ./packages/shared/</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/backend/tsconfig*.json ./apps/backend/</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/backend/nest-cli.json ./apps/backend/</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/backend/src ./apps/backend/src</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> apps/backend/test ./apps/backend/test</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> packages/shared ./packages/shared</span>
+
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm run build:shared</span>
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /srv/apps/backend</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;npm&quot;</span>, <span class="hljs-string">&quot;run&quot;</span>, <span class="hljs-string">&quot;start:dev&quot;</span>]</span>
+</div></code></pre>
+</details>
+<p>Le découpage en deux étapes de copie n'est pas un détail esthétique. Les fichiers <code class="c">package*.json</code> des trois workspaces sont copiés et installés en premier, avant le reste du code source : Docker met en cache chaque instruction <code class="c">COPY</code>/<code class="c">RUN</code> indépendamment, donc tant que les dépendances ne changent pas, <code class="c">npm install</code> n'est jamais réexécuté lors d'une simple modification du code source, ce qui évite de retélécharger des dizaines de paquets à chaque reconstruction de l'image pendant le développement.</p>
+<p>L'instruction <code class="c">RUN npm run build:shared</code> reproduit, à l'intérieur de l'image, exactement la même nécessité décrite en 4.1.2 : <code class="c">@unlockit/shared</code> est écrit en TypeScript et doit être compilé avant qu'un quelconque service puisse l'importer. Hors conteneur, c'est le script <code class="c">dev</code> à la racine qui s'en charge ; dans l'image, cette responsabilité est reprise explicitement par le <code class="c">Dockerfile</code> lui-même, puisque rien d'autre ne la fera à sa place une fois l'image démarrée.</p>
+<p>Cette nécessité de connaître le monorepo dans son intégralité a un coût : le contexte de build envoyé à Docker doit contenir bien plus que le seul dossier backend. C'est ce que le <code class="c">.dockerignore</code> du projet vient limiter, en excluant explicitement de ce contexte tout ce qui n'a pas besoin d'en faire partie, du dossier <code class="c">rapport</code> aux <code class="c">node_modules</code> déjà installés sur la machine hôte.</p>
+<h3 id="433-garder-la-main-sur-ses-fichiers--uid-gid-et-selinux">4.3.3 Garder la main sur ses fichiers : UID, GID et SELinux</h3>
+<p>Les volumes montés en développement (<code class="c">./apps/backend:/srv/apps/backend:cached,z</code>) signifient que tout fichier créé à l'intérieur du conteneur devient immédiatement visible sur la machine hôte, et inversement. Par défaut, un conteneur Docker s'exécute en tant que <code class="c">root</code> : sans précaution, tout fichier généré côté conteneur (un cache, un fichier de migration) apparaîtrait côté hôte comme appartenant à <code class="c">root</code>, ce qui oblige ensuite à utiliser <code class="c">sudo</code> pour le moindre déplacement ou la moindre suppression. Le commentaire laissé dans <code class="c">.env.development</code>, <em>« Please do not touch, we want to keep ownership »</em>, au-dessus des variables <code class="c">UID</code> et <code class="c">GID</code>, vise précisément à éviter ce problème : ces deux variables transmettent l'identité de l'utilisateur hôte au conteneur, via <code class="c">user: &quot;${UID}<img class="emoji" alt="unamused" src="data:image/png;base64,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" />{GID}&quot;</code>, pour que tout fichier créé pendant le développement reste possédé par le bon utilisateur.</p>
+<p>Le suffixe <code class="c"><img class="emoji" alt="unamused" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAUiklEQVR4Xu2bC7BlVXnnf99ae599zrnn3Ee/btPNRfrBO1g8mhYZ6QEkjfHBoIwaBMwYM5nKOFUxWCE6RpFkYhidIYwOmUomxiigKRRBoxV0lEEHFbBtUUCg6YbGpunHfb/Oa++1vjn7nFV1T91b3XRHWqhKvup/rVV9zj37+/3Xt9baj3NEVfnnHIZ/1vEvBvyLARHHOG4UMddcw/pIORPDGSJsFFhtrAyilAEQat7plMJ+VXbieTwTHr39dp65QdVzDOOYLILSjmevZbMKl8eWrSaW021syqZgMAVBjIAVegOnqFd8K5fHpb7mU/156viWKF9bdxsPazte0Qb8+HIpLx/kHcby24Wi+Ve2ZIwpW0ySgytiPGK1LQFZZIAq6nIJ6g2+Jfimx9ccru59q+G/7x1/Oz7Fned+TWuvqDXg/osl2v1u+XfDK+Whcr/9bN/q5MJkbWKSNRHJSqWw0lJYvYLixrNIfu0yknPfTfH836N0we/nyvv5/+Wv5e/J35v/Tedv88/IPyv/zPyz82Pkx8qP+YqogB1Xy+ZizMeLFfv6aCAi6rdI4jDFiGhwBLP6bMzwuUhlI1JcBlEZxIIAaAAQUEAdZDW0MYHO7cQf+DF+/0/IpvbgGxnatGQzjmw6ozHnvtNI+c8n36EPvywGSDueuZrrimW5sTAU99nBmKjsMeWIaPhM7Ku2YlZuhtKyAJcBHoLhSOBf0hfAgEQgQH0CP/ow7rlvkR14FF/LyGoGN5XSmkznGzW9Yf0d3KztOPYGBPBtb6d/ZYn/Wazaa+IVBaIBiy05olUnYzdeiVl1PkRF0BaoQ8TwTwlVH6qlAFkDf/BB3M67yA7uwNUt2bQjHWvRmHW3j9b5T5u+xIy249gYEOC3X85xy5ZxR3kguigeLhBVhajSbjdchjnxSiQZBN9AYOlCJ0dKvsQJFMAU0eYUfnfbhF3fJJtrkc0q6YEWtens/okJrj7na+w7GhOio4VfsYx7isvj85KVCbYK0dAQ0WlXYYYvBE2RbBpEDgd29NLgXdYEa7Ebr0aqJyBPfBExkxhThKh5kSG9p53jFSJyxCZERwp/72UMteG/2IFfncML8dByojPeiwydhrhpQBbP7ZcmelBEAWqYVZuJ4yry+GfAjpPYBOC8FaRfbOf6VhGZPBIToiOBB8ypq/lUcSjakqxKsP2mDT9IdNq1mP4TIZ0EMT3wx8qAIAVxdaR97Oj0a+GJz4FMkfgEvG45VbNPAb8lIv7FTIiOBH7HNVxX6rdXx6sKRIOWqNpu178JqYxANtWF1yMBfokNyRp5Dp1c2PFlhBbeFyhlevWOa9xPT76dm1/MBFHVw8L/4O2ce+KQ3FdcW+wrrEyI+iEaeR1m7aVABiIIgPCrDQ0+qAIRfu+3yfY8QDYDrdEmjb2N+d2TeskFX+LHwCFNiA4Hf+0wxbVVPpksj/vioZioYrBDqzErzgY/DygS6F8OAwTt8iOdnOzcM+D3o1mMNlzf2qz1yTbDG287QGOhEo5sCghgPnwp7yxV7JaoDW8rMaZkMMt/DawBV+vCi/ByhmgwwUaY5WeitVFsJkRDjtK82/LhS907b7uD2wAFDm9A7+h/aDP9fYlc34GvtlUUTGUFUl4Nbg4RBT3EyL8cleAFKQ93crTpKL4ad0zom/PXf2izfvXPH2ZaRDSPF6sAA9irNnJl0m9PifojTKmtxCCVtSCK+NohRv5lrgSJOjma2ngn5zz3pD875aqN2ZVtAz4HKOAOaUAYfXnNMpJqUd4b9VtMX4QtGiRJkOIA4uuAh1D+WAETzMg8eOWYhhGIDAB4BaeguUBIIc8xSbBpE98XkTNUZ9x7X7NM//6hCZyEMjhUBQhgb9rCOaWybLKVCFO0mIJBCiXERODqEAvEBjefcmB0npnZFnFkWL2qj75lRUg9uJfYCNs95vxEg/0H50kzT3+1wPDKPmxf3D1mqnmOnVxNIe3knjOUyummm7boORffww8BDxzSAAPY4Yq5PK5YY8oWW7BIZCBKQBwUlbF9c3zz//6Ch3+yj7HROZrNDGOESn+R15yzlt9868kMDCaQel6SiA3TU03+/u4dPLR9L3MzDbxXkiRixcoKm88+jssuPoEVx1Wg4Tu5SmQ6ubuyJWcZrnA5+IcBB3hCRIsXv/VDxKWiXiydOzkWiQ0SCSaOwbS49x+f4wt37WD8YJ1yAforlv6BGOc8MxNzfOnLT/HIo/v40w9uZsWyBJz+cldDVhg72OQjNz3M00/NsGIQBvsLWGtoNVJeeHacLzw1zjfv28W7rjyZN7z+VZ1cfSR57l2GsqVUzC7O2Z6ZJOudBmbx1nfDuaxPinKKLVmkYDEdAywYx9/e/jj/4y9/SlZr8q+3buB3PnQZ1/33d3D9ze/s6Pc//lbe/tvnMl43bPvZGNgMfBNcA1wNsjnIZiGdgXQK0slcoT/TfS2b677XNbp/a7P8s/LPzD+7c4xwvPzYeQ55LnlOeW6dHDEOiULuBUvOkjPlbIFZCBEtnv8jVc6MElMyicFEglhBihF3fv0FvvClUc7ZtJJ3ve98zjpjObTmoZYnnYEIG1cWeO2mjVz17lcRTeyH6edBPagDtNtHD3GCLwutmNBaaBq2XDjABf/mEvrLMdQb0BgDVahGnHFiP5dtvZBHHj+dL9z6YDvHXVTilbzjN6pI03UYcpacaaTqzwR2HM4AM1gyp9tEkDiHN5ii5cmnm/zdXaNs2bqG93/wfPr9POx8HLwLgBn4tNvi6C8Y8GFXEOmFPILpoKBZ6KagSrleh337oeUBCxKBibutGDCWs0aWsf4TF3LLTQ+2c32BV28scOoJFpk3HZacKWcDf/ehDDC5kkg3SGS68JGgGG7/+jjrTh/gA9cfT9/E0zCbghVQ1xXaw2SgBUgYwX9SSG8XHJBpFxYFUvDpQpU4C3tm6a/GnRyvH51v5zzFn/7HlaGKDTlTEmUbCJyEiHr3f8DGwioiAStEkWHPgYxnJ5QbbzyBvqlpmG6BEXABcnHCx+jCaOltdELrgFAx0036tMUfvP8EbrhhF3sPZBxfMbSsQCR02MAGZNF2LF4EYxsxGO7bg0BThPf87ggbBx1M5fBmgVIJItgHxAIF6bbmJb7+NUDUc4woZK2gChiDTrfyXDs5NwIDIuRMORsQH3YNMEJRDAiQZsq6NTEbByw6VgcR0AVqEQKo4OqesUnH2FRG6qBcNIysjij1G2gp6C9zAiSQKnMzjgMTjrmaxwisGIo4blUEFsgUVUCkk+ulp5XIpmPSiQwBxEDOdqhdQEJrOozogumNDM1qKCASQFSRRMDDU083+f4jdR7f2WR0IiNNFe1mQqVqueKSCm9uC/ciJsiiATfdUZ6ZSHnw0WZ7K6yze2+L+ZrHeSBAnbo+4d+/bZA1wxE+7XF5rIZxHhfANAwYwYAgjRbNKOM8DRxo2L68F0Qt9FS6JLDzmZTbvj7Lz55sIt4zWDYsrwhJVRARMg9T847/feck5TJccmEJbSpyBMUuMWQZ3P2NGt+4b46JiYy+grCsaljbL1gLqtBIlcd+XufmOcefvG85pYLg/QKNOodqW96Dg5wtGKBBS68FMs+Meo+6rC0BDWYICIJY+Nb36vzFHXMUE2HDxpjlQxZST33U0ZdAHIECAyUhEvjetvm2AQaxh6kCCY0RpmY9f3brHNt/nrJuJOLsc0r0lYT6uEMartMXA5kTKolh94GUp56rc/ZpBbQFaHBAPbg0sHhytsPdD1CAZsZYxzHvUDWoNwg+DA00WkprSPjDP1vGaSdF9FcgtoKzyo+/1+C+z89TjKVjgjVQTQRVRU3r8AYEYWF0Xtn8poT3fLDK2mFLMQaxwsS08pVPzzK9O6W/31Cw4L1SioQmDqQFKoEG1GtbLrD4DhsgSy6GtB0iogDTLXluTaqoU/DhJMcLGgonB3vz6wzYFGYbMBWqKYLXnR+xb3fE9ntTBqtCmuWGwaWXWqTUgtphtkgf8lY4aYPhpHMM1OowqZACHlYPGt5ybcTf3JSRTijFBCZnlOM3RJx6uqBpFvhCEWiXQTNFU+2wgRKQdWkFQPbcjN91SsvineK9x6hBUBDAAHjcwbDvWMAoGJBUMfszLv+3ltJyy1MPKaUivP7XDa89y8OYg0he9Dm1ADQyqPfu9QFqAkaWWa79o5hv3+OYG1NefUHE1jfGDNYzfFMRY4KZ4Dv8vsvSgpwNcIe6HPZA9v19PPP6k3yD1BfVGdR7QBADiIJ4UO32bWjDa6qQTGW8+Y2GN7xFsAak6WDMh/ccxb3/AI6yIAM65dk4ZNj4B5aWMxQQ2NvCzyvYnhMzB+pDJWce1/SNnI1QT4cyIP384zx/3XnsKjb1DM1CCWEQQKwG+K5UFBEFFCGY4ECez4hiFsIoyFEYIIsM8IRWukaPKzLuKIigmaC+564UGv7RzT3VTmXM1dmVsx3OAAWa8ynpgRl5cHluQAr4IOiFAAEJYqENElAFQ1cSiESP7DzAy9LXVJBegzyoD32z1EAckIHmqis503zaIWoumQI9C2EK1L+9xz9w8oh5T9RQ41pgitpNoNeAJeABeEm7SMCL74UKShCLIpgrS59DEorTK+AUl4E2lKyhPmcC6kB6uHuCHqjd/COe/M0z9LHhZf7VtiX41GATAVk0mkZAepIxoR/aYETgoqeVI5sGmksIsdj9ReuEICKoBxz4TNGmx9V9vn0+ljMBtcDI4Qyoz6TUH3lB79m60r9aGwbKCyUnkSCyCDRAYhb9nwmwvbuIAAXAAr6HpQWkAVpYBEcwG0B6CiV0vIAHNLQulH5T0VlPzpIzAfXDGhCmQR2Y+fADfPc1I373sgF/oikJpgRSMGB1IRnDQkuAEoDe6uhJPgGc8thPhe0/gf37BRvBia9SNm9SRjYAmUCTngjwPsDbnr4G0ZU62hK05fF1j5v1TE/63TkLMAPUj+TBSAbM7ppm9od79PNvGPQftX0GXwKTALGE/b/XAIICML2VAIhCGX6xEz77WdsxwHgoRKAKD/4/uOvLypaLlKuvUar9QGNRBYgs1KhIMKUrYaGvKfgGuDnFTXlyhpwFOspe9NFYqII5YOr3vsN3HzzObz+u6s6RcrcKTGzACmIDfDAjaOk0NTm8sP2H8Om/MLiasH4FlBMhCnyZg9mGcv+9sOtpzweuV1avBeq9JggQ4KVn5CWA58ogzHuyaceBMb89ZwCmgLmjeTjaBKamGwz81SN66x/1u1ulZIqSCHHkMdZABCICZpEJAPSMfhke367c8klD1QrDq4UkAtuz6GkMxUjoK8KePYZPfNzzkT9RhoYEWsEAWAKNCjhBFdSBb3jSeW3DexoTrpHn3maYCQY0j/iLksGpGWD8lm3seuhZ+Ywbd/gpj5/vrq6agvqepIyAhFZMtx/DxH7hf33KkHihGgsuBY0gHoK+49taA1F/4GnBygqM7hH++i8N3kvPQmpg6UkH6unm0ujm5qc9ea55znnuwDgwc1TfDwhqARNA+Yq7/Vd/VJWTNsbZVuIIxGCMYKKQT1iksICysJRb4Y7bPM89DaefAmdeIJx+vrBmnTIwoFgbpkAK42PCnh3wsweg9iP47neU886DS37DQA1QAnTPfM+6pvk6+FklnfK0RjN27fHfuuJu/SowFhhaAEdjQO9aMAGUrv26/vU9V/pVw9adhUBsQKxBEFQUQXrmvoAozRnYNy68+bcsb7lKWHO8QstDXcP8VgAKIpRXKCMjwgW/bnjiMeHOv/M8tdtzSW+VeRbKvgW0BK0pfsaTTrZ10HFwr38kzxWYDPBh7h+lAcEEJyJTQPzkBMnv3Kuf+Myb3EdWwWmEnNQLxhlIgBgkCjuAQiGGj/55gWJVYdbBPl04i+sNBFJgVkE8p6033PBfIxpTCnUPSu+oQypoE3zd5yPfhT+Qw7sn8hzbue4HDgJTOcMv/UVJEakCw8Da142w5q8ukz9cc4I5O14dYQcMUVWQPoMkIAVFYsLiqBABLoCbBV7Q3tPYhRGmp9yNQAY4gTDXNRO0DlrzZLOKm/ak+zNe2ON/8h/u1f/2wPM8D7wAHFDV2Zfsm6IiMgSsAlafNMCKL14hv7v+BLM1XmmxQyaYIJiiQCJIBBIMQBQktId/KLT0zC4DdWHkW4pvKDqnZGGfT0cdO3/h/8+7/kH/Zmd35HONqurkS/2LkamQOk9Po5s+p5++622664IN6XtKNVv0yy22KdiKQYqKJIIUQByIlbBNhpYgWQSuQRnQ89RNW4o2Fa2Dm/e4GSWbcNTHXeMHu+SzV35F/zHkdwAYDf0jCvuxj32MI4n8fTfeeGOz5/m6ufMJfT5tsu3kkg6XvR6n4ZW8DWUb3i3hBmuQB5TQz8VCqWeCtnKBNhStgZ8DN+u75T7uyQ64vOS33/ID/eQH7tOHgfEAPwZMazuO6bfFgSqwPGioZKne+gYuuGidvG1whVlnBwy2ajBlQUqCLQAFQWLAgoRq6K0AvKLBME2BpuJaoHXF1xQ31zVgasw/e/+z+pX33csP6o7ZsNqPB80G+F/J7wUqwAAwBAwC/WsrVP7LRWx67YhctnxIzowqRnITbNksTIlwLZHLGADwARwNV3CtbutqvgOfzXkdn9BHf/i8fvOP72fb3jnmIJzhwWQY9blf+S9GRCQJ1dAPDIZ+BYjev4l1bzrJbFo3pJsqVU4slExiEoFYkAhM1FsB4fo9A8ItrFbdN+dm2f3spGz7xtN+2y3beBbIoAM/G+Bnwqg3X7afzIiIAUoBPogy0AckFsxbTmbVlhHWnrLcjKwo65pyzLIkohJbEoDU0WxmzNVSJsZq8sJT437P9/aw9x92cNCBB5rAPFAL8EHUVdW/In41JiJRMKIvqByMKQKFIBvke1oAAzhCG9QKagD1AD+fK4Bnr8jfDQYjEqAYVArwvSaY0PaGA3wvfFAdaAQ1e8FfeQYs3S3iRYpCGwxYWAV6DEiBDEh71bu6v5INOPxasfReUm8o4INcmNvHPP4/L9l7UgEjAfoAAAAASUVORK5CYII=" /></code> ajouté à certains volumes répond à un problème voisin, mais propre à SELinux : sur une distribution où SELinux est actif en mode <code class="c">enforcing</code> (Fedora, dans notre cas), chaque processus s'exécute avec une étiquette de sécurité, et un conteneur qui tente d'accéder à un répertoire monté sans étiquette compatible se voit refuser l'accès, même si les permissions Unix classiques l'autoriseraient. Le suffixe <code class="c"><img class="emoji" alt="unamused" src="data:image/png;base64,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" /></code> demande à Docker de réétiqueter automatiquement le contenu du volume pour le rendre accessible à n'importe quel conteneur. Nous avons appliqué ce flag uniformément aux deux services, alors qu'il n'était strictement nécessaire que sur notre propre poste : une décision qui coûte une ligne de configuration en plus, mais qui évite à quiconque rejoindrait le projet sur une distribution avec SELinux de devoir déboguer un refus d'accès silencieux sans rapport apparent avec son code.</p>
+<p>Avec un peu plus de recul, ce genre de détail (UID, GID, SELinux) est révélateur de ce que l'on ne voit jamais dans un tutoriel Docker classique, mais qui finit toujours par se manifester dès qu'on développe sur autre chose qu'un unique poste de référence partagé par toute l'équipe.</p>
 <h1 id="5-conclusion">5. Conclusion</h1>
 <h2 id="51-bilan">5.1 Bilan</h2>
 <h3 id="511-frontend">5.1.1 Frontend</h3>
 <p>La refonte du frontend a permis de transformer une base fonctionnelle mais hétérogène en une architecture cohérente et professionnelle. La réorganisation des composants (<a href="#21-refonte-de-larchitecture-react">2.1</a>) et la mise en place d’une véritable couche d’abstraction entre l’interface et le réseau (<a href="#24-nouvelle-couche-api-frontend">2.4</a>) ont clarifié les responsabilités de chaque partie du code. En parallèle, plusieurs chantiers jusque-là absents de la première version ont été menés à bien : le référencement naturel (<a href="#22-référencement-et-indexation">2.2</a>), l’optimisation des performances appuyée sur des outils de mesure (<a href="#23-optimisation-des-performances">2.3</a>), les tests automatisés avec Playwright (<a href="#25-tests-automatisés">2.5</a>) ainsi que l’optimisation du build (<a href="#26-build-et-compression">2.6</a>). Les quelques difficultés rencontrées en cours de route (<a href="#27-difficultés-rencontrées-et-solutions">2.7</a>), notamment liées à React Router, ont par ailleurs été identifiées et résolues sans compromettre la stabilité de l’application.</p>
 <p>Cette refonte apporte plusieurs avantages concrets : un code plus maintenable et plus simple à faire évoluer, des performances mesurées et validées plutôt que supposées, une meilleure visibilité de l’application sur les moteurs de recherche, et une couverture de tests qui sécurise les évolutions futures. Plus largement, la démarche adoptée, mesurer avant d’optimiser, structurer avant d’ajouter des fonctionnalités, rapproche le projet des pratiques utilisées en environnement professionnel et constitue une base solide pour la suite.</p>
-<h3 id="522-backend">5.2.2 Backend</h3>
-<p>...</p>
-<h3 id="523-structure">5.2.3 Structure</h3>
-<p>...</p>
+<h3 id="512-backend">5.1.2 Backend</h3>
+<p>La refonte du backend a permis de transformer un ensemble de scripts PHP, fonctionnel mais arrivé aux limites de son architecture artisanale, en une base de code structurée et conforme aux pratiques attendues d'une API moderne. Le découpage par domaine et l'abandon du SQL brut au profit de TypeORM (<a href="#32-architecture-modulaire">3.2</a>) ont clarifié les responsabilités de chaque couche, depuis la décision même de tout réécrire (<a href="#31-migration-vers-nestjs">3.1</a>) jusqu'à la base de données. Plusieurs chantiers jusque-là absents de la première version ont par ailleurs été menés à bien : une authentification reposant sur des jetons plutôt que sur une session systématiquement revalidée (<a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a>), une validation des données déclarée au plus près du code plutôt qu'éparpillée (<a href="#332-validation-des-données">3.3.2</a>), une protection contre les abus sur les routes sensibles (<a href="#333-limitation-du-débit">3.3.3</a>), ainsi qu'une documentation d'API générée automatiquement plutôt que rédigée à part (<a href="#342-la-documentation-swagger-comme-garde-fou">3.4.2</a>). La structure imposée par NestJS a même produit un effet inattendu : compléter un domaine, plutôt que d'en livrer une version partielle, est devenu le chemin le plus naturel (<a href="#341-un-module-complet-presque-par-accident">3.4.1</a>). Les difficultés rencontrées en cours de route (<a href="#35-difficultés-rencontrées-et-solutions">3.5</a>), qu'il s'agisse de l'absence de suite de tests automatisée, des types numériques de PostgreSQL ou du besoin de données de test réalistes, ont chacune trouvé une réponse sans remettre en cause la stabilité de l'API.</p>
+<p>Cette refonte apporte des bénéfices très concrets : un code organisé par domaine métier plutôt que par rôle technique, une sécurité pensée par défaut plutôt qu'ajoutée au cas par cas, une API qui se documente et se teste elle-même, et des données de développement reproductibles à la demande. Plus largement, la démarche suivie, structurer le code avant de chercher à l'optimiser, et déléguer les préoccupations transverses au framework plutôt que de les réécrire à chaque domaine, rapproche elle aussi le backend des pratiques utilisées en environnement professionnel, et lui donne une base suffisamment solide pour accueillir de nouvelles fonctionnalités sans répéter les écueils de la première version.</p>
+<h3 id="513-infrastructure">5.1.3 Infrastructure</h3>
+<p>La refonte de l'infrastructure entourant le projet a permis de transformer deux applications qui partageaient un dépôt sans jamais vraiment communiquer en un ensemble réellement coordonné. L'organisation en workspaces npm (<a href="#41-une-organisation-en-monorepo">4.1</a>) et la mise en place d'un package partagé typé entre le frontend et le backend (<a href="#42-le-package-partagé-entre-frontend-et-backend">4.2</a>) ont remplacé une synchronisation reposant uniquement sur la communication entre les deux développeurs par un contrat vérifié dès la compilation, depuis le type de données défini une seule fois jusqu'au DTO qui le valide réellement côté backend. La conteneurisation du projet (<a href="#43-conteneurisation-avec-docker">4.3</a>) a par ailleurs permis de remplacer un unique <code class="c">Dockerfile</code> sans distinction entre développement et production, construit autour du serveur de développement intégré à PHP, par une image pensée spécifiquement pour le développement, consciente de la structure du monorepo qu'elle doit construire, et attentive à des détails concrets comme la propriété des fichiers générés ou la compatibilité avec SELinux.</p>
+<p>Cette refonte apporte des bénéfices tangibles : des types qui ne peuvent plus diverger silencieusement entre les deux applications, une mise en route du projet réduite à une poignée de commandes documentées, et un environnement de développement reproductible à l'identique d'un poste à l'autre. Elle laisse cependant un chantier identifié plutôt que refermé : aucune image Docker de production n'a encore été écrite pour le nouveau backend, faute de temps disponible sur le projet. Plus largement, la démarche suivie, partager une seule source de vérité plutôt que la dupliquer, et traiter l'environnement de développement comme un sujet à part entière plutôt que comme un détail secondaire, rapproche elle aussi cette partie du projet des pratiques utilisées en environnement professionnel.</p>
 <h2 id="52-perspectives">5.2 Perspectives</h2>
 <h3 id="521-frozen1753">5.2.1 Frozen1753</h3>
 <p>Avec le recul, je retiens surtout un changement de méthode plus qu’un changement de résultat. Le site de la SAÉ 3.01 ne me semblait pas spécialement lent, mais je jugeais ses performances &quot;à l’oeil&quot;, sans jamais avoir réelement mesuré quoi que ce soit. Découvrir des outils comme <strong>React Scan</strong> ou le Profiler de <strong>React Developer Tools</strong> a changé ma manière d’aborder un ralentissement : au lieu de deviner quel composant pose problème, je sais désormais où regarder et comment vérifier mon intuition. Les chunks et le build du frontend n'avaient jamais été abordé auparavant car nous ne quittions jamais le mode dev dans les projets comme pour les cours.</p>
@@ -2243,7 +2603,10 @@ tests {
 <p>J’aimerais aussi pousser davantage la partie algorithmique plutôt que du 100% développement web et expérimenter avec <a href="#236-pixijs">PixiJS</a> pour créer des moteurs, interfaces ou prototypes visuels, pour ne pas m'arrêter à un simple arrière‑plan.</p>
 <p>Si je devais résumer mon ressenti en une phrase : le frontend d’UnlockIt est aujourd’hui une base sur laquelle j’ai envie de continuer à construire, plutôt qu’un prototype que je voudrais déjà réécrire. C’est, je pense, la meilleure preuve que cette refonte avait du sens.</p>
 <h3 id="522-elpotato">5.2.2 ElPotato</h3>
-<p>...</p>
+<p>En prenant en compte toutes les différences entre l'ancien projet et le nouveau, je me rends compte de à quel point un framework ça fait beaucoup do chose pour les devs, limitant énormement la friction lors du développement. Comme je l'ai décrit dans la section <a href="#341-un-module-complet-presque-par-accident">3.4.1</a>, c'est à peine j'écrivais deux trois lignes de code qu'une nouvelle fonctionnalité était implémenté grâce à des outils hyper modulaires mais sans pour autant enlever une charge lourde de travail qui est l'organisation, que ce soit des fichiers, endpoints ou des tâches spécifiques, j'ai passé une grande majorité de mon temps à faire en sorte qu'un typage soit toujours respecté, que les DTOs aient le plus de validator pour laisser le moins de place possible à l'erreur ainsi que de bien gérer ce qui est retourné ou accessible afin de garder les données sécurisés et confidentielles si nécessaires.</p>
+<p>Bien que je regrette ne pas avoir eu le temps de faire de tests unitaires via Jest ou d'avoir implémenté plus d'outils maison modulaires (un peu comme le contenu du <code class="c">commons</code>) vu à la section <a href="#323-mutualisation-du-code-transverse">3.2.3</a>, je suis très satisfait de ma documentation Swagger qui est facile à lire, simple d'utilisation et surtout clean.</p>
+<p>Cependant, maintenir une documentation à jour et créer des modules plus relationnelles (genre <code class="c">tags</code>, <code class="c">publishers</code>, <code class="c">developers</code>, etc.) est un aspect très chronophage et redondant. Si le résultat est agréable, le parcours est beaucoup moins intéressant voire ennuyant par moments.</p>
+<p>Tout comme mon camarade le dit, je considère UnlockIt comme une base réelle sur laquelle j'ai envie de perfectionner ma codebase, afin de l'utiliser comme bac à sable pour découvrir toute l'ampleur de NestJS que j'apprécie tout particulièrement. C'est un prototype qui mériterai perfectionnement en permanance car au final, une application n'est jamais vraiment terminée.</p>
 
 </body>
 </html>
