@@ -42,13 +42,13 @@ export class UserController {
 
   @UserControllerDoc.GetProfile()
   @Get('profile')
-  async getProfile(@User('sub', EntityFetchPipe(UserProfileEntity)) userProfile: UserProfileEntity) {
+  async getProfile(@User('sub', EntityFetchPipe(UserProfileEntity, 'userId')) userProfile: UserProfileEntity) {
     return UserMapper.toProfile(userProfile);
   }
 
   @UserControllerDoc.GetBilling()
   @Get('billing')
-  async getBilling(@User('sub', EntityFetchPipe(UserBillingEntity)) userBilling: UserBillingEntity) {
+  async getBilling(@User('sub', EntityFetchPipe(UserBillingEntity, 'userId')) userBilling: UserBillingEntity) {
     return UserMapper.toBilling(userBilling);
   }
 
