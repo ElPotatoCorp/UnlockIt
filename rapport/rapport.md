@@ -2933,9 +2933,6 @@ La refonte de l'infrastructure entourant le projet a permis de transformer deux 
 
 Cette refonte apporte des bénéfices tangibles : des types qui ne peuvent plus diverger silencieusement entre les deux applications, une mise en route du projet réduite à une poignée de commandes documentées, et un environnement de développement reproductible à l'identique d'un poste à l'autre. Elle laisse cependant un chantier identifié plutôt que refermé : aucune image Docker de production n'a encore été écrite pour le nouveau backend, faute de temps disponible sur le projet. Plus largement, la démarche suivie, partager une seule source de vérité plutôt que la dupliquer, et traiter l'environnement de développement comme un sujet à part entière plutôt que comme un détail secondaire, rapproche elle aussi cette partie du projet des pratiques utilisées en environnement professionnel.
 
-...
-
-
 ## 5.2 Perspectives
 
 ### 5.2.1 Frozen1753
