@@ -2729,7 +2729,10 @@ export type GameEntity = {
 };
 ```
 
-Plutôt que de redéfinir un type séparé pour chaque usage, le reste du domaine se construit en dérivant ce type unique. Créer un jeu, l'afficher en liste ou afficher sa fiche complète sont trois besoins différents, mais qui partagent tous la même origine :
+Plutôt que de redéfinir un type séparé pour chaque usage, le reste du domaine se construit en dérivant ce type unique. Créer un jeu, l'afficher en liste ou afficher sa fiche complète sont trois besoins différents, mais qui partagent tous la même origine.
+
+<details class="accordion">
+<summary>Voir dérivation de type</summary>
 
 ```ts
 export type CreateGame = Simplify<NullToOptional<Omit<GameEntity, 'id' | 'supportedLanguages' | GameRelationKeys>> & {
@@ -2745,6 +2748,8 @@ export type GameDetail = Simplify<Omit<GameEntity, GameRelationKeys> & {
   /* ... */
 }>;
 ```
+
+</details>
 
 <code class="c">Pick</code> et <code class="c">Omit</code> sont des outils natifs de TypeScript : le premier garde uniquement les champs listés d'un type existant, le second fait l'inverse en retirant ceux qu'on lui indique. <code class="c">SummaryGame</code> est ainsi littéralement « <code class="c">GameEntity</code>, mais seulement les huit champs nécessaires pour afficher une vignette dans un catalogue » ; <code class="c">GameDetail</code> est « <code class="c">GameEntity</code>, mais avec ses relations remplacées par des versions plus riches, adaptées à l'affichage d'une fiche produit complète ».
 
@@ -2780,6 +2785,7 @@ Ces types ne servent à rien tout seuls s'ils ne sont pas réellement appliqués
 ```ts
 import { CreateGame, EUAgeRating, ExactData, GameType, LangCode } from '@unlockit/shared';
 
+// `implements` permet de dire qu'il faut y retrouver au moins les champs de `CreateGame`
 export class CreateGameDto implements CreateGame {
   @IsString()
   @Length(2, 255)
@@ -2798,6 +2804,7 @@ export class CreateGameDto implements CreateGame {
   platforms?: PartialGamePlatformDto;
 }
 
+// Ceci vérifie qu'il n'y a pas de champs en plus
 const _assertExact: ExactData<CreateGame, CreateGameDto> = true;
 ```
 
