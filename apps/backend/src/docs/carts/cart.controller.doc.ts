@@ -131,6 +131,6 @@ export const CartControllerDoc = {
         summary: 'Empty the cart',
         description: 'Removes all items from the cart.',
       }),
-      ApiOkResponse({ description: 'Cart cleared.' }),
+      ApiNoContentResponse({ description: 'Cart cleared.' }),
     ),
 };

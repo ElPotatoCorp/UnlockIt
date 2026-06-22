@@ -45,6 +45,13 @@ export class CartController {
     return this.cartService.toggle(cartId, gameId, state);
   }
 
+  @CartControllerDoc.Clear()
+  @Delete('clear')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  clear(@User('cartId') cartId: string) {
+    return this.cartService.clear(cartId);
+  }
+
   @CartControllerDoc.Add()
   @Post(':gameId')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -65,12 +72,5 @@ export class CartController {
     @Query('quantity', new ParseIntPipe({ optional: true })) quantity?: number,
   ) {
     return this.cartService.remove(cartId, gameId, quantity);
-  }
-
-  @CartControllerDoc.Clear()
-  @Delete('clear')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  clear(@User('cartId') cartId: string) {
-    return this.cartService.clear(cartId);
   }
 }
