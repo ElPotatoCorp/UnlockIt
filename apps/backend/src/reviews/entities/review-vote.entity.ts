@@ -18,11 +18,11 @@ export class ReviewVoteEntity implements IReviewVoteEntity {
   // Relations
   // =====================================================
 
-  @ManyToOne(() => ReviewEntity)
+  @ManyToOne(() => ReviewEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'review_id' })
   review: ReviewEntity;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 }
