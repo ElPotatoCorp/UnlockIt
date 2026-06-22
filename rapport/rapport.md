@@ -59,10 +59,11 @@
     <li class="lvl2"><a href="#41-une-organisation-en-monorepo">4.1 Une organisation en monorepo</a></li>
     <li class="lvl2"><a href="#42-le-package-partagé-entre-frontend-et-backend">4.2 Le package partagé entre frontend et backend</a></li>
     <li class="lvl2"><a href="#43-conteneurisation-avec-docker">4.3 Conteneurisation avec Docker</a></li>
-    <li class="lvl2"><a href="#44-gestion-des-configurations-denvironnement">4.4 Gestion des configurations d'environnement</a></li>
-    <li class="lvl2"><a href="#45-difficultés-rencontrées-et-solutions">4.5 Difficultés rencontrées et solutions</a></li>
     <li><a href="#5-conclusion">5. Conclusion</a></li>
     <li class="lvl2"><a href="#51-bilan">5.1 Bilan</a></li>
+    <li class="lvl2"><a href="#511-frontend">5.1.1 Frontend</a></li>
+    <li class="lvl2"><a href="#512-backend">5.1.2 Backend</a></li>
+    <li class="lvl2"><a href="#513-infrastructure">5.1.3 Infrastructure</a></li>
     <li class="lvl2"><a href="#52-perspectives">5.2 Perspectives</a></li>
 </ul>
 
@@ -2835,6 +2836,81 @@ const searchGames = async (
 
 Le mot-clé <code class="c">type</code> dans <code class="c">import type</code> n'est pas un détail : il indique au compilateur que ces trois noms ne servent qu'à la vérification des types, et qu'ils doivent disparaître entièrement du code une fois compilé en JavaScript, sans laisser le moindre import inutile dans le bundle final livré au navigateur. <code class="c">@unlockit/shared</code> n'ajoute donc strictement aucun poids au frontend en production ; il ne sert qu'à garantir, pendant le développement, que la fonction <code class="c">searchGames</code> envoie des options de recherche dans le format attendu par le backend, et reçoit en retour des résultats dans le format qu'elle pense réellement recevoir.
 
+## 4.3 Conteneurisation avec Docker
+
+### 4.3.1 Quand le serveur de développement devient l'image de production
+
+Conteneuriser le backend de la SAÉ 3.01 revenait, dans les faits, à empaqueter l'interpréteur PHP, copier l'intégralité du code source, et démarrer le serveur de développement intégré à PHP :
+
+```dockerfile
+FROM php:8.2-cli
+WORKDIR /srv/app
+
+COPY . /srv/app
+
+EXPOSE 8000
+CMD ["php", "-S", "0.0.0.0:8000", "index.php"]
+```
+
+Ce choix n'avait rien d'anodin. <code class="c">php -S</code> est explicitement documenté par PHP comme un serveur destiné au développement local, pas à recevoir un trafic réel : il traite les requêtes une par une, sans gestion de processus, et n'a jamais été pensé pour ça. Or rien dans le projet ne distinguait une image de développement d'une image de production : ce même <code class="c">Dockerfile</code>, sans suffixe, est précisément celui que <code class="c">docker-compose.yml</code> construit. Le serveur de développement de PHP était donc devenu, faute d'alternative, le seul mode de déploiement du projet.
+
+Ce même fichier va plus loin, en activant explicitement l'affichage des erreurs :
+
+```dockerfile
+RUN printf "error_log = /var/log/unlockit/logger.log\ndisplay_errors = On\n" \
+    > /usr/local/etc/php/conf.d/unlockit-logging.ini
+```
+
+<code class="c">display_errors = On</code> signifie que toute erreur PHP non interceptée (une requête SQL mal formée, un type inattendu) est renvoyée directement dans la réponse HTTP, avec le chemin absolu du fichier concerné et parfois des extraits de la requête elle-même, visibles par n'importe qui consultant la page au mauvais moment. C'est exactement le genre de détail qui semble mineur isolément, mais qui illustre bien le constat de départ du projet (cf. <a href="#13-pourquoi-une-refonte-complète">1.3</a>) : pas une erreur unique et spectaculaire, mais une accumulation de raccourcis pris sans rapport de force pour les remettre en question par la suite.
+
+Nous serons honnêtes sur ce point : à ce jour, le nouveau backend ne dispose que d'une image de développement (<code class="c">Dockerfile.dev</code>) ; aucune image de production n'a encore été écrite. Le script <code class="c">build:backend</code>, vu en <a href="#412-les-workspaces-npm">4.1.2</a>, prépare déjà la compilation du backend en JavaScript pur, ce qui constitue la base nécessaire à une telle image, mais le lien n'a pas été fait dans le temps imparti au projet. C'est un point identifié, pas un point traité, et nous préférons le dire plutôt que de laisser croire à un sujet clos.
+
+### 4.3.2 Construire une image qui connaît tout le monorepo
+
+L'organisation en workspaces npm décrite en <a href="#41-une-organisation-en-monorepo">4.1</a> a une conséquence directe sur la façon de construire une image Docker : on ne peut plus se contenter de copier le dossier du service concerné, puisque la résolution de <code class="c">@unlockit/shared</code> dépend de la structure complète du monorepo.
+
+<details class="acordion">
+<summary>Voir Dockerfile.dev</summary>
+
+```dockerfile
+FROM node:22-alpine
+WORKDIR /srv
+
+COPY package*.json ./
+COPY apps/backend/package*.json ./apps/backend/
+COPY apps/frontend/package*.json ./apps/frontend/
+COPY packages/shared/package*.json ./packages/shared/
+RUN npm install
+
+COPY apps/backend/tsconfig*.json ./apps/backend/
+COPY apps/backend/nest-cli.json ./apps/backend/
+COPY apps/backend/src ./apps/backend/src
+COPY apps/backend/test ./apps/backend/test
+COPY packages/shared ./packages/shared
+
+RUN npm run build:shared
+
+WORKDIR /srv/apps/backend
+EXPOSE 3000
+CMD ["npm", "run", "start:dev"]
+```
+
+</details>
+
+Le découpage en deux étapes de copie n'est pas un détail esthétique. Les fichiers <code class="c">package*.json</code> des trois workspaces sont copiés et installés en premier, avant le reste du code source : Docker met en cache chaque instruction <code class="c">COPY</code>/<code class="c">RUN</code> indépendamment, donc tant que les dépendances ne changent pas, <code class="c">npm install</code> n'est jamais réexécuté lors d'une simple modification du code source, ce qui évite de retélécharger des dizaines de paquets à chaque reconstruction de l'image pendant le développement.
+
+L'instruction <code class="c">RUN npm run build:shared</code> reproduit, à l'intérieur de l'image, exactement la même nécessité décrite en 4.1.2 : <code class="c">@unlockit/shared</code> est écrit en TypeScript et doit être compilé avant qu'un quelconque service puisse l'importer. Hors conteneur, c'est le script <code class="c">dev</code> à la racine qui s'en charge ; dans l'image, cette responsabilité est reprise explicitement par le <code class="c">Dockerfile</code> lui-même, puisque rien d'autre ne la fera à sa place une fois l'image démarrée.
+
+Cette nécessité de connaître le monorepo dans son intégralité a un coût : le contexte de build envoyé à Docker doit contenir bien plus que le seul dossier backend. C'est ce que le <code class="c">.dockerignore</code> du projet vient limiter, en excluant explicitement de ce contexte tout ce qui n'a pas besoin d'en faire partie, du dossier <code class="c">rapport</code> aux <code class="c">node_modules</code> déjà installés sur la machine hôte.
+
+### 4.3.3 Garder la main sur ses fichiers : UID, GID et SELinux
+
+Les volumes montés en développement (<code class="c">./apps/backend:/srv/apps/backend:cached,z</code>) signifient que tout fichier créé à l'intérieur du conteneur devient immédiatement visible sur la machine hôte, et inversement. Par défaut, un conteneur Docker s'exécute en tant que <code class="c">root</code> : sans précaution, tout fichier généré côté conteneur (un cache, un fichier de migration) apparaîtrait côté hôte comme appartenant à <code class="c">root</code>, ce qui oblige ensuite à utiliser <code class="c">sudo</code> pour le moindre déplacement ou la moindre suppression. Le commentaire laissé dans <code class="c">.env.development</code>, *« Please do not touch, we want to keep ownership »*, au-dessus des variables <code class="c">UID</code> et <code class="c">GID</code>, vise précisément à éviter ce problème : ces deux variables transmettent l'identité de l'utilisateur hôte au conteneur, via <code class="c">user: "${UID}:${GID}"</code>, pour que tout fichier créé pendant le développement reste possédé par le bon utilisateur.
+
+Le suffixe <code class="c">:z</code> ajouté à certains volumes répond à un problème voisin, mais propre à SELinux : sur une distribution où SELinux est actif en mode <code class="c">enforcing</code> (Fedora, dans notre cas), chaque processus s'exécute avec une étiquette de sécurité, et un conteneur qui tente d'accéder à un répertoire monté sans étiquette compatible se voit refuser l'accès, même si les permissions Unix classiques l'autoriseraient. Le suffixe <code class="c">:z</code> demande à Docker de réétiqueter automatiquement le contenu du volume pour le rendre accessible à n'importe quel conteneur. Nous avons appliqué ce flag uniformément aux deux services, alors qu'il n'était strictement nécessaire que sur notre propre poste : une décision qui coûte une ligne de configuration en plus, mais qui évite à quiconque rejoindrait le projet sur une distribution avec SELinux de devoir déboguer un refus d'accès silencieux sans rapport apparent avec son code.
+
+Avec un peu plus de recul, ce genre de détail (UID, GID, SELinux) est révélateur de ce que l'on ne voit jamais dans un tutoriel Docker classique, mais qui finit toujours par se manifester dès qu'on développe sur autre chose qu'un unique poste de référence partagé par toute l'équipe.
+
 # 5. Conclusion
 
 ## 5.1 Bilan
@@ -2845,13 +2921,17 @@ La refonte du frontend a permis de transformer une base fonctionnelle mais hét�
 
 Cette refonte apporte plusieurs avantages concrets : un code plus maintenable et plus simple à faire évoluer, des performances mesurées et validées plutôt que supposées, une meilleure visibilité de l’application sur les moteurs de recherche, et une couverture de tests qui sécurise les évolutions futures. Plus largement, la démarche adoptée, mesurer avant d’optimiser, structurer avant d’ajouter des fonctionnalités, rapproche le projet des pratiques utilisées en environnement professionnel et constitue une base solide pour la suite.
 
-### 5.2.2 Backend
+### 5.1.2 Backend
 
 La refonte du backend a permis de transformer un ensemble de scripts PHP, fonctionnel mais arrivé aux limites de son architecture artisanale, en une base de code structurée et conforme aux pratiques attendues d'une API moderne. Le découpage par domaine et l'abandon du SQL brut au profit de TypeORM (<a href="#32-architecture-modulaire">3.2</a>) ont clarifié les responsabilités de chaque couche, depuis la décision même de tout réécrire (<a href="#31-migration-vers-nestjs">3.1</a>) jusqu'à la base de données. Plusieurs chantiers jusque-là absents de la première version ont par ailleurs été menés à bien : une authentification reposant sur des jetons plutôt que sur une session systématiquement revalidée (<a href="#331-authentification-par-jeton-plutôt-que-par-session">3.3.1</a>), une validation des données déclarée au plus près du code plutôt qu'éparpillée (<a href="#332-validation-des-données">3.3.2</a>), une protection contre les abus sur les routes sensibles (<a href="#333-limitation-du-débit">3.3.3</a>), ainsi qu'une documentation d'API générée automatiquement plutôt que rédigée à part (<a href="#342-la-documentation-swagger-comme-garde-fou">3.4.2</a>). La structure imposée par NestJS a même produit un effet inattendu : compléter un domaine, plutôt que d'en livrer une version partielle, est devenu le chemin le plus naturel (<a href="#341-un-module-complet-presque-par-accident">3.4.1</a>). Les difficultés rencontrées en cours de route (<a href="#35-difficultés-rencontrées-et-solutions">3.5</a>), qu'il s'agisse de l'absence de suite de tests automatisée, des types numériques de PostgreSQL ou du besoin de données de test réalistes, ont chacune trouvé une réponse sans remettre en cause la stabilité de l'API.
 
 Cette refonte apporte des bénéfices très concrets : un code organisé par domaine métier plutôt que par rôle technique, une sécurité pensée par défaut plutôt qu'ajoutée au cas par cas, une API qui se documente et se teste elle-même, et des données de développement reproductibles à la demande. Plus largement, la démarche suivie, structurer le code avant de chercher à l'optimiser, et déléguer les préoccupations transverses au framework plutôt que de les réécrire à chaque domaine, rapproche elle aussi le backend des pratiques utilisées en environnement professionnel, et lui donne une base suffisamment solide pour accueillir de nouvelles fonctionnalités sans répéter les écueils de la première version.
 
-### 5.2.3 Structure
+### 5.1.3 Infrastructure
+
+La refonte de l'infrastructure entourant le projet a permis de transformer deux applications qui partageaient un dépôt sans jamais vraiment communiquer en un ensemble réellement coordonné. L'organisation en workspaces npm (<a href="#41-une-organisation-en-monorepo">4.1</a>) et la mise en place d'un package partagé typé entre le frontend et le backend (<a href="#42-le-package-partagé-entre-frontend-et-backend">4.2</a>) ont remplacé une synchronisation reposant uniquement sur la communication entre les deux développeurs par un contrat vérifié dès la compilation, depuis le type de données défini une seule fois jusqu'au DTO qui le valide réellement côté backend. La conteneurisation du projet (<a href="#43-conteneurisation-avec-docker">4.3</a>) a par ailleurs permis de remplacer un unique <code class="c">Dockerfile</code> sans distinction entre développement et production, construit autour du serveur de développement intégré à PHP, par une image pensée spécifiquement pour le développement, consciente de la structure du monorepo qu'elle doit construire, et attentive à des détails concrets comme la propriété des fichiers générés ou la compatibilité avec SELinux.
+
+Cette refonte apporte des bénéfices tangibles : des types qui ne peuvent plus diverger silencieusement entre les deux applications, une mise en route du projet réduite à une poignée de commandes documentées, et un environnement de développement reproductible à l'identique d'un poste à l'autre. Elle laisse cependant un chantier identifié plutôt que refermé : aucune image Docker de production n'a encore été écrite pour le nouveau backend, faute de temps disponible sur le projet. Plus largement, la démarche suivie, partager une seule source de vérité plutôt que la dupliquer, et traiter l'environnement de développement comme un sujet à part entière plutôt que comme un détail secondaire, rapproche elle aussi cette partie du projet des pratiques utilisées en environnement professionnel.
 
 ...
 
@@ -2877,5 +2957,3 @@ Bien que je regrette ne pas avoir eu le temps de faire de tests unitaires via Je
 Cependant, maintenir une documentation à jour et créer des modules plus relationnelles (genre <code class="c">tags</code>, <code class="c">publishers</code>, <code class="c">developers</code>, etc.) est un aspect très chronophage et redondant. Si le résultat est agréable, le parcours est beaucoup moins intéressant voire ennuyant par moments.
 
 Tout comme mon camarade le dit, je considère UnlockIt comme une base réelle sur laquelle j'ai envie de perfectionner ma codebase, afin de l'utiliser comme bac à sable pour découvrir toute l'ampleur de NestJS que j'apprécie tout particulièrement. C'est un prototype qui mériterai perfectionnement en permanance car au final, une application n'est jamais vraiment terminée.
-
-...
