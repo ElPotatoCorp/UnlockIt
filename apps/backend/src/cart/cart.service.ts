@@ -88,7 +88,7 @@ export class CartService {
 
     const isValidQuantity = isInt(quantity) && quantity > 0;
 
-    if (quantity) {
+    if (quantity && item.quantity > quantity) {
       if (isValidQuantity) {
         await this.cartItemRepository.update(
           { cartId, gameId },
